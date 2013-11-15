@@ -100,7 +100,8 @@ public:
                                const std::string &short_description = std::string(),
                                const std::string &verbose_description = std::string())
     {
-        insert(std::make_pair(item_id, metric_description(metric_name, type, semantic, units)));
+        insert(std::make_pair(item_id, metric_description(metric_name, type,
+            semantic, units, domain, short_description, verbose_description)));
         return *this;
     }
 
