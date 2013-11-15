@@ -18,13 +18,11 @@
 */
 
 #include <pcp-cpp/pmda.hpp>
+#include <pcp-cpp/instance_domain.hpp> /// @todo remove include.
 
 class SimpleCPU : public pcp::pmda {
-protected:
-    pcp::instance_domain cpuStates;
-
-    virtual pcp::instance::domains fetchInstanceDomains() const
-    {
+public:
+    SimpleCPU() {
         cpuStates(0)
             (0, "user"),
             (1, "system"),
@@ -35,29 +33,42 @@ protected:
             (6, "steal"),
             (7, "guest"),
             (8, "guest_nice");
-        return cpuStates;
     }
 
-    virtual pcp::metric::desc fetchMetricsDescriptions() const
+    virtual int_fast16_t default_pmda_domain_number()
     {
-        pcp::metric::desc(0, "cpu")
-            <uint64_t>(0, "ticks", &cpuStates, "count of blah blah");
-        foreach (cpu)
-            pcp::metric::desc(index, "cpu%d")
-                <uint64_t>(0, "ticks", &cpuStates, "count of blah blah on cpu %d");
-        return desc;
+        return 129;
     }
 
-    virtual bool cacheValues()
+protected:
+    pcp::instance_domain cpuStates;
+
+    virtual pcp::metrics_description get_supported_metrics() const
+    {
+        // simplecpu.cpu.ticks
+        pcp::metrics_description metrics;
+        metrics
+            (0, "cpu");
+                (0, "ticks", pcp::type<int64_t>(), &cpuStates, "count of blah blah");
+        /*foreach (cpu) {
+            metrics(index, "cpu%d")
+                <uint64_t>(0, "ticks", &cpuStates, "count of blah blah on cpu %d");
+        }*/
+        return metrics;
+    }
+
+    virtual void begin_fetch_values()
     {
         // read from /proc/stat
-        return true;
+        throw pcp::pmda_exception(PM_ERR_VALUE, "msg");
     }
 
-    virtual pcp::metric_value fetchValue(const pcp::metric &metric) const
+    /*template <typename Type>
+    virtual Type fetch_metric(const pcp::metric_id &metric) const
     {
-
-    }
+        throw pcp::pmda_exception(PM_ERR_VALUE, "msg");
+        return pcp::atom(metric.typeinfo, 123);
+    }*/
 };
 
 int main(int argc, char *argv[])
