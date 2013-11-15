@@ -37,10 +37,30 @@ class instance_domain;
 
 struct metric_description {
     std::string metric_name;
-    instance_domain * const metric_domain;
-    // dimensions
+    atom_type_type type;
+    semantic_type semantic;
+    pmUnits units;
+    const instance_domain * domain;
     std::string short_description;
     std::string verbose_description;
+
+    metric_description(const std::string &metric_name,
+                       const atom_type_type type,
+                       const semantic_type semantic,
+                       const pmUnits units,
+                       const instance_domain * const domain = NULL,
+                       const std::string &short_description = std::string(),
+                       const std::string &verbose_description = std::string())
+        : metric_name(metric_name),
+          type(type),
+          semantic(semantic),
+          units(units),
+          domain(domain),
+          short_description(short_description),
+          verbose_description(verbose_description)
+    {
+
+    }
 };
 
 class metric_cluster : public std::map<item_id_type, metric_description> {
@@ -71,16 +91,16 @@ public:
         return opaque;
     }
 
-    template <typename Type>
-    metric_cluster& operator()(const item_id_type item,
+    metric_cluster& operator()(const item_id_type item_id,
                                const std::string &metric_name,
                                const atom_type_type type,
+                               const semantic_type semantic,
+                               const pmUnits units,
                                const instance_domain * const domain = NULL,
-                               // dimensions ...
                                const std::string &short_description = std::string(),
                                const std::string &verbose_description = std::string())
     {
-        /// @todo
+        insert(std::make_pair(item_id, metric_description(metric_name, type, semantic, units)));
         return *this;
     }
 
@@ -90,7 +110,7 @@ private:
     void * const opaque;
 };
 
-class metrics_description : public std::map<cluster_id_type, metric_description> {
+class metrics_description : public std::map<cluster_id_type, metric_cluster> {
     public:
         metrics_description& operator()(const cluster_id_type cluster_id,
                                         const std::string &cluster_name,
@@ -100,17 +120,18 @@ class metrics_description : public std::map<cluster_id_type, metric_description>
                 metric_cluster(cluster_id, cluster_name, opaque))).first;
         }
 
-        //template <typename Type>
         metrics_description& operator()(const item_id_type item_id,
-                                        const std::string &item_name,
+                                        const std::string &metric_name,
                                         const atom_type_type type,
+                                        const semantic_type semantic,
+                                        const pmUnits units,
                                         const instance_domain * const domain = NULL,
                                         const std::string &short_description = std::string(),
                                         const std::string &verbose_description = std::string())
         {
             assert(most_recent_cluster != end());
-            most_recent_cluster->second(item_id, item_name, type, domain,
-                                        short_description, verbose_description);
+            most_recent_cluster->second(item_id, metric_name, type, semantic, units,
+                                        domain, short_description, verbose_description);
             return *this;
         }
 
