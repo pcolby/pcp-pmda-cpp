@@ -17,6 +17,7 @@
     along with pmda-cpp.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <pcp-cpp/exception.hpp>
 #include <pcp-cpp/pmda.hpp>
 #include <pcp-cpp/instance_domain.hpp> /// @todo remove include.
 
@@ -60,7 +61,7 @@ protected:
     virtual void begin_fetch_values()
     {
         // read from /proc/stat
-        throw pcp::pmda_exception(PM_ERR_VALUE, "msg");
+        throw pcp::exception(PM_ERR_VALUE);
     }
 
     /*template <typename Type>
