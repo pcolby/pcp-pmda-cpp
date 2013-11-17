@@ -37,7 +37,7 @@ public:
             (8, "guest_nice");
     }
 
-    virtual int_fast16_t default_pmda_domain_number()
+    virtual pmda_domain_number_type default_pmda_domain_number()
     {
         return 129;
     }
