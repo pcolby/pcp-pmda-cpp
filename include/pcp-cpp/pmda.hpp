@@ -95,6 +95,24 @@ protected:
     ///// supports one or more?
     /// pcp::metric_index -> cluster, item, instance, opaque.
 
+    virtual void init(pmdaInterface &interface)
+    {
+        interface.version.any.ext;
+        interface.version.any.profile;
+        interface.version.any.fetch;
+        interface.version.any.desc;
+        interface.version.any.instance;
+        interface.version.any.text;
+        interface.version.any.store;
+        #if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
+        interface.version.five.pmid;
+        interface.version.five.name;
+        interface.version.five.children;
+        #endif
+        #if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
+        interface.version.six.attribute;
+        #endif
+    }
 
     virtual pcp::metrics_description get_supported_metrics() const = 0;
 

@@ -20,6 +20,10 @@
 #ifndef __PCP_CPP_CONFIG_HPP__
 #define __PCP_CPP_CONFIG_HPP__
 
+#ifndef PCP_CPP_PMDA_INTERFACE_VERSION
+#define PCP_CPP_PMDA_INTERFACE_VERSION PMDA_INTERFACE_LATEST
+#endif
+
 // Custom namespace wrapper macros.
 #ifdef PCP_CPP_NAMESPACE
 #  define PCP_CPP_BEGIN_NAMESPACE namespace PCP_CPP_NAMESPACE {
