@@ -41,15 +41,15 @@ typedef uint_fast8_t semantic_type;    // PM_SEM_* (0 - 4)
 /// @todo include following info in docs.
 //typedef pmInDom domain_id_type;         // pmdaIndom::it_indom
 
-template <typename Type> uint_fast8_t type();
-template <int8_t  > atom_type_type type() { return PM_TYPE_32; }
-template <int16_t > atom_type_type type() { return PM_TYPE_32; }
-template <int32_t > atom_type_type type() { return PM_TYPE_32; }
-template <int64_t > atom_type_type type() { return PM_TYPE_64; }
-template <uint8_t > atom_type_type type() { return PM_TYPE_U32; }
-template <uint16_t> atom_type_type type() { return PM_TYPE_U32; }
-template <uint32_t> atom_type_type type() { return PM_TYPE_U32; }
-template <uint64_t> atom_type_type type() { return PM_TYPE_U64; }
+template <typename Type> atom_type_type type();
+template <> atom_type_type type<int8_t>  () { return PM_TYPE_32; }
+template <> atom_type_type type<int16_t> () { return PM_TYPE_32; }
+template <> atom_type_type type<int32_t> () { return PM_TYPE_32; }
+template <> atom_type_type type<int64_t> () { return PM_TYPE_64; }
+template <> atom_type_type type<uint8_t> () { return PM_TYPE_U32; }
+template <> atom_type_type type<uint16_t>() { return PM_TYPE_U32; }
+template <> atom_type_type type<uint32_t>() { return PM_TYPE_U32; }
+template <> atom_type_type type<uint64_t>() { return PM_TYPE_U64; }
 
 } // pcp namespace.
 
