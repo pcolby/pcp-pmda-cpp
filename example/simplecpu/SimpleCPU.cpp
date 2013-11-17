@@ -72,7 +72,14 @@ protected:
     }
 };
 
+// DSO entry point.
+void simplecpu_init(pmdaInterface *interface)
+{
+    pcp::pmda::init_dso<SimpleCPU>(interface);
+}
+
+// Daemon entry point.
 int main(int argc, char *argv[])
 {
-    return pcp::pmda::run<SimpleCPU>(argc, argv);
+    return pcp::pmda::run_daemon<SimpleCPU>(argc, argv);
 }

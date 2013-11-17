@@ -24,6 +24,7 @@
 #include "metric_description.hpp"
 
 #include <pcp/pmapi.h>
+#include <pcp/pmda.h>
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -37,6 +38,10 @@ class pmda {
 
 public:
     typedef int_fast16_t pmda_domain_number_type; /// @see stdpmid
+
+    static pmda * getInstance() {
+        return NULL; /// @todo
+    }
 
     /// @brief  Virtual destructor for safe polymorphic destruction.
     virtual ~pmda() { }
@@ -59,10 +64,21 @@ public:
     }
 
     template <class Agent>
-    static int run(const int argc, char * const argv[])
+    static void init_dso(pmdaInterface * const interface)
     {
         try {
-            Agent agent;
+            //Agent::getInstance()->
+            /// @todo register handlers
+        } catch (...) {
+            // set err flag?
+        }
+    }
+
+    template <class Agent>
+    static int run_daemon(const int argc, char * const argv[])
+    {
+        try {
+            Agent::getInstance(argc, argv);
             /// @todo
             /// parse command line options
             /// if done, return.
