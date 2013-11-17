@@ -17,6 +17,7 @@
     along with pmda-cpp.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <pcp-cpp/atom.hpp>
 #include <pcp-cpp/exception.hpp>
 #include <pcp-cpp/pmda.hpp>
 #include <pcp-cpp/instance_domain.hpp> /// @todo remove include.
@@ -64,12 +65,11 @@ protected:
         throw pcp::exception(PM_ERR_VALUE);
     }
 
-    /*template <typename Type>
-    virtual Type fetch_metric(const pcp::metric_id &metric) const
+    virtual pmAtomValue fetch_value(const pcp::metric_id &metric) const
     {
-        throw pcp::pmda_exception(PM_ERR_VALUE, "msg");
-        return pcp::atom(metric.typeinfo, 123);
-    }*/
+        throw pcp::exception(PM_ERR_NYI);
+        return pcp::atom<int>(metric.type, 123);
+    }
 };
 
 int main(int argc, char *argv[])

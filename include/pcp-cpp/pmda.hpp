@@ -84,7 +84,7 @@ protected:
 
     virtual void begin_fetch_values() const { }
 
-    //virtual pmAtomValue fetch_metric(const pcp::metric_id &metric) const = 0;
+    virtual pmAtomValue fetch_value(const metric_id &metric) const = 0;
 
 private:
     pmda_domain_number_type pmda_domain_number;

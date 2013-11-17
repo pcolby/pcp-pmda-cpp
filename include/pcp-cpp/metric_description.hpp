@@ -35,6 +35,13 @@ namespace pcp {
 
 class instance_domain;
 
+struct metric_id {
+    cluster_id_type cluster;
+    item_id_type item;
+    instance_id_type instance;
+    atom_type_type type;
+};
+
 struct metric_description {
     std::string metric_name;
     atom_type_type type;
