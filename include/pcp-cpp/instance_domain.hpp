@@ -7,8 +7,7 @@
 #define __PCP_CPP_INSTANCE_DOMAIN_HPP__
 
 #include "config.hpp"
-
-#include <pcp/pmapi.h>
+#include "types.hpp"
 
 #include <map>
 

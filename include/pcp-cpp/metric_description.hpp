@@ -12,7 +12,6 @@
 #include <pcp/pmapi.h>
 
 #include <assert.h>
-#include <map>
 #include <string>
 
 PCP_CPP_BEGIN_NAMESPACE

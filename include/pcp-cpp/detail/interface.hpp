@@ -8,6 +8,8 @@
 
 #include "../config.hpp"
 
+#include <pcp/pmda.h>
+
 extern "C" {
 
 int pmda_desc_callback(pmID pmid, pmDesc *desc, pmdaExt *pmda)

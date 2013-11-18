@@ -9,11 +9,9 @@
 #include "config.hpp"
 #include "metric_description.hpp"
 
-#include <pcp/pmapi.h>
 #include <pcp/pmda.h>
 
 #include <stdint.h>
-#include <stdlib.h>
 #include <string>
 
 PCP_CPP_BEGIN_NAMESPACE

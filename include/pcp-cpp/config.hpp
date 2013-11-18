@@ -6,6 +6,7 @@
 #ifndef __PCP_CPP_CONFIG_HPP__
 #define __PCP_CPP_CONFIG_HPP__
 
+// PMDA interface version to use; defaults to "latest".
 #ifndef PCP_CPP_PMDA_INTERFACE_VERSION
 #define PCP_CPP_PMDA_INTERFACE_VERSION PMDA_INTERFACE_LATEST
 #endif

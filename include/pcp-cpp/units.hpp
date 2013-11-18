@@ -8,7 +8,7 @@
 
 #include "config.hpp"
 
-#include <pcp/pmda.h>
+#include <pcp/pmapi.h>
 
 PCP_CPP_BEGIN_NAMESPACE
 
