@@ -5,12 +5,13 @@
 
 #include <pcp-cpp/atom.hpp>
 #include <pcp-cpp/exception.hpp>
+#include <pcp-cpp/instance_domain.hpp>
 #include <pcp-cpp/pmda.hpp>
-#include <pcp-cpp/instance_domain.hpp> /// @todo remove include.
 
 class SimpleCPU : public pcp::pmda {
 public:
-    SimpleCPU() {
+    SimpleCPU()
+    {
         cpuStates(0)
             (0, "user"),
             (1, "system"),
@@ -40,7 +41,7 @@ protected:
                 (0, "ticks", pcp::type<int64_t>(), &cpuStates, "count of blah blah");
         /*foreach (cpu) {
             metrics(index, "cpu%d")
-                <uint64_t>(0, "ticks", &cpuStates, "count of blah blah on cpu %d");
+                (0, "ticks", pcp::type<int64_t>(), &cpuStates, "count of blah blah on cpu %d");
         }*/
         return metrics;
     }
