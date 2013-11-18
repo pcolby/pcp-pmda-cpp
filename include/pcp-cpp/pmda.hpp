@@ -27,6 +27,13 @@ class pmda {
 public:
     typedef int_fast16_t pmda_domain_number_type; /// @see stdpmid
 
+    typedef struct {
+        cluster_id_type cluster;
+        item_id_type item;
+        instance_id_type instance;
+        atom_type_type type;
+    } metric_id;
+
     static pmda * getInstance() {
         return NULL; /// @todo
     }

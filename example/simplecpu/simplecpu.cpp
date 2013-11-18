@@ -73,7 +73,7 @@ protected:
         load_cpu_ticks();
     }
 
-    virtual pmAtomValue fetch_value(const pcp::metric_id &metric) const
+    virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
     {
 
         return pcp::atom<uint64_t>(
