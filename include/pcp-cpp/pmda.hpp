@@ -34,6 +34,8 @@ PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
 
+void set_pmda_callbacks(pmdaInterface &interface);
+
 class pmda {
 
 public:
@@ -78,7 +80,7 @@ public:
     static int run_daemon(const int argc, char * const argv[])
     {
         try {
-            Agent::getInstance(argc, argv);
+            //Agent::getInstance(argc, argv);
             /// @todo
             /// parse command line options
             /// if done, return.
@@ -97,21 +99,7 @@ protected:
 
     virtual void init(pmdaInterface &interface)
     {
-        interface.version.any.ext;
-        interface.version.any.profile;
-        interface.version.any.fetch;
-        interface.version.any.desc;
-        interface.version.any.instance;
-        interface.version.any.text;
-        interface.version.any.store;
-        #if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
-        interface.version.five.pmid;
-        interface.version.five.name;
-        interface.version.five.children;
-        #endif
-        #if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
-        interface.version.six.attribute;
-        #endif
+        set_pmda_callbacks(interface);
     }
 
     virtual pcp::metrics_description get_supported_metrics() const = 0;
@@ -132,10 +120,46 @@ private:
         /// @todo
         return false;
     }
+
+public:
+    virtual int on_pmda_desc(pmID pmid, pmDesc desc, pmdaExt pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_fetch(int numpmid, pmID &pmidlist, pmResult *&resp,
+                              pmdaExt &pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_instance(pmInDom indom, int inst, char *name,
+                                 __pmInResult *result, pmdaExt &pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_profile(__pmProfile &prof, pmdaExt &pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_store(pmResult &result, pmdaExt &pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_text(int ident, int type, char *&buffer, pmdaExt &pmda)
+    {
+        return 0;
+    }
+
 };
 
 } // pcp namespace.
 
 PCP_CPP_END_NAMESPACE
+
+#include "detail/interface.hpp"
 
 #endif
