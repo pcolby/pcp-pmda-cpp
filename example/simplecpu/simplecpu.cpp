@@ -61,7 +61,7 @@ protected:
         {
             metrics
                 (index, (index == 0) ? std::string("total") : cpu_info.at(index).label,
-                 pcp::type<uint64_t>(), PM_SEM_COUNTER, PMDA_PMUNITS(0,0,1, 0,0,PM_COUNT_ONE),
+                 pcp::type<uint64_t>(), PM_SEM_COUNTER, pcp::units(0,0,1, 0,0,PM_COUNT_ONE),
                  &cpu_states, "The amount of time spent in various states");
         }
         return metrics;

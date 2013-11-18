@@ -10,6 +10,7 @@
 #include "types.hpp"
 
 #include <pcp/pmapi.h>
+#include <pcp/pmda.h>
 
 #include <assert.h>
 #include <map>
@@ -20,6 +21,14 @@ PCP_CPP_BEGIN_NAMESPACE
 namespace pcp {
 
 class instance_domain;
+
+// Wrapper for PMDA_PMUNITS to avoid C++ "extended initializer lists" warnings.
+template<typename Type>
+inline pmUnits units(Type a, Type b, Type c, Type d, Type e, Type f)
+{
+    pmUnits units = PMDA_PMUNITS(a,b,c,d,e,f);
+    return units;
+}
 
 struct metric_id {
     cluster_id_type cluster;
