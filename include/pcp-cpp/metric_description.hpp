@@ -99,7 +99,7 @@ private:
 class metrics_description : public std::map<cluster_id_type, metric_cluster> {
     public:
         metrics_description& operator()(const cluster_id_type cluster_id,
-                                        const std::string &cluster_name,
+                                        const std::string &cluster_name = std::string(),
                                         void * const opaque = NULL)
         {
             most_recent_cluster = insert(std::make_pair(cluster_id,
