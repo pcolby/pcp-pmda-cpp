@@ -1,8 +1,8 @@
+# Temporary Makefile. This will be replaced with a more
+# robust example sometime.
 
-all: simple-cpu-pmda
-
-simple-cpu-pmda: simplecpu.cpp ../../include/pcp-cpp/*.hpp
-	g++ -I../../include simplecpu.cpp -lpcp -o simple-cpu-pmda
+pmdasimplecpu: simplecpu.cpp ../../include/pcp-cpp/*.hpp
+	g++ -I../../include simplecpu.cpp -lpcp -o pmdasimplecpu
 
 clean:
-	rm -f simple-cpu-pmda
+	rm -f pmdasimplecpu pmda_simplecpu.so

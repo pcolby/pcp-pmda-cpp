@@ -5,4 +5,4 @@ pmdatrivial: trivial.cpp ../../include/pcp-cpp/*.hpp
 	g++ -I../../include trivial.cpp -lpcp -o pmdatrivial
 
 clean:
-	rm -f pmdatrivial
+	rm -f pmdatrivial pmda_trivial.so
