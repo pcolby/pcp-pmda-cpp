@@ -31,7 +31,12 @@ public:
         load_cpu_ticks();
     }
 
-    virtual pmda_domain_number_type default_pmda_domain_number()
+    virtual std::string get_pmda_name() const
+    {
+        return "simplecpu";
+    }
+
+    virtual pmda_domain_number_type default_pmda_domain_number() const
     {
         return 129;
     }
