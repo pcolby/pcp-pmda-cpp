@@ -113,6 +113,18 @@ private:
     }
 
 public:
+    virtual int on_pmda_attribute(int ctx, int attr, const char *value,
+                                  int length, pmdaExt *pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_children(const char *name, int traverse, char ***kids,
+                                 int **sts, pmdaExt *pmda)
+    {
+        return 0;
+    }
+
     virtual int on_pmda_desc(pmID pmid, pmDesc desc, pmdaExt pmda)
     {
         return 0;
@@ -121,11 +133,22 @@ public:
     virtual int on_pmda_fetch(int numpmid, pmID &pmidlist, pmResult *&resp,
                               pmdaExt &pmda)
     {
+        begin_fetch_values();
         return 0;
     }
 
     virtual int on_pmda_instance(pmInDom indom, int inst, char *name,
                                  __pmInResult *result, pmdaExt &pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_name(pmID pmid, char ***nameset, pmdaExt *pmda)
+    {
+        return 0;
+    }
+
+    virtual int on_pmda_pmid(const char *name, pmID *pmid, pmdaExt *pmda)
     {
         return 0;
     }
