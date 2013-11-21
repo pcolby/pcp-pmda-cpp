@@ -85,7 +85,13 @@ void setPmdaCallbacks(pmdaInterface &interface)
     interface.version.six.attribute = &pmda_attribute_callback;
     #endif
 
-    interface.version.any.ext;
+    interface.version.any.ext->e_resultCallBack; /// @todo
+    interface.version.any.ext->e_fetchCallBack; /// @todo
+    interface.version.any.ext->e_checkCallBack; /// @todo
+    interface.version.any.ext->e_doneCallBack; /// @todo
+    #if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
+    interface.version.any.ext->e_endCallBack; /// @todo
+    #endif
 }
 
 } // namespace pcp
