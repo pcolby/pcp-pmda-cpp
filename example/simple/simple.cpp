@@ -104,7 +104,7 @@ protected:
             /// @todo Add pcp::pmda_cache class.
             struct timeslice *tsp;
             int sts;
-            if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
+            if ((sts = pmdaCacheLookup(now_domain, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
                 if (sts < 0)
                      __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
                 throw pcp::exception(PM_ERR_INST);
@@ -172,13 +172,12 @@ private:
 
     void timenowClear()
     {
-        pmInDom *now_indom; /// @todo This is not local.
-        const int sts = pmdaCacheOp(*now_indom, PMDA_CACHE_INACTIVE);
+        const int sts = pmdaCacheOp(now_domain, PMDA_CACHE_INACTIVE);
         if (sts < 0)
             __pmNotifyErr(LOG_ERR, "pmdaCacheOp(INACTIVE) failed: indom=%s: %s",
-            pmInDomStr(*now_indom), pmErrStr(sts));
+            pmInDomStr(now_domain), pmErrStr(sts));
         #ifdef DESPERATE
-        __pmdaCacheDump(stderr, *now_indom, 1);
+        __pmdaCacheDump(stderr, now_domain, 1);
         #endif
     }
 

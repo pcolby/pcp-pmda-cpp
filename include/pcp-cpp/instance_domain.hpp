@@ -9,6 +9,8 @@
 #include "config.hpp"
 #include "types.hpp"
 
+#include <pcp/pmapi.h>
+
 #include <map>
 
 PCP_CPP_BEGIN_NAMESPACE
@@ -23,9 +25,19 @@ public:
         return domain_id;
     }
 
+    pmInDom get_pm_instance_domain() const
+    {
+        return pm_instance_domain;
+    }
+
     void set_domain_id(const domain_id_type id)
     {
         domain_id = id;
+    }
+
+    void set_pm_instance_domain(const pmInDom domain)
+    {
+        pm_instance_domain = domain;
     }
 
     instance_domain& operator()(const domain_id_type domain_id)
@@ -41,8 +53,14 @@ public:
         return *this;
     }
 
+    inline operator pmInDom() const
+    {
+        return pm_instance_domain;
+    }
+
 private:
     domain_id_type domain_id;
+    pmInDom pm_instance_domain;
 };
 
 } // pcp namespace.
