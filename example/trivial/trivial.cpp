@@ -6,9 +6,9 @@
 /**
  * @file
  *
- * @brief Trivial (C++) PMDA
+ * @brief Trivial C++ PMDA
  *
- * Implements a C++ equivalent of PCP's "trivial" PMDA example.
+ * Implements a C++ equivalent of PCP's Trivial PMDA example.
  *
  * @see http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/trivial/trivial.c
  */

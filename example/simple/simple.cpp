@@ -6,9 +6,9 @@
 /**
  * @file
  *
- * @brief Simple (C++) PMDA
+ * @brief Simple C++ PMDA
  *
- * Implements a C++ equivalent of PCP's "simple" PMDA example.
+ * Implements a C++ equivalent of PCP's Simple PMDA example.
  *
  * @see http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/simple/simple.c
  */
@@ -68,6 +68,7 @@ protected:
 
     virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
     {
+        /// @todo Implement.
         throw pcp::exception(PM_ERR_NYI); // Not Yet Implemented.
     }
 
