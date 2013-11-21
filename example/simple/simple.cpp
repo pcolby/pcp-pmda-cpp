@@ -16,13 +16,14 @@
 #include <pcp-cpp/atom.hpp>
 #include <pcp-cpp/exception.hpp>
 #include <pcp-cpp/instance_domain.hpp>
+#include <pcp-cpp/metric_description.hpp>
 #include <pcp-cpp/pmda.hpp>
 #include <pcp-cpp/units.hpp>
 
 class simple : public pcp::pmda {
 
 public:
-    simple()
+    simple() : numfetch(0)
     {
         // Define the color and now instance domains.
         color_domain(0)(0, "red")(1, "green"),(2, "blue");
@@ -42,6 +43,7 @@ public:
 protected:
     pcp::instance_domain color_domain;
     pcp::instance_domain now_domain;
+    uint32_t numfetch;
 
     virtual pcp::metrics_description get_supported_metrics() const
     {
@@ -66,9 +68,37 @@ protected:
              pcp::units(0,0,0, 0,0,0), &now_domain);
     }
 
+    virtual void begin_fetch_values()
+    {
+        numfetch++;
+    }
+
     virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
     {
-        /// @todo Implement.
+        //static int32_t red(0), green(100), blue(200);
+        static int32_t rgb[] = { 0, 100, 200 };
+
+        if (metric.cluster == 0) {
+            if (metric.item == 0) {
+                return pcp::atom(metric.type, numfetch);
+            } else if (metric.item == 1) {
+                rgb[metric.instance] = (rgb[metric.instance] + 1) % 256;
+                return pcp::atom(metric.type, rgb[metric.instance]);
+            }
+        }
+
+        switch (metric.cluster) {
+            case 0:
+                switch (metric.item) {
+                    case 0:
+                        return pcp::atom(metric.type, numfetch);
+                    case 1:
+                        rgb[metric.instance] = (rgb[metric.instance] + 1) % 256;
+                        return pcp::atom(metric.type, rgb[metric.instance]);
+                }
+                break;
+        }
+
         throw pcp::exception(PM_ERR_NYI); // Not Yet Implemented.
     }
 
