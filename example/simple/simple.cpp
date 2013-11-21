@@ -172,7 +172,23 @@ private:
 
     void timenowClear()
     {
-        /// @todo Import from simple.c
+        pmInDom *now_indom; /// @todo This is not local.
+        const int sts = pmdaCacheOp(*now_indom, PMDA_CACHE_INACTIVE);
+        if (sts < 0)
+            __pmNotifyErr(LOG_ERR, "pmdaCacheOp(INACTIVE) failed: indom=%s: %s",
+            pmInDomStr(*now_indom), pmErrStr(sts));
+        #ifdef DESPERATE
+        __pmdaCacheDump(stderr, *now_indom, 1);
+        #endif
+    }
+
+    void timenowRefresh()
+    {
+        const time_t t = time(NULL);
+        struct tm * const tptr = localtime(&t);
+        timeslices[0].tm_field = tptr->tm_sec;
+        timeslices[1].tm_field = tptr->tm_min;
+        timeslices[2].tm_field = tptr->tm_hour;
     }
 
 };
