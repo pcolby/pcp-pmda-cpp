@@ -22,6 +22,16 @@
 
 #include <pcp/impl.h> // For __pmProcessRunTimes.
 
+/// @todo Assess this struct.
+static struct timeslice {
+    int     tm_field;
+    int     inst_id;
+    const char *tm_name;
+} timeslices[] = {
+    { 0, 1, "sec" }, { 0, 60, "min" }, { 0, 3600, "hour" }
+};
+static int num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
+
 class simple : public pcp::pmda {
 
 public:
@@ -93,6 +103,16 @@ protected:
                 oldfetch = numfetch;
             }
             return pcp::atom(metric.type, metric.item == 3 ? usr : sys);
+        } else if (metric.cluster == 2) {
+            /// @todo Add pcp::pmda_cache class.
+            struct timeslice *tsp;
+            int sts;
+            if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
+            if (sts < 0)
+                 __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
+                throw pcp::exception(PM_ERR_INST);
+            }
+            return pcp::atom(metric.type, tsp->tm_field);
         }
 
         switch (metric.cluster) {
@@ -120,8 +140,19 @@ protected:
                 return pcp::atom(metric.type, sys);
             }
         }
-        throw pcp::exception(PM_ERR_NYI); // Not Yet Implemented.
+        case 2:{
+            /// @todo Add pcp::pmda_cache class.
+            struct timeslice *tsp;
+            int sts;
+            if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
+            if (sts < 0)
+                 __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
+                throw pcp::exception(PM_ERR_INST);
+            }
+            return pcp::atom(metric.type, tsp->tm_field);
         }
+        }
+        throw pcp::exception(PM_ERR_INST);
     }
 
 };
