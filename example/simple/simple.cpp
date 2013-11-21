@@ -87,6 +87,41 @@ protected:
 
     virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
     {
+        // simple.time.user   SIMPLE:1:2
+        // simple.time.sys    SIMPLE:1:3
+        if (metric.cluster == 1) {
+            static uint32_t oldfetch(0);
+            static double usr, sys;
+            if (oldfetch < numfetch) {
+                __pmProcessRunTimes(&usr, &sys);
+                oldfetch = numfetch;
+            }
+            return pcp::atom(metric.type, metric.item == 3 ? usr : sys);
+        }
+
+        // simple.now         SIMPLE:2:4
+        if (metric.cluster == 2) {
+            /// @todo Add pcp::pmda_cache class.
+            struct timeslice *tsp;
+            int sts;
+            if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
+            if (sts < 0)
+                 __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
+                throw pcp::exception(PM_ERR_INST);
+            }
+            return pcp::atom(metric.type, tsp->tm_field);
+        }
+
+        // simple.numfetch    SIMPLE:0:0
+        if (metric.item == 0) {
+            return pcp::atom(metric.type, numfetch);
+        }
+
+        // simple.color       SIMPLE:0:1
+        static int32_t rgb[] = { 0, 100, 200 };
+        rgb[metric.instance] = (rgb[metric.instance] + 1) % 256;
+        return pcp::atom(metric.type, rgb[metric.instance]);
+
         if (metric.cluster == 0) {
             if (metric.item == 0) {
                 return pcp::atom(metric.type, numfetch);
@@ -115,43 +150,6 @@ protected:
             return pcp::atom(metric.type, tsp->tm_field);
         }
 
-        switch (metric.cluster) {
-        case 0:
-            switch (metric.item) {
-            case 0:
-                return pcp::atom(metric.type, numfetch);
-            case 1:
-                static int32_t rgb[] = { 0, 100, 200 };
-                rgb[metric.instance] = (rgb[metric.instance] + 1) % 256;
-                return pcp::atom(metric.type, rgb[metric.instance]);
-            }
-            break;
-        case 1: {
-            static uint32_t oldfetch(0);
-            static double usr, sys;
-            if (oldfetch < numfetch) {
-                __pmProcessRunTimes(&usr, &sys);
-                oldfetch = numfetch;
-            }
-            switch (metric.item) {
-            case 2:
-                return pcp::atom(metric.type, usr);
-            case 3:
-                return pcp::atom(metric.type, sys);
-            }
-        }
-        case 2:{
-            /// @todo Add pcp::pmda_cache class.
-            struct timeslice *tsp;
-            int sts;
-            if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
-            if (sts < 0)
-                 __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
-                throw pcp::exception(PM_ERR_INST);
-            }
-            return pcp::atom(metric.type, tsp->tm_field);
-        }
-        }
         throw pcp::exception(PM_ERR_INST);
     }
 
