@@ -105,8 +105,8 @@ protected:
             struct timeslice *tsp;
             int sts;
             if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
-            if (sts < 0)
-                 __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
+                if (sts < 0)
+                     __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
                 throw pcp::exception(PM_ERR_INST);
             }
             return pcp::atom(metric.type, tsp->tm_field);
