@@ -124,13 +124,17 @@ protected:
 
         if (metric.cluster == 0) {
             if (metric.item == 0) {
+                // simple.numfetch    SIMPLE:0:0
                 return pcp::atom(metric.type, numfetch);
             } else if (metric.item == 1) {
+                // simple.color       SIMPLE:0:1
                 static int32_t rgb[] = { 0, 100, 200 };
                 rgb[metric.instance] = (rgb[metric.instance] + 1) % 256;
                 return pcp::atom(metric.type, rgb[metric.instance]);
             }
         } else if (metric.cluster == 1) {
+            // simple.time.user   SIMPLE:1:2
+            // simple.time.sys    SIMPLE:1:3
             static uint32_t oldfetch(0);
             static double usr, sys;
             if (oldfetch < numfetch) {
@@ -139,6 +143,7 @@ protected:
             }
             return pcp::atom(metric.type, metric.item == 3 ? usr : sys);
         } else if (metric.cluster == 2) {
+            // simple.now         SIMPLE:2:4
             /// @todo Add pcp::pmda_cache class.
             struct timeslice *tsp;
             int sts;
