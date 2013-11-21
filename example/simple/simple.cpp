@@ -158,6 +158,23 @@ protected:
         throw pcp::exception(PM_ERR_INST);
     }
 
+    /// @todo Add this (or someting like it) to pcp::pmda.
+    virtual void store()
+    {
+
+    }
+
+private:
+    void timenowCheck()
+    {
+        /// @todo Import from simple.c
+    }
+
+    void timenowClear()
+    {
+        /// @todo Import from simple.c
+    }
+
 };
 
 // DSO entry point.
