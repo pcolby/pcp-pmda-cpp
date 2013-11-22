@@ -113,7 +113,7 @@ protected:
 };
 
 // DSO entry point.
-void simplecpu_init(pmdaInterface *interface)
+extern "C" void simplecpu_init(pmdaInterface *interface)
 {
     pcp::pmda::init_dso<simple_cpu>(interface);
 }

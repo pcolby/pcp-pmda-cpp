@@ -193,7 +193,7 @@ private:
 };
 
 // DSO entry point.
-void trivial_init(pmdaInterface *interface)
+extern "C" void trivial_init(pmdaInterface *interface)
 {
     pcp::pmda::init_dso<simple>(interface);
 }
