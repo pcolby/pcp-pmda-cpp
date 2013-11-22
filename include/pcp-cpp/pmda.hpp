@@ -60,8 +60,7 @@ public:
     static void init_dso(pmdaInterface * const interface)
     {
         try {
-            //Agent::getInstance()->
-            /// @todo register handlers
+            Agent::getInstance()->init(*interface);
         } catch (...) {
             // set err flag?
         }
@@ -84,9 +83,6 @@ public:
     }
 
 protected:
-    /// pcp::metric_desc -> description, including cluster id, etc.
-    ///// supports one or more?
-    /// pcp::metric_index -> cluster, item, instance, opaque.
 
     virtual void init(pmdaInterface &interface)
     {
@@ -181,13 +177,14 @@ protected:
         interface.version.six.attribute = &callback_attribute;
         #endif
 
-        interface.version.any.ext->e_resultCallBack; /// @todo
-        interface.version.any.ext->e_fetchCallBack; /// @todo
-        interface.version.any.ext->e_checkCallBack; /// @todo
-        interface.version.any.ext->e_doneCallBack; /// @todo
-        #if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
-        interface.version.any.ext->e_endCallBack; /// @todo
-        #endif
+        // Can't really see why we'd want to assign any of these callbacks.
+        //interface.version.any.ext->e_resultCallBack;
+        //interface.version.any.ext->e_fetchCallBack;
+        //interface.version.any.ext->e_checkCallBack;
+        //interface.version.any.ext->e_doneCallBack;
+        //#if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
+        //interface.version.any.ext->e_endCallBack;
+        //#endif
 
         pmdaSetFetchCallBack(&interface, &callback_fetch_callback);
     }
