@@ -7,8 +7,10 @@
 #define __PCP_CPP_PMDA_HPP__
 
 #include "config.hpp"
+#include "exception.hpp"
 #include "metric_description.hpp"
 
+#include <pcp/impl.h> // For __pmNotifyErr.
 #include <pcp/pmda.h>
 
 #include <stdint.h>
@@ -118,8 +120,13 @@ protected:
     virtual int on_fetch(int numpmid, pmID *pmidlist, pmResult **resp,
                               pmdaExt *pmda)
     {
-        begin_fetch_values();
-        return 0;
+        try {
+            begin_fetch_values();
+        } catch (const pcp::exception &ex) {
+            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            return ex.error_code();
+        }
+        return pmdaFetch(numpmid, pmidlist, resp, pmda);
     }
 
     virtual int on_fetch_callback(pmdaMetric *mdesc, unsigned int inst,
