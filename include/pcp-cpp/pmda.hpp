@@ -126,6 +126,13 @@ protected:
         return 0;
     }
 
+    virtual int on_fetch_callback(pmdaMetric *mdesc, unsigned int inst,
+                                        pmAtomValue *avp)
+    {
+        /// @todo return fetch_value(...);
+        return 0;
+    }
+
     virtual int on_instance(pmInDom indom, int inst, char *name,
                                  __pmInResult *result, pmdaExt &pmda)
     {
@@ -182,7 +189,7 @@ protected:
         interface.version.any.ext->e_endCallBack; /// @todo
         #endif
 
-        //pmdaSetFetchCallBack(interface, &callback_fetch_???);
+        pmdaSetFetchCallBack(&interface, &callback_fetch_callback);
     }
 
 private:
@@ -225,7 +232,7 @@ private:
 
     static int callback_fetch_callback(pmdaMetric *mdesc, unsigned int inst, pmAtomValue *avp)
     {
-        return 0;//getInstance()->on_...;
+        return getInstance()->on_fetch_callback(mdesc, inst, avp);
     }
 
     static int callback_instance(pmInDom indom, int inst, char *name, __pmInResult **result, pmdaExt *pmda)
