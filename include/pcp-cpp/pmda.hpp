@@ -210,52 +210,52 @@ private:
 
     static int pmda_children_callback(const char *name, int traverse, char ***kids, int **sts, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_children(name, traverse, kids, sts, pmda);
+        return getInstance()->on_pmda_children(name, traverse, kids, sts, pmda);
     }
 
     static int pmda_desc_callback(pmID pmid, pmDesc *desc, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_desc(pmid, *desc, *pmda);
+        return getInstance()->on_pmda_desc(pmid, *desc, *pmda);
     }
 
     static int pmda_fetch_callback(int numpmid, pmID *pmidlist, pmResult **resp, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_fetch(numpmid, *pmidlist, *resp, *pmda);
+        return getInstance()->on_pmda_fetch(numpmid, *pmidlist, *resp, *pmda);
     }
 
     static int pmda_fetch_callback_callback(pmdaMetric *mdesc, unsigned int inst, pmAtomValue *avp)
     {
-        return 0;//pcp::pmda::getInstance()->on_pmda_...;
+        return 0;//getInstance()->on_pmda_...;
     }
 
     static int pmda_instance_callback(pmInDom indom, int inst, char *name, __pmInResult **result, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_instance(indom, inst, name, *result, *pmda);
+        return getInstance()->on_pmda_instance(indom, inst, name, *result, *pmda);
     }
 
     static int pmda_name_callback(pmID pmid, char ***nameset, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_name(pmid, nameset, pmda);
+        return getInstance()->on_pmda_name(pmid, nameset, pmda);
     }
 
     static int pmda_pmid_callback(const char *name, pmID *pmid, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_pmid(name, pmid, pmda);
+        return getInstance()->on_pmda_pmid(name, pmid, pmda);
     }
 
     static int pmda_profile_callback(__pmProfile *prof, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_profile(*prof, *pmda);
+        return getInstance()->on_pmda_profile(*prof, *pmda);
     }
 
     static int pmda_store_callback(pmResult *result, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_store(*result, *pmda);
+        return getInstance()->on_pmda_store(*result, *pmda);
     }
 
     static int pmda_text_callback(int ident, int type, char **buffer, pmdaExt *pmda)
     {
-        return pcp::pmda::getInstance()->on_pmda_text(ident, type, *buffer, *pmda);
+        return getInstance()->on_pmda_text(ident, type, *buffer, *pmda);
     }
 
 };
