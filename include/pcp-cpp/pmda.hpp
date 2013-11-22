@@ -110,13 +110,13 @@ protected:
         return 0;
     }
 
-    virtual int on_desc(pmID pmid, pmDesc desc, pmdaExt pmda)
+    virtual int on_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)
     {
         return 0;
     }
 
-    virtual int on_fetch(int numpmid, pmID &pmidlist, pmResult *&resp,
-                              pmdaExt &pmda)
+    virtual int on_fetch(int numpmid, pmID *pmidlist, pmResult **resp,
+                              pmdaExt *pmda)
     {
         begin_fetch_values();
         return 0;
@@ -130,7 +130,7 @@ protected:
     }
 
     virtual int on_instance(pmInDom indom, int inst, char *name,
-                                 __pmInResult *result, pmdaExt &pmda)
+                                 __pmInResult **result, pmdaExt *pmda)
     {
         return 0;
     }
@@ -145,17 +145,17 @@ protected:
         return 0;
     }
 
-    virtual int on_profile(__pmProfile &prof, pmdaExt &pmda)
+    virtual int on_profile(__pmProfile *prof, pmdaExt *pmda)
     {
         return 0;
     }
 
-    virtual int on_store(pmResult &result, pmdaExt &pmda)
+    virtual int on_store(pmResult *result, pmdaExt *pmda)
     {
         return 0;
     }
 
-    virtual int on_text(int ident, int type, char *&buffer, pmdaExt &pmda)
+    virtual int on_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
         return 0;
     }
@@ -219,12 +219,12 @@ private:
 
     static int callback_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)
     {
-        return getInstance()->on_desc(pmid, *desc, *pmda);
+        return getInstance()->on_desc(pmid, desc, pmda);
     }
 
     static int callback_fetch(int numpmid, pmID *pmidlist, pmResult **resp, pmdaExt *pmda)
     {
-        return getInstance()->on_fetch(numpmid, *pmidlist, *resp, *pmda);
+        return getInstance()->on_fetch(numpmid, pmidlist, resp, pmda);
     }
 
     static int callback_fetch_callback(pmdaMetric *mdesc, unsigned int inst, pmAtomValue *avp)
@@ -234,7 +234,7 @@ private:
 
     static int callback_instance(pmInDom indom, int inst, char *name, __pmInResult **result, pmdaExt *pmda)
     {
-        return getInstance()->on_instance(indom, inst, name, *result, *pmda);
+        return getInstance()->on_instance(indom, inst, name, result, pmda);
     }
 
     static int callback_name(pmID pmid, char ***nameset, pmdaExt *pmda)
@@ -249,17 +249,17 @@ private:
 
     static int callback_profile(__pmProfile *prof, pmdaExt *pmda)
     {
-        return getInstance()->on_profile(*prof, *pmda);
+        return getInstance()->on_profile(prof, pmda);
     }
 
     static int callback_store(pmResult *result, pmdaExt *pmda)
     {
-        return getInstance()->on_store(*result, *pmda);
+        return getInstance()->on_store(result, pmda);
     }
 
     static int callback_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
-        return getInstance()->on_text(ident, type, *buffer, *pmda);
+        return getInstance()->on_text(ident, type, buffer, pmda);
     }
 
 };
