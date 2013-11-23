@@ -142,7 +142,19 @@ protected:
 
     virtual void initialize_pmda(pmdaInterface &interface)
     {
-        register_callbacks(interface);
+        // Setup the instance domain and metrics tables.
+        /// @todo  For what lifespan do these need to remain valid?
+        pmdaIndom * indomtab;   /// @todo
+        pmdaMetric * metrictab; /// @todo
+
+        // Assign our callback function pointers to the interface struct.
+        set_callbacks(interface);
+
+        // Initialize the PMDA interface.
+        pmdaInit(&interface,
+            indomtab, sizeof(indomtab)/sizeof(indomtab[0]),
+            metrictab,sizeof(metrictab)/sizeof(metrictab[0])
+        );
     }
 
     virtual pcp::metrics_description get_supported_metrics() const = 0;
@@ -242,7 +254,7 @@ protected:
         return 0;
     }
 
-    virtual void register_callbacks(pmdaInterface &interface)
+    virtual void set_callbacks(pmdaInterface &interface)
     {
         interface.version.any.profile = &callback_profile;
         interface.version.any.fetch = &callback_fetch;
