@@ -23,52 +23,6 @@ namespace pcp {
 class pmda {
 
 public:
-    typedef int_fast16_t pmda_domain_number_type; /// @see stdpmid
-
-    typedef struct {
-        cluster_id_type cluster;
-        item_id_type item;
-        instance_id_type instance;
-        atom_type_type type;
-    } metric_id;
-
-    /// @brief  Virtual destructor for safe polymorphic destruction.
-    virtual ~pmda() { }
-
-    /// @todo  Can probably make most of these private / protected.
-
-    static pmda * getInstance() {
-        return instance;
-    }
-
-    static pmda * setInstance(pmda * const new_instance) {
-        pmda * const old_instance = instance;
-        instance = new_instance;
-        return old_instance;
-    }
-
-    virtual std::string get_help_text_pathname() const
-    {
-        const std::string sep(1, __pmPathSeparator());
-        return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "help";
-    }
-
-    std::string get_pmda_name() const
-    {
-        return pmda_name;
-    }
-
-    virtual pmda_domain_number_type default_pmda_domain_number() const = 0;
-
-    pmda_domain_number_type get_pmda_domain_number() const
-    {
-        return pmda_domain_number;
-    }
-
-    void set_pmda_domain_number(const pmda_domain_number_type domain_number)
-    {
-        pmda_domain_number = domain_number;
-    }
 
     template <class Agent>
     static void init_dso(pmdaInterface * const interface)
@@ -97,6 +51,49 @@ public:
     }
 
 protected:
+
+    typedef int_fast16_t pmda_domain_number_type; /// @see stdpmid
+
+    typedef struct {
+        cluster_id_type cluster;
+        item_id_type item;
+        instance_id_type instance;
+        atom_type_type type;
+    } metric_id;
+
+    /// @brief  Virtual destructor for safe polymorphic destruction.
+    virtual ~pmda() { }
+
+    static pmda * getInstance() {
+        return instance;
+    }
+
+    static pmda * setInstance(pmda * const new_instance) {
+        pmda * const old_instance = instance;
+        instance = new_instance;
+        return old_instance;
+    }
+
+    virtual std::string get_help_text_pathname() const
+    {
+        const std::string sep(1, __pmPathSeparator());
+        return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "help";
+    }
+
+    virtual std::string get_pmda_name() const = 0;
+
+    virtual pmda_domain_number_type default_pmda_domain_number() const = 0;
+
+    pmda_domain_number_type get_pmda_domain_number() const
+    {
+        return pmda_domain_number;
+    }
+
+    void set_pmda_domain_number(const pmda_domain_number_type domain_number)
+    {
+        pmda_domain_number = domain_number;
+    }
+
     virtual void run_daemon(const int argc, char * const argv[])
     {
         // Create some local strings.  We keep these as separate variables
@@ -136,16 +133,16 @@ protected:
         pmdaMain(&interface);
     }
 
-    virtual void initialize_pmda(pmdaInterface &interface)
-    {
-        register_callbacks(interface);
-    }
-
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface)
     {
         /// @todo Run, for example, pmdaGetOpt.
         return true;
+    }
+
+    virtual void initialize_pmda(pmdaInterface &interface)
+    {
+        register_callbacks(interface);
     }
 
     virtual pcp::metrics_description get_supported_metrics() const = 0;
@@ -272,7 +269,6 @@ protected:
 private:
     static pmda * instance;
     pmda_domain_number_type pmda_domain_number;
-    std::string pmda_name;
 
     bool export_pmns_data(/*dir*/) const
     {
