@@ -20,8 +20,6 @@ PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
 
-void set_pmda_callbacks(pmdaInterface &interface);
-
 class pmda {
 
 public:
@@ -34,19 +32,33 @@ public:
         atom_type_type type;
     } metric_id;
 
-    static pmda * getInstance() {
-        return NULL; /// @todo
-    }
-
     /// @brief  Virtual destructor for safe polymorphic destruction.
     virtual ~pmda() { }
+
+    /// @todo  Can probably make most of these private / protected.
+
+    static pmda * getInstance() {
+        return instance;
+    }
+
+    static pmda * setInstance(pmda * const new_instance) {
+        pmda * const old_instance = instance;
+        instance = new_instance;
+        return old_instance;
+    }
+
+    virtual std::string get_help_text_pathname() const
+    {
+        const std::string sep(1, __pmPathSeparator());
+        return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "help";
+    }
 
     std::string get_pmda_name() const
     {
         return pmda_name;
     }
 
-    virtual pmda_domain_number_type default_pmda_domain_number() = 0;
+    virtual pmda_domain_number_type default_pmda_domain_number() const = 0;
 
     pmda_domain_number_type get_pmda_domain_number() const
     {
@@ -62,9 +74,10 @@ public:
     static void init_dso(pmdaInterface * const interface)
     {
         try {
-            Agent::getInstance()->init(*interface);
-        } catch (...) {
-            // set err flag?
+            setInstance(new Agent);
+            getInstance()->initialize_pmda(*interface);
+        } catch (const pcp::exception &ex) {
+            __pmNotifyErr(LOG_ERR, "%s", ex.what());
         }
     }
 
@@ -72,23 +85,67 @@ public:
     static int run_daemon(const int argc, char * const argv[])
     {
         try {
-            //Agent::getInstance(argc, argv);
-            /// @todo
-            /// parse command line options
-            /// if done, return.
-            /// initialise pmda.
-            /// run pmda
-            return EXIT_SUCCESS;
-        } catch (...) {
+            setInstance(new Agent);
+            getInstance()->run_daemon(argc, argv);
+        } catch (const pcp::exception &ex) {
+            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            delete setInstance(NULL);
             return EXIT_FAILURE;
         }
+        delete setInstance(NULL);
+        return EXIT_SUCCESS;
     }
 
 protected:
+    virtual void run_daemon(const int argc, char * const argv[])
+    {
+        // Create some local strings.  We keep these as separate variables
+        // (as opposed to using function call results directly) because PMAPI
+        // functions will copy their pointers (not their contents), so the
+        // pointers must remain valid for the life of this function.
+        const std::string program_name = get_pmda_name();
+        const std::string log_file_pathname = get_pmda_name() + ".log";
+        const std::string help_text_pathname = get_help_text_pathname();
 
-    virtual void init(pmdaInterface &interface)
+        // Set the program name.
+        __pmSetProgname(program_name.c_str());
+
+        // Initialize the PMDA to run as a daemon.
+        pmdaInterface interface;
+        pmdaDaemon(&interface, PCP_CPP_PMDA_INTERFACE_VERSION,
+            pmProgname,       // Program name created above
+            get_pmda_domain_number(),
+            const_cast<char *>(log_file_pathname.c_str()),
+            const_cast<char *>(help_text_pathname.c_str())
+        );
+
+        // Parse the command line options.
+        if (!parse_command_line(argc, argv, interface)) {
+            // The parse function already did whatever the command line asked
+            // for (eg --help, or --export-pmns), so we're done now.
+            return;
+        }
+
+        // Initialize the rest of the PMDA.
+        initialize_pmda(interface);
+
+        // Establish a connection between this daemon PMDA and PMCD.
+        pmdaConnect(&interface);
+
+        // Run the generic PDU processing loop.
+        pmdaMain(&interface);
+    }
+
+    virtual void initialize_pmda(pmdaInterface &interface)
     {
         register_callbacks(interface);
+    }
+
+    virtual bool parse_command_line(const int argc, const char * const argv[],
+                                    pmdaInterface& interface)
+    {
+        /// @todo Run, for example, pmdaGetOpt.
+        return true;
     }
 
     virtual pcp::metrics_description get_supported_metrics() const = 0;
@@ -100,23 +157,35 @@ protected:
     /* Virtual PMDA callback functions below here. You probably don't
      * want to override any of these, but you can if you want to. */
 
+    /// Inform the agent about security aspects of a client connection,
+    /// such as the authenticated userid.  Passed in a client identifier,
+    /// numeric PCP_ATTR, pointer to the associated value, and the length
+    /// of the value.
     virtual int on_attribute(int ctx, int attr, const char *value,
                                   int length, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// If traverse == 0, return the names of all the descendent children
+    ///     and their status, given a named metric in a dynamic subtree of
+    /// the PMNS (this is the pmGetChildren or pmGetChildrenStatus variant).
+    /// If traverse == 1, return the full names of all descendent metrics
+    /// (this is the pmTraversePMNS variant, with the status added)
     virtual int on_children(const char *name, int traverse, char ***kids,
                                  int **sts, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// @brief Return the metric desciption.
     virtual int on_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// @brief Resize the pmResult and call e_callback in the pmdaExt structure
+    ///        for each metric instance required by the profile.
     virtual int on_fetch(int numpmid, pmID *pmidlist, pmResult **resp,
                               pmdaExt *pmda)
     {
@@ -129,6 +198,7 @@ protected:
         return pmdaFetch(numpmid, pmidlist, resp, pmda);
     }
 
+    /// @brief
     virtual int on_fetch_callback(pmdaMetric *mdesc, unsigned int inst,
                                         pmAtomValue *avp)
     {
@@ -136,32 +206,40 @@ protected:
         return 0;
     }
 
+    /// @brief Return description of instances and instance domains.
     virtual int on_instance(pmInDom indom, int inst, char *name,
                                  __pmInResult **result, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// @brief  Given a PMID, return the names of all matching metrics within a
+    ///         dynamic subtree of the PMNS.
     virtual int on_name(pmID pmid, char ***nameset, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// @brief Return the PMID for a named metric within a dynamic subtree
+    ///        of the PMNS.
     virtual int on_pmid(const char *name, pmID *pmid, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// @brief Store the instance profile away for the next fetch.
     virtual int on_profile(__pmProfile *prof, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// @brief Store a value into a metric. This is a no-op.
     virtual int on_store(pmResult *result, pmdaExt *pmda)
     {
         return 0;
     }
 
+    /// @brief Return the help text for the metric.
     virtual int on_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
         return 0;
@@ -184,24 +262,17 @@ protected:
         interface.version.six.attribute = &callback_attribute;
         #endif
 
-        // Can't really see why we'd want to assign any of these callbacks.
-        //interface.version.any.ext->e_resultCallBack;
-        //interface.version.any.ext->e_fetchCallBack;
-        //interface.version.any.ext->e_checkCallBack;
-        //interface.version.any.ext->e_doneCallBack;
-        //#if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
-        //interface.version.any.ext->e_endCallBack;
-        //#endif
-
+        //pmdaSetResultCallBack(&interface, ...);
         pmdaSetFetchCallBack(&interface, &callback_fetch_callback);
+        //pmdaSetCheckCallBack(&interface, ...);
+        //pmdaSetDoneCallBack(&interface, ...);
+        //pmdaSetEndContextCallBack(&interface, ...);
     }
 
 private:
+    static pmda * instance;
     pmda_domain_number_type pmda_domain_number;
     std::string pmda_name;
-
-    // parseCommandLine
-    // ...?
 
     bool export_pmns_data(/*dir*/) const
     {
@@ -272,6 +343,8 @@ private:
 };
 
 } // pcp namespace.
+
+pcp::pmda * pcp::pmda::instance(NULL);
 
 PCP_CPP_END_NAMESPACE
 
