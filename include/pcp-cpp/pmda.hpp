@@ -80,6 +80,11 @@ protected:
         return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "help";
     }
 
+    virtual std::string get_log_file_pathname() const
+    {
+        return get_pmda_name() + ".log";
+    }
+
     virtual std::string get_pmda_name() const = 0;
 
     virtual pmda_domain_number_type default_pmda_domain_number() const = 0;
@@ -106,8 +111,8 @@ protected:
         // functions will copy their pointers (not their contents), so the
         // pointers must remain valid for the life of this function.
         const std::string program_name = get_pmda_name();
-        const std::string log_file_pathname = get_pmda_name() + ".log";
         const std::string help_text_pathname = get_help_text_pathname();
+        const std::string log_file_pathname = get_log_file_pathname();
 
         // Set the program name.
         __pmSetProgname(program_name.c_str());
@@ -163,6 +168,23 @@ protected:
         boost::program_options::variables_map options;
         store(command_line_parser(argc, argv).options(supported_options())
               .positional(supported_positional_options()).run(), options);
+
+#ifdef PCP_CPP_DEBUG_COMMAND_LINE_OPTIONS
+        for (variables_map::const_iterator iter = options.begin(); iter != options.end(); ++iter) {
+            std::string value;
+            try {
+                if (iter->second.value().type() == typeid(int)) {
+                    value = boost::lexical_cast<std::string>(iter->second.as<int>());
+                } else {
+                    value = iter->second.as<std::string>();
+                }
+            } catch (const boost::bad_any_cast &ex) {
+                value = "(complex type \"" + std::string(iter->second.value().type().name()) + "\")";
+            }
+            std::cout << iter->first << ": " << value << std::endl;
+        }
+#endif
+
         //check_conflicting_options(...);
 
         // Check if the --help (or -h) flag was given.
@@ -181,19 +203,33 @@ protected:
         return true;
     }
 
-    static boost::program_options::options_description pcp_builtin_options()
+    virtual boost::program_options::options_description pcp_builtin_options() const
     {
         using namespace boost::program_options;
         options_description options("Libpcp-pmda options");
         options.add_options()
-            ("debug,D",       value<std::string>(),             "set debug specifications")
-            ("domain,d",      value<pmda_domain_number_type>(), "domain number to use")
-            ("help-text,h",   value<std::string>(), "file containing help text")
-            ("inet,ipv4,i",   value<int>(),         "use inet port for pmcd comms")
-            ("inet6,ipv6,6",  value<int>(),         "use IPv6 port for pmcd comms")
-            ("log-file,l",    value<std::string>(), "file to use for logging")
-            ("pipe,p",        bool_switch(),        "use pipe for pmcd comms")
-            ("unix-socket,u", value<std::string>(), "use named socket for pmcd comms");
+            ("debug,D",
+                value<std::string>()->value_name("spec")->implicit_value("-1"),
+                "set debug specification")
+            ("domain,d",
+                value<int>()->value_name("n")->default_value(default_pmda_domain_number()),
+                "domain number to use")
+            ("help-file,h",
+                value<std::string>()->value_name("file")->default_value(get_help_text_pathname()),
+                "file containing help text")
+            ("inet,i",
+                value<int>()->value_name("port"),
+                "use inet port for pmcd comms; conflicts with -p, -u and -6")
+            ("log-file,l",
+                value<std::string>()->value_name("file")->default_value(get_log_file_pathname()),
+                "file to use for logging")
+            ("pipe,p", "use stdin/stdout for pmcd comms; conflicts with -i, -u and -6")
+            ("unix,u",
+                value<std::string>()->value_name("socket"),
+                "use named socket for pmcd comms; conflicts with -i, -p and -6")
+            ("inet6,6",
+                value<int>()->value_name("port"),
+                "use IPv6 port for pmcd comms; conflicts with -i, -p and -u");
         return options;
     }
 
@@ -202,10 +238,14 @@ protected:
         using namespace boost::program_options;
         options_description options("Extra options");
         options.add_options()
-            ("export-help", "export help text then exit")
-            ("export-pmns", "export PMNS text file and domain header then exit")
-            ("help",        "display this message then exit")
-            ("version",     "display version info then exit");
+            ("export-domain", value<std::string>()->value_name("file")->implicit_value("-"),
+             "export domain header then exit")
+            ("export-help", value<std::string>()->value_name("file")->implicit_value("-"),
+             "export help text then exit")
+            ("export-pmns", value<std::string>()->value_name("file")->implicit_value("-"),
+             "export pmns text then exit")
+            ("help",    "display this message then exit")
+            ("version", "display version info then exit");
         return pcp_builtin_options().add(options);
     }
 
