@@ -13,6 +13,7 @@
 #include <pcp/impl.h> // For __pmNotifyErr.
 #include <pcp/pmda.h>
 
+#include <iostream>
 #include <stdint.h>
 #include <string>
 

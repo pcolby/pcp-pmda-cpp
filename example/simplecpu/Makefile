@@ -1,8 +1,18 @@
 # Temporary Makefile. This will be replaced with a more
 # robust example sometime.
 
-pmdasimplecpu: simplecpu.cpp ../../include/pcp-cpp/*.hpp
-	g++ -I../../include simplecpu.cpp -lboost_program_options -lpcp -lpcp_pmda -o pmdasimplecpu
+IAM = simplecpu
+
+CXXFLAGS = -I../../include
+LDLIBS = -lpcp -lpcp_pmda
+
+all: pmda$(IAM) pmda$(IAM)-noboost
+
+pmda$(IAM): $(IAM).cpp ../../include/pcp-cpp/*.hpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(LDLIBS) -lboost_program_options $< -o $@
+
+pmda$(IAM)-noboost: $(IAM).cpp ../../include/pcp-cpp/*.hpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(LDLIBS) -DPCP_CPP_NO_BOOST $< -o $@
 
 clean:
-	rm -f pmdasimplecpu pmda_simplecpu.so
+	rm -f pmda$(IAM) pmda$(IAM)-noboost pmda_$(IAM).so
