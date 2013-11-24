@@ -94,6 +94,11 @@ protected:
         pmda_domain_number = domain_number;
     }
 
+    virtual std::string get_pmda_version() const
+    {
+        return std::string();
+    }
+
     virtual void run_daemon(const int argc, char * const argv[])
     {
         // Create some local strings.  We keep these as separate variables
@@ -220,7 +225,14 @@ protected:
 
     virtual void display_version() const
     {
-        /// @todo
+        std::cout << std::endl << get_pmda_name() << " PMDA";
+        const std::string pmda_version = get_pmda_version();
+        if (!pmda_version.empty()) {
+            std::cout << " version " << pmda_version;
+        }
+        std::cout << ", using PMDA interface version "
+                  << PCP_CPP_PMDA_INTERFACE_VERSION
+                  << '.' << std::endl << std::endl;
     }
 
     virtual std::string get_usage(const std::string &program_name) const
