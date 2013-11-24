@@ -30,7 +30,7 @@ public:
         try {
             setInstance(new Agent);
             getInstance()->initialize_pmda(*interface);
-        } catch (const pcp::exception &ex) {
+        } catch (const std::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
         }
     }
@@ -41,7 +41,7 @@ public:
         try {
             setInstance(new Agent);
             getInstance()->run_daemon(argc, argv);
-        } catch (const pcp::exception &ex) {
+        } catch (const std::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
             delete setInstance(NULL);
             return EXIT_FAILURE;
@@ -133,11 +133,99 @@ protected:
         pmdaMain(&interface);
     }
 
+#ifdef PCP_CPP_NO_BOOST
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface)
     {
         /// @todo Run, for example, pmdaGetOpt.
         return true;
+    }
+
+    static std::string pcp_builtin_options()
+    {
+        return "d:D:h:i:l:pu:6:";
+    }
+
+    virtual std::string supported_options() const
+    {
+        return pcp_builtin_options();
+    }
+#else
+    virtual bool parse_command_line(const int argc, const char * const argv[],
+                                    pmdaInterface& interface)
+    {
+        using namespace boost::program_options;
+        boost::program_options::variables_map options;
+        store(command_line_parser(argc, argv).options(supported_options())
+              .positional(supported_positional_options()).run(), options);
+        //check_conflicting_options(...);
+
+        // Check if the --help (or -h) flag was given.
+        if (options.count("help") > 0) {
+            display_help(((argc > 0) && (argv[0] != '\0')) ? std::string(argv[0]) : get_pmda_name());
+            return false;
+        }
+
+        // Check if the --version (or -v) flag was given.
+        if (options.count("version") > 0) {
+            display_version();
+            return false;
+        }
+
+        /// @todo Run, for example, pmdaGetOpt.
+        return true;
+    }
+
+    static boost::program_options::options_description pcp_builtin_options()
+    {
+        using namespace boost::program_options;
+        options_description options("Libpcp-pmda options");
+        options.add_options()
+            ("debug,D",       value<std::string>(),             "set debug specifications")
+            ("domain,d",      value<pmda_domain_number_type>(), "domain number to use")
+            ("help-text,h",   value<std::string>(), "file containing help text")
+            ("inet,ipv4,i",   value<int>(),         "use inet port for pmcd comms")
+            ("inet6,ipv6,6",  value<int>(),         "use IPv6 port for pmcd comms")
+            ("log-file,l",    value<std::string>(), "file to use for logging")
+            ("pipe,p",        bool_switch(),        "use pipe for pmcd comms")
+            ("unix-socket,u", value<std::string>(), "use named socket for pmcd comms");
+        return options;
+    }
+
+    virtual boost::program_options::options_description supported_options() const
+    {
+        using namespace boost::program_options;
+        options_description options("Extra options");
+        options.add_options()
+            ("export-help", "export help text then exit")
+            ("export-pmns", "export PMNS text file and domain header then exit")
+            ("help",        "display this message then exit")
+            ("version",     "display version info then exit");
+        return pcp_builtin_options().add(options);
+    }
+
+    virtual boost::program_options::positional_options_description supported_positional_options()
+    {
+        return boost::program_options::positional_options_description();
+    }
+
+    virtual void display_help(const std::string &program_name) const
+    {
+        std::cout
+            << std::endl << "Usage: " << get_usage(program_name) << std::endl
+            << std::endl << supported_options() << std::endl;
+    }
+
+#endif
+
+    virtual void display_version() const
+    {
+        /// @todo
+    }
+
+    virtual std::string get_usage(const std::string &program_name) const
+    {
+        return program_name + " [options]";
     }
 
     virtual void initialize_pmda(pmdaInterface &interface)
