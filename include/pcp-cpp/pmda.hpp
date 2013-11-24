@@ -185,8 +185,6 @@ protected:
         }
 #endif
 
-        //check_conflicting_options(...);
-
         // Check if the --help (or -h) flag was given.
         if (options.count("help") > 0) {
             display_help(((argc > 0) && (argv[0] != '\0')) ? std::string(argv[0]) : get_pmda_name());
@@ -198,6 +196,13 @@ protected:
             display_version();
             return false;
         }
+
+        check_conflicting_options(options, "inet", "pipe");
+        check_conflicting_options(options, "inet", "unix");
+        check_conflicting_options(options, "inet", "inet6");
+        check_conflicting_options(options, "pipe", "unix");
+        check_conflicting_options(options, "pipe", "inet6");
+        check_conflicting_options(options, "unix", "inet6");
 
         /// @todo Run, for example, pmdaGetOpt.
         return true;
@@ -252,6 +257,17 @@ protected:
     virtual boost::program_options::positional_options_description supported_positional_options()
     {
         return boost::program_options::positional_options_description();
+    }
+
+    static void check_conflicting_options(const boost::program_options::variables_map &options_map,
+                                          const std::string &option1, const std::string &option2)
+    {
+        // If both options are specified, and neither was defaulted...
+        if ((options_map.count(option1)>0) && (!options_map[option1].defaulted()) &&
+            (options_map.count(option2)>0) && (!options_map[option2].defaulted())) {
+            throw boost::program_options::error(
+                "conflicting options '" + option1 + "' and '" + option2 + "'.");
+        }
     }
 
     virtual void display_help(const std::string &program_name) const
