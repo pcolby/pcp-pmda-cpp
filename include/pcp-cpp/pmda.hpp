@@ -148,8 +148,17 @@ protected:
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface)
     {
-        /// @todo Run, for example, pmdaGetOpt.
-        return true;
+        int c, error_count = 0;
+        while ((c = pmdaGetOpt(argc, const_cast<char **>(argv), supported_options().c_str(), &interface, &error_count)) != EOF) {
+            process_command_line_option(c);
+        }
+        if (error_count > 0) {
+            return false;
+        }
+        if ((interface.domain) != (get_pmda_domain_number())) {
+            set_pmda_domain_number(interface.domain);
+        }
+        return (error_count == 0);
     }
 
     static std::string pcp_builtin_options()
@@ -160,6 +169,13 @@ protected:
     virtual std::string supported_options() const
     {
         return pcp_builtin_options();
+    }
+
+    virtual void process_command_line_option(const int c)
+    {
+        throw pcp::exception(PM_ERR_GENERIC, (c == '?')
+             ? std::string("unrecognised option '-") + (char)optopt + "')"
+             : std::string("unimplemented option '-") + char(c) + "')");
     }
 #else
     virtual bool parse_command_line(const int argc, const char * const argv[],
@@ -205,7 +221,42 @@ protected:
         check_conflicting_options(options, "pipe", "inet6");
         check_conflicting_options(options, "unix", "inet6");
 
-        /// @todo Run, for example, pmdaGetOpt.
+        if (options.count("debug") > 0) {
+            const std::string &value = options.at("debug").as<std::string>();
+            const int result = __pmParseDebug(value.c_str());
+            if (result < 0) {
+                throw pcp::exception(result,
+                    "unrecognized debug flag specification '" + value + "'");
+            }
+            pmDebug |= result;
+        }
+        if (options.count("domain") > 0) {
+            interface.domain = options.at("domain").as<int>();
+        }
+        if (options.count("help-file") > 0) {
+            interface.version.any.ext->e_helptext =
+                strdup(options.at("help-file").as<std::string>().c_str());
+        }
+        if (options.count("inet") > 0) {
+            interface.version.any.ext->e_io = pmdaInet;
+            interface.version.any.ext->e_port = options.at("inet").as<int>();
+        }
+        if (options.count("log-file") > 0) {
+            interface.version.any.ext->e_logfile =
+                strdup(options.at("help-file").as<std::string>().c_str());
+        }
+        if (options.count("pipe") > 0) {
+            interface.version.any.ext->e_io = pmdaPipe;
+        }
+        if (options.count("unix") > 0) {
+            interface.version.any.ext->e_io = pmdaUnix;
+            interface.version.any.ext->e_sockname =
+                strdup(options.at("pipe").as<std::string>().c_str());
+        }
+        if (options.count("inet6") > 0) {
+            interface.version.any.ext->e_io = pmdaIPv6;
+            interface.version.any.ext->e_port = options.at("inet6").as<int>();
+        }
         return true;
     }
 
