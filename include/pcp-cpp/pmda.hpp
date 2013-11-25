@@ -381,7 +381,7 @@ protected:
     virtual int on_attribute(int ctx, int attr, const char *value,
                                   int length, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaAttribute(ctx, attr, value, length, pmda);
     }
 
     /// If traverse == 0, return the names of all the descendent children
@@ -392,13 +392,13 @@ protected:
     virtual int on_children(const char *name, int traverse, char ***kids,
                                  int **sts, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaChildren(name, traverse, kids, sts, pmda);
     }
 
     /// @brief Return the metric desciption.
     virtual int on_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaDesc(pmid, desc, pmda);
     }
 
     /// @brief Resize the pmResult and call e_callback in the pmdaExt structure
@@ -427,39 +427,39 @@ protected:
     virtual int on_instance(pmInDom indom, int inst, char *name,
                                  __pmInResult **result, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaInstance(indom, inst, name, result, pmda);
     }
 
     /// @brief  Given a PMID, return the names of all matching metrics within a
     ///         dynamic subtree of the PMNS.
     virtual int on_name(pmID pmid, char ***nameset, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaName(pmid, nameset, pmda);
     }
 
     /// @brief Return the PMID for a named metric within a dynamic subtree
     ///        of the PMNS.
     virtual int on_pmid(const char *name, pmID *pmid, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaPMID(name, pmid, pmda);
     }
 
     /// @brief Store the instance profile away for the next fetch.
     virtual int on_profile(__pmProfile *prof, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaProfile(prof, pmda);
     }
 
     /// @brief Store a value into a metric. This is a no-op.
     virtual int on_store(pmResult *result, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaStore(result, pmda);
     }
 
     /// @brief Return the help text for the metric.
     virtual int on_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
-        return 0;
+        return pmdaText(ident, type, buffer, pmda);
     }
 
     virtual void set_callbacks(pmdaInterface &interface)
