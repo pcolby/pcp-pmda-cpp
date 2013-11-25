@@ -16,6 +16,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <string>
+#include <vector>
 
 PCP_CPP_BEGIN_NAMESPACE
 
@@ -61,6 +62,8 @@ protected:
         instance_id_type instance;
         atom_type_type type;
     } metric_id;
+
+    typedef std::vector<std::string> string_vector;
 
     /// @brief  Virtual destructor for safe polymorphic destruction.
     virtual ~pmda() { }
@@ -214,6 +217,24 @@ protected:
             return false;
         }
 
+        // Check if any of the export flags were given.
+        bool exported = false;
+        #define PCP_CPP_EXPORT(type, func) \
+        if (options.count("export-"type) > 0) { \
+            const string_vector &filenames = options.at("export-"type).as<string_vector>(); \
+            for (string_vector::const_iterator iter = filenames.begin(); iter != filenames.end(); ++iter) { \
+                func(*iter); \
+            } \
+            exported = true; \
+        }
+        PCP_CPP_EXPORT("domain", export_domain_header);
+        PCP_CPP_EXPORT("help",   export_help_text);
+        PCP_CPP_EXPORT("pmns",   export_pmns_data);
+        #undef PCP_CPP_EXPORT
+        if (exported) {
+            return false;
+        }
+
         check_conflicting_options(options, "inet", "pipe");
         check_conflicting_options(options, "inet", "unix");
         check_conflicting_options(options, "inet", "inet6");
@@ -221,14 +242,17 @@ protected:
         check_conflicting_options(options, "pipe", "inet6");
         check_conflicting_options(options, "unix", "inet6");
 
+        // Apply all of the PCP built-in options the same as pmdaGetOpt would.
         if (options.count("debug") > 0) {
-            const std::string &value = options.at("debug").as<std::string>();
-            const int result = __pmParseDebug(value.c_str());
-            if (result < 0) {
-                throw pcp::exception(result,
-                    "unrecognized debug flag specification '" + value + "'");
+            const string_vector &values = options.at("debug").as<string_vector>();
+            for (string_vector::const_iterator iter = values.begin(); iter != values.end(); ++iter) {
+                const int result = __pmParseDebug(iter->c_str());
+                if (result < 0) {
+                    throw pcp::exception(result,
+                        "unrecognized debug flag specification '" + *iter + "'");
+                }
+                pmDebug |= result;
             }
-            pmDebug |= result;
         }
         if (options.count("domain") > 0) {
             interface.domain = options.at("domain").as<int>();
@@ -266,7 +290,7 @@ protected:
         options_description options("Libpcp-pmda options");
         options.add_options()
             ("debug,D",
-                value<std::string>()->value_name("spec")->implicit_value("-1"),
+                value<string_vector>()->value_name("spec")->implicit_value(string_vector(1, "-1"), "-1"),
                 "set debug specification")
             ("domain,d",
                 value<int>()->value_name("n")->default_value(default_pmda_domain_number()),
@@ -295,11 +319,11 @@ protected:
         using namespace boost::program_options;
         options_description options("Extra options");
         options.add_options()
-            ("export-domain", value<std::string>()->value_name("file")->implicit_value("-"),
+            ("export-domain", value<string_vector>()->value_name("file")->implicit_value(string_vector(1, "-"), "-"),
              "export domain header then exit")
-            ("export-help", value<std::string>()->value_name("file")->implicit_value("-"),
+            ("export-help", value<string_vector>()->value_name("file")->implicit_value(string_vector(1, "-"), "-"),
              "export help text then exit")
-            ("export-pmns", value<std::string>()->value_name("file")->implicit_value("-"),
+            ("export-pmns", value<string_vector>()->value_name("file")->implicit_value(string_vector(1, "-"), "-1"),
              "export pmns text then exit")
             ("help",    "display this message then exit")
             ("version", "display version info then exit");
@@ -493,18 +517,21 @@ private:
     bool export_domain_header(const std::string &filename) const
     {
         /// @todo Export domain header.
+        std::cerr << __func__ << ' ' << filename << std::endl;
         return false;
     }
 
     bool export_help_text(const std::string &filename) const
     {
         /// @todo Export help text.
+        std::cerr << __func__ << ' ' << filename << std::endl;
         return false;
     }
 
     bool export_pmns_data(const std::string &filename) const
     {
         /// @todo Export PMNS data.
+        std::cerr << __func__ << ' ' << filename << std::endl;
         return false;
     }
 
