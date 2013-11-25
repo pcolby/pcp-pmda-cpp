@@ -490,9 +490,21 @@ private:
     static pmda * instance;
     pmda_domain_number_type pmda_domain_number;
 
-    bool export_pmns_data(/*dir*/) const
+    bool export_domain_header(const std::string &filename) const
     {
-        /// @todo
+        /// @todo Export domain header.
+        return false;
+    }
+
+    bool export_help_text(const std::string &filename) const
+    {
+        /// @todo Export help text.
+        return false;
+    }
+
+    bool export_pmns_data(const std::string &filename) const
+    {
+        /// @todo Export PMNS data.
         return false;
     }
 
