@@ -104,6 +104,7 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
         {
             most_recent_cluster = insert(std::make_pair(cluster_id,
                 metric_cluster(cluster_id, cluster_name, opaque))).first;
+            return *this;
         }
 
         metrics_description& operator()(const item_id_type item_id,
