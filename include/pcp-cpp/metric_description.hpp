@@ -85,7 +85,7 @@ public:
                                const std::string &short_description = std::string(),
                                const std::string &verbose_description = std::string())
     {
-        insert(std::make_pair(item_id, metric_description(metric_name, type,
+        insert(value_type(item_id, metric_description(metric_name, type,
             semantic, units, domain, short_description, verbose_description)));
         return *this;
     }
@@ -102,7 +102,7 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
                                         const std::string &cluster_name = std::string(),
                                         void * const opaque = NULL)
         {
-            most_recent_cluster = insert(std::make_pair(cluster_id,
+            most_recent_cluster = insert(value_type(cluster_id,
                 metric_cluster(cluster_id, cluster_name, opaque))).first;
             return *this;
         }

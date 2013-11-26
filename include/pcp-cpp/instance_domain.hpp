@@ -49,7 +49,7 @@ public:
     instance_domain& operator()(const instance_id_type instance_id,
                                 const std::string &instance_name)
     {
-        insert(std::make_pair(instance_id, instance_name));
+        insert(value_type(instance_id, instance_name));
         return *this;
     }
 
