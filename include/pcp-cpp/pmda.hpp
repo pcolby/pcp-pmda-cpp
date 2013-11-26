@@ -576,11 +576,70 @@ private:
         }
     }
 
-    bool export_pmns_data(const std::string &filename) const
+    void export_pmns_data(const std::string &filename) const
     {
-        /// @todo Export PMNS data.
-        std::cerr << __func__ << ' ' << filename << std::endl;
-        return false;
+        // Open the output file.
+        std::ofstream file_stream;
+        if (filename != "-") {
+            file_stream.open(filename.c_str());
+            if (!file_stream.is_open()) {
+                throw pcp::exception(PM_ERR_GENERIC, "failed to open file for writing: " + filename);
+            }
+        }
+        std::ostream &stream = (filename == "-") ? std::cout : file_stream;
+
+        const metrics_description metrics = get_supported_metrics();
+
+        // First pass to find the length of the longest metric name.
+        std::string::size_type max_metric_name_size = 0;
+        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
+            const metric_cluster cluster = metrics_iter->second;
+            for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
+                if (cluster_iter->second.metric_name.size() > max_metric_name_size) {
+                    max_metric_name_size = cluster_iter->second.metric_name.size();
+                }
+            }
+        }
+
+        // Some basic strings we'll use a couple of times.
+        const std::string &pmda_name = get_pmda_name();
+        std::string upper_name = get_pmda_name();
+        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
+
+        // Second pass to export the group names and ungrouped metrics.
+        stream << std::endl << pmda_name << " {" << std::endl;
+        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
+            const metric_cluster cluster = metrics_iter->second;
+            const std::string cluster_name = cluster.get_cluster_name();
+            if (cluster_name.empty()) {
+                for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
+                    stream << "    " << cluster_iter->second.metric_name
+                           << std::string(max_metric_name_size - cluster_iter->second.metric_name.size() + 4, ' ')
+                           << upper_name << ':' << cluster.get_cluster_id() << ':'
+                           << cluster_iter->first << std::endl;
+                }
+            } else {
+                stream << "    " << cluster_name << std::endl;
+            }
+        }
+        stream << '}' << std::endl;
+
+        // Third and final pass to export all metric groups.
+        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
+            const metric_cluster cluster = metrics_iter->second;
+            const std::string cluster_name = cluster.get_cluster_name();
+            if (!cluster_name.empty()) {
+                stream << std::endl << pmda_name << '.' << cluster_name << " {" << std::endl;
+                for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
+                    stream << "    " << cluster_iter->second.metric_name
+                           << std::string(max_metric_name_size - cluster_iter->second.metric_name.size() + 4, ' ')
+                           << upper_name << ':' << cluster.get_cluster_id() << ':'
+                           << cluster_iter->first << std::endl;
+                }
+                stream << "}" << std::endl;
+            }
+        }
+        stream << std::endl;
     }
 
     /*
