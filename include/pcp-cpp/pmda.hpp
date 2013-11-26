@@ -13,6 +13,7 @@
 #include <pcp/impl.h> // For __pmNotifyErr.
 #include <pcp/pmda.h>
 
+#include <fstream>
 #include <iostream>
 #include <stdint.h>
 #include <string>
@@ -521,11 +522,44 @@ private:
         return false;
     }
 
-    bool export_help_text(const std::string &filename) const
+    void export_help_text(const std::string &filename) const
     {
-        /// @todo Export help text.
-        std::cerr << __func__ << ' ' << filename << std::endl;
-        return false;
+        // Generate a map of metric names to help texts for sorting.
+        std::map<std::string, metric_description> map;
+        const std::string pmda_name = get_pmda_name();
+        const metrics_description metrics = get_supported_metrics();
+        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
+            const metric_cluster cluster = metrics_iter->second;
+            const std::string cluster_name = cluster.get_cluster_name();
+            for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
+                std::string metric_name = pmda_name;
+                if (!cluster_name.empty()) {
+                    metric_name += '.' + cluster_name;
+                }
+                metric_name += '.' + cluster_iter->second.metric_name;
+                map.insert(std::make_pair(metric_name, cluster_iter->second));
+            }
+        }
+
+        // Open the output file.
+        std::ofstream file_stream;
+        if (filename != "-") {
+            file_stream.open(filename.c_str());
+            if (!file_stream.is_open()) {
+                throw pcp::exception(PM_ERR_GENERIC, "failed to open file for writing: " + filename);
+            }
+        }
+        std::ostream &stream = (filename == "-") ? std::cout : file_stream;
+
+        // Export the help text.
+        stream << std::endl;
+        for (std::map<std::string, metric_description>::const_iterator iter = map.begin(); iter != map.end(); ++iter) {
+            stream << "@ " << iter->first << ' ' << iter->second.short_description << std::endl;
+            if (!iter->second.verbose_description.empty()) {
+                stream << iter->second.verbose_description << std::endl;
+            }
+            stream << std::endl;
+        }
     }
 
     bool export_pmns_data(const std::string &filename) const
