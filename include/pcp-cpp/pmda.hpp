@@ -13,6 +13,7 @@
 #include <pcp/impl.h> // For __pmNotifyErr.
 #include <pcp/pmda.h>
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <stdint.h>
@@ -515,11 +516,24 @@ private:
     static pmda * instance;
     pmda_domain_number_type pmda_domain_number;
 
-    bool export_domain_header(const std::string &filename) const
+    void export_domain_header(const std::string &filename) const
     {
-        /// @todo Export domain header.
-        std::cerr << __func__ << ' ' << filename << std::endl;
-        return false;
+        // Open the output file.
+        std::ofstream file_stream;
+        if (filename != "-") {
+            file_stream.open(filename.c_str());
+            if (!file_stream.is_open()) {
+                throw pcp::exception(PM_ERR_GENERIC, "failed to open file for writing: " + filename);
+            }
+        }
+        std::ostream &stream = (filename == "-") ? std::cout : file_stream;
+
+        // Export the header file content.
+        std::string upper_name = get_pmda_name();
+        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
+        stream
+            << "// The " << get_pmda_name() << " PMDA's domain number." << std::endl
+            << "#define " << upper_name << ' ' << get_pmda_domain_number() << std::endl;
     }
 
     void export_help_text(const std::string &filename) const
