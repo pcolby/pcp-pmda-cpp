@@ -377,8 +377,8 @@ protected:
     {
         // Setup the instance domain and metrics tables.
         /// @todo  For what lifespan do these need to remain valid?
-        pmdaIndom * indomtab;   /// @todo
-        pmdaMetric * metrictab; /// @todo
+        pmdaIndom * indomtab = NULL;   /// @todo
+        pmdaMetric * metrictab = NULL; /// @todo
 
         // Assign our callback function pointers to the interface struct.
         set_callbacks(interface);

@@ -19,14 +19,14 @@ public:
     simple_cpu()
     {
         cpu_states(0)
-            (0, "user"),
-            (1, "system"),
-            (2, "idle"),
-            (3, "iowait"),
-            (4, "irq"),
-            (5, "softirq"),
-            (6, "steal"),
-            (7, "guest"),
+            (0, "user")
+            (1, "system")
+            (2, "idle")
+            (3, "iowait")
+            (4, "irq")
+            (5, "softirq")
+            (6, "steal")
+            (7, "guest")
             (8, "guest_nice");
         load_cpu_ticks();
     }

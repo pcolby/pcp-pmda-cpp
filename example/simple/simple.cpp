@@ -30,7 +30,7 @@ static struct timeslice {
 } timeslices[] = {
     { 0, 1, "sec" }, { 0, 60, "min" }, { 0, 3600, "hour" }
 };
-static int num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
+//static int num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
 
 class simple : public pcp::pmda {
 
@@ -38,7 +38,7 @@ public:
     simple() : numfetch(0)
     {
         // Define the color and now instance domains.
-        color_domain(0)(0, "red")(1, "green"),(2, "blue");
+        color_domain(0)(0, "red")(1, "green")(2, "blue");
         now_domain(1);
     }
 

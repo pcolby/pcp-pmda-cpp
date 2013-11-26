@@ -3,7 +3,7 @@
 
 IAM = trivial
 
-CXXFLAGS = -I../../include
+CXXFLAGS = -I../../include -Wall -Werror
 LDLIBS = -lpcp -lpcp_pmda
 
 all: pmda$(IAM) pmda$(IAM)-noboost
