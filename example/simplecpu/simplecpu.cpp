@@ -36,7 +36,7 @@ public:
         return "simplecpu";
     }
 
-    virtual pmda_domain_number_type default_pmda_domain_number() const
+    virtual int default_pmda_domain_number() const
     {
         return 129;
     }

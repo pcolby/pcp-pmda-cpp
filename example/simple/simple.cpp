@@ -47,7 +47,7 @@ public:
         return "simple";
     }
 
-    virtual pmda_domain_number_type default_pmda_domain_number() const
+    virtual int default_pmda_domain_number() const
     {
         return 253;
     }

@@ -56,8 +56,6 @@ public:
 
 protected:
 
-    typedef int_fast16_t pmda_domain_number_type; /// @see stdpmid
-
     typedef struct {
         cluster_id_type cluster;
         item_id_type item;
@@ -93,17 +91,7 @@ protected:
 
     virtual std::string get_pmda_name() const = 0;
 
-    virtual pmda_domain_number_type default_pmda_domain_number() const = 0;
-
-    pmda_domain_number_type get_pmda_domain_number() const
-    {
-        return pmda_domain_number;
-    }
-
-    void set_pmda_domain_number(const pmda_domain_number_type domain_number)
-    {
-        pmda_domain_number = domain_number;
-    }
+    virtual int default_pmda_domain_number() const = 0;
 
     virtual std::string get_pmda_version() const
     {
@@ -126,8 +114,8 @@ protected:
         // Initialize the PMDA to run as a daemon.
         pmdaInterface interface;
         pmdaDaemon(&interface, PCP_CPP_PMDA_INTERFACE_VERSION,
-            pmProgname,       // Program name created above
-            get_pmda_domain_number(),
+            const_cast<char *>(program_name.c_str()),
+            default_pmda_domain_number(),
             const_cast<char *>(log_file_pathname.c_str()),
             const_cast<char *>(help_text_pathname.c_str())
         );
@@ -159,9 +147,6 @@ protected:
         }
         if (error_count > 0) {
             return false;
-        }
-        if ((interface.domain) != (get_pmda_domain_number())) {
-            set_pmda_domain_number(interface.domain);
         }
         return (error_count == 0);
     }
@@ -514,7 +499,6 @@ protected:
 
 private:
     static pmda * instance;
-    pmda_domain_number_type pmda_domain_number;
 
     void export_domain_header(const std::string &filename) const
     {
@@ -533,7 +517,7 @@ private:
         std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
         stream
             << "// The " << get_pmda_name() << " PMDA's domain number." << std::endl
-            << "#define " << upper_name << ' ' << get_pmda_domain_number() << std::endl;
+            << "#define " << upper_name << ' ' << default_pmda_domain_number() << std::endl;
     }
 
     void export_help_text(const std::string &filename) const
