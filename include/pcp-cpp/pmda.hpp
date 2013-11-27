@@ -18,6 +18,7 @@
 #include <fstream>
 #include <iostream>
 #include <set>
+#include <stdexcept>
 #include <stdint.h>
 #include <string>
 #include <vector>
@@ -473,11 +474,12 @@ protected:
 
             *avp = fetch_value(id);
             return PMDA_FETCH_STATIC;
-
-        /// @todo  Catch std range/index; return PM_ERR_PMID.
         } catch (const pcp::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
             return ex.error_code();
+        } catch (const std::out_of_range &ex) {
+            __pmNotifyErr(LOG_DEBUG, "%s", ex.what());
+            return PM_ERR_PMID; // Unknown or illegal metric identifier.
         }
     }
 
