@@ -64,12 +64,16 @@ protected:
         item_id_type item;
         instance_id_type instance;
         atom_type_type type;
+        void * opaque;
     } metric_id;
 
     typedef std::vector<std::string> string_vector;
 
     /// @brief  Virtual destructor for safe polymorphic destruction.
-    virtual ~pmda() { }
+    virtual ~pmda()
+    {
+        /// @todo  Free stuff.
+    }
 
     static pmda * getInstance() {
         return instance;
@@ -468,14 +472,37 @@ protected:
             id.cluster = pmid_cluster(mdesc->m_desc.indom);
             id.instance = inst;
             id.item = pmid_item(mdesc->m_desc.indom);
-            id.type = supported_metrics.at(id.cluster).at(id.instance).type;
+            id.opaque = mdesc->m_user;
 
-            /// @todo  Validate inst; throw pcp::exception(PM_ERR_INST,...).
+#ifdef PCP_CPP_NO_METRIC_RANGE_CHECKS
+            id.type = PM_TYPE_UNKNOWN;
+#else
+            const metric_description description =
+                supported_metrics.at(id.cluster).at(id.instance);
+            id.type = description.type;
 
+            if (inst != PM_INDOM_NULL) {
+                if (description.domain != NULL) {
+                    // Instance provided, but non required.
+                    throw pcp::exception(PM_ERR_INDOM);
+                }
+                if (description.domain->count(inst) <= 0) {
+                    // Instance provided, but not one we've registered.
+                    throw pcp::exception(PM_ERR_INST);
+                }
+            } else if (description.domain != NULL) {
+                // Instance required, but none provided.
+                throw pcp::exception(PM_ERR_INDOM);
+            }
+#endif
+
+            // Fetch the metric value.
             *avp = fetch_value(id);
-            return PMDA_FETCH_STATIC;
+            return PMDA_FETCH_STATIC; ///< @todo Support PMDA_FETCH_DYNAMIC too.
         } catch (const pcp::exception &ex) {
-            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            if (ex.error_code() != PMDA_FETCH_NOVALUES) {
+                __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            }
             return ex.error_code();
         } catch (const std::out_of_range &ex) {
             __pmNotifyErr(LOG_DEBUG, "%s", ex.what());
