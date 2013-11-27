@@ -421,7 +421,7 @@ protected:
     /// numeric PCP_ATTR, pointer to the associated value, and the length
     /// of the value.
     virtual int on_attribute(int ctx, int attr, const char *value,
-                                  int length, pmdaExt *pmda)
+                             int length, pmdaExt *pmda)
     {
         return pmdaAttribute(ctx, attr, value, length, pmda);
     }
@@ -432,7 +432,7 @@ protected:
     /// If traverse == 1, return the full names of all descendent metrics
     /// (this is the pmTraversePMNS variant, with the status added)
     virtual int on_children(const char *name, int traverse, char ***kids,
-                                 int **sts, pmdaExt *pmda)
+                            int **sts, pmdaExt *pmda)
     {
         return pmdaChildren(name, traverse, kids, sts, pmda);
     }
@@ -446,7 +446,7 @@ protected:
     /// @brief Resize the pmResult and call e_callback in the pmdaExt structure
     ///        for each metric instance required by the profile.
     virtual int on_fetch(int numpmid, pmID *pmidlist, pmResult **resp,
-                              pmdaExt *pmda)
+                         pmdaExt *pmda)
     {
         try {
             begin_fetch_values();
@@ -459,15 +459,31 @@ protected:
 
     /// @brief
     virtual int on_fetch_callback(pmdaMetric *mdesc, unsigned int inst,
-                                        pmAtomValue *avp)
+                                  pmAtomValue *avp)
     {
-        /// @todo return fetch_value(...);
-        return 0;
+        try {
+            // Setup the metric ID.
+            metric_id id;
+            id.cluster = pmid_cluster(mdesc->m_desc.indom);
+            id.instance = inst;
+            id.item = pmid_item(mdesc->m_desc.indom);
+            id.type = supported_metrics.at(id.cluster).at(id.instance).type;
+
+            /// @todo  Validate inst; throw pcp::exception(PM_ERR_INST,...).
+
+            *avp = fetch_value(id);
+            return PMDA_FETCH_STATIC;
+
+        /// @todo  Catch std range/index; return PM_ERR_PMID.
+        } catch (const pcp::exception &ex) {
+            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            return ex.error_code();
+        }
     }
 
     /// @brief Return description of instances and instance domains.
     virtual int on_instance(pmInDom indom, int inst, char *name,
-                                 __pmInResult **result, pmdaExt *pmda)
+                            __pmInResult **result, pmdaExt *pmda)
     {
         return pmdaInstance(indom, inst, name, result, pmda);
     }
