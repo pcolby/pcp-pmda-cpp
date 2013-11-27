@@ -49,6 +49,18 @@ struct metric_description {
     {
 
     }
+
+    inline operator pmDesc() const
+    {
+        pmDesc description;
+        description.indom = PM_INDOM_NULL;
+        description.pmid  = 0;
+        description.sem   = semantic;
+        description.type  = type;
+        description.units = units;
+        return description;
+    }
+
 };
 
 class metric_cluster : public std::map<item_id_type, metric_description> {

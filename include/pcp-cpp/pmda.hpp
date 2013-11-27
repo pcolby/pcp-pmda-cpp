@@ -8,6 +8,7 @@
 
 #include "config.hpp"
 #include "exception.hpp"
+#include "instance_domain.hpp"
 #include "metric_description.hpp"
 
 #include <pcp/impl.h> // For __pmNotifyErr.
@@ -16,6 +17,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <set>
 #include <stdint.h>
 #include <string>
 #include <vector>
@@ -361,19 +363,48 @@ protected:
 
     virtual void initialize_pmda(pmdaInterface &interface)
     {
-        // Setup the instance domain and metrics tables.
-        /// @todo  For what lifespan do these need to remain valid?
-        pmdaIndom * indomtab = NULL;   /// @todo
-        pmdaMetric * metrictab = NULL; /// @todo
+        // Setup the instance domain and metrics tables. These will be
+        // assigned to members of the interface struct (by pmdaInit), so they
+        // must remain valid as long as the interface does.
+        supported_metrics = get_supported_metrics();
+        const size_t indom_size = count_instance_domains(supported_metrics);
+        const size_t metric_size = count_metrics(supported_metrics);
+        pmdaIndom * indom_table = new pmdaIndom [indom_size];
+        pmdaMetric * metric_table = new pmdaMetric [metric_size];
+
+        std::map<const instance_domain *, pmInDom> instance_domain_ids;
+        size_t metric_index = 0;
+        for (metrics_description::const_iterator metrics_iter = supported_metrics.begin(); metrics_iter != supported_metrics.end(); ++metrics_iter) {
+            const metric_cluster &cluster = metrics_iter->second;
+            for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
+                const metric_description &description = cluster_iter->second;
+                assert(metric_index < metric_size);
+                metric_table[metric_index].m_desc = description;
+                metric_table[metric_index].m_desc.pmid = PMDA_PMID(cluster.get_cluster_id(), cluster_iter->first);
+                if (description.domain != NULL) {
+                    // Insert / find this instance domain.
+                    const std::pair<std::map<const instance_domain *, pmInDom>::iterator, bool> insert_result =
+                        instance_domain_ids.insert(std::make_pair(description.domain, instance_domain_ids.size()));
+
+                    // If this is first time we've seen this instance domain, add it to the indom table.
+                    if (insert_result.second == true) {
+                        assert(instance_domain_ids.size() <= indom_size);
+                        indom_table[instance_domain_ids.size()-1] = allocate_pmda_indom(*cluster_iter->second.domain);
+                    }
+                    metric_table[metric_index].m_desc.indom = insert_result.first->second;
+                } else {
+                    metric_table[metric_index].m_desc.indom = PM_INDOM_NULL;
+                }
+                metric_table[metric_index].m_user = description.opaque;
+                metric_index++;
+            }
+        }
 
         // Assign our callback function pointers to the interface struct.
         set_callbacks(interface);
 
         // Initialize the PMDA interface.
-        pmdaInit(&interface,
-            indomtab, sizeof(indomtab)/sizeof(indomtab[0]),
-            metrictab,sizeof(metrictab)/sizeof(metrictab[0])
-        );
+        pmdaInit(&interface, indom_table, indom_size, metric_table, metric_size);
     }
 
     virtual pcp::metrics_description get_supported_metrics() const = 0;
@@ -499,6 +530,7 @@ protected:
 
 private:
     static pmda * instance;
+    metrics_description supported_metrics;
 
     void export_domain_header(const std::string &filename) const
     {
@@ -527,7 +559,7 @@ private:
         const std::string pmda_name = get_pmda_name();
         const metrics_description metrics = get_supported_metrics();
         for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
-            const metric_cluster cluster = metrics_iter->second;
+            const metric_cluster &cluster = metrics_iter->second;
             const std::string cluster_name = cluster.get_cluster_name();
             for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
                 std::string metric_name = pmda_name;
@@ -577,7 +609,7 @@ private:
         // First pass to find the length of the longest metric name.
         std::string::size_type max_metric_name_size = 0;
         for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
-            const metric_cluster cluster = metrics_iter->second;
+            const metric_cluster &cluster = metrics_iter->second;
             for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
                 if (cluster_iter->second.metric_name.size() > max_metric_name_size) {
                     max_metric_name_size = cluster_iter->second.metric_name.size();
@@ -593,7 +625,7 @@ private:
         // Second pass to export the group names and ungrouped metrics.
         stream << std::endl << pmda_name << " {" << std::endl;
         for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
-            const metric_cluster cluster = metrics_iter->second;
+            const metric_cluster &cluster = metrics_iter->second;
             const std::string cluster_name = cluster.get_cluster_name();
             if (cluster_name.empty()) {
                 for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
@@ -610,7 +642,7 @@ private:
 
         // Third and final pass to export all metric groups.
         for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
-            const metric_cluster cluster = metrics_iter->second;
+            const metric_cluster &cluster = metrics_iter->second;
             const std::string cluster_name = cluster.get_cluster_name();
             if (!cluster_name.empty()) {
                 stream << std::endl << pmda_name << '.' << cluster_name << " {" << std::endl;
@@ -624,6 +656,41 @@ private:
             }
         }
         stream << std::endl;
+    }
+
+    static inline size_t count_instance_domains(const metrics_description &metrics)
+    {
+        std::set<const instance_domain *> instance_domains;
+        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
+            const metric_cluster cluster = metrics_iter->second;
+            for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
+                instance_domains.insert(cluster_iter->second.domain);
+            }
+        }
+        return instance_domains.size();
+    }
+
+    static inline size_t count_metrics(const metrics_description &metrics)
+    {
+        size_t count = 0;
+        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
+            count += metrics_iter->second.size();
+        }
+        return count;
+    }
+
+    static inline pmdaIndom allocate_pmda_indom(const instance_domain &domain)
+    {
+        pmdaIndom indom;
+        indom.it_indom = domain;
+        indom.it_numinst = domain.size();
+        indom.it_set = new pmdaInstid [domain.size()];
+        size_t index = 0;
+        for (instance_domain::const_iterator iter = domain.begin(); iter != domain.end(); ++iter, ++index) {
+            indom.it_set[index].i_inst = iter->first;
+            indom.it_set[index].i_name = const_cast<char *>(iter->second.c_str());
+        }
+        return indom;
     }
 
     /*
