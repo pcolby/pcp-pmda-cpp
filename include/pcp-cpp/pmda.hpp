@@ -480,6 +480,12 @@ protected:
         } catch (const std::out_of_range &ex) {
             __pmNotifyErr(LOG_DEBUG, "%s", ex.what());
             return PM_ERR_PMID; // Unknown or illegal metric identifier.
+        } catch (const std::exception &ex) {
+            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            return PM_ERR_GENERIC;
+        } catch (...) {
+            __pmNotifyErr(LOG_ERR, "unknown exception in on_fetch_callback");
+            return PM_ERR_GENERIC;
         }
     }
 
