@@ -134,6 +134,9 @@ protected:
             return;
         }
 
+        // Redirect output the log.
+        pmdaOpenLog(&interface);
+
         // Initialize the rest of the PMDA.
         initialize_pmda(interface);
 
@@ -261,7 +264,7 @@ protected:
         }
         if (options.count("log-file") > 0) {
             interface.version.any.ext->e_logfile =
-                strdup(options.at("help-file").as<std::string>().c_str());
+                strdup(options.at("log-file").as<std::string>().c_str());
         }
         if (options.count("pipe") > 0) {
             interface.version.any.ext->e_io = pmdaPipe;
@@ -462,7 +465,7 @@ protected:
         return pmdaFetch(numpmid, pmidlist, resp, pmda);
     }
 
-    /// @brief
+    /// @brief Fetch the value of a single metric instance.
     virtual int on_fetch_callback(pmdaMetric *mdesc, unsigned int inst,
                                   pmAtomValue *avp)
     {
@@ -477,8 +480,11 @@ protected:
 #ifdef PCP_CPP_NO_METRIC_RANGE_CHECKS
             id.type = PM_TYPE_UNKNOWN;
 #else
-            const metric_description description =
-                supported_metrics.at(id.cluster).at(id.instance);
+            __pmNotifyErr(LOG_DEBUG, "%d %d", pmid_cluster(mdesc->m_desc.indom),
+                          pmid_item(mdesc->m_desc.indom));
+            __pmNotifyErr(LOG_DEBUG, "%ld %ld", id.cluster, id.item);
+            const metric_description &description =
+                supported_metrics.at(id.cluster).at(id.item);
             id.type = description.type;
 
             if (inst != PM_INDOM_NULL) {
@@ -505,7 +511,7 @@ protected:
             }
             return ex.error_code();
         } catch (const std::out_of_range &ex) {
-            __pmNotifyErr(LOG_DEBUG, "%s", ex.what());
+            __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
             return PM_ERR_PMID; // Unknown or illegal metric identifier.
         } catch (const std::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
@@ -552,20 +558,34 @@ protected:
     /// @brief Return the help text for the metric.
     virtual int on_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
+        try {
+            if ((type & PM_TEXT_HELP) == PM_TEXT_HELP) {
+                const metric_description &description =
+                    supported_metrics.at(pmid_cluster(ident)).at(pmid_item(ident));
+                *buffer = const_cast<char *>(
+                    ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE)
+                        ? description.short_description.c_str()
+                        : description.verbose_description.c_str()
+                );
+                return 0; // >= 0 implies success.
+            }
+        } catch (const std::exception &ex) {
+            __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
+        }
         return pmdaText(ident, type, buffer, pmda);
     }
 
     virtual void set_callbacks(pmdaInterface &interface)
     {
-        interface.version.any.profile = &callback_profile;
-        interface.version.any.fetch = &callback_fetch;
-        interface.version.any.desc = &callback_desc;
-        interface.version.any.instance = &callback_instance;
-        interface.version.any.text = &callback_text;
-        interface.version.any.store = &callback_store;
+        interface.version.any.profile   = &callback_profile;
+        interface.version.any.fetch     = &callback_fetch;
+        interface.version.any.desc      = &callback_desc;
+        interface.version.any.instance  = &callback_instance;
+        interface.version.any.text      = &callback_text;
+        interface.version.any.store     = &callback_store;
         #if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
-        interface.version.five.pmid = &callback_pmid;
-        interface.version.five.name = &callback_name;
+        interface.version.five.pmid     = &callback_pmid;
+        interface.version.five.name     = &callback_name;
         interface.version.five.children = &callback_children;
         #endif
         #if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
