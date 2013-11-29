@@ -4,7 +4,8 @@ PMDA++ is a header-only C++ library for writing Performance Metrics Domain Agent
 
 PCP PMDAs can be written in a number of languages, including C, Perl and Python.This library adds C++ to that list.
 
-## Contributing
+## Find out more
+Take a look at the project [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
 
 ## License
 
