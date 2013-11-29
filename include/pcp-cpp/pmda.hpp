@@ -472,17 +472,14 @@ protected:
         try {
             // Setup the metric ID.
             metric_id id;
-            id.cluster = pmid_cluster(mdesc->m_desc.indom);
+            id.cluster = pmid_cluster(mdesc->m_desc.pmid);
             id.instance = inst;
-            id.item = pmid_item(mdesc->m_desc.indom);
+            id.item = pmid_item(mdesc->m_desc.pmid);
             id.opaque = mdesc->m_user;
 
 #ifdef PCP_CPP_NO_METRIC_RANGE_CHECKS
             id.type = PM_TYPE_UNKNOWN;
 #else
-            __pmNotifyErr(LOG_DEBUG, "%d %d", pmid_cluster(mdesc->m_desc.indom),
-                          pmid_item(mdesc->m_desc.indom));
-            __pmNotifyErr(LOG_DEBUG, "%ld %ld", id.cluster, id.item);
             const metric_description &description =
                 supported_metrics.at(id.cluster).at(id.item);
             id.type = description.type;
@@ -559,18 +556,36 @@ protected:
     virtual int on_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
         try {
-            if ((type & PM_TEXT_HELP) == PM_TEXT_HELP) {
+            if ((type & PM_TEXT_PMID) == PM_TEXT_PMID) {
                 const metric_description &description =
                     supported_metrics.at(pmid_cluster(ident)).at(pmid_item(ident));
-                *buffer = const_cast<char *>(
+                const std::string &text =
                     ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE)
-                        ? description.short_description.c_str()
-                        : description.verbose_description.c_str()
-                );
+                        ? description.short_description
+                        : description.verbose_description;
+                if (text.empty()) {
+                    throw pcp::exception(PM_ERR_TEXT);
+                }
+                *buffer = strdup(text.c_str());
                 return 0; // >= 0 implies success.
+            } else if ((type & PM_TEXT_INDOM) == PM_TEXT_INDOM) {
+                /// @todo  Handle PM_TEXT_INDOM too.
+                __pmNotifyErr(LOG_DEBUG, "PM_TEXT_INDOM not implemented yet;"
+                                         " falling back to pmdaText instead");
+            } else {
+                __pmNotifyErr(LOG_NOTICE, "unknown text type 0x%x", type);
             }
-        } catch (const std::exception &ex) {
+        } catch (const pcp::exception &ex) {
+            if (ex.error_code() != PM_ERR_TEXT) {
+                __pmNotifyErr(LOG_NOTICE, "%s", ex.what());
+            }
+        } catch (const std::out_of_range &ex) {
             __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
+        } catch (const std::exception &ex) {
+            __pmNotifyErr(LOG_NOTICE, "%s", ex.what());
+        } catch (...) {
+            __pmNotifyErr(LOG_ERR, "unknown exception in on_text");
+            return PM_ERR_GENERIC;
         }
         return pmdaText(ident, type, buffer, pmda);
     }
