@@ -22,7 +22,7 @@ pmAtomValue atom(const atom_type_type type, ValueType value)
         case PM_TYPE_32:               atom.l   = static_cast< int32_t>(value); break;
         case PM_TYPE_U32:              atom.ul  = static_cast<uint32_t>(value); break;
         case PM_TYPE_64:               atom.ll  = static_cast< int64_t>(value); break;
-        case PM_TYPE_U64:              atom.ull = static_cast<uint32_t>(value); break;
+        case PM_TYPE_U64:              atom.ull = static_cast<uint64_t>(value); break;
         case PM_TYPE_FLOAT:            atom.f   = static_cast<float   >(value); break;
         case PM_TYPE_DOUBLE:           atom.d   = static_cast<double  >(value); break;
       //case PM_TYPE_STRING:           atom.cp  = value; break;
