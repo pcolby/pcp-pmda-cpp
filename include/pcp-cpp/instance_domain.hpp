@@ -9,8 +9,6 @@
 #include "config.hpp"
 #include "types.hpp"
 
-#include <pcp/pmapi.h>
-
 #include <map>
 
 PCP_CPP_BEGIN_NAMESPACE

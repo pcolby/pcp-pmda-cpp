@@ -20,8 +20,6 @@
 #include <pcp-cpp/pmda.hpp>
 #include <pcp-cpp/units.hpp>
 
-#include <pcp/impl.h> // For __pmProcessRunTimes.
-
 /// @todo Assess this struct.
 static struct timeslice {
     int     tm_field;

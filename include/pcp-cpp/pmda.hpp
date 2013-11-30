@@ -11,9 +11,6 @@
 #include "instance_domain.hpp"
 #include "metric_description.hpp"
 
-#include <pcp/impl.h> // For __pmNotifyErr.
-#include <pcp/pmda.h>
-
 #include <algorithm>
 #include <fstream>
 #include <iostream>

@@ -8,8 +8,6 @@
 
 #include "config.hpp"
 
-#include <pcp/pmapi.h>
-
 #include <string>
 
 PCP_CPP_BEGIN_NAMESPACE

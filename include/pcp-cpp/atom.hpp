@@ -10,8 +10,6 @@
 #include "exception.hpp"
 #include "types.hpp"
 
-#include <pcp/pmapi.h>
-
 PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {

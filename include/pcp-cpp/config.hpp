@@ -13,8 +13,9 @@
 #include <boost/program_options.hpp>
 #endif
 
-#include <pcp/pmapi.h>
-#include <pcp/pmda.h>
+#include <pcp/pmapi.h> // Note, the order in which these are included matters
+#include <pcp/impl.h>  // more for older versions of PCP, so don't reorder them
+#include <pcp/pmda.h>  // without testing against older versions of PCP.
 
 // PMDA interface version to use; defaults to "latest".
 #ifndef PCP_CPP_PMDA_INTERFACE_VERSION
