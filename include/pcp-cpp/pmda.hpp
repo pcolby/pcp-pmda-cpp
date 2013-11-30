@@ -477,7 +477,7 @@ protected:
             id.item = pmid_item(mdesc->m_desc.pmid);
             id.opaque = mdesc->m_user;
 
-#ifdef PCP_CPP_NO_METRIC_RANGE_CHECKS
+#ifdef PCP_CPP_NO_ID_VALIDITY_CHECKS
             id.type = PM_TYPE_UNKNOWN;
 #else
             const metric_description &description =
