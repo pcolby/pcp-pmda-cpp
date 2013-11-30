@@ -37,13 +37,11 @@ protected:
     virtual pcp::metrics_description get_supported_metrics() const
     {
         // trivial.time aka TRIVIAL:0:0.
-        pcp::metrics_description metrics;
-        metrics(0)
+        return pcp::metrics_description()(0)
             (0, "time",pcp::type<uint32_t>(), PM_SEM_COUNTER,
              pcp::units(0,1,0, 0,PM_TIME_SEC,0), NULL,
              "The time in seconds since 1 Jan 1970",
              "The time in seconds since the 1st of January, 1970.");
-        return metrics;
     }
 
     virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
