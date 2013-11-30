@@ -10,7 +10,19 @@
 // PCP headers, because pcp/config.h sets a number of macros like ULONGLONG_MAX
 // which fool Boost into thinking we're on an unknown, non-standard platform.
 #ifndef PCP_CPP_NO_BOOST
-#include <boost/program_options.hpp>
+#  include <boost/program_options.hpp>
+// boost::program_options::typed_value::implicit_value was added in 1.35.0.
+#  if BOOST_VERSION > 103500
+#    define PCP_CPP_BOOST_PO_IMPLICIT_VALUE(...) ->implicit_value(__VA_ARGS__)
+#  else
+#    define PCP_CPP_BOOST_PO_IMPLICIT_VALUE(...)
+#  endif
+// boost::program_options::typed_value::value_name was added in 1.50.0.
+#  if BOOST_VERSION > 105000
+#    define PCP_CPP_BOOST_PO_VALUE_NAME(name)    ->value_name(name)
+#  else
+#    define PCP_CPP_BOOST_PO_VALUE_NAME(name)
+#  endif
 #endif
 
 #include <pcp/pmapi.h> // Note, the order in which these are included matters

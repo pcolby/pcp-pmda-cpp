@@ -289,29 +289,24 @@ protected:
         using namespace boost::program_options;
         options_description options("Libpcp-pmda options");
         options.add_options()
-            ("debug,D",
-                value<string_vector>()->value_name("spec")->implicit_value(string_vector(1, "-1"), "-1"),
-                "set debug specification")
-            ("domain,d",
-                value<int>()->value_name("n")->default_value(default_pmda_domain_number()),
-                "domain number to use")
+            ("debug,D", value<string_vector>()
+                PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-1"), "-1")
+                PCP_CPP_BOOST_PO_VALUE_NAME("spec"),"set debug specification")
+            ("domain,d", value<int>()->default_value(default_pmda_domain_number())
+                PCP_CPP_BOOST_PO_VALUE_NAME("n"), "domain number to use")
             ("help-file,h",
-                value<std::string>()->value_name("file")->default_value(get_help_text_pathname()),
-                "file containing help text")
-            ("inet,i",
-                value<int>()->value_name("port"),
+                value<std::string>()->default_value(get_help_text_pathname())
+                PCP_CPP_BOOST_PO_VALUE_NAME("file"), "file containing help text")
+            ("inet,i", value<int>() PCP_CPP_BOOST_PO_VALUE_NAME("port"),
                 "use inet port for pmcd comms; conflicts with -p, -u and -6")
-            ("log-file,l",
-                value<std::string>()->value_name("file")->default_value(get_log_file_pathname()),
-                "file to use for logging")
+            ("log-file,l", value<std::string>()->default_value(get_log_file_pathname())
+                PCP_CPP_BOOST_PO_VALUE_NAME("file"), "file to use for logging")
             ("pipe,p", "use stdin/stdout for pmcd comms; conflicts with -i, -u and -6")
-            ("unix,u",
-                value<std::string>()->value_name("socket"),
+            ("unix,u", value<std::string>() PCP_CPP_BOOST_PO_VALUE_NAME("socket"),
                 "use named socket for pmcd comms; conflicts with -i, -p and -6");
         if (get_pcp_runtime_version<uint_fast32_t>() >= 0x30801) {
             options.add_options()
-                ("inet6,6",
-                    value<int>()->value_name("port"),
+                ("inet6,6", value<int>() PCP_CPP_BOOST_PO_VALUE_NAME("port"),
                     "use IPv6 port for pmcd comms; conflicts with -i, -p and -u");
         }
         return options;
@@ -322,12 +317,15 @@ protected:
         using namespace boost::program_options;
         options_description options("Extra options");
         options.add_options()
-            ("export-domain", value<string_vector>()->value_name("file")->implicit_value(string_vector(1, "-"), "-"),
-             "export domain header then exit")
-            ("export-help", value<string_vector>()->value_name("file")->implicit_value(string_vector(1, "-"), "-"),
-             "export help text then exit")
-            ("export-pmns", value<string_vector>()->value_name("file")->implicit_value(string_vector(1, "-"), "-1"),
-             "export pmns text then exit")
+            ("export-domain", value<string_vector>()
+             PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-"), "-")
+             PCP_CPP_BOOST_PO_VALUE_NAME("file"), "export domain header then exit")
+            ("export-help", value<string_vector>()
+             PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-"), "-")
+             PCP_CPP_BOOST_PO_VALUE_NAME("file"), "export help text then exit")
+            ("export-pmns", value<string_vector>()
+             PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-"), "-")
+             PCP_CPP_BOOST_PO_VALUE_NAME("file"), "export pmns text then exit")
             ("help",    "display this message then exit")
             ("version", "display version info then exit");
         return pcp_builtin_options().add(options);
