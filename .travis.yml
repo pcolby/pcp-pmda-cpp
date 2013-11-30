@@ -6,4 +6,4 @@ compiler:
 
 script:
   # Just building the examples for now; no real tests to speak of yet.
-  - make -C examples
+  - make -C example
