@@ -598,12 +598,12 @@ protected:
 
     virtual void set_callbacks(pmdaInterface &interface)
     {
-        interface.version.any.profile   = &callback_profile;
-        interface.version.any.fetch     = &callback_fetch;
-        interface.version.any.desc      = &callback_desc;
-        interface.version.any.instance  = &callback_instance;
-        interface.version.any.text      = &callback_text;
-        interface.version.any.store     = &callback_store;
+        interface.version.two.profile   = &callback_profile;
+        interface.version.two.fetch     = &callback_fetch;
+        interface.version.two.desc      = &callback_desc;
+        interface.version.two.instance  = &callback_instance;
+        interface.version.two.text      = &callback_text;
+        interface.version.two.store     = &callback_store;
         #if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
         interface.version.four.pmid     = &callback_pmid;
         interface.version.four.name     = &callback_name;
