@@ -5,7 +5,7 @@ before_install:
   - sudo apt-get install -qq libboost-program-options-dev libpcp3-dev libpcp-pmda3-dev
 
 compiler:
-  - clang
+  #- clang
   - gcc
 
 script:
