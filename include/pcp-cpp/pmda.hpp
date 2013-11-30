@@ -255,28 +255,28 @@ protected:
             interface.domain = options.at("domain").as<int>();
         }
         if (options.count("help-file") > 0) {
-            interface.version.any.ext->e_helptext =
+            interface.version.two.ext->e_helptext =
                 strdup(options.at("help-file").as<std::string>().c_str());
         }
         if (options.count("inet") > 0) {
-            interface.version.any.ext->e_io = pmdaInet;
-            interface.version.any.ext->e_port = options.at("inet").as<int>();
+            interface.version.two.ext->e_io = pmdaInet;
+            interface.version.two.ext->e_port = options.at("inet").as<int>();
         }
         if (options.count("log-file") > 0) {
-            interface.version.any.ext->e_logfile =
+            interface.version.two.ext->e_logfile =
                 strdup(options.at("log-file").as<std::string>().c_str());
         }
         if (options.count("pipe") > 0) {
-            interface.version.any.ext->e_io = pmdaPipe;
+            interface.version.two.ext->e_io = pmdaPipe;
         }
         if (options.count("unix") > 0) {
-            interface.version.any.ext->e_io = pmdaUnix;
-            interface.version.any.ext->e_sockname =
+            interface.version.two.ext->e_io = pmdaUnix;
+            interface.version.two.ext->e_sockname =
                 strdup(options.at("pipe").as<std::string>().c_str());
         }
         if (options.count("inet6") > 0) {
-            interface.version.any.ext->e_io = pmdaIPv6;
-            interface.version.any.ext->e_port = options.at("inet6").as<int>();
+            interface.version.two.ext->e_io = pmdaIPv6;
+            interface.version.two.ext->e_port = options.at("inet6").as<int>();
         }
         return true;
     }
