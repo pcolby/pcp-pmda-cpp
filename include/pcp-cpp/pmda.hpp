@@ -274,12 +274,16 @@ protected:
             interface.version.two.ext->e_sockname =
                 strdup(options.at("pipe").as<std::string>().c_str());
         }
-#ifdef PCP_CPP_ENABLE_IPV6_SUPPORT
         if (options.count("inet6") > 0) {
-            interface.version.two.ext->e_io = pmdaIPv6; // Added in PCP 3.8.1.
+            // The pmdaIPv6 value was added to PCP in version 3.8.1. There is
+            // no reliable way to detect PCP's version at compile time, so we
+            // use it's known value (4) here to prevent issues compiling against
+            // earlier versions of PCP. Note, the default supported_options
+            // implementation below does not include inet6 in the command line
+            // options for earlier versions of PCP, as detected at runtime.
+            interface.version.two.ext->e_io = static_cast<pmdaIoType>(4);
             interface.version.two.ext->e_port = options.at("inet6").as<int>();
         }
-#endif
         return true;
     }
 
@@ -306,10 +310,13 @@ protected:
             ("pipe,p", "use stdin/stdout for pmcd comms; conflicts with -i, -u and -6")
             ("unix,u",
                 value<std::string>()->value_name("socket"),
-                "use named socket for pmcd comms; conflicts with -i, -p and -6")
-            ("inet6,6",
-                value<int>()->value_name("port"),
-                "use IPv6 port for pmcd comms; conflicts with -i, -p and -u");
+                "use named socket for pmcd comms; conflicts with -i, -p and -6");
+        if (get_pcp_runtime_version<uint_fast32_t>() >= 0x30801) {
+            options.add_options()
+                ("inet6,6",
+                    value<int>()->value_name("port"),
+                    "use IPv6 port for pmcd comms; conflicts with -i, -p and -u");
+        }
         return options;
     }
 
@@ -361,9 +368,12 @@ protected:
         if (!pmda_version.empty()) {
             std::cout << " version " << pmda_version;
         }
-        std::cout << ", using PMDA interface version "
+        std::cout << std::endl << "PMDA interface version "
                   << PCP_CPP_PMDA_INTERFACE_VERSION
-                  << '.' << std::endl << std::endl;
+                  << std::endl << "PCP version "
+                  << get_pcp_runtime_version<char *>() << " ("
+                  << std::hex << get_pcp_runtime_version<uint_fast32_t>()
+                  << ')' << std::endl << std::endl;
     }
 
     virtual std::string get_usage(const std::string &program_name) const
