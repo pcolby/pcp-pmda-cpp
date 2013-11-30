@@ -424,6 +424,7 @@ protected:
     /* Virtual PMDA callback functions below here. You probably don't
      * want to override any of these, but you can if you want to. */
 
+#if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
     /// Inform the agent about security aspects of a client connection,
     /// such as the authenticated userid.  Passed in a client identifier,
     /// numeric PCP_ATTR, pointer to the associated value, and the length
@@ -433,7 +434,9 @@ protected:
     {
         return pmdaAttribute(ctx, attr, value, length, pmda);
     }
+#endif
 
+#if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
     /// If traverse == 0, return the names of all the descendent children
     ///     and their status, given a named metric in a dynamic subtree of
     /// the PMNS (this is the pmGetChildren or pmGetChildrenStatus variant).
@@ -444,6 +447,7 @@ protected:
     {
         return pmdaChildren(name, traverse, kids, sts, pmda);
     }
+#endif
 
     /// @brief Return the metric desciption.
     virtual int on_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)
@@ -526,6 +530,7 @@ protected:
         return pmdaInstance(indom, inst, name, result, pmda);
     }
 
+#if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
     /// @brief  Given a PMID, return the names of all matching metrics within a
     ///         dynamic subtree of the PMNS.
     virtual int on_name(pmID pmid, char ***nameset, pmdaExt *pmda)
@@ -539,6 +544,7 @@ protected:
     {
         return pmdaPMID(name, pmid, pmda);
     }
+#endif
 
     /// @brief Store the instance profile away for the next fetch.
     virtual int on_profile(__pmProfile *prof, pmdaExt *pmda)
@@ -598,10 +604,10 @@ protected:
         interface.version.any.instance  = &callback_instance;
         interface.version.any.text      = &callback_text;
         interface.version.any.store     = &callback_store;
-        #if PCP_CPP_PMDA_INTERFACE_VERSION >= 5
-        interface.version.five.pmid     = &callback_pmid;
-        interface.version.five.name     = &callback_name;
-        interface.version.five.children = &callback_children;
+        #if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
+        interface.version.four.pmid     = &callback_pmid;
+        interface.version.four.name     = &callback_name;
+        interface.version.four.children = &callback_children;
         #endif
         #if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
         interface.version.six.attribute = &callback_attribute;
@@ -784,15 +790,19 @@ private:
      * These all redirect thier non-static singleton counterparts above.
      */
 
+#if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
     static int callback_attribute(int ctx, int attr, const char *value,int length, pmdaExt *pmda)
     {
         return getInstance()->on_attribute(ctx, attr, value, length, pmda);
     }
+#endif
 
+#if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
     static int callback_children(const char *name, int traverse, char ***kids, int **sts, pmdaExt *pmda)
     {
         return getInstance()->on_children(name, traverse, kids, sts, pmda);
     }
+#endif
 
     static int callback_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)
     {
@@ -814,6 +824,7 @@ private:
         return getInstance()->on_instance(indom, inst, name, result, pmda);
     }
 
+#if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
     static int callback_name(pmID pmid, char ***nameset, pmdaExt *pmda)
     {
         return getInstance()->on_name(pmid, nameset, pmda);
@@ -823,6 +834,7 @@ private:
     {
         return getInstance()->on_pmid(name, pmid, pmda);
     }
+#endif
 
     static int callback_profile(__pmProfile *prof, pmdaExt *pmda)
     {
