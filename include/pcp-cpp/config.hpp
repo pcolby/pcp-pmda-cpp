@@ -27,4 +27,15 @@
 #  define PCP_CPP_END_NAMESPACE
 #endif
 
+// IPv6 support was added to PCP in version 3.8.1. Unfortunately, there's
+// currently no reliable way to determine the PCP API version at the moment.
+// Even the PCP_VERSION macro, which is not actually supplied by PCP headers,
+// is set to an unusable format like "3.8.1" (which C/C++ preprocessor condition
+// statements cannot evaluate meaningfully). However, in the same 3.8.1 release
+// the PDU_FLAG_CREDS_REQD macro was added to impl.h, so here we default to
+// enabling IPv6 support if this macro is present.
+#if defined PDU_FLAG_CREDS_REQD && !defined PCP_CPP_ENABLE_IPV6_SUPPORT
+#define PCP_CPP_ENABLE_IPV6_SUPPORT
+#endif
+
 #endif

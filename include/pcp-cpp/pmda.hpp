@@ -274,10 +274,12 @@ protected:
             interface.version.two.ext->e_sockname =
                 strdup(options.at("pipe").as<std::string>().c_str());
         }
+#ifdef PCP_CPP_ENABLE_IPV6_SUPPORT
         if (options.count("inet6") > 0) {
-            interface.version.two.ext->e_io = pmdaIPv6;
+            interface.version.two.ext->e_io = pmdaIPv6; // Added in PCP 3.8.1.
             interface.version.two.ext->e_port = options.at("inet6").as<int>();
         }
+#endif
         return true;
     }
 
