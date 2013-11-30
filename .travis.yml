@@ -3,7 +3,6 @@ language: cpp
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libboost-program-options-dev libpcp3-dev libpcp-pmda3-dev
-  - pcp
 
 compiler:
   #- clang
