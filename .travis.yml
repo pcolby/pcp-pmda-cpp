@@ -10,6 +10,7 @@ before_install:
   - readelf -Ws /usr/lib/libpcp.so | grep pmNotifyErr || true
   - readelf -Ws /usr/lib/libpcp_pmda.so || true
   - readelf -Ws /usr/lib/libpcp_pmda.so | grep pmNotifyErr || true
+  - ls -l /usr/lib/libpcp_pmda*
   - false
 
 compiler:
