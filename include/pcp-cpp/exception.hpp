@@ -23,9 +23,13 @@ public:
           message(message)
     {
         if (message.empty()) {
+#ifdef PM_MAXERRMSGLEN // pmErrStr_r and PM_MAXERRMSGLEN added in PCP 3.6.0.
             char buffer[PM_MAXERRMSGLEN];
             pmErrStr_r(pm_error_code, buffer, sizeof(buffer));
             this->message.assign(buffer);
+#else
+            this->message.assign(pmErrStr(pm_error_code));
+#endif
         }
     }
 
