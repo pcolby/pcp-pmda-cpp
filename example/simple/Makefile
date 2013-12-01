@@ -4,7 +4,7 @@
 IAM = simple
 
 CXXFLAGS = -I../../include -O3 -Wall -Werror
-LDLIBS = -lpcp -lpcp_pmda
+LDLIBS = -lpcp_pmda -lpcp
 
 all: pmda$(IAM) pmda$(IAM)-noboost
 

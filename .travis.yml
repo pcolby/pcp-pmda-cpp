@@ -8,10 +8,9 @@ before_install:
   - sudo locate libpcp_pmda
   - readelf -Ws /usr/lib/libpcp.so || true
   - readelf -Ws /usr/lib/libpcp.so | grep pmNotifyErr || true
-  - readelf -Ws /usr/lib/libpcp_pmda.so || true
-  - readelf -Ws /usr/lib/libpcp_pmda.so | grep pmNotifyErr || true
+  - readelf -Ws /usr/lib/libpcp_pmda.so.3 || true
+  - readelf -Ws /usr/lib/libpcp_pmda.so.3 | grep pmNotifyErr || true
   - ls -l /usr/lib/libpcp_pmda*
-  - false
 
 compiler:
   #- clang
