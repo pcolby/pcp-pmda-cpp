@@ -424,7 +424,7 @@ protected:
 
     virtual pcp::metrics_description get_supported_metrics() const = 0;
 
-    virtual void begin_fetch_values() const { }
+    virtual void begin_fetch_values() { }
 
     virtual pmAtomValue fetch_value(const metric_id &metric) const = 0;
 
