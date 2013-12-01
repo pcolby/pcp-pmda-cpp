@@ -3,6 +3,11 @@ language: cpp
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libboost-program-options-dev libpcp3-dev libpcp-pmda3-dev
+  - readelf -Ws /usr/lib/libpcp.so || true
+  - readelf -Ws /usr/lib/libpcp.so | grep pmNotifyErr || true
+  - readelf -Ws /usr/lib/libpcp_pmda.so || true
+  - readelf -Ws /usr/lib/libpcp_pmda.so | grep pmNotifyErr || true
+  - false
 
 compiler:
   #- clang
