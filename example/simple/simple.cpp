@@ -100,14 +100,14 @@ protected:
         // simple.now         SIMPLE:2:4
         if (metric.cluster == 2) {
             /// @todo Add pcp::pmda_cache class.
-            struct timeslice *tsp;
+            void * tsp;
             int sts;
-            if ((sts = pmdaCacheLookup(now_domain, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
+            if ((sts = pmdaCacheLookup(now_domain, metric.instance, NULL, &tsp)) != PMDA_CACHE_ACTIVE) {
                 if (sts < 0)
                      __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
                 throw pcp::exception(PM_ERR_INST);
             }
-            return pcp::atom(metric.type, tsp->tm_field);
+            return pcp::atom(metric.type, static_cast<timeslice *>(tsp)->tm_field);
         }
 
         // simple.numfetch    SIMPLE:0:0
@@ -143,14 +143,14 @@ protected:
         } else if (metric.cluster == 2) {
             // simple.now         SIMPLE:2:4
             /// @todo Add pcp::pmda_cache class.
-            struct timeslice *tsp;
+            void * tsp;
             int sts;
-            if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, (void **)&tsp)) != PMDA_CACHE_ACTIVE) {
+            if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, &tsp)) != PMDA_CACHE_ACTIVE) {
                 if (sts < 0)
                      __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
                 throw pcp::exception(PM_ERR_INST);
             }
-            return pcp::atom(metric.type, tsp->tm_field);
+            return pcp::atom(metric.type, static_cast<timeslice *>(tsp)->tm_field);
         }
 
         throw pcp::exception(PM_ERR_INST);
