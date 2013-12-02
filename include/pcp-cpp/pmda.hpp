@@ -148,8 +148,11 @@ protected:
         pmdaMain(&interface);
 
         // Free the instance domains and metrics allocated in initialize_pmda.
-        delete[] interface.version.any.ext->e_indoms;
-        delete[] interface.version.any.ext->e_metrics;
+        for (int index = 0; index < interface.version.two.ext->e_nindoms; ++index) {
+            delete [] interface.version.two.ext->e_indoms[index].it_set;
+        }
+        delete[] interface.version.two.ext->e_indoms;
+        delete[] interface.version.two.ext->e_metrics;
     }
 
 #ifdef PCP_CPP_NO_BOOST
