@@ -15,6 +15,7 @@
 #include <fstream>
 #include <iostream>
 #include <set>
+#include <stack>
 #include <stdexcept>
 #include <stdint.h>
 #include <string>
@@ -69,7 +70,10 @@ protected:
     /// @brief  Virtual destructor for safe polymorphic destruction.
     virtual ~pmda()
     {
-        /// @todo  Free stuff.
+        while (!free_on_destruction.empty()) {
+            free(free_on_destruction.top());
+            free_on_destruction.pop();;
+        }
     }
 
     static pmda * getInstance() {
@@ -142,6 +146,10 @@ protected:
 
         // Run the generic PDU processing loop.
         pmdaMain(&interface);
+
+        // Free the instance domains and metrics allocated in initialize_pmda.
+        delete[] interface.version.any.ext->e_indoms;
+        delete[] interface.version.any.ext->e_metrics;
     }
 
 #ifdef PCP_CPP_NO_BOOST
@@ -252,24 +260,24 @@ protected:
             interface.domain = options.at("domain").as<int>();
         }
         if (options.count("help-file") > 0) {
-            interface.version.two.ext->e_helptext =
-                strdup(options.at("help-file").as<std::string>().c_str());
+            free_on_destruction.push(interface.version.two.ext->e_helptext =
+                strdup(options.at("help-file").as<std::string>().c_str()));
         }
         if (options.count("inet") > 0) {
             interface.version.two.ext->e_io = pmdaInet;
             interface.version.two.ext->e_port = options.at("inet").as<int>();
         }
         if (options.count("log-file") > 0) {
-            interface.version.two.ext->e_logfile =
-                strdup(options.at("log-file").as<std::string>().c_str());
+            free_on_destruction.push(interface.version.two.ext->e_logfile =
+                strdup(options.at("log-file").as<std::string>().c_str()));
         }
         if (options.count("pipe") > 0) {
             interface.version.two.ext->e_io = pmdaPipe;
         }
         if (options.count("unix") > 0) {
             interface.version.two.ext->e_io = pmdaUnix;
-            interface.version.two.ext->e_sockname =
-                strdup(options.at("pipe").as<std::string>().c_str());
+            free_on_destruction.push(interface.version.two.ext->e_sockname =
+                strdup(options.at("pipe").as<std::string>().c_str()));
         }
         if (options.count("inet6") > 0) {
             // The pmdaIPv6 value was added to PCP in version 3.8.1. There is
@@ -630,6 +638,7 @@ protected:
 private:
     static pmda * instance;
     metrics_description supported_metrics;
+    std::stack<void *> free_on_destruction;
 
     void export_domain_header(const std::string &filename) const
     {

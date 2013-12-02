@@ -1,0 +1,59 @@
+{
+   pcp_pmdaDaemon_leak_1
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:calloc
+   obj:/usr/lib/libpcp_pmda.so.3
+   fun:pmdaDaemon
+}
+
+{
+   pcp_pmdaDaemon_leak_2
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   obj:/usr/lib/libpcp_pmda.so.3
+   fun:pmdaDaemon
+}
+
+{
+   pcp_pmdaOpenLog_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:realloc
+   fun:__pmOpenLog
+   fun:pmdaOpenLog
+}
+
+{
+   pcp_pmdaInit_leak_1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:pmErrStr_r
+   fun:pmErrStr
+   fun:pmdaInit
+}
+
+{
+   pcp_pmdaInit_leak_2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:realloc
+   fun:pmdaOpenHelp
+   fun:pmdaInit
+}
+
+{
+   pcp_pmGetConfig_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/libpcp.so.3
+   fun:__pmConfig
+   fun:pmGetConfig
+}
