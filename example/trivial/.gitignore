@@ -1,3 +1,4 @@
+*.log
 pmda_trivial.so
 pmdatrivial
 pmdatrivial-noboost

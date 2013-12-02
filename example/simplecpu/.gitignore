@@ -1,3 +1,4 @@
+*.log
 pmda_simplecpu.so
 pmdasimplecpu
 pmdasimplecpu-noboost
