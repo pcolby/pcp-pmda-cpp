@@ -57,13 +57,21 @@ public:
 
 protected:
 
-    typedef struct {
+    struct fetch_value_result {
+        pmAtomValue atom;
+        int code;
+        fetch_value_result(const pmAtomValue &atom,
+                           const int code = PMDA_FETCH_STATIC)
+            : atom(atom), code(code) { }
+    };
+
+    struct metric_id {
         cluster_id_type cluster;
         item_id_type item;
         instance_id_type instance;
         atom_type_type type;
         void * opaque;
-    } metric_id;
+    };
 
     typedef std::vector<std::string> string_vector;
 
@@ -437,7 +445,7 @@ protected:
 
     virtual void begin_fetch_values() { }
 
-    virtual pmAtomValue fetch_value(const metric_id &metric) const = 0;
+    virtual fetch_value_result fetch_value(const metric_id &metric) const = 0;
 
     /* Virtual PMDA callback functions below here. You probably don't
      * want to override any of these, but you can if you want to. */
@@ -522,8 +530,9 @@ protected:
 #endif
 
             // Fetch the metric value.
-            *avp = fetch_value(id);
-            return PMDA_FETCH_STATIC; ///< @todo Support PMDA_FETCH_DYNAMIC too.
+            const fetch_value_result result = fetch_value(id);
+            *avp = result.atom;
+            return result.code;
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PMDA_FETCH_NOVALUES) {
                 __pmNotifyErr(LOG_ERR, "%s", ex.what());

@@ -83,7 +83,7 @@ protected:
         numfetch++;
     }
 
-    virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
+    virtual fetch_value_result fetch_value(const metric_id &metric) const
     {
         // simple.time.user   SIMPLE:1:2
         // simple.time.sys    SIMPLE:1:3

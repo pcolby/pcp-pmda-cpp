@@ -44,7 +44,7 @@ protected:
              "The time in seconds since the 1st of January, 1970.");
     }
 
-    virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
+    virtual fetch_value_result fetch_value(const metric_id &metric) const
     {
         return pcp::atom(metric.type,time(NULL));
     }

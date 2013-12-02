@@ -43,10 +43,10 @@ public:
 
 protected:
     pcp::instance_domain cpu_states;
-    typedef struct {
+    struct cpu_info_type {
         std::string label;
         std::vector<uint64_t> ticks;
-    } cpu_info_type;
+    };
     std::vector<cpu_info_type> cpu_info;
 
     virtual pcp::metrics_description get_supported_metrics() const
@@ -78,7 +78,7 @@ protected:
         load_cpu_ticks();
     }
 
-    virtual pmAtomValue fetch_value(const pcp::pmda::metric_id &metric) const
+    virtual fetch_value_result fetch_value(const metric_id &metric) const
     {
 
         return pcp::atom<uint64_t>(
