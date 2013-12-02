@@ -1,4 +1,4 @@
-# PMDA++
+# PMDA++ [![Build Status](https://travis-ci.org/pcolby/pcp-pmda-cpp.png?branch=master)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
 
 PMDA++ is a header-only C++ library for writing Performance Metrics Domain
 Agents (PMDAs) for [Performance Co-Pilot (PCP)](http://oss.sgi.com/projects/pcp/).
