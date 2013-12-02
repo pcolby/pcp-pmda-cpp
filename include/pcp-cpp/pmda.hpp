@@ -532,7 +532,13 @@ protected:
             // Fetch the metric value.
             const fetch_value_result result = fetch_value(id);
             *avp = result.atom;
-            return result.code;
+#if PCP_CPP_PMDA_INTERFACE_VERSION <= 2
+            return 0; // "No error" for PMDA interface 2.
+#elif PCP_CPP_PMDA_INTERFACE_VERSION < 4
+            return 1; // "Metric found" for PMDA interfaces 3 and 4.
+#else // PCP_CPP_PMDA_INTERFACE_VERSION >= 5
+            return result.code; // PMDA_FETCH_* values for inerfaces 5+
+#endif
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PMDA_FETCH_NOVALUES) {
                 __pmNotifyErr(LOG_ERR, "%s", ex.what());
