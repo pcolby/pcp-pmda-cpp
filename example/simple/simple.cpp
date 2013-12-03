@@ -156,10 +156,10 @@ protected:
         throw pcp::exception(PM_ERR_INST);
     }
 
-    /// @todo Add this (or someting like it) to pcp::pmda.
-    virtual void store()
+    virtual int on_store(pmResult *result, pmdaExt *pmda)
     {
-
+        /// @todo Import from simple.c
+        return PM_ERR_PERMISSION;
     }
 
 private:
