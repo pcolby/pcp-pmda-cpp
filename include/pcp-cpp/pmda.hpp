@@ -422,10 +422,9 @@ protected:
 
                     // If this is first time we've seen this instance domain, add it to the indom table.
                     if (insert_result.second == true) {
-                        assert(instance_domain_ids.size() <= indom_size);
-                        const size_t new_indom = instance_domain_ids.size()-1;
-                        indom_table[new_indom] = allocate_pmda_indom(*cluster_iter->second.domain);
-                        indom_table[new_indom].it_indom = new_indom;
+                        assert(insert_result.first->second <= indom_size);
+                        indom_table[insert_result.first->second] = allocate_pmda_indom(*cluster_iter->second.domain);
+                        indom_table[insert_result.first->second].it_indom = insert_result.first->second;
                     }
                     metric_table[metric_index].m_desc.indom = insert_result.first->second;
                 } else {
