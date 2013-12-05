@@ -423,7 +423,9 @@ protected:
                     // If this is first time we've seen this instance domain, add it to the indom table.
                     if (insert_result.second == true) {
                         assert(instance_domain_ids.size() <= indom_size);
-                        indom_table[instance_domain_ids.size()-1] = allocate_pmda_indom(*cluster_iter->second.domain);
+                        const size_t new_indom = instance_domain_ids.size()-1;
+                        indom_table[new_indom] = allocate_pmda_indom(*cluster_iter->second.domain);
+                        indom_table[new_indom].it_indom = new_indom;
                     }
                     metric_table[metric_index].m_desc.indom = insert_result.first->second;
                 } else {
@@ -790,7 +792,9 @@ private:
         for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
             const metric_cluster cluster = metrics_iter->second;
             for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
-                instance_domains.insert(cluster_iter->second.domain);
+                if (cluster_iter->second.domain != NULL) {
+                    instance_domains.insert(cluster_iter->second.domain);
+                }
             }
         }
         return instance_domains.size();
