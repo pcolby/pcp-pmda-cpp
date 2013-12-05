@@ -99,7 +99,7 @@ protected:
 
         // simple.now         SIMPLE:2:4
         if (metric.cluster == 2) {
-            /// @todo Add pcp::pmda_cache class.
+            /// @todo Issue #4: pmdaCache encapsulation.
             void * tsp;
             int sts;
             if ((sts = pmdaCacheLookup(now_domain, metric.instance, NULL, &tsp)) != PMDA_CACHE_ACTIVE) {
@@ -142,7 +142,7 @@ protected:
             return pcp::atom(metric.type, metric.item == 3 ? usr : sys);
         } else if (metric.cluster == 2) {
             // simple.now         SIMPLE:2:4
-            /// @todo Add pcp::pmda_cache class.
+            /// @todo Issue #4: pmdaCache encapsulation.
             void * tsp;
             int sts;
             if ((sts = pmdaCacheLookup(0/** @todo */, metric.instance, NULL, &tsp)) != PMDA_CACHE_ACTIVE) {
