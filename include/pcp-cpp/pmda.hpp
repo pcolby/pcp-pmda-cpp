@@ -411,6 +411,8 @@ protected:
         pmdaMetric * metric_table = new pmdaMetric [metric_count];
 
         std::map<const instance_domain *, pmInDom> instance_domain_ids;
+        std::vector<instance_domain *> instance_domains;
+        instance_domains.reserve(indom_count);
         size_t metric_index = 0;
         for (metrics_description::const_iterator metrics_iter = supported_metrics.begin();
              metrics_iter != supported_metrics.end(); ++metrics_iter)
@@ -432,6 +434,8 @@ protected:
                     assert(indom < indom_count);
                     if (insert_result.second) {
                         indom_table[indom] = allocate_pmda_indom(*cluster_iter->second.domain);
+                        instance_domains.push_back(cluster_iter->second.domain);
+                        assert(instance_domain_ids.size() == instance_domains.size());
                     }
                     metric_table[metric_index].m_desc.indom = indom;
                 } else {
@@ -441,12 +445,21 @@ protected:
                 metric_index++;
             }
         }
+        assert(instance_domain_ids.size() == indom_count);
+        assert(instance_domains.size() == indom_count);
+        assert(metric_index == metric_count);
 
         // Assign our callback function pointers to the interface struct.
         set_callbacks(interface);
 
         // Initialize the PMDA interface.
         pmdaInit(&interface, indom_table, indom_count, metric_table, metric_count);
+
+        // Record the pmdaIndom values as updated by pmdaInit.
+        for (size_t indom_index = 0; indom_index < indom_count; ++indom_index) {
+            instance_domains.at(indom_index)->set_pm_instance_domain(
+                indom_table[indom_index].it_indom);
+        }
     }
 
     virtual pcp::metrics_description get_supported_metrics() = 0;

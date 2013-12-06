@@ -23,7 +23,7 @@ struct metric_description {
     atom_type_type type;
     semantic_type semantic;
     pmUnits units;
-    const instance_domain * domain;
+    instance_domain * domain;
     std::string short_description;
     std::string verbose_description;
     void * const opaque;
@@ -32,7 +32,7 @@ struct metric_description {
                        const atom_type_type type,
                        const semantic_type semantic,
                        const pmUnits units,
-                       const instance_domain * const domain = NULL,
+                       instance_domain * const domain = NULL,
                        const std::string &short_description = std::string(),
                        const std::string &verbose_description = std::string(),
                        void * const opaque = NULL)
@@ -87,7 +87,7 @@ public:
                                const atom_type_type type,
                                const semantic_type semantic,
                                const pmUnits units,
-                               const instance_domain * const domain = NULL,
+                               instance_domain * const domain = NULL,
                                const std::string &short_description = std::string(),
                                const std::string &verbose_description = std::string(),
                                void * const opaque = NULL)
@@ -118,7 +118,7 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
                                         const atom_type_type type,
                                         const semantic_type semantic,
                                         const pmUnits units,
-                                        const instance_domain * const domain = NULL,
+                                        instance_domain * const domain = NULL,
                                         const std::string &short_description = std::string(),
                                         const std::string &verbose_description = std::string(),
                                         void * const opaque = NULL)
