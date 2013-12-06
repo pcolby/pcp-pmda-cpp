@@ -49,7 +49,7 @@ protected:
     };
     std::vector<cpu_info_type> cpu_info;
 
-    virtual pcp::metrics_description get_supported_metrics() const
+    virtual pcp::metrics_description get_supported_metrics()
     {
         // This declaresa set of "ticks" metrics for each available
         // CPU, in each of the cpu_states instance domains, within

@@ -55,7 +55,7 @@ protected:
     pcp::instance_domain now_domain;
     uint32_t numfetch;
 
-    virtual pcp::metrics_description get_supported_metrics() const
+    virtual pcp::metrics_description get_supported_metrics()
     {
         // simple.numfetch    SIMPLE:0:0
         // simple.color       SIMPLE:0:1

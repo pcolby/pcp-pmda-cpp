@@ -34,7 +34,7 @@ public:
 
 protected:
 
-    virtual pcp::metrics_description get_supported_metrics() const
+    virtual pcp::metrics_description get_supported_metrics()
     {
         // trivial.time aka TRIVIAL:0:0.
         return pcp::metrics_description()(0)
