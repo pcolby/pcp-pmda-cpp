@@ -401,12 +401,13 @@ protected:
         // assigned to members of the interface struct (by pmdaInit), so they
         // must remain valid as long as the interface does.
         supported_metrics = get_supported_metrics();
-        const size_t indom_size = count_instance_domains(supported_metrics);
-        const size_t metric_size = count_metrics(supported_metrics);
+        const size_t metric_size = assign_instance_domain_ids(supported_metrics);
+        const size_t indom_size = instance_domain_ids.size();
         pmdaIndom * indom_table = new pmdaIndom [indom_size];
         pmdaMetric * metric_table = new pmdaMetric [metric_size];
+        memset(indom_table, 0, indom_size * sizeof(pmdaIndom));
+        memset(metric_table, 0, metric_size * sizeof(pmdaMetric));
 
-        std::map<const instance_domain *, pmInDom> instance_domain_ids;
         size_t metric_index = 0;
         for (metrics_description::const_iterator metrics_iter = supported_metrics.begin(); metrics_iter != supported_metrics.end(); ++metrics_iter) {
             const metric_cluster &cluster = metrics_iter->second;
@@ -416,17 +417,11 @@ protected:
                 metric_table[metric_index].m_desc = description;
                 metric_table[metric_index].m_desc.pmid = PMDA_PMID(cluster.get_cluster_id(), cluster_iter->first);
                 if (description.domain != NULL) {
-                    // Insert / find this instance domain.
-                    const std::pair<std::map<const instance_domain *, pmInDom>::iterator, bool> insert_result =
-                        instance_domain_ids.insert(std::make_pair(description.domain, instance_domain_ids.size()));
-
-                    // If this is first time we've seen this instance domain, add it to the indom table.
-                    if (insert_result.second == true) {
-                        assert(insert_result.first->second <= indom_size);
-                        indom_table[insert_result.first->second] = allocate_pmda_indom(*cluster_iter->second.domain);
-                        indom_table[insert_result.first->second].it_indom = insert_result.first->second;
+                    const pmInDom indom = instance_domain_ids.at(cluster_iter->second.domain);
+                    if (indom_table[indom].it_set == NULL) {
+                        indom_table[indom] = allocate_pmda_indom(*cluster_iter->second.domain, indom);
                     }
-                    metric_table[metric_index].m_desc.indom = insert_result.first->second;
+                    metric_table[metric_index].m_desc.indom = indom;
                 } else {
                     metric_table[metric_index].m_desc.indom = PM_INDOM_NULL;
                 }
@@ -516,7 +511,7 @@ protected:
             id.type = description.type;
 
             if (inst != PM_INDOM_NULL) {
-                if (description.domain != NULL) {
+                if (description.domain == NULL) {
                     // Instance provided, but non required.
                     throw pcp::exception(PM_ERR_INDOM);
                 }
@@ -657,6 +652,7 @@ protected:
 private:
     static pmda * instance;
     metrics_description supported_metrics;
+    std::map<const instance_domain *, pmInDom> instance_domain_ids;
     std::stack<void *> free_on_destruction;
 
     void export_domain_header(const std::string &filename) const
@@ -785,33 +781,32 @@ private:
         stream << std::endl;
     }
 
-    static inline size_t count_instance_domains(const metrics_description &metrics)
+    inline size_t assign_instance_domain_ids(const metrics_description &metrics)
     {
-        std::set<const instance_domain *> instance_domains;
-        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
-            const metric_cluster cluster = metrics_iter->second;
-            for (metric_cluster::const_iterator cluster_iter = cluster.begin(); cluster_iter != cluster.end(); ++cluster_iter) {
+        assert(instance_domain_ids.empty());
+        size_t metric_count = 0;
+        for (metrics_description::const_iterator metrics_iter = metrics.begin();
+             metrics_iter != metrics.end(); ++metrics_iter)
+        {
+            const metric_cluster &cluster = metrics_iter->second;
+            for (metric_cluster::const_iterator cluster_iter = cluster.begin();
+                 cluster_iter != cluster.end(); ++cluster_iter)
+            {
                 if (cluster_iter->second.domain != NULL) {
-                    instance_domains.insert(cluster_iter->second.domain);
+                    instance_domain_ids.insert(std::make_pair(
+                        cluster_iter->second.domain, instance_domain_ids.size()));
                 }
+                metric_count++;
             }
         }
-        return instance_domains.size();
+        return metric_count;
     }
 
-    static inline size_t count_metrics(const metrics_description &metrics)
-    {
-        size_t count = 0;
-        for (metrics_description::const_iterator metrics_iter = metrics.begin(); metrics_iter != metrics.end(); ++metrics_iter) {
-            count += metrics_iter->second.size();
-        }
-        return count;
-    }
-
-    static inline pmdaIndom allocate_pmda_indom(const instance_domain &domain)
+    static inline pmdaIndom allocate_pmda_indom(const instance_domain &domain,
+                                                const pmInDom domain_id)
     {
         pmdaIndom indom;
-        indom.it_indom = domain;
+        indom.it_indom = domain_id;
         indom.it_numinst = domain.size();
         indom.it_set = new pmdaInstid [domain.size()];
         size_t index = 0;
