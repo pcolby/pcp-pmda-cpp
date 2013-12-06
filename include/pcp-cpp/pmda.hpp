@@ -243,9 +243,11 @@ protected:
             } \
             exported = true; \
         }
+        PCP_CPP_EXPORT("all",    export_support_files);
         PCP_CPP_EXPORT("domain", export_domain_header);
         PCP_CPP_EXPORT("help",   export_help_text);
         PCP_CPP_EXPORT("pmns",   export_pmns_data);
+        PCP_CPP_EXPORT("root",   export_pmns_root);
         #undef PCP_CPP_EXPORT
         if (exported) {
             return false;
@@ -339,6 +341,9 @@ protected:
         using namespace boost::program_options;
         options_description options("Extra options");
         options.add_options()
+            ("export-all", value<string_vector>()
+             PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "."), ".")
+             PCP_CPP_BOOST_PO_VALUE_NAME("dir"), "export domain, help, pmns and root then exit")
             ("export-domain", value<string_vector>()
              PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-"), "-")
              PCP_CPP_BOOST_PO_VALUE_NAME("file"), "export domain header then exit")
@@ -348,6 +353,9 @@ protected:
             ("export-pmns", value<string_vector>()
              PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-"), "-")
              PCP_CPP_BOOST_PO_VALUE_NAME("file"), "export pmns text then exit")
+            ("export-root", value<string_vector>()
+             PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-"), "-")
+             PCP_CPP_BOOST_PO_VALUE_NAME("file"), "export pmns root then exit")
             ("help",    "display this message then exit")
             ("version", "display version info then exit");
         return pcp_builtin_options().add(options);
@@ -816,6 +824,33 @@ private:
             }
         }
         stream << std::endl;
+    }
+
+    void export_pmns_root(const std::string &filename) const
+    {
+        // Open the output file.
+        std::ofstream file_stream;
+        if (filename != "-") {
+            file_stream.open(filename.c_str());
+            if (!file_stream.is_open()) {
+                throw pcp::exception(PM_ERR_GENERIC, "failed to open file for writing: " + filename);
+            }
+        }
+        std::ostream &stream = (filename == "-") ? std::cout : file_stream;
+        stream
+            << std::endl
+            << "#include <stdpmid>" << std::endl << std::endl
+            << "root { " << get_pmda_name() << " }" << std::endl << std::endl
+            << "#include \"pmns\"" << std::endl << std::endl;
+    }
+
+    void export_support_files(const std::string &directory_name) const
+    {
+        const std::string sep(1, __pmPathSeparator());
+        export_domain_header(directory_name + sep + "domain.h");
+        export_help_text(directory_name + sep + "help");
+        export_pmns_data(directory_name + sep + "pmns");
+        export_pmns_root(directory_name + sep + "root");
     }
 
     inline std::pair<size_t, size_t> count_metrics(const metrics_description &metrics) const
