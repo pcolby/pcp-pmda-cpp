@@ -15,6 +15,6 @@ Take a look at the project [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
 PMDA++ code is available under the open source
 [Boost Software License](http://www.boost.org/users/license.html).
 
-The PMDA++ library library builds on [PCP](http://oss.sgi.com/projects/pcp/)
+The PMDA++ depends on [PCP](http://oss.sgi.com/projects/pcp/)
 libraries (`libpcp` and `libpcp_pmda`), which are available under LGPL v2.1. See
 [What licensing scheme does PCP use?](http://oss.sgi.com/projects/pcp/faq.html#Q1b)
