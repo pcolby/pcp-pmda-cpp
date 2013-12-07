@@ -474,7 +474,18 @@ protected:
 
     virtual void begin_fetch_values() { }
 
-    virtual fetch_value_result fetch_value(const metric_id &metric) const = 0;
+    virtual fetch_value_result fetch_value(const metric_id &metric) = 0;
+
+    virtual void store_value(const metric_id &metric, const int &value)
+    {
+        throw pcp::exception(PM_ERR_PERMISSION);
+    }
+
+    virtual void store_value(const metric_id &metric,
+                             const pmValueBlock * const value)
+    {
+        throw pcp::exception(PM_ERR_PERMISSION);
+    }
 
     /* Virtual PMDA callback functions below here. You probably don't
      * want to override any of these, but you can if you want to. */
@@ -542,20 +553,7 @@ protected:
             const metric_description &description =
                 supported_metrics.at(id.cluster).at(id.item);
             id.type = description.type;
-
-            if (inst != PM_INDOM_NULL) {
-                if (description.domain == NULL) {
-                    // Instance provided, but non required.
-                    throw pcp::exception(PM_ERR_INDOM);
-                }
-                if (description.domain->count(inst) <= 0) {
-                    // Instance provided, but not one we've registered.
-                    throw pcp::exception(PM_ERR_INST);
-                }
-            } else if (description.domain != NULL) {
-                // Instance required, but none provided.
-                throw pcp::exception(PM_ERR_INDOM);
-            }
+            validate_instance(description, inst);
 #endif
 
             // Fetch the metric value.
@@ -617,7 +615,56 @@ protected:
     /// @brief Store a value into a metric. This is a no-op.
     virtual int on_store(pmResult *result, pmdaExt *pmda)
     {
-        return pmdaStore(result, pmda);
+        __pmNotifyErr(LOG_INFO, "on store");
+        try {
+            for (int value_set_index = 0; value_set_index < result->numpmid; ++value_set_index) {
+                pmValueSet * const value_set = result->vset[value_set_index];
+
+                // Setup the metric ID.
+                metric_id id;
+                id.cluster = pmid_cluster(value_set->pmid);
+                id.item = pmid_item(value_set->pmid);
+                id.opaque = NULL;
+                id.type = PM_TYPE_UNKNOWN;
+
+                for (int instance_index = 0; instance_index < value_set->numval; ++instance_index) {
+                    id.instance = value_set->vlist[instance_index].inst;
+#ifndef PCP_CPP_NO_ID_VALIDITY_CHECKS
+                    const metric_description &description =
+                        supported_metrics.at(id.cluster).at(id.item);
+                    id.type = description.type;
+
+                    validate_instance(description, id.instance);
+
+                    if (!description.flags & pcp::storable_metric) {
+                        // Metric does not support storing values.
+                        throw pcp::exception(PM_ERR_PERMISSION);
+                    }
+#endif
+                    if (value_set->valfmt == PM_VAL_INSITU) {
+                        store_value(id, value_set->vlist[instance_index].value.lval);
+                    } else {
+                        store_value(id, value_set->vlist[instance_index].value.pval);
+                    }
+                    return 0; // >= 0 implies success.
+                }
+            }
+        } catch (const pcp::exception &ex) {
+            if (ex.error_code() != PMDA_FETCH_NOVALUES) {
+                __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            }
+            return ex.error_code();
+        } catch (const std::out_of_range &ex) {
+            __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
+            return PM_ERR_PMID; // Unknown or illegal metric identifier.
+        } catch (const std::exception &ex) {
+            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            return PM_ERR_GENERIC;
+        } catch (...) {
+            __pmNotifyErr(LOG_ERR, "unknown exception in on_fetch_callback");
+            return PM_ERR_GENERIC;
+        }
+        return pmdaStore(result, pmda); // Just returns PM_ERR_PERMISSION.
     }
 
     /// @brief Return the help text for the metric.
@@ -885,6 +932,26 @@ private:
             indom.it_set[index].i_name = const_cast<char *>(iter->second.c_str());
         }
         return indom;
+    }
+
+    static inline void validate_instance(const metric_description &description,
+                                         const unsigned int instance)
+    {
+#ifndef PCP_CPP_NO_ID_VALIDITY_CHECKS
+        if (instance != PM_INDOM_NULL) {
+            if (description.domain == NULL) {
+                // Instance provided, but non required.
+                throw pcp::exception(PM_ERR_INDOM);
+            }
+            if (description.domain->count(instance) <= 0) {
+                // Instance provided, but not one we've registered.
+                throw pcp::exception(PM_ERR_INST);
+            }
+        } else if (description.domain != NULL) {
+            // Instance required, but none provided.
+            throw pcp::exception(PM_ERR_INDOM);
+        }
+#endif
     }
 
     /*

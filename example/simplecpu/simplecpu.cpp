@@ -78,7 +78,7 @@ protected:
         load_cpu_ticks();
     }
 
-    virtual fetch_value_result fetch_value(const metric_id &metric) const
+    virtual fetch_value_result fetch_value(const metric_id &metric)
     {
 
         return pcp::atom<uint64_t>(

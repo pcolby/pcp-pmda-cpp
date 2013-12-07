@@ -40,6 +40,10 @@ public:
         // Define the color and now instance domains.
         color_domain(0)(0, "red")(1, "green")(2, "blue");
         now_domain(1);
+
+        rgb[0] = 0;
+        rgb[1] = 100;
+        rgb[2] = 200;
     }
 
     virtual std::string get_pmda_name() const
@@ -56,6 +60,7 @@ protected:
     pcp::instance_domain color_domain;
     pcp::instance_domain now_domain;
     uint32_t numfetch;
+    uint8_t rgb[3];
 
     virtual pcp::metrics_description get_supported_metrics()
     {
@@ -67,9 +72,9 @@ protected:
         return pcp::metrics_description()
         (0)
             (0, "numfetch",pcp::type<uint32_t>(), PM_SEM_INSTANT,
-             pcp::units(0,0,0, 0,0,0))
+             pcp::units(0,0,0, 0,0,0), pcp::storable_metric)
             (1, "color",pcp::type<int32_t>(), PM_SEM_INSTANT,
-             pcp::units(0,0,0, 0,0,0), &color_domain)
+             pcp::units(0,0,0, 0,0,0), &color_domain, pcp::storable_metric)
         (1, "time")
             (2, "user",pcp::type<double>(), PM_SEM_COUNTER,
              pcp::units(0,1,0, 0,PM_TIME_SEC,0))
@@ -85,7 +90,7 @@ protected:
         numfetch++;
     }
 
-    virtual fetch_value_result fetch_value(const metric_id &metric) const
+    virtual fetch_value_result fetch_value(const metric_id &metric)
     {
         // simple.time.user   SIMPLE:1:2
         // simple.time.sys    SIMPLE:1:3
@@ -118,7 +123,6 @@ protected:
         }
 
         // simple.color       SIMPLE:0:1
-        static int32_t rgb[] = { 0, 100, 200 };
         rgb[metric.instance] = (rgb[metric.instance] + 1) % 256;
         return pcp::atom(metric.type, rgb[metric.instance]);
 
@@ -158,10 +162,22 @@ protected:
         throw pcp::exception(PM_ERR_INST);
     }
 
-    virtual int on_store(pmResult *result, pmdaExt *pmda)
+    virtual void store_value(const metric_id &metric, const int &value)
     {
-        /// @todo Import from simple.c
-        return PM_ERR_PERMISSION;
+        // simple.numfetch    SIMPLE:0:0
+        if (metric.item == 0) {
+            numfetch = value;
+            return;
+        }
+
+        // simple.color       SIMPLE:0:1
+        if (value < 0) {
+            throw pcp::exception(PM_ERR_SIGN);
+        }
+        if (value > 255) {
+            throw pcp::exception(PM_ERR_CONV);
+        }
+        rgb[metric.instance] = value;
     }
 
 private:

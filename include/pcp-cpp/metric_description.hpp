@@ -18,6 +18,17 @@ namespace pcp {
 
 class instance_domain;
 
+enum metric_flags {
+    storable_metric = 0x1
+};
+
+inline metric_flags operator|(metric_flags a, metric_flags b)
+{
+    return static_cast<metric_flags>(
+        static_cast<int>(a) | static_cast<int>(b)
+    );
+}
+
 struct metric_description {
     std::string metric_name;
     atom_type_type type;
@@ -27,6 +38,7 @@ struct metric_description {
     std::string short_description;
     std::string verbose_description;
     void * const opaque;
+    metric_flags flags;
 
     metric_description(const std::string &metric_name,
                        const atom_type_type type,
@@ -35,7 +47,8 @@ struct metric_description {
                        instance_domain * const domain = NULL,
                        const std::string &short_description = std::string(),
                        const std::string &verbose_description = std::string(),
-                       void * const opaque = NULL)
+                       void * const opaque = NULL,
+                       const metric_flags flags = static_cast<metric_flags>(0))
         : metric_name(metric_name),
           type(type),
           semantic(semantic),
@@ -43,7 +56,8 @@ struct metric_description {
           domain(domain),
           short_description(short_description),
           verbose_description(verbose_description),
-          opaque(opaque)
+          opaque(opaque),
+          flags(flags)
     {
 
     }
@@ -87,13 +101,46 @@ public:
                                const atom_type_type type,
                                const semantic_type semantic,
                                const pmUnits units,
+                               const metric_flags flags = static_cast<metric_flags>(0),
                                instance_domain * const domain = NULL,
                                const std::string &short_description = std::string(),
                                const std::string &verbose_description = std::string(),
                                void * const opaque = NULL)
     {
         insert(value_type(item_id, metric_description(metric_name, type, semantic,
-            units, domain, short_description, verbose_description, opaque)));
+            units, domain, short_description, verbose_description, opaque, flags)));
+        return *this;
+    }
+
+    metric_cluster& operator()(const item_id_type item_id,
+                               const std::string &metric_name,
+                               const atom_type_type type,
+                               const semantic_type semantic,
+                               const pmUnits units,
+                               instance_domain * const domain,
+                               const metric_flags flags = static_cast<metric_flags>(0),
+                               const std::string &short_description = std::string(),
+                               const std::string &verbose_description = std::string(),
+                               void * const opaque = NULL)
+    {
+        insert(value_type(item_id, metric_description(metric_name, type, semantic,
+            units, domain, short_description, verbose_description, opaque, flags)));
+        return *this;
+    }
+
+    metric_cluster& operator()(const item_id_type item_id,
+                               const std::string &metric_name,
+                               const atom_type_type type,
+                               const semantic_type semantic,
+                               const pmUnits units,
+                               instance_domain * const domain = NULL,
+                               const std::string &short_description = std::string(),
+                               const std::string &verbose_description = std::string(),
+                               void * const opaque = NULL,
+                               const metric_flags flags = static_cast<metric_flags>(0))
+    {
+        insert(value_type(item_id, metric_description(metric_name, type, semantic,
+            units, domain, short_description, verbose_description, opaque, flags)));
         return *this;
     }
 
@@ -118,6 +165,7 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
                                         const atom_type_type type,
                                         const semantic_type semantic,
                                         const pmUnits units,
+                                        const metric_flags flags,
                                         instance_domain * const domain = NULL,
                                         const std::string &short_description = std::string(),
                                         const std::string &verbose_description = std::string(),
@@ -126,7 +174,43 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
             assert(most_recent_cluster != end());
             most_recent_cluster->second(item_id, metric_name, type, semantic,
                                         units, domain, short_description,
-                                        verbose_description, opaque);
+                                        verbose_description, opaque, flags);
+            return *this;
+        }
+
+        metrics_description& operator()(const item_id_type item_id,
+                                        const std::string &metric_name,
+                                        const atom_type_type type,
+                                        const semantic_type semantic,
+                                        const pmUnits units,
+                                        instance_domain * const domain,
+                                        const metric_flags flags,
+                                        const std::string &short_description = std::string(),
+                                        const std::string &verbose_description = std::string(),
+                                        void * const opaque = NULL)
+        {
+            assert(most_recent_cluster != end());
+            most_recent_cluster->second(item_id, metric_name, type, semantic,
+                                        units, domain, short_description,
+                                        verbose_description, opaque, flags);
+            return *this;
+        }
+
+        metrics_description& operator()(const item_id_type item_id,
+                                        const std::string &metric_name,
+                                        const atom_type_type type,
+                                        const semantic_type semantic,
+                                        const pmUnits units,
+                                        instance_domain * const domain = NULL,
+                                        const std::string &short_description = std::string(),
+                                        const std::string &verbose_description = std::string(),
+                                        void * const opaque = NULL,
+                                        const metric_flags flags = static_cast<metric_flags>(0))
+        {
+            assert(most_recent_cluster != end());
+            most_recent_cluster->second(item_id, metric_name, type, semantic,
+                                        units, domain, short_description,
+                                        verbose_description, opaque, flags);
             return *this;
         }
 
