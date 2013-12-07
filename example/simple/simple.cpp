@@ -234,43 +234,45 @@ private:
         static const std::string config_filename =
             pmGetConfig("PCP_PMDAS_DIR") + sep + "simple" + sep + "simple.conf";
 
-        FILE *fp;
-        if ((fp = fopen(config_filename.c_str(), "r")) == NULL) {
-            __pmNotifyErr(LOG_ERR, "fopen on %s failed: %s\n",
-                          config_filename.c_str(), pmErrStr(-oserror()));
+        std::ifstream file(config_filename.c_str());
+        if (!file.is_open()) {
+            __pmNotifyErr(LOG_ERR, "failed to open %s", config_filename.c_str());
             return;
         }
 
-        char *p, *q;
-        char buf[256];
-        if ((p = fgets(&buf[0], sizeof(buf), fp)) == NULL) {
-            __pmNotifyErr(LOG_ERR, "fgets on %s found no data\n", config_filename.c_str());
-            fclose(fp);
+        std::string line;
+        if (!std::getline(file, line)) {
+            __pmNotifyErr(LOG_ERR, "failed to read from %s", config_filename.c_str());
             return;
         }
-        if ((q = strchr(p, '\n')) != NULL)
-            *q = '\0';      /* remove eol character */
 
-        q = strtok(p, ",");     /* and refresh using the updated file */
-        while (q != NULL) {
-            static size_t num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
-            size_t index;
-            for (index = 0; index < num_timeslices; ++index) {
-                if (strcmp(timeslices[index].tm_name, q) == 0) {
-                    const int sts = pmdaCacheStore(now_domain, PMDA_CACHE_ADD, q, &timeslices[index]);
-                    if (sts < 0) {
-                        __pmNotifyErr(LOG_ERR, "pmdaCacheStore failed: %s", pmErrStr(sts));
-                        fclose(fp);
-                        return;
+        for (std::string::size_type start = 0, end = line.find(',');
+             start != std::string::npos;
+             start = (end == std::string::npos) ? end : end+1,
+             end = (end == std::string::npos) ? end : line.find(',', end+1))
+        {
+            const std::string name = line.substr(start, end - start);
+            if (!name.empty()) {
+                __pmNotifyErr(LOG_INFO, "%zu %zu '%s'", start, end, name.c_str());
+                static size_t num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
+                size_t index;
+                for (index = 0; index < num_timeslices; ++index) {
+                    if (name == timeslices[index].tm_name) {
+                        const int sts = pmdaCacheStore(now_domain, PMDA_CACHE_ADD,
+                                                       name.c_str() , &timeslices[index]);
+                        if (sts < 0) {
+                            __pmNotifyErr(LOG_ERR, "pmdaCacheStore failed: %s", pmErrStr(sts));
+                            return;
+                        }
+                        now_domain(sts, name);
+                        break;
                     }
-                    now_domain(sts, q);
-                    break;
+                }
+                if (index == num_timeslices) {
+                    __pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s",
+                                  name.c_str(), config_filename.c_str());
                 }
             }
-            if (index == num_timeslices) {
-                __pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s", q, config_filename.c_str());
-            }
-            q = strtok(NULL, ",");
         }
 #ifdef DESPERATE
         __pmdaCacheDump(stderr, now_domain, 1);
@@ -278,7 +280,6 @@ private:
         if (pmdaCacheOp(now_domain, PMDA_CACHE_SIZE_ACTIVE) < 1) {
             __pmNotifyErr(LOG_WARNING, "\"timenow\" instance domain is empty");
         }
-        fclose(fp);
     }
 
     void timenow_refresh()
