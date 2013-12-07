@@ -32,7 +32,6 @@ returns the current time:
 
 ```c++
 #include <pcp-cpp/atom.hpp>
-#include <pcp-cpp/instance_domain.hpp>
 #include <pcp-cpp/pmda.hpp>
 #include <pcp-cpp/units.hpp>
 
@@ -81,8 +80,8 @@ Take a look at the project [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
 
 ## License
 
-PMDA++ code is available under the open source [Boost Software
-License](http://www.boost.org/users/license.html).
+PMDA++ code is available under the [OSI-approved](http://opensource.org/licenses/BSL-1.0)
+[Boost Software License](http://www.boost.org/users/license.html).
 
 PMDA++ relies on [PCP](http://oss.sgi.com/projects/pcp/)
 libraries (`libpcp` and `libpcp_pmda`), which are available under LGPL v2.1.
