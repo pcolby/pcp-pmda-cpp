@@ -253,7 +253,6 @@ private:
         {
             const std::string name = line.substr(start, end - start);
             if (!name.empty()) {
-                __pmNotifyErr(LOG_INFO, "%zu %zu '%s'", start, end, name.c_str());
                 static size_t num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
                 size_t index;
                 for (index = 0; index < num_timeslices; ++index) {
