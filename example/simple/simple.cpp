@@ -113,7 +113,7 @@ protected:
             int sts;
             if ((sts = pmdaCacheLookup(now_domain, metric.instance, NULL, &tsp)) != PMDA_CACHE_ACTIVE) {
                 if (sts < 0)
-                     __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
+                    __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
                 throw pcp::exception(PM_ERR_INST);
             }
             return pcp::atom(metric.type, static_cast<timeslice *>(tsp)->tm_field);
@@ -155,7 +155,7 @@ protected:
             int sts;
             if ((sts = pmdaCacheLookup(now_domain, metric.instance, NULL, &tsp)) != PMDA_CACHE_ACTIVE) {
                 if (sts < 0)
-                     __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
+                    __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
                 throw pcp::exception(PM_ERR_INST);
             }
             return pcp::atom(metric.type, static_cast<timeslice *>(tsp)->tm_field);
@@ -193,25 +193,25 @@ private:
 
         /* stat the file & check modification time has changed */
         snprintf(mypath, sizeof(mypath), "%s%c" "simple" "%c" "simple.conf",
-            pmGetConfig("PCP_PMDAS_DIR"), sep, sep);
+                 pmGetConfig("PCP_PMDAS_DIR"), sep, sep);
         if (stat(const_cast<const char *>(mypath), &statbuf) == -1) {
             if (oserror() != last_error) {
                 last_error = oserror();
                 __pmNotifyErr(LOG_ERR, "stat failed on %s: %s\n",
-                      mypath, pmErrStr(-last_error));
+                              mypath, pmErrStr(-last_error));
             }
             timenow_clear();
         } else {
             last_error = 0;
-            #if defined(HAVE_ST_MTIME_WITH_E)
+#if defined(HAVE_ST_MTIME_WITH_E)
             if (statbuf.st_mtime != file_change.st_mtime) {
-            #elif defined(HAVE_ST_MTIME_WITH_SPEC)
+#elif defined(HAVE_ST_MTIME_WITH_SPEC)
             if (statbuf.st_mtimespec.tv_sec != file_change.st_mtimespec.tv_sec ||
-                statbuf.st_mtimespec.tv_nsec != file_change.st_mtimespec.tv_nsec) {
-            #else
+                    statbuf.st_mtimespec.tv_nsec != file_change.st_mtimespec.tv_nsec) {
+#else
             if (statbuf.st_mtim.tv_sec != file_change.st_mtim.tv_sec ||
-                statbuf.st_mtim.tv_nsec != file_change.st_mtim.tv_nsec) {
-            #endif
+                    statbuf.st_mtim.tv_nsec != file_change.st_mtim.tv_nsec) {
+#endif
                 timenow_clear();
                 timenow_init();
                 file_change = statbuf;
@@ -224,11 +224,11 @@ private:
         const int sts = pmdaCacheOp(now_domain, PMDA_CACHE_INACTIVE);
         if (sts < 0) {
             __pmNotifyErr(LOG_ERR, "pmdaCacheOp(INACTIVE) failed: indom=%s: %s",
-                                   pmInDomStr(now_domain), pmErrStr(sts));
+                          pmInDomStr(now_domain), pmErrStr(sts));
         }
-        #ifdef DESPERATE
+#ifdef DESPERATE
         __pmdaCacheDump(stderr, now_domain, 1);
-        #endif
+#endif
     }
 
     void timenow_init()
@@ -242,43 +242,43 @@ private:
         char mypath[MAXPATHLEN];
 
         snprintf(mypath, sizeof(mypath), "%s%c" "simple" "%c" "simple.conf",
-            pmGetConfig("PCP_PMDAS_DIR"), sep, sep);
+                 pmGetConfig("PCP_PMDAS_DIR"), sep, sep);
         if ((fp = fopen(mypath, "r")) == NULL) {
-        __pmNotifyErr(LOG_ERR, "fopen on %s failed: %s\n",
-                  mypath, pmErrStr(-oserror()));
-        return;
+            __pmNotifyErr(LOG_ERR, "fopen on %s failed: %s\n",
+                          mypath, pmErrStr(-oserror()));
+            return;
         }
         if ((p = fgets(&buf[0], sizeof(buf), fp)) == NULL) {
-        __pmNotifyErr(LOG_ERR, "fgets on %s found no data\n", mypath);
-        fclose(fp);
-        return;
+            __pmNotifyErr(LOG_ERR, "fgets on %s found no data\n", mypath);
+            fclose(fp);
+            return;
         }
         if ((q = strchr(p, '\n')) != NULL)
-        *q = '\0';      /* remove eol character */
+            *q = '\0';      /* remove eol character */
 
         q = strtok(p, ",");     /* and refresh using the updated file */
         while (q != NULL) {
-        for (i = 0; i < num_timeslices; i++) {
-            if (strcmp(timeslices[i].tm_name, q) == 0) {
-            sts = pmdaCacheStore(now_domain, PMDA_CACHE_ADD, q, &timeslices[i]);
-            if (sts < 0) {
-                __pmNotifyErr(LOG_ERR, "pmdaCacheStore failed: %s", pmErrStr(sts));
-                fclose(fp);
-                return;
+            for (i = 0; i < num_timeslices; i++) {
+                if (strcmp(timeslices[i].tm_name, q) == 0) {
+                    sts = pmdaCacheStore(now_domain, PMDA_CACHE_ADD, q, &timeslices[i]);
+                    if (sts < 0) {
+                        __pmNotifyErr(LOG_ERR, "pmdaCacheStore failed: %s", pmErrStr(sts));
+                        fclose(fp);
+                        return;
+                    }
+                    now_domain(sts, q);
+                    break;
+                }
             }
-            now_domain(sts, q);
-            break;
-            }
+            if (i == num_timeslices)
+                __pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s", q, mypath);
+            q = strtok(NULL, ",");
         }
-        if (i == num_timeslices)
-            __pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s", q, mypath);
-        q = strtok(NULL, ",");
-        }
-    #ifdef DESPERATE
+#ifdef DESPERATE
         __pmdaCacheDump(stderr, now_domain, 1);
-    #endif
+#endif
         if (pmdaCacheOp(now_domain, PMDA_CACHE_SIZE_ACTIVE) < 1)
-        __pmNotifyErr(LOG_WARNING, "\"timenow\" instance domain is empty");
+            __pmNotifyErr(LOG_WARNING, "\"timenow\" instance domain is empty");
         fclose(fp);
     }
 
