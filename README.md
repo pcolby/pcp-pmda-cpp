@@ -85,7 +85,7 @@ There are lots of way you can contribute, including (but not limited to):
 bugs, portability issues, and the like.
 * reviewing the API, suggesting improvments such as more intuitive naming and
 future-proofing.
-* indentifying violations of the project's desired conventions.
+* indentifying violations of the project's desired [conventions](https://github.com/pcolby/pcp-pmda-cpp/wiki/conventions).
 * writing your own PMDA using PMDA++ to test it against real world examples.
 * improving the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki) documentation.
 
