@@ -88,6 +88,8 @@ protected:
     virtual void begin_fetch_values()
     {
         numfetch++;
+        timenow_check();
+        timenow_refresh();
     }
 
     virtual fetch_value_result fetch_value(const metric_id &metric)
@@ -264,6 +266,7 @@ private:
                 fclose(fp);
                 return;
             }
+            now_domain(sts, q);
             break;
             }
         }
