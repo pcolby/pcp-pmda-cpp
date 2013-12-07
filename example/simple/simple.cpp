@@ -185,23 +185,22 @@ protected:
 private:
     void timenow_check()
     {
-        struct stat     statbuf;
-        static int      last_error = 0;
-        int         sep = __pmPathSeparator();
-        char mypath[MAXPATHLEN];
-        static struct stat file_change; ///< Time of last configuration change.
+        static const std::string sep(1, __pmPathSeparator());
+        static const std::string config_filename =
+            pmGetConfig("PCP_PMDAS_DIR") + sep + "simple" + sep + "simple.conf";
+        static int last_error = 0;
 
         /* stat the file & check modification time has changed */
-        snprintf(mypath, sizeof(mypath), "%s%c" "simple" "%c" "simple.conf",
-                 pmGetConfig("PCP_PMDAS_DIR"), sep, sep);
-        if (stat(const_cast<const char *>(mypath), &statbuf) == -1) {
+        struct stat statbuf;
+        if (stat(config_filename.c_str(), &statbuf) == -1) {
             if (oserror() != last_error) {
                 last_error = oserror();
                 __pmNotifyErr(LOG_ERR, "stat failed on %s: %s\n",
-                              mypath, pmErrStr(-last_error));
+                              config_filename.c_str(), pmErrStr(-last_error));
             }
             timenow_clear();
         } else {
+            static struct stat file_change; ///< Time of last configuration change.
             last_error = 0;
 #if defined(HAVE_ST_MTIME_WITH_E)
             if (statbuf.st_mtime != file_change.st_mtime) {
