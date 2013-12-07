@@ -27,83 +27,53 @@ PCP includes support for writing PMDAs in C, Perl and Python.  PMDA++ is a
 header-only library that allows developers to write PMDAs in C++.  It is a
 light C++ wrapper around PCP's C APIs.
 
-### Writing a basic PMDA with PMDA++
+Here is a complete, albeit very basic, PMDA written using PMDA++ that simply
+returns the current time:
 
-Note, this section assumes that you are already familiar with basic PMDA
-concepts. If you have not already done so, you should read the [Performance
-Co-Pilot Programmer's
-Guide](http://oss.sgi.com/projects/pcp/doc/pcp-programmers-guide.pdf).
-
-To write a basic PMDA using PMDA++:
-
-1. Create a new class derived from `pcp::pmda`.
 ```c++
+#include <pcp-cpp/atom.hpp>
+#include <pcp-cpp/instance_domain.hpp>
 #include <pcp-cpp/pmda.hpp>
+#include <pcp-cpp/units.hpp>
 
-class basic_pmda : public pcp::pmda {
+class trivial : public pcp::pmda {
 
-}
-```
-2. Implement the pure-virtual `get_pmda_name` and `default_pmda_domain_number`
-functions:
-```c++
-#include <pcp-cpp/pmda.hpp>
-
-class basic_pmda : public pcp::pmda {
 public:
 
     virtual std::string get_pmda_name() const
     {
-        return "basic";
+        return "trivial";
     }
 
     virtual int default_pmda_domain_number() const
     {
-        return 456;
+        return 250;
     }
-}
-```
-3. Implement the pure-virtual `get_supported_metrics` function to declare the
-metrics this PMDA makes available:
-```c++
+
+protected:
+
     virtual pcp::metrics_description get_supported_metrics()
     {
-        // A single "basic.time" metric, with cluster ID 123 and item ID 456.
-        return pcp::metrics_description()(123)
-            (456, "time", pcp::type<uint32_t>(), PM_SEM_COUNTER,
+        // trivial.time aka TRIVIAL:0:0.
+        return pcp::metrics_description()(0)
+            (0, "time",pcp::type<uint32_t>(), PM_SEM_COUNTER,
              pcp::units(0,1,0, 0,PM_TIME_SEC,0));
     }
-```
-4. Implement the pure-virtual `fetch_value` function to fetch actual metric
-value(s):
-```c++
-    virtual fetch_value_result fetch_value(const pcp::pmda::metric_id &metric)
-    {
-        // Return the current time.
-        return pcp::atom(metric.type, time(NULL));
-    }
-```
-5. Add either a DSO or daemon entry-point function, or both:
-```c++
-// DSO entry point.
-extern "C" void basic_init(pmdaInterface *interface)
-{
-    pcp::pmda::init_dso<basic_pmda>(interface);
-}
 
-// Daemon entry point.
+    virtual fetch_value_result fetch_value(const metric_id &metric)
+    {
+        return pcp::atom(metric.type,time(NULL));
+    }
+
+};
+
 int main(int argc, char *argv[])
 {
-    return pcp::pmda::run_daemon<basic_pmda>(argc, argv);
+    return pcp::pmda::run_daemon<trivial>(argc, argv);
 }
 ```
 
-And that's it! There's a lot of other virtual functions that may be overridden
-to customize / extend the PMDA's behaviour. See the [Reference](wiki#reference) section below.
-
-For complete, albeit contrived, examples take a look at
-[trivial.cpp](blob/master/example/trivial/trivial.cpp) and
-[simple.cpp](blob/master/example/simple/simple.cpp).
+Compare that to PCP's official [simple.c](http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/trivial/trivial.c) example.
 
 ## Find out more
 
