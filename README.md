@@ -87,6 +87,7 @@ bugs, portability issues, and the like.
 future-proofing.
 * indentifying violations of the project's desired conventions.
 * writing your own PMDA using PMDA++ to test it against real world examples.
+* improving the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki) documentation.
 
 Issues can be reported via [GitHub](https://github.com/pcolby/pcp-pmda-cpp/issues).
 Pull requests are very welcome.
