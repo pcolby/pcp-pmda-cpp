@@ -14,9 +14,6 @@
  */
 
 #include <pcp-cpp/atom.hpp>
-#include <pcp-cpp/exception.hpp>
-#include <pcp-cpp/instance_domain.hpp>
-#include <pcp-cpp/metric_description.hpp>
 #include <pcp-cpp/pmda.hpp>
 #include <pcp-cpp/units.hpp>
 
