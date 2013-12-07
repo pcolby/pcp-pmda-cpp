@@ -78,6 +78,21 @@ Compare that to PCP's official [simple.c](http://oss.sgi.com/cgi-bin/gitweb.cgi?
 
 Take a look at the project [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
 
+## Contributing
+
+There are lots of way you can contribute, including (but not limited to):
+* reviewing the code itself (its only 1K ~ 2K lines), looking for issues such as
+bugs, portability issues, and the like.
+* reviewing the API, suggesting improvments such as more intuitive naming and
+future-proofing.
+* indentifying violations of the project's desired conventions.
+* writing your own PMDA using PMDA++ to test it against real world examples.
+
+Issues can be reported via [GitHub](https://github.com/pcolby/pcp-pmda-cpp/issues).
+Pull requests are very welcome.
+
+Mailing list coming soon.
+
 ## License
 
 PMDA++ code is available under the [OSI-approved](http://opensource.org/licenses/BSL-1.0)
