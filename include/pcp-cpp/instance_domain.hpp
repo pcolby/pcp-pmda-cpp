@@ -41,6 +41,7 @@ public:
     instance_domain& operator()(const domain_id_type domain_id)
     {
         set_domain_id(domain_id);
+        set_pm_instance_domain(PM_INDOM_NULL);
         return *this;
     }
 
