@@ -89,8 +89,9 @@ future-proofing.
 * writing your own PMDA using PMDA++ to test it against real world examples.
 * improving the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki) documentation.
 
-Issues / suggestions can be reported via [GitHub](https://github.com/pcolby/pcp-pmda-cpp/issues).
-Pull requests are very welcome.
+Issues / suggestions can be reported via GitHub's [issue
+tracker](https://github.com/pcolby/pcp-pmda-cpp/issues). Pull requests are very
+welcome.
 
 Mailing list coming soon.
 
