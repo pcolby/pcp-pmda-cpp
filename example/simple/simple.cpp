@@ -30,8 +30,6 @@ static struct timeslice {
     { 0, 1, "sec" }, { 0, 60, "min" }, { 0, 3600, "hour" }
 };
 
-static int num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
-
 class simple : public pcp::pmda {
 
 public:
@@ -232,23 +230,21 @@ private:
 
     void timenow_init()
     {
-        int     i;
-        int     sts;
-        int     sep = __pmPathSeparator();
-        FILE    *fp;
-        char    *p, *q;
-        char    buf[256];
-        char mypath[MAXPATHLEN];
+        static const std::string sep(1, __pmPathSeparator());
+        static const std::string config_filename =
+            pmGetConfig("PCP_PMDAS_DIR") + sep + "simple" + sep + "simple.conf";
 
-        snprintf(mypath, sizeof(mypath), "%s%c" "simple" "%c" "simple.conf",
-                 pmGetConfig("PCP_PMDAS_DIR"), sep, sep);
-        if ((fp = fopen(mypath, "r")) == NULL) {
+        FILE *fp;
+        if ((fp = fopen(config_filename.c_str(), "r")) == NULL) {
             __pmNotifyErr(LOG_ERR, "fopen on %s failed: %s\n",
-                          mypath, pmErrStr(-oserror()));
+                          config_filename.c_str(), pmErrStr(-oserror()));
             return;
         }
+
+        char *p, *q;
+        char buf[256];
         if ((p = fgets(&buf[0], sizeof(buf), fp)) == NULL) {
-            __pmNotifyErr(LOG_ERR, "fgets on %s found no data\n", mypath);
+            __pmNotifyErr(LOG_ERR, "fgets on %s found no data\n", config_filename.c_str());
             fclose(fp);
             return;
         }
@@ -257,9 +253,11 @@ private:
 
         q = strtok(p, ",");     /* and refresh using the updated file */
         while (q != NULL) {
-            for (i = 0; i < num_timeslices; i++) {
-                if (strcmp(timeslices[i].tm_name, q) == 0) {
-                    sts = pmdaCacheStore(now_domain, PMDA_CACHE_ADD, q, &timeslices[i]);
+            static size_t num_timeslices = sizeof(timeslices)/sizeof(timeslices[0]);
+            size_t index;
+            for (index = 0; index < num_timeslices; ++index) {
+                if (strcmp(timeslices[index].tm_name, q) == 0) {
+                    const int sts = pmdaCacheStore(now_domain, PMDA_CACHE_ADD, q, &timeslices[index]);
                     if (sts < 0) {
                         __pmNotifyErr(LOG_ERR, "pmdaCacheStore failed: %s", pmErrStr(sts));
                         fclose(fp);
@@ -269,15 +267,17 @@ private:
                     break;
                 }
             }
-            if (i == num_timeslices)
-                __pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s", q, mypath);
+            if (index == num_timeslices) {
+                __pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s", q, config_filename.c_str());
+            }
             q = strtok(NULL, ",");
         }
 #ifdef DESPERATE
         __pmdaCacheDump(stderr, now_domain, 1);
 #endif
-        if (pmdaCacheOp(now_domain, PMDA_CACHE_SIZE_ACTIVE) < 1)
+        if (pmdaCacheOp(now_domain, PMDA_CACHE_SIZE_ACTIVE) < 1) {
             __pmNotifyErr(LOG_WARNING, "\"timenow\" instance domain is empty");
+        }
         fclose(fp);
     }
 
