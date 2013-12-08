@@ -9,7 +9,7 @@
 
 echo
 if [ $# -ne 5 ]; then
-  echo -e "Usage: `basename $0` pmda_name metric_name stime|utime period duration_seconds\n"
+  echo "Usage: `basename $0` pmda_name metric_name stime|utime period duration_seconds\n"
   echo 'Examples:'
   echo "  `basename $0` simple simple.now utime 0.5s 5"
   echo "  `basename $0` trivial trivial.time stime 0.001s 10"
