@@ -74,6 +74,12 @@ int main(int argc, char *argv[])
 
 Compare that to PCP's official [simple.c](http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/trivial/trivial.c) example.
 
+## Benchmarks
+
+See [Benchmarks](../../wiki/Benchmarks).
+
+[![simple numfetch](https://f.cloud.github.com/assets/5195222/1700167/56531708-5ff7-11e3-8baf-80d1f3c72234.png)](../../wiki/Benchmarks)
+
 ## Find out more
 
 Take a look at the project [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
