@@ -93,7 +93,7 @@ Issues / suggestions can be reported via GitHub's [issue
 tracker](https://github.com/pcolby/pcp-pmda-cpp/issues). Pull requests are very
 welcome.
 
-The [PMDA++ Google Group](https://groups.google.com/forum/#!forum/pcp-pmda-cpp)
+The [PMDA++ Google Group](http://groups.google.com/group/pcp-pmda-cpp/)
 is used for general discussion, questions, comments, suggestions, announcements
 etc.  Email pcp-pmda-cpp+subscribe@googlegroups.com to subscribe.
 
