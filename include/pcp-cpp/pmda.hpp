@@ -33,8 +33,8 @@ public:
     static void init_dso(pmdaInterface * const interface)
     {
         try {
-            setInstance(new Agent);
-            getInstance()->initialize_pmda(*interface);
+            set_instance(new Agent);
+            get_instance()->initialize_pmda(*interface);
         } catch (const std::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
         }
@@ -44,14 +44,14 @@ public:
     static int run_daemon(const int argc, char * const argv[])
     {
         try {
-            setInstance(new Agent);
-            getInstance()->run_daemon(argc, argv);
+            set_instance(new Agent);
+            get_instance()->run_daemon(argc, argv);
         } catch (const std::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
-            delete setInstance(NULL);
+            delete set_instance(NULL);
             return EXIT_FAILURE;
         }
-        delete setInstance(NULL);
+        delete set_instance(NULL);
         return EXIT_SUCCESS;
     }
 
@@ -84,11 +84,11 @@ protected:
         }
     }
 
-    static pmda * getInstance() {
+    static pmda * get_instance() {
         return instance;
     }
 
-    static pmda * setInstance(pmda * const new_instance) {
+    static pmda * set_instance(pmda * const new_instance) {
         pmda * const old_instance = instance;
         instance = new_instance;
         return old_instance;
@@ -962,62 +962,62 @@ private:
 #if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
     static int callback_attribute(int ctx, int attr, const char *value,int length, pmdaExt *pmda)
     {
-        return getInstance()->on_attribute(ctx, attr, value, length, pmda);
+        return get_instance()->on_attribute(ctx, attr, value, length, pmda);
     }
 #endif
 
 #if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
     static int callback_children(const char *name, int traverse, char ***kids, int **sts, pmdaExt *pmda)
     {
-        return getInstance()->on_children(name, traverse, kids, sts, pmda);
+        return get_instance()->on_children(name, traverse, kids, sts, pmda);
     }
 #endif
 
     static int callback_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)
     {
-        return getInstance()->on_desc(pmid, desc, pmda);
+        return get_instance()->on_desc(pmid, desc, pmda);
     }
 
     static int callback_fetch(int numpmid, pmID *pmidlist, pmResult **resp, pmdaExt *pmda)
     {
-        return getInstance()->on_fetch(numpmid, pmidlist, resp, pmda);
+        return get_instance()->on_fetch(numpmid, pmidlist, resp, pmda);
     }
 
     static int callback_fetch_callback(pmdaMetric *mdesc, unsigned int inst, pmAtomValue *avp)
     {
-        return getInstance()->on_fetch_callback(mdesc, inst, avp);
+        return get_instance()->on_fetch_callback(mdesc, inst, avp);
     }
 
     static int callback_instance(pmInDom indom, int inst, char *name, __pmInResult **result, pmdaExt *pmda)
     {
-        return getInstance()->on_instance(indom, inst, name, result, pmda);
+        return get_instance()->on_instance(indom, inst, name, result, pmda);
     }
 
 #if PCP_CPP_PMDA_INTERFACE_VERSION >= 4
     static int callback_name(pmID pmid, char ***nameset, pmdaExt *pmda)
     {
-        return getInstance()->on_name(pmid, nameset, pmda);
+        return get_instance()->on_name(pmid, nameset, pmda);
     }
 
     static int callback_pmid(const char *name, pmID *pmid, pmdaExt *pmda)
     {
-        return getInstance()->on_pmid(name, pmid, pmda);
+        return get_instance()->on_pmid(name, pmid, pmda);
     }
 #endif
 
     static int callback_profile(__pmProfile *prof, pmdaExt *pmda)
     {
-        return getInstance()->on_profile(prof, pmda);
+        return get_instance()->on_profile(prof, pmda);
     }
 
     static int callback_store(pmResult *result, pmdaExt *pmda)
     {
-        return getInstance()->on_store(result, pmda);
+        return get_instance()->on_store(result, pmda);
     }
 
     static int callback_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
-        return getInstance()->on_text(ident, type, buffer, pmda);
+        return get_instance()->on_text(ident, type, buffer, pmda);
     }
 
 };
