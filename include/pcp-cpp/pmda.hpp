@@ -415,7 +415,7 @@ protected:
         const std::pair<size_t,size_t> counts = count_metrics(supported_metrics);
         const size_t indom_count = counts.second;
         const size_t metric_count = counts.first;
-        pmdaIndom * indom_table = new pmdaIndom [indom_count];
+        pmdaIndom * indom_table = (indom_count == 0) ? NULL : new pmdaIndom [indom_count];
         pmdaMetric * metric_table = new pmdaMetric [metric_count];
 
         std::map<const instance_domain *, pmInDom> instance_domain_ids;
