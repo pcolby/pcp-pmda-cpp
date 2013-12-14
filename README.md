@@ -82,9 +82,11 @@ See [Benchmarks](../../wiki/Benchmarks).
 
 ## Requirements
 
-PMDA++ requires little more than a modern C++ compiler and the PCP client libraries.  Additionaly, PMDA++ can make use of Boost libraries (though not required) to provide some additional functionaliy.
+PMDA++ requires little more than a modern C++ compiler and the PCP client libraries.
 
-See the [requiremetns wiki page](https://github.com/pcolby/pcp-pmda-cpp/wiki/Requirements) for more details.
+Additionaly, PMDA++ can make use of Boost libraries (though not required) to provide some enhanced functionaliy.
+
+See the [requirements wiki page](https://github.com/pcolby/pcp-pmda-cpp/wiki/Requirements) for more details.
 
 ## Find out more
 
