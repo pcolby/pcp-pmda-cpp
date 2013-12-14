@@ -80,6 +80,12 @@ See [Benchmarks](../../wiki/Benchmarks).
 
 [![simple numfetch](https://f.cloud.github.com/assets/5195222/1700167/56531708-5ff7-11e3-8baf-80d1f3c72234.png)](../../wiki/Benchmarks)
 
+## Requirements
+
+PMDA++ requires little more than a modern C++ compiler and the PCP client libraries.  Additionaly, PMDA++ can make use of Boost libraries (though not required) to provide some additional functionaliy.
+
+See the [requiremetns wiki page](https://github.com/pcolby/pcp-pmda-cpp/wiki/Requirements) for more details.
+
 ## Find out more
 
 Take a look at the project [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
