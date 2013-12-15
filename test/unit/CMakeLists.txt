@@ -9,26 +9,6 @@ file(APPEND src/main.cpp "  testing::InitGoogleTest(&argc, argv);\n")
 file(APPEND src/main.cpp "  return RUN_ALL_TESTS();\n")
 file(APPEND src/main.cpp "}\n")
 
-# Create patch file for gtest with MSVC 2012
-if(MSVC_VERSION EQUAL 1700)
-  file(WRITE gtest.patch "Index: cmake/internal_utils.cmake\n")
-  file(APPEND gtest.patch "===================================================================\n")
-  file(APPEND gtest.patch "--- cmake/internal_utils.cmake   (revision 660)\n")
-  file(APPEND gtest.patch "+++ cmake/internal_utils.cmake   (working copy)\n")
-  file(APPEND gtest.patch "@@ -66,6 +66,9 @@\n")
-  file(APPEND gtest.patch "       # Resolved overload was found by argument-dependent lookup.\n")
-  file(APPEND gtest.patch "       set(cxx_base_flags \"\${cxx_base_flags} -wd4675\")\n")
-  file(APPEND gtest.patch "     endif()\n")
-  file(APPEND gtest.patch "+    if (MSVC_VERSION EQUAL 1700)\n")
-  file(APPEND gtest.patch "+      set(cxx_base_flags \"\${cxx_base_flags} -D_VARIADIC_MAX=10\")\n")
-  file(APPEND gtest.patch "+    endif ()\n")
-  file(APPEND gtest.patch "     set(cxx_base_flags \"\${cxx_base_flags} -D_UNICODE -DUNICODE -DWIN32 -D_WIN32\")\n")
-  file(APPEND gtest.patch "     set(cxx_base_flags \"\${cxx_base_flags} -DSTRICT -DWIN32_LEAN_AND_MEAN\")\n")
-  file(APPEND gtest.patch "     set(cxx_exception_flags \"-EHsc -D_HAS_EXCEPTIONS=1\")\n")
-else()
-  file(WRITE gtest.patch "")
-endif()
-
 # Enable ExternalProject CMake module
 include(ExternalProject)
 
@@ -38,15 +18,14 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Set default ExternalProject root directory
-set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/ThirdParty)
+set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/extern)
 
 # Add gtest
 ExternalProject_Add(
     googletest
     SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
-    SVN_REVISION -r 660
+    SVN_REVISION -r 671
     TIMEOUT 10
-    PATCH_COMMAND svn patch ${CMAKE_SOURCE_DIR}/gtest.patch ${CMAKE_BINARY_DIR}/ThirdParty/src/googletest
     # Force separate output paths for debug and release builds to allow easy
     # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
     CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
