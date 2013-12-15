@@ -48,8 +48,7 @@ add_dependencies(test googletest)
 
 # Specify test's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
-if(MSVC)
-else()
+if(NOT MSVC)
     set(pthread "-pthread")
 endif()
 target_link_libraries(
