@@ -6,7 +6,7 @@ include(ExternalProject)
 
 # Set the build type if it isn't already
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
 # Set default ExternalProject root directory
@@ -37,7 +37,7 @@ include_directories(${source_dir}/include)
 
 # Add compiler flag for MSVC 2012
 if(MSVC_VERSION EQUAL 1700)
-  add_definitions(-D_VARIADIC_MAX=10)
+    add_definitions(-D_VARIADIC_MAX=10)
 endif()
 
 # Add test executable target
@@ -49,10 +49,10 @@ add_dependencies(MainTest googletest)
 # Specify MainTest's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
 if(MSVC)
-  set(Suffix ".lib")
+    set(Suffix ".lib")
 else()
-  set(Suffix ".a")
-  set(Pthread "-pthread")
+    set(Suffix ".a")
+    set(Pthread "-pthread")
 endif()
 target_link_libraries(
     MainTest
