@@ -18,7 +18,7 @@ class instance_domain;
 template<typename Type>
 inline pmUnits units(Type a, Type b, Type c, Type d, Type e, Type f)
 {
-    pmUnits units = PMDA_PMUNITS(a,b,c,d,e,f);
+    const pmUnits units = PMDA_PMUNITS(a,b,c,d,e,f);
     return units;
 }
 
