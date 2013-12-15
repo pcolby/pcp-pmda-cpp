@@ -59,3 +59,6 @@ target_link_libraries(
     optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${pthread}
 )
+
+# Add a custom "check" target a la GNU's Standard Targets for Users.
+add_custom_target(check COMMAND test DEPENDS test)
