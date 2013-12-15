@@ -30,7 +30,10 @@ ExternalProject_Add(
 
 # Specify include dir
 ExternalProject_Get_Property(googletest source_dir)
-include_directories(${source_dir}/include)
+include_directories(
+    ${source_dir}/include
+    ${PROJECT_SOURCE_DIR}/../../include
+)
 
 # Add compiler flag for MSVC 2012
 if(MSVC_VERSION EQUAL 1700)
@@ -38,9 +41,12 @@ if(MSVC_VERSION EQUAL 1700)
 endif()
 
 # Add test executable target
+aux_source_directory(${PROJECT_SOURCE_DIR}/../../include pcp_pmda_cpp_sources)
 add_executable(test
+    ${pcp_pmda_cpp_sources}
     ${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/foo.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_units.cpp
 )
 
 # Create dependency of test on googletest
