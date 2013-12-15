@@ -49,16 +49,14 @@ add_dependencies(test googletest)
 # Specify test's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
 if(MSVC)
-    set(Suffix ".lib")
 else()
-    set(Suffix ".a")
-    set(Pthread "-pthread")
+    set(pthread "-pthread")
 endif()
 target_link_libraries(
     test
-    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
-    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${Suffix}
-    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
-    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${Suffix}
-    ${Pthread}
+    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
+    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
+    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
+    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
+    ${pthread}
 )
