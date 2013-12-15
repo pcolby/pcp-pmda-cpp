@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(Test)
+project(Test CXX)
 
 # Enable ExternalProject CMake module
 include(ExternalProject)
@@ -38,15 +38,15 @@ if(MSVC_VERSION EQUAL 1700)
 endif()
 
 # Add test executable target
-add_executable(MainTest
+add_executable(test
     ${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/foo.cpp
 )
 
-# Create dependency of MainTest on googletest
-add_dependencies(MainTest googletest)
+# Create dependency of test on googletest
+add_dependencies(test googletest)
 
-# Specify MainTest's link libraries
+# Specify test's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
 if(MSVC)
     set(Suffix ".lib")
@@ -55,7 +55,7 @@ else()
     set(Pthread "-pthread")
 endif()
 target_link_libraries(
-    MainTest
+    test
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${Suffix}
     optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
