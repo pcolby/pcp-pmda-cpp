@@ -16,7 +16,7 @@ set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/extern)
 ExternalProject_Add(
     googletest
     SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
-    SVN_REVISION -r671
+    UPDATE_COMMAND "" # Don't update the svn checkout every time we build.
     TIMEOUT 10
     CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=debug
