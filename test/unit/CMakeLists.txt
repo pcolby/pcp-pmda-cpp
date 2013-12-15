@@ -41,12 +41,13 @@ if(MSVC_VERSION EQUAL 1700)
 endif()
 
 # Add test executable target
-add_executable(MainTest ${PROJECT_SOURCE_DIR}/src/main.cpp)
-add_executable(foo ${PROJECT_SOURCE_DIR}/src/foo.cpp)
+add_executable(MainTest
+    ${PROJECT_SOURCE_DIR}/src/main.cpp
+    ${PROJECT_SOURCE_DIR}/src/foo.cpp
+)
 
 # Create dependency of MainTest on googletest
 add_dependencies(MainTest googletest)
-add_dependencies(foo googletest)
 
 # Specify MainTest's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
@@ -58,11 +59,6 @@ else()
 endif()
 target_link_libraries(
     MainTest
-    debug ${binary_dir}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
-    optimized ${binary_dir}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
-    ${Pthread})
-target_link_libraries(
-    foo
     debug ${binary_dir}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
     optimized ${binary_dir}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${Suffix}
     ${Pthread})
