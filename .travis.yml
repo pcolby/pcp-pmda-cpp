@@ -1,16 +1,20 @@
 language: cpp
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq libboost-program-options-dev libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
-
 compiler:
   - clang
   - gcc
 
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install -qq libboost-program-options-dev libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
+
+before_script:
+  - mkdir -p test/unit/build
+
 script:
   # Run the unit tests.
-  - mkdir -p test/unit/build
   - pushd test/unit/build
   - cmake .. && make check
   - popd
