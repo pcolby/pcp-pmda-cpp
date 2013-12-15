@@ -9,5 +9,10 @@ compiler:
   - gcc
 
 script:
-  # Just building the examples for now; no real tests to speak of yet.
+  # Run the unit tests.
+  - mkdir -p test/unit/build
+  - pushd test/unit/build
+  - cmake .. && make check
+  - popd
+  # Ensure the examples compile cleanly.
   - make -C example
