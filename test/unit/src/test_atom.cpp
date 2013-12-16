@@ -109,18 +109,26 @@ TEST(atom, pm_type_double) {
 }
 
 TEST(atom, pm_type_string) {
-    // PM_TYPE_DOUBLE should support char pointers.
-    EXPECT_EQ("test",  pcp::atom(PM_TYPE_STRING, const_cast<char *>("test")).cp);
+    EXPECT_EQ("test", pcp::atom(PM_TYPE_STRING, const_cast<char *>("test")).cp);
 }
 
 TEST(atom, pm_type_aggregate) {
-    /// @todo
+    // PM_TYPE_AGGREGATE simply stores pmValueBlock pointers verbatim.
+    pmValueBlock stack_value, * const null_pointer = NULL;
+    EXPECT_EQ(&stack_value, pcp::atom(PM_TYPE_AGGREGATE, &stack_value).vbp);
+    EXPECT_EQ(null_pointer, pcp::atom(PM_TYPE_AGGREGATE, null_pointer).vbp);
 }
 
 TEST(atom, pm_type_aggregate_static) {
-    /// @todo
+    // PM_TYPE_AGGREGATE_STATIC simply stores pmValueBlock pointers verbatim.
+    pmValueBlock stack_value, * const null_pointer = NULL;
+    EXPECT_EQ(&stack_value, pcp::atom(PM_TYPE_AGGREGATE_STATIC, &stack_value).vbp);
+    EXPECT_EQ(null_pointer, pcp::atom(PM_TYPE_AGGREGATE_STATIC, null_pointer).vbp);
 }
 
 TEST(atom, pm_type_aggregate_event) {
-    /// @todo
+    // PM_TYPE_EVENT simply stores pmValueBlock pointers verbatim.
+    pmValueBlock stack_value, * const null_pointer = NULL;
+    EXPECT_EQ(&stack_value, pcp::atom(PM_TYPE_EVENT, &stack_value).vbp);
+    EXPECT_EQ(null_pointer, pcp::atom(PM_TYPE_EVENT, null_pointer).vbp);
 }
