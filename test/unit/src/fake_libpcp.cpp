@@ -22,7 +22,7 @@ char *pmErrStr_r(int code, char *buf, int buflen)
     return buf;
 }
 #else
-char *pmErrStr(int code)
+const char *pmErrStr(int code)
 {
     static char buf[128] = { '\0' };
     const std::string str = boost::lexical_cast<std::string>(code);
