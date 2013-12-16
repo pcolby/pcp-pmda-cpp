@@ -21,25 +21,25 @@ typedef int           instance_id_type; // pmdaInstid::i_inst
 typedef uint_fast16_t item_id_type;     // __pmID_int::item (10-bits)
 typedef uint_fast8_t  semantic_type;    // PM_SEM_* (0 - 4)
 
-template <typename Type> atom_type_type type();
+template <typename Type> inline atom_type_type type();
 
 // Integer types.
-template <> atom_type_type type<int8_t>  () { return PM_TYPE_32; }
-template <> atom_type_type type<int16_t> () { return PM_TYPE_32; }
-template <> atom_type_type type<int32_t> () { return PM_TYPE_32; }
-template <> atom_type_type type<int64_t> () { return PM_TYPE_64; }
-template <> atom_type_type type<uint8_t> () { return PM_TYPE_U32; }
-template <> atom_type_type type<uint16_t>() { return PM_TYPE_U32; }
-template <> atom_type_type type<uint32_t>() { return PM_TYPE_U32; }
-template <> atom_type_type type<uint64_t>() { return PM_TYPE_U64; }
+template <> inline atom_type_type type<int8_t>  () { return PM_TYPE_32; }
+template <> inline atom_type_type type<int16_t> () { return PM_TYPE_32; }
+template <> inline atom_type_type type<int32_t> () { return PM_TYPE_32; }
+template <> inline atom_type_type type<int64_t> () { return PM_TYPE_64; }
+template <> inline atom_type_type type<uint8_t> () { return PM_TYPE_U32; }
+template <> inline atom_type_type type<uint16_t>() { return PM_TYPE_U32; }
+template <> inline atom_type_type type<uint32_t>() { return PM_TYPE_U32; }
+template <> inline atom_type_type type<uint64_t>() { return PM_TYPE_U64; }
 
 // Floating point types.
-template <> atom_type_type type<float> () { return PM_TYPE_FLOAT;  }
-template <> atom_type_type type<double>() { return PM_TYPE_DOUBLE; }
+template <> inline atom_type_type type<float> () { return PM_TYPE_FLOAT;  }
+template <> inline atom_type_type type<double>() { return PM_TYPE_DOUBLE; }
 
 // String types.
-template <> atom_type_type type<char *>      () { return PM_TYPE_STRING; }
-template <> atom_type_type type<std::string> () { return PM_TYPE_STRING; }
+template <> inline atom_type_type type<char *>      () { return PM_TYPE_STRING; }
+template <> inline atom_type_type type<std::string> () { return PM_TYPE_STRING; }
 
 } // pcp namespace.
 
