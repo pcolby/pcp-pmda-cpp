@@ -4,10 +4,8 @@
 
 #include <string>
 
-/**
- * Drop-in pmErrStr_r replacement that always returns the \a code itself as a
- * string. This is helpful for testing only.
- */
+// Drop-in pmErrStr[_r] replacement that always returns the \a code as a string
+#ifdef PM_MAXERRMSGLEN
 char *pmErrStr_r(int code, char *buf, int buflen)
 {
     if (buflen < PM_MAXERRMSGLEN) {
@@ -23,3 +21,13 @@ char *pmErrStr_r(int code, char *buf, int buflen)
     buf[buflen - 1] = '\0';
     return buf;
 }
+#else
+char *pmErrStr(int code)
+{
+    static char buf[128] = { '\0' };
+    const std::string str = boost::lexical_cast<std::string>(code);
+    strncpy(buf, str.c_str(), sizeof(buf));
+    buf[sizeof(buf) - 1] = '\0';
+    return buf;
+}
+#endif
