@@ -44,6 +44,10 @@ endif()
 aux_source_directory(${PROJECT_SOURCE_DIR}/../../include pcp_pmda_cpp_sources)
 add_executable(test
     ${pcp_pmda_cpp_sources}
+    ${PROJECT_SOURCE_DIR}/src/fake_libpcp.cpp
+    ${PROJECT_SOURCE_DIR}/src/fake_libpcp-pmda.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_atom.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_exception.cpp
     ${PROJECT_SOURCE_DIR}/src/test_types.cpp
     ${PROJECT_SOURCE_DIR}/src/test_units.cpp
 )
