@@ -1,4 +1,3 @@
-
 ### Building / Running
 
 To run these unit tests:
@@ -22,5 +21,5 @@ popd
 
 * cmake 2.8+
 * Boost 1.32+
-* PCP development headers
-* Network access to checkout (Google C++ Test Framework)[http://googletest.googlecode.com/svn/trunk/]
+* PCP development headers (actual libraries not required)
+* Network access to checkout [Google C++ Test Framework](http://googletest.googlecode.com/svn/trunk/)
