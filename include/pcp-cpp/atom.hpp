@@ -35,6 +35,11 @@ pmAtomValue atom(const atom_type_type type, ValueType value)
     return atom;
 }
 
+// Note, we do not provide a <const char *> template instantiation, since that
+// would require use to const_cast the value, which is something that caller
+// ought to be very clear about / aware is happening. Hence, if you want to use
+// a const char *, use: `pcp::atom(PM_TYPE_STRING, const_cast<char *>value)`
+
 template <>
 pmAtomValue atom<char *>(const atom_type_type type, char * value)
 {

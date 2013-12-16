@@ -109,7 +109,8 @@ TEST(atom, pm_type_double) {
 }
 
 TEST(atom, pm_type_string) {
-    /// @todo
+    // PM_TYPE_DOUBLE should support char pointers.
+    EXPECT_EQ("test",  pcp::atom(PM_TYPE_STRING, const_cast<char *>("test")).cp);
 }
 
 TEST(atom, pm_type_aggregate) {
