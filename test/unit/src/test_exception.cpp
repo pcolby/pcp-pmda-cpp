@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "pcp-cpp/exception.hpp"
+
+#include "gtest/gtest.h"
 
 #include <boost/lexical_cast.hpp>
 

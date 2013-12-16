@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "pcp-cpp/types.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(types, ranges) {
     // PM_TYPE_* (0 - 9)

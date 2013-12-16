@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "pcp-cpp/units.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(units, independent_values) {
     const pmUnits new_units = pcp::units(1,2,3, 4,5,6);

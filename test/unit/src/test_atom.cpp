@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "pcp-cpp/atom.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(atom, pm_type_32) {
     // PM_TYPE_32 should support all signed integer types up to 32 bits.

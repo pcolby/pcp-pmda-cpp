@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "pcp-cpp/instance_domain.hpp"
+
+#include "gtest/gtest.h"
 
 TEST(instance_domain, domain_id) {
     pcp::instance_domain indom;
