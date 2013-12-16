@@ -49,6 +49,9 @@ add_executable(test
     ${PROJECT_SOURCE_DIR}/src/test_atom.cpp
     ${PROJECT_SOURCE_DIR}/src/test_exception.cpp
     ${PROJECT_SOURCE_DIR}/src/test_instance_domain.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_metric_cluster.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_metric_description.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_metrics_description.cpp
     ${PROJECT_SOURCE_DIR}/src/test_types.cpp
     ${PROJECT_SOURCE_DIR}/src/test_units.cpp
 )
