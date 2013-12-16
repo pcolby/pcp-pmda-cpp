@@ -95,11 +95,17 @@ TEST(atom, pm_type_u64) {
 }
 
 TEST(atom, pm_type_float) {
-    /// @todo
+    // PM_TYPE_FLOAT should support the full float range.
+    EXPECT_EQ(std::numeric_limits<float>::min(), pcp::atom(PM_TYPE_FLOAT, std::numeric_limits<float>::min()).f);
+    EXPECT_EQ(std::numeric_limits<float>::max(), pcp::atom(PM_TYPE_FLOAT, std::numeric_limits<float>::max()).f);
 }
 
 TEST(atom, pm_type_double) {
-    /// @todo
+    // PM_TYPE_DOUBLE should support the full float and double ranges.
+    EXPECT_EQ(std::numeric_limits<float>::min(),  pcp::atom(PM_TYPE_DOUBLE, std::numeric_limits<float>::min()).d);
+    EXPECT_EQ(std::numeric_limits<float>::max(),  pcp::atom(PM_TYPE_DOUBLE, std::numeric_limits<float>::max()).d);
+    EXPECT_EQ(std::numeric_limits<double>::min(), pcp::atom(PM_TYPE_DOUBLE, std::numeric_limits<double>::min()).d);
+    EXPECT_EQ(std::numeric_limits<double>::max(), pcp::atom(PM_TYPE_DOUBLE, std::numeric_limits<double>::max()).d);
 }
 
 TEST(atom, pm_type_string) {
