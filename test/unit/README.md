@@ -1,3 +1,6 @@
+
+### Building / Running
+
 To run these unit tests:
 
 ```sh
@@ -14,3 +17,10 @@ pushd path/to/some/build/dir
 cmake `dirs +1` && make check
 popd
 ```
+
+### Requirements
+
+* cmake 2.8+
+* Boost 1.32+
+* PCP development headers
+* Network access to checkout (Google C++ Test Framework)[http://googletest.googlecode.com/svn/trunk/]
