@@ -7,6 +7,7 @@
 #define __PCP_CPP_METRIC_DESCRIPTION_HPP__
 
 #include "config.hpp"
+#include "exception.hpp"
 #include "types.hpp"
 
 #include <assert.h>
@@ -152,6 +153,14 @@ private:
 
 class metrics_description : public std::map<cluster_id_type, metric_cluster> {
     public:
+
+        explicit metrics_description() :
+            std::map<cluster_id_type, metric_cluster>(),
+            most_recent_cluster(end())
+        {
+
+        }
+
         metrics_description& operator()(const cluster_id_type cluster_id,
                                         const std::string &cluster_name = std::string())
         {
@@ -171,7 +180,9 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
                                         const std::string &verbose_description = std::string(),
                                         void * const opaque = NULL)
         {
-            assert(most_recent_cluster != end());
+            if (most_recent_cluster == end()) {
+                throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
+            }
             most_recent_cluster->second(item_id, metric_name, type, semantic,
                                         units, domain, short_description,
                                         verbose_description, opaque, flags);
@@ -189,7 +200,9 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
                                         const std::string &verbose_description = std::string(),
                                         void * const opaque = NULL)
         {
-            assert(most_recent_cluster != end());
+            if (most_recent_cluster == end()) {
+                throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
+            }
             most_recent_cluster->second(item_id, metric_name, type, semantic,
                                         units, domain, short_description,
                                         verbose_description, opaque, flags);
@@ -207,7 +220,9 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
                                         void * const opaque = NULL,
                                         const metric_flags flags = static_cast<metric_flags>(0))
         {
-            assert(most_recent_cluster != end());
+            if (most_recent_cluster == end()) {
+                throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
+            }
             most_recent_cluster->second(item_id, metric_name, type, semantic,
                                         units, domain, short_description,
                                         verbose_description, opaque, flags);
