@@ -72,11 +72,11 @@ int main(int argc, char *argv[])
 }
 ```
 
-Compare that to PCP's official [simple.c](http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/trivial/trivial.c) example.
+Compare that to PCP's official [trivial.c](http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/trivial/trivial.c) example.
 
 ## Benchmarks
 
-See [Benchmarks](../../wiki/Benchmarks).
+Some basic [benchmarks](../../wiki/Benchmarks) are availble on the [wiki](../../wiki/).
 
 [![simple numfetch](https://f.cloud.github.com/assets/5195222/1700167/56531708-5ff7-11e3-8baf-80d1f3c72234.png)](../../wiki/Benchmarks)
 
@@ -88,10 +88,6 @@ Additionaly, PMDA++ can make use of Boost libraries (though not required) to pro
 
 See the [requirements wiki page](https://github.com/pcolby/pcp-pmda-cpp/wiki/Requirements) for more details.
 
-## Find out more
-
-Take a look at the project [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
-
 ## Contributing
 
 There are lots of way you can contribute, including (but not limited to):
@@ -100,7 +96,7 @@ bugs, portability issues, and the like.
 * reviewing the API, suggesting improvments such as more intuitive naming and
 future-proofing.
 * indentifying violations of the project's desired [conventions](https://github.com/pcolby/pcp-pmda-cpp/wiki/conventions).
-* writing your own PMDA using PMDA++ to test it against real world examples.
+* writing your own PMDA using PMDA++ to test it in real world applications.
 * improving the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki) documentation.
 
 Issues / suggestions can be reported via GitHub's [issue
@@ -117,6 +113,5 @@ PMDA++ code is available under the [OSI-approved](http://opensource.org/licenses
 [Boost Software License](http://www.boost.org/users/license.html).
 
 PMDA++ relies on [PCP](http://oss.sgi.com/projects/pcp/)
-libraries (`libpcp` and `libpcp_pmda`), which are available under LGPL v2.1.
-See [What licensing scheme does PCP
-use?](http://oss.sgi.com/projects/pcp/faq.html#Q1b)
+libraries (`libpcp` and `libpcp_pmda`), which are [available under LGPL v2.1.](
+http://oss.sgi.com/projects/pcp/faq.html#Q1b).
