@@ -15,7 +15,13 @@ PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
 
-class instance_domain : public std::map<instance_id_type, std::string> {
+struct instance_info {
+    std::string instance_name;
+    std::string short_description;
+    std::string verbose_description;
+};
+
+class instance_domain : public std::map<instance_id_type, const instance_info> {
 
 public:
     domain_id_type get_domain_id() const
@@ -46,9 +52,22 @@ public:
     }
 
     instance_domain& operator()(const instance_id_type instance_id,
-                                const std::string &instance_name)
+                                const instance_info &info)
     {
-        insert(value_type(instance_id, instance_name));
+        insert(value_type(instance_id, info));
+        return *this;
+    }
+
+    instance_domain& operator()(const instance_id_type instance_id,
+                                const std::string &instance_name,
+                                const std::string &short_description = std::string(),
+                                const std::string &verbose_description = std::string())
+    {
+        instance_info info;
+        info.instance_name = instance_name;
+        info.short_description = short_description;
+        info.verbose_description = verbose_description;
+        insert(value_type(instance_id, info));
         return *this;
     }
 

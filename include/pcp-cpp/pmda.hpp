@@ -929,7 +929,7 @@ private:
         size_t index = 0;
         for (instance_domain::const_iterator iter = domain.begin(); iter != domain.end(); ++iter, ++index) {
             indom.it_set[index].i_inst = iter->first;
-            indom.it_set[index].i_name = const_cast<char *>(iter->second.c_str());
+            indom.it_set[index].i_name = const_cast<char *>(iter->second.instance_name.c_str());
         }
         return indom;
     }
