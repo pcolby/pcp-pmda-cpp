@@ -1,5 +1,7 @@
 ## PMDA++ Changelog
 
+### 0.3.0 (_unreleased_)
+
 ### 0.2.0 (2013-12-22)
 
 Features:
