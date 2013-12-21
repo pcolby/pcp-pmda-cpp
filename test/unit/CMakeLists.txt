@@ -52,6 +52,7 @@ add_executable(test
     ${PROJECT_SOURCE_DIR}/src/test_metric_cluster.cpp
     ${PROJECT_SOURCE_DIR}/src/test_metric_description.cpp
     ${PROJECT_SOURCE_DIR}/src/test_metrics_description.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_pmda.cpp
     ${PROJECT_SOURCE_DIR}/src/test_types.cpp
     ${PROJECT_SOURCE_DIR}/src/test_units.cpp
 )
@@ -66,6 +67,7 @@ if(NOT MSVC)
 endif()
 target_link_libraries(
     test
+    boost_program_options
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
     optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}

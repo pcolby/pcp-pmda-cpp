@@ -4,6 +4,10 @@
 
 #include <string>
 
+extern "C" {
+
+int pmDebug;
+
 // Drop-in pmErrStr[_r] replacement that always returns the \a code as a string
 #ifdef PM_MAXERRMSGLEN
 char *pmErrStr_r(int code, char *buf, int buflen)
@@ -31,3 +35,30 @@ const char *pmErrStr(int code)
     return buf;
 }
 #endif
+
+char *pmGetConfig(const char *variable)
+{
+    return strdup(variable);
+}
+
+void __pmNotifyErr(int /*priority*/, const char */*message*/, ...)
+{
+
+}
+
+int __pmParseDebug(const char */*spec*/)
+{
+    return PM_ERR_NYI;
+}
+
+int __pmPathSeparator()
+{
+    return '|';
+}
+
+void __pmSetProgname(const char */*program*/)
+{
+
+}
+
+} // extern "C"
