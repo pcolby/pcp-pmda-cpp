@@ -767,8 +767,9 @@ private:
 
     void export_help_text(const std::string &filename) const
     {
-        // Generate a map of metric names to help texts for sorting.
-        std::map<std::string, metric_description> map;
+        // Generated ordered maps of metric names and instance IDs to help texts.
+        std::map<std::string, metric_description> metrics;
+        std::map<domain_id_type, const instance_domain *> instances;
         const std::string pmda_name = get_pmda_name();
         for (metrics_description::const_iterator metrics_iter = supported_metrics.begin();
              metrics_iter != supported_metrics.end(); ++metrics_iter)
@@ -778,12 +779,16 @@ private:
             for (metric_cluster::const_iterator cluster_iter = cluster.begin();
                  cluster_iter != cluster.end(); ++cluster_iter)
             {
+                const metric_description &metric = cluster_iter->second;
                 std::string metric_name = pmda_name;
                 if (!cluster_name.empty()) {
                     metric_name += '.' + cluster_name;
                 }
-                metric_name += '.' + cluster_iter->second.metric_name;
-                map.insert(std::make_pair(metric_name, cluster_iter->second));
+                metric_name += '.' + metric.metric_name;
+                metrics.insert(std::make_pair(metric_name, metric));
+                if (metric.domain != NULL) {
+                    instances.insert(std::make_pair(metric.domain->get_domain_id(), metric.domain));
+                }
             }
         }
 
@@ -799,12 +804,28 @@ private:
 
         // Export the help text.
         stream << std::endl;
-        for (std::map<std::string, metric_description>::const_iterator iter = map.begin(); iter != map.end(); ++iter) {
-            stream << "@ " << iter->first << ' ' << iter->second.short_description << std::endl;
-            if (!iter->second.verbose_description.empty()) {
-                stream << iter->second.verbose_description << std::endl;
+        for (std::map<std::string, metric_description>::const_iterator metric = metrics.begin();
+             metric != metrics.end(); ++metric)
+        {
+            stream << "@ " << metric->first << ' ' << metric->second.short_description << std::endl;
+            if (!metric->second.verbose_description.empty()) {
+                stream << metric->second.verbose_description << std::endl;
             }
             stream << std::endl;
+        }
+        for (std::map<domain_id_type, const instance_domain *>::const_iterator indom = instances.begin();
+             indom != instances.end(); indom++)
+        {
+            for (instance_domain::const_iterator instance = indom->second->begin();
+                 instance != indom->second->end(); ++instance)
+            {
+                stream << "@ " << indom->first << '.' << instance->first
+                       << ' ' << instance->second.short_description << std::endl;
+                if (!instance->second.verbose_description.empty()) {
+                    stream << instance->second.verbose_description << std::endl;
+                }
+                stream << std::endl;
+            }
         }
     }
 
