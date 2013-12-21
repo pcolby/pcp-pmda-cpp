@@ -3,7 +3,7 @@
 ### 0.2.0 (_unreleased_)
 
 Features:
-- unit tests ([#7](../../issues/7))
+- unit tests ([#12](../../issues/12))
 
 Bug fixes:
 - pcp::metrics_description functors may segfault if not called in the correct
