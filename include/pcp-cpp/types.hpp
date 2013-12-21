@@ -17,7 +17,7 @@ namespace pcp {
 typedef uint_fast8_t  atom_type_type;   // PM_TYPE_* (0 - 9)
 typedef uint_fast16_t cluster_id_type;  // __pmID_int::cluster (12-bits)
 typedef uint_fast16_t domain_id_type;   // __pmID_int::cluster (9-bits); pmdaIndom::it_indom
-typedef int           instance_id_type; // pmdaInstid::i_inst
+typedef unsigned int  instance_id_type; // https://github.com/pcolby/pcp-pmda-cpp/issues/11
 typedef uint_fast16_t item_id_type;     // __pmID_int::item (10-bits)
 typedef uint_fast8_t  semantic_type;    // PM_SEM_* (0 - 4)
 
