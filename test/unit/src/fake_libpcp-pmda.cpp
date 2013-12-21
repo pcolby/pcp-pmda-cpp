@@ -35,7 +35,7 @@ int pmdaDesc(pmID /*pmid*/, pmDesc */*desc*/, pmdaExt */*pmda*/)
 int pmdaFetch(int /*numpmid*/, pmID */*pmidlist*/, pmResult **/*resp*/,
               pmdaExt */*pmda*/)
 {
-
+    return PM_ERR_NYI;
 }
 
 void pmdaInit(pmdaInterface */*dispatch*/, pmdaIndom */*indoms*/,

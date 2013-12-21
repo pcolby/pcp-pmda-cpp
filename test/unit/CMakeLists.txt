@@ -40,6 +40,21 @@ if(MSVC_VERSION EQUAL 1700)
     add_definitions(-D_VARIADIC_MAX=10)
 endif()
 
+# Enable (and stop on) compiler warnings.
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag(-Wall   HAVE_WALL)
+check_cxx_compiler_flag(-Werror HAVE_WERROR)
+check_cxx_compiler_flag(-Wextra HAVE_WEXTRA)
+if (HAVE_WALL)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+endif()
+if (HAVE_WERROR)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+endif()
+if (HAVE_WEXTRA)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+endif()
+
 # Add test executable target
 aux_source_directory(${PROJECT_SOURCE_DIR}/../../include pcp_pmda_cpp_sources)
 add_executable(test

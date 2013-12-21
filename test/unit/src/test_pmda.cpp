@@ -28,7 +28,7 @@ protected:
         return supported_metrics;
     }
 
-    virtual fetch_value_result fetch_value(const metric_id &metric)
+    virtual fetch_value_result fetch_value(const metric_id &/*metric*/)
     {
         throw pcp::exception(PM_ERR_NYI);
     }
