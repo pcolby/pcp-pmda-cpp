@@ -2,12 +2,12 @@
 
 ### 0.2.0 (_unreleased_)
 
-##### Features Added
-- [Issue #7](../../issues/7) unit tests.
+Features:
+- unit tests ([#7](../../issues/7))
 
-##### Bugs Fixed
-- [f7da268](../../commit/f7da2685b426410904fae2e9a8f24619685eb0b4) pcp::metrics_description
-  functors may segfault if not called in the correct order 
+Bug fixes:
+- pcp::metrics_description functors may segfault if not called in the correct
+  order ([f7da268](../../commit/f7da2685b426410904fae2e9a8f24619685eb0b4))
 
 ### 0.1.0 (2013-12-8)
 - initial release.
