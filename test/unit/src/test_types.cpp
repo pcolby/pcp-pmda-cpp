@@ -21,8 +21,8 @@ TEST(types, ranges) {
     EXPECT_LE(pcp::domain_id_type(1<<9), std::numeric_limits<pcp::domain_id_type>::max());
 
     // pmdaInstid::i_inst (int)
-    EXPECT_GE(std::numeric_limits<int>::min(), std::numeric_limits<pcp::instance_id_type>::min());
-    EXPECT_LE(std::numeric_limits<int>::max(), std::numeric_limits<pcp::instance_id_type>::max());
+    EXPECT_GE(std::numeric_limits<unsigned int>::min(), std::numeric_limits<pcp::instance_id_type>::min());
+    EXPECT_LE(std::numeric_limits<unsigned int>::max(), std::numeric_limits<pcp::instance_id_type>::max());
 
     // __pmID_int::item (10-bits)
     EXPECT_GE(pcp::item_id_type(0),     std::numeric_limits<pcp::item_id_type>::min());
