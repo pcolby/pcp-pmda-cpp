@@ -9,28 +9,28 @@
 
 TEST(types, ranges) {
     // PM_TYPE_* (0 - 9)
-    EXPECT_GE(0, std::numeric_limits<pcp::atom_type_type>::min());
-    EXPECT_LE(9, std::numeric_limits<pcp::atom_type_type>::max());
+    EXPECT_GE(pcp::atom_type_type(0), std::numeric_limits<pcp::atom_type_type>::min());
+    EXPECT_LE(pcp::atom_type_type(9), std::numeric_limits<pcp::atom_type_type>::max());
 
     // __pmID_int::cluster (12-bits)
-    EXPECT_GE(0,     std::numeric_limits<pcp::cluster_id_type>::min());
-    EXPECT_LE(1<<12, std::numeric_limits<pcp::cluster_id_type>::max());
+    EXPECT_GE(pcp::cluster_id_type(0),     std::numeric_limits<pcp::cluster_id_type>::min());
+    EXPECT_LE(pcp::cluster_id_type(1<<12), std::numeric_limits<pcp::cluster_id_type>::max());
 
     // __pmID_int::cluster (9-bits); pmdaIndom::it_indom
-    EXPECT_GE(0,    std::numeric_limits<pcp::domain_id_type>::min());
-    EXPECT_LE(1<<9, std::numeric_limits<pcp::domain_id_type>::max());
+    EXPECT_GE(pcp::domain_id_type(0),    std::numeric_limits<pcp::domain_id_type>::min());
+    EXPECT_LE(pcp::domain_id_type(1<<9), std::numeric_limits<pcp::domain_id_type>::max());
 
     // pmdaInstid::i_inst (int)
     EXPECT_GE(std::numeric_limits<int>::min(), std::numeric_limits<pcp::instance_id_type>::min());
     EXPECT_LE(std::numeric_limits<int>::max(), std::numeric_limits<pcp::instance_id_type>::max());
 
     // __pmID_int::item (10-bits)
-    EXPECT_GE(0,     std::numeric_limits<pcp::item_id_type>::min());
-    EXPECT_LE(1<<10, std::numeric_limits<pcp::item_id_type>::max());
+    EXPECT_GE(pcp::item_id_type(0),     std::numeric_limits<pcp::item_id_type>::min());
+    EXPECT_LE(pcp::item_id_type(1<<10), std::numeric_limits<pcp::item_id_type>::max());
 
     // PM_SEM_* (0 - 4)
-    EXPECT_GE(0, std::numeric_limits<pcp::semantic_type>::min());
-    EXPECT_LE(4, std::numeric_limits<pcp::semantic_type>::max());
+    EXPECT_GE(pcp::semantic_type(0), std::numeric_limits<pcp::semantic_type>::min());
+    EXPECT_LE(pcp::semantic_type(4), std::numeric_limits<pcp::semantic_type>::max());
 }
 
 TEST(types, pm_types) {
