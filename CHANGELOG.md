@@ -1,6 +1,6 @@
 ## PMDA++ Changelog
 
-### 0.2.0 (_unreleased_)
+### 0.2.0 (2013-12-22)
 
 Features:
 - `PM_TEXT_INDOM` support ([#3](../../issues/3))
