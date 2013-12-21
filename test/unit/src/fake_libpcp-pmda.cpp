@@ -78,7 +78,11 @@ int pmdaName(pmID /*pmid*/, char ***/*nameset*/, pmdaExt */*pmda*/)
 void pmdaSetFetchCallBack(pmdaInterface *dispatch,
                           pmdaFetchCallBack callback)
 {
-    dispatch->version.two.ext->e_fetchCallBack = callback;
+    if (dispatch->version.two.ext != NULL) {
+        dispatch->version.two.ext->e_fetchCallBack = callback;
+    } else {
+        dispatch->status = PM_ERR_GENERIC;
+    }
 }
 
 int pmdaStore(pmResult */*result*/, pmdaExt */*pmda*/)

@@ -39,8 +39,10 @@ private:
 };
 
 TEST(pmda, initialize_pmda) {
-    stub_pmda pmda;
     pmdaInterface interface;
+    memset(&interface, 0, sizeof(interface));
+
+    stub_pmda pmda;
     pmda.initialize_pmda(interface);
 
     /// @todo  Test stuff here.
