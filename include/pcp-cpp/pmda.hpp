@@ -465,8 +465,10 @@ protected:
 
         // Record the pmdaIndom values as updated by pmdaInit.
         for (size_t indom_index = 0; indom_index < indom_count; ++indom_index) {
-            instance_domains.at(indom_index)->set_pm_instance_domain(
-                indom_table[indom_index].it_indom);
+            instance_domain * const domain = instance_domains.at(indom_index);
+            domain->set_pm_instance_domain(indom_table[indom_index].it_indom);
+            this->instance_domains.insert(std::make_pair(domain->get_domain_id(), domain));
+            this->instance_domains.insert(std::make_pair(domain->get_pm_instance_domain(), domain));
         }
     }
 
@@ -684,9 +686,17 @@ protected:
                 *buffer = strdup(text.c_str());
                 return 0; // >= 0 implies success.
             } else if ((type & PM_TEXT_INDOM) == PM_TEXT_INDOM) {
-                /// @todo  Handle PM_TEXT_INDOM too.
-                __pmNotifyErr(LOG_DEBUG, "PM_TEXT_INDOM not implemented yet;"
-                                         " falling back to pmdaText instead");
+                const pcp::instance_info info =
+                    instance_domains.at(pmInDom_domain(ident))->at(pmInDom_serial(ident));
+                const std::string &text =
+                    ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE)
+                        ? info.short_description
+                        : info.verbose_description;
+                if (text.empty()) {
+                    throw pcp::exception(PM_ERR_TEXT);
+                }
+                *buffer = strdup(text.c_str());
+                return 0; // >= 0 implies success.
             } else {
                 __pmNotifyErr(LOG_NOTICE, "unknown text type 0x%x", type);
             }
@@ -733,6 +743,7 @@ private:
     static pmda * instance;
     metrics_description supported_metrics;
     std::stack<void *> free_on_destruction;
+    std::map<pmInDom, instance_domain *> instance_domains;
 
     void export_domain_header(const std::string &filename) const
     {
