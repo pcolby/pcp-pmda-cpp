@@ -476,13 +476,13 @@ protected:
 
     virtual fetch_value_result fetch_value(const metric_id &metric) = 0;
 
-    virtual void store_value(const metric_id &metric, const int &value)
+    virtual void store_value(const metric_id &/*metric*/, const int &/*value*/)
     {
         throw pcp::exception(PM_ERR_PERMISSION);
     }
 
-    virtual void store_value(const metric_id &metric,
-                             const pmValueBlock * const value)
+    virtual void store_value(const metric_id &/*metric*/,
+                             const pmValueBlock * const /*value*/)
     {
         throw pcp::exception(PM_ERR_PERMISSION);
     }

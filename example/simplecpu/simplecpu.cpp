@@ -94,7 +94,7 @@ protected:
             if (line.compare(0, 3, "cpu") == 0) {
                 const std::string::size_type pos = line.find(' ');
                 if (pos != std::string::npos) {
-                    cpu_info_type info = { line.substr(0, pos) };
+                    cpu_info_type info = { line.substr(0, pos), std::vector<uint64_t>() };
                     std::istringstream stream(line.substr(pos));
                     for (uint64_t tick_count; stream >> tick_count;) {
                         info.ticks.push_back(tick_count);
