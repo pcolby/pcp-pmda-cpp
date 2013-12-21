@@ -28,7 +28,7 @@ TEST(metric_cluster, functor_1) {
          pcp::storable_metric, NULL, "short description", "verbose description", NULL)
         (2, "two", PM_TYPE_STRING, PM_SEM_COUNTER, pcp::units(-1,-2,-3, 10,11,-6),
          static_cast<pcp::metric_flags>(0), &domain, "short", "verbose", &opaque);
-    EXPECT_EQ(2, cluster.size());
+    EXPECT_EQ(pcp::metric_cluster::size_type(2), cluster.size());
 
     EXPECT_EQ("one", cluster.at(1).metric_name);
     EXPECT_EQ(PM_TYPE_U64, cluster.at(1).type);
@@ -70,7 +70,7 @@ TEST(metric_cluster, functor_2) {
          NULL, pcp::storable_metric, "short description", "verbose description", NULL)
         (2, "two", PM_TYPE_STRING, PM_SEM_COUNTER, pcp::units(-1,-2,-3, 10,11,-6),
          &domain, static_cast<pcp::metric_flags>(0), "short", "verbose", &opaque);
-    EXPECT_EQ(2, cluster.size());
+    EXPECT_EQ(pcp::metric_cluster::size_type(2), cluster.size());
 
     EXPECT_EQ("one", cluster.at(1).metric_name);
     EXPECT_EQ(PM_TYPE_U64, cluster.at(1).type);
@@ -112,7 +112,7 @@ TEST(metric_cluster, functor_3) {
          NULL, "short description", "verbose description", NULL, pcp::storable_metric)
         (2, "two", PM_TYPE_STRING, PM_SEM_COUNTER, pcp::units(-1,-2,-3, 10,11,-6),
          &domain, "short", "verbose", &opaque);
-    EXPECT_EQ(2, cluster.size());
+    EXPECT_EQ(pcp::metric_cluster::size_type(2), cluster.size());
 
     EXPECT_EQ("one", cluster.at(1).metric_name);
     EXPECT_EQ(PM_TYPE_U64, cluster.at(1).type);
