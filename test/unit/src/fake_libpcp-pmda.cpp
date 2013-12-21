@@ -38,10 +38,15 @@ int pmdaFetch(int /*numpmid*/, pmID */*pmidlist*/, pmResult **/*resp*/,
     return PM_ERR_NYI;
 }
 
-void pmdaInit(pmdaInterface */*dispatch*/, pmdaIndom */*indoms*/,
-              int /*nindoms*/, pmdaMetric */*metrics*/, int /*nmetrics*/)
+void pmdaInit(pmdaInterface *dispatch, pmdaIndom *indoms,
+              int nindoms, pmdaMetric *metrics, int nmetrics)
 {
-
+    dispatch->version.two.ext = new pmdaExt;
+    memset(dispatch->version.two.ext, 0, sizeof(pmdaExt));
+    dispatch->version.two.ext->e_indoms = indoms;
+    dispatch->version.two.ext->e_nindoms = nindoms;
+    dispatch->version.two.ext->e_metrics = metrics;
+    dispatch->version.two.ext->e_nmetrics = nmetrics;
 }
 
 int pmdaInstance(pmInDom /*indom*/, int /*inst*/, char */*name*/,
