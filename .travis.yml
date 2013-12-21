@@ -16,6 +16,7 @@ before_script:
 script:
   # Run the unit tests.
   - pushd test/unit/build
+  - cmake .. && make && valgrind ./test
   - cmake .. && make check
   - popd
   # Ensure the examples compile cleanly.
