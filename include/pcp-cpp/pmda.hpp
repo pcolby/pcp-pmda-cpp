@@ -686,7 +686,7 @@ protected:
                 *buffer = strdup(text.c_str());
                 return 0; // >= 0 implies success.
             } else if ((type & PM_TEXT_INDOM) == PM_TEXT_INDOM) {
-                const pcp::instance_info info =
+                const pcp::instance_info &info =
                     instance_domains.at(pmInDom_domain(ident))->at(pmInDom_serial(ident));
                 const std::string &text =
                     ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE)
