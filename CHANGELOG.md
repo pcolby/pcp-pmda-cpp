@@ -1,7 +1,13 @@
 ## PMDA++ Changelog
 
 ### 0.2.0 (_unreleased_)
+
+##### Features Added
 - unit tests.
+
+##### Bugs Fixed
+- [f7da268](../../commit/f7da2685b426410904fae2e9a8f24619685eb0b4) pcp::metrics_description
+  functors may segfault if not called in the correct order 
 
 ### 0.1.0 (2013-12-8)
 - initial release.
