@@ -57,7 +57,7 @@ TEST(metric_cluster, cast_to_pmDesc) {
         NULL, "short description", "verbose description", NULL, pcp::storable_metric
     );
     EXPECT_EQ(PM_INDOM_NULL, desc1.indom);
-    EXPECT_EQ(0, desc1.pmid);
+    EXPECT_EQ(0u, desc1.pmid);
     EXPECT_EQ(PM_SEM_INSTANT, desc1.sem);
     EXPECT_EQ(PM_TYPE_U64, desc1.type);
     EXPECT_EQ(1, desc1.units.dimSpace);
@@ -74,7 +74,7 @@ TEST(metric_cluster, cast_to_pmDesc) {
         &domain, "short", "verbose", &opaque
     );
     EXPECT_EQ(PM_INDOM_NULL, desc2.indom);
-    EXPECT_EQ(0, desc2.pmid);
+    EXPECT_EQ(0u, desc2.pmid);
     EXPECT_EQ(PM_SEM_COUNTER, desc2.sem);
     EXPECT_EQ(PM_TYPE_STRING, desc2.type);
     EXPECT_EQ(-1, desc2.units.dimSpace);
