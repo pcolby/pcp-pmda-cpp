@@ -36,8 +36,8 @@ TEST(metric_cluster, functor_1) {
     EXPECT_EQ(1, cluster.at(1).units.dimSpace);
     EXPECT_EQ(2, cluster.at(1).units.dimTime);
     EXPECT_EQ(3, cluster.at(1).units.dimCount);
-    EXPECT_EQ((unsigned)4, cluster.at(1).units.scaleSpace);
-    EXPECT_EQ((unsigned)5, cluster.at(1).units.scaleTime);
+    EXPECT_EQ(4u, cluster.at(1).units.scaleSpace);
+    EXPECT_EQ(5u, cluster.at(1).units.scaleTime);
     EXPECT_EQ(6, cluster.at(1).units.scaleCount);
     EXPECT_EQ(NULL, cluster.at(1).domain);
     EXPECT_EQ("short description", cluster.at(1).short_description);
@@ -51,8 +51,8 @@ TEST(metric_cluster, functor_1) {
     EXPECT_EQ(-1, cluster.at(2).units.dimSpace);
     EXPECT_EQ(-2, cluster.at(2).units.dimTime);
     EXPECT_EQ(-3, cluster.at(2).units.dimCount);
-    EXPECT_EQ((unsigned)10, cluster.at(2).units.scaleSpace);
-    EXPECT_EQ((unsigned)11, cluster.at(2).units.scaleTime);
+    EXPECT_EQ(10u, cluster.at(2).units.scaleSpace);
+    EXPECT_EQ(11u, cluster.at(2).units.scaleTime);
     EXPECT_EQ(-6, cluster.at(2).units.scaleCount);
     EXPECT_EQ(&domain, cluster.at(2).domain);
     EXPECT_EQ("short", cluster.at(2).short_description);
@@ -78,8 +78,8 @@ TEST(metric_cluster, functor_2) {
     EXPECT_EQ(1, cluster.at(1).units.dimSpace);
     EXPECT_EQ(2, cluster.at(1).units.dimTime);
     EXPECT_EQ(3, cluster.at(1).units.dimCount);
-    EXPECT_EQ((unsigned)4, cluster.at(1).units.scaleSpace);
-    EXPECT_EQ((unsigned)5, cluster.at(1).units.scaleTime);
+    EXPECT_EQ(4u, cluster.at(1).units.scaleSpace);
+    EXPECT_EQ(5u, cluster.at(1).units.scaleTime);
     EXPECT_EQ(6, cluster.at(1).units.scaleCount);
     EXPECT_EQ(NULL, cluster.at(1).domain);
     EXPECT_EQ("short description", cluster.at(1).short_description);
@@ -93,8 +93,8 @@ TEST(metric_cluster, functor_2) {
     EXPECT_EQ(-1, cluster.at(2).units.dimSpace);
     EXPECT_EQ(-2, cluster.at(2).units.dimTime);
     EXPECT_EQ(-3, cluster.at(2).units.dimCount);
-    EXPECT_EQ((unsigned)10, cluster.at(2).units.scaleSpace);
-    EXPECT_EQ((unsigned)11, cluster.at(2).units.scaleTime);
+    EXPECT_EQ(10u, cluster.at(2).units.scaleSpace);
+    EXPECT_EQ(11u, cluster.at(2).units.scaleTime);
     EXPECT_EQ(-6, cluster.at(2).units.scaleCount);
     EXPECT_EQ(&domain, cluster.at(2).domain);
     EXPECT_EQ("short", cluster.at(2).short_description);
@@ -120,8 +120,8 @@ TEST(metric_cluster, functor_3) {
     EXPECT_EQ(1, cluster.at(1).units.dimSpace);
     EXPECT_EQ(2, cluster.at(1).units.dimTime);
     EXPECT_EQ(3, cluster.at(1).units.dimCount);
-    EXPECT_EQ((unsigned)4, cluster.at(1).units.scaleSpace);
-    EXPECT_EQ((unsigned)5, cluster.at(1).units.scaleTime);
+    EXPECT_EQ(4u, cluster.at(1).units.scaleSpace);
+    EXPECT_EQ(5u, cluster.at(1).units.scaleTime);
     EXPECT_EQ(6, cluster.at(1).units.scaleCount);
     EXPECT_EQ(NULL, cluster.at(1).domain);
     EXPECT_EQ("short description", cluster.at(1).short_description);
@@ -135,8 +135,8 @@ TEST(metric_cluster, functor_3) {
     EXPECT_EQ(-1, cluster.at(2).units.dimSpace);
     EXPECT_EQ(-2, cluster.at(2).units.dimTime);
     EXPECT_EQ(-3, cluster.at(2).units.dimCount);
-    EXPECT_EQ((unsigned)10, cluster.at(2).units.scaleSpace);
-    EXPECT_EQ((unsigned)11, cluster.at(2).units.scaleTime);
+    EXPECT_EQ(10u, cluster.at(2).units.scaleSpace);
+    EXPECT_EQ(11u, cluster.at(2).units.scaleTime);
     EXPECT_EQ(-6, cluster.at(2).units.scaleCount);
     EXPECT_EQ(&domain, cluster.at(2).domain);
     EXPECT_EQ("short", cluster.at(2).short_description);
