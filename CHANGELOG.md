@@ -3,7 +3,7 @@
 ### 0.2.0 (_unreleased_)
 
 ##### Features Added
-- unit tests.
+- [Issue #7](../../issues/7) unit tests.
 
 ##### Bugs Fixed
 - [f7da268](../../commit/f7da2685b426410904fae2e9a8f24619685eb0b4) pcp::metrics_description
