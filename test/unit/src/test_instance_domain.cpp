@@ -39,7 +39,7 @@ TEST(instance_domain, cast_to_pmInDom) {
 
 TEST(instance_domain, functor_1) {
     pcp::instance_domain indom;
-    EXPECT_EQ(0, indom.size());
+    EXPECT_EQ(pcp::instance_domain::size_type(0), indom.size());
 
     indom(std::numeric_limits<pcp::domain_id_type>::min());
     EXPECT_EQ(std::numeric_limits<pcp::domain_id_type>::min(), indom.get_domain_id());
