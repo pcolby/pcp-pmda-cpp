@@ -3,6 +3,7 @@
 ### 0.2.0 (_unreleased_)
 
 Features:
+- `PM_TEXT_INDOM` support ([#3](../../issues/3))
 - unit tests ([#12](../../issues/12))
 
 Bug fixes:
