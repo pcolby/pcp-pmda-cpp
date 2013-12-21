@@ -20,8 +20,8 @@ TEST(metric_description, constructor) {
     EXPECT_EQ(1, desc1.units.dimSpace);
     EXPECT_EQ(2, desc1.units.dimTime);
     EXPECT_EQ(3, desc1.units.dimCount);
-    EXPECT_EQ(4, desc1.units.scaleSpace);
-    EXPECT_EQ(5, desc1.units.scaleTime);
+    EXPECT_EQ((unsigned)4, desc1.units.scaleSpace);
+    EXPECT_EQ((unsigned)5, desc1.units.scaleTime);
     EXPECT_EQ(6, desc1.units.scaleCount);
     EXPECT_EQ(NULL, desc1.domain);
     EXPECT_EQ("short description", desc1.short_description);
@@ -41,8 +41,8 @@ TEST(metric_description, constructor) {
     EXPECT_EQ(-1, desc2.units.dimSpace);
     EXPECT_EQ(-2, desc2.units.dimTime);
     EXPECT_EQ(-3, desc2.units.dimCount);
-    EXPECT_EQ(10, desc2.units.scaleSpace);
-    EXPECT_EQ(11, desc2.units.scaleTime);
+    EXPECT_EQ((unsigned)10, desc2.units.scaleSpace);
+    EXPECT_EQ((unsigned)11, desc2.units.scaleTime);
     EXPECT_EQ(-6, desc2.units.scaleCount);
     EXPECT_EQ(&domain, desc2.domain);
     EXPECT_EQ("short", desc2.short_description);
@@ -63,8 +63,8 @@ TEST(metric_cluster, cast_to_pmDesc) {
     EXPECT_EQ(1, desc1.units.dimSpace);
     EXPECT_EQ(2, desc1.units.dimTime);
     EXPECT_EQ(3, desc1.units.dimCount);
-    EXPECT_EQ(4, desc1.units.scaleSpace);
-    EXPECT_EQ(5, desc1.units.scaleTime);
+    EXPECT_EQ((unsigned)4, desc1.units.scaleSpace);
+    EXPECT_EQ((unsigned)5, desc1.units.scaleTime);
     EXPECT_EQ(6, desc1.units.scaleCount);
 
     pcp::instance_domain domain;
@@ -80,7 +80,7 @@ TEST(metric_cluster, cast_to_pmDesc) {
     EXPECT_EQ(-1, desc2.units.dimSpace);
     EXPECT_EQ(-2, desc2.units.dimTime);
     EXPECT_EQ(-3, desc2.units.dimCount);
-    EXPECT_EQ(10, desc2.units.scaleSpace);
-    EXPECT_EQ(11, desc2.units.scaleTime);
+    EXPECT_EQ((unsigned)10, desc2.units.scaleSpace);
+    EXPECT_EQ((unsigned)11, desc2.units.scaleTime);
     EXPECT_EQ(-6, desc2.units.scaleCount);
 }
