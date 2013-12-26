@@ -1,6 +1,9 @@
 ## PMDA++ Changelog
 
 ### 0.3.0 (_unreleased_)
+Features:
+- support for hidden CLI options ([950bebe](
+  ../../commit/950bebe5dca940fc8ae37bec8147425d6a099dd5))
 
 ### 0.2.0 (2013-12-22)
 
