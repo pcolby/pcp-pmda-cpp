@@ -92,3 +92,8 @@ target_link_libraries(
 
 # Add a custom "check" target a la GNU's Standard Targets for Users.
 add_custom_target(check COMMAND test DEPENDS test)
+
+install(
+    TARGETS test
+    DESTINATION bin/pcp-pmda-cpp
+)

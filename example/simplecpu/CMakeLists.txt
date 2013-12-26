@@ -15,6 +15,16 @@ set_property(
    PROPERTY COMPILE_DEFINITIONS PCP_CPP_NO_BOOST
 )
 
+install(
+    TARGETS "pmda${PROJECT_NAME}" "pmda${PROJECT_NAME}-noboost"
+    RUNTIME DESTINATION bin
+)
+
+install(
+    FILES "${PROJECT_NAME}.cpp"
+    DESTINATION share/doc/pcp-cpp
+)
+
 # Enable (and stop on) compiler warnings.
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag(-Wall   HAVE_WALL)
