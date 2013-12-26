@@ -199,7 +199,8 @@ protected:
     {
         using namespace boost::program_options;
         boost::program_options::variables_map options;
-        store(command_line_parser(argc, argv).options(supported_options())
+        store(command_line_parser(argc, argv)
+              .options(supported_options().add(supported_hidden_options()))
               .positional(supported_positional_options()).run(), options);
 
 #ifdef PCP_CPP_DEBUG_COMMAND_LINE_OPTIONS
@@ -359,6 +360,11 @@ protected:
             ("help",    "display this message then exit")
             ("version", "display version info then exit");
         return pcp_builtin_options().add(options);
+    }
+
+    virtual boost::program_options::options_description supported_hidden_options() const
+    {
+        return boost::program_options::options_description();
     }
 
     virtual boost::program_options::positional_options_description supported_positional_options()
