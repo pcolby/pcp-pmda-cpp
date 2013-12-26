@@ -107,7 +107,7 @@ protected:
 
     virtual std::string get_pmda_name() const = 0;
 
-    virtual int default_pmda_domain_number() const = 0;
+    virtual int get_default_pmda_domain_number() const = 0;
 
     virtual std::string get_pmda_version() const
     {
@@ -131,7 +131,7 @@ protected:
         pmdaInterface interface;
         pmdaDaemon(&interface, PCP_CPP_PMDA_INTERFACE_VERSION,
             const_cast<char *>(program_name.c_str()),
-            default_pmda_domain_number(),
+            get_default_pmda_domain_number(),
             const_cast<char *>(log_file_pathname.c_str()),
             const_cast<char *>(help_text_pathname.c_str())
         );
@@ -168,7 +168,7 @@ protected:
                                     pmdaInterface& interface)
     {
         int c, error_count = 0;
-        while ((c = pmdaGetOpt(argc, const_cast<char **>(argv), supported_options().c_str(), &interface, &error_count)) != EOF) {
+        while ((c = pmdaGetOpt(argc, const_cast<char **>(argv), get_supported_options().c_str(), &interface, &error_count)) != EOF) {
             process_command_line_option(c);
         }
         if (error_count > 0) {
@@ -182,7 +182,7 @@ protected:
         return "d:D:h:i:l:pu:6:";
     }
 
-    virtual std::string supported_options() const
+    virtual std::string get_supported_options() const
     {
         return pcp_builtin_options();
     }
@@ -200,8 +200,8 @@ protected:
         using namespace boost::program_options;
         boost::program_options::variables_map options;
         store(command_line_parser(argc, argv)
-              .options(supported_options().add(supported_hidden_options()))
-              .positional(supported_positional_options()).run(), options);
+              .options(get_supported_options().add(get_supported_hidden_options()))
+              .positional(get_supported_positional_options()).run(), options);
 
 #ifdef PCP_CPP_DEBUG_COMMAND_LINE_OPTIONS
         for (variables_map::const_iterator iter = options.begin(); iter != options.end(); ++iter) {
@@ -300,7 +300,7 @@ protected:
             // The pmdaIPv6 value was added to PCP in version 3.8.1. There is
             // no reliable way to detect PCP's version at compile time, so we
             // use it's known value (4) here to prevent issues compiling against
-            // earlier versions of PCP. Note, the default supported_options
+            // earlier versions of PCP. Note, the default get_supported_options
             // implementation below does not include inet6 in the command line
             // options for earlier versions of PCP, as detected at runtime.
             interface.version.two.ext->e_io = static_cast<pmdaIoType>(4);
@@ -317,7 +317,7 @@ protected:
             ("debug,D", value<string_vector>()
                 PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-1"), "-1")
                 PCP_CPP_BOOST_PO_VALUE_NAME("spec"),"set debug specification")
-            ("domain,d", value<int>()->default_value(default_pmda_domain_number())
+            ("domain,d", value<int>()->default_value(get_default_pmda_domain_number())
                 PCP_CPP_BOOST_PO_VALUE_NAME("n"), "domain number to use")
             ("help-file,h",
                 value<std::string>()->default_value(get_help_text_pathname())
@@ -337,7 +337,7 @@ protected:
         return options;
     }
 
-    virtual boost::program_options::options_description supported_options() const
+    virtual boost::program_options::options_description get_supported_options() const
     {
         using namespace boost::program_options;
         options_description options("Extra options");
@@ -362,12 +362,12 @@ protected:
         return pcp_builtin_options().add(options);
     }
 
-    virtual boost::program_options::options_description supported_hidden_options() const
+    virtual boost::program_options::options_description get_supported_hidden_options() const
     {
         return boost::program_options::options_description();
     }
 
-    virtual boost::program_options::positional_options_description supported_positional_options()
+    virtual boost::program_options::positional_options_description get_supported_positional_options()
     {
         return boost::program_options::positional_options_description();
     }
@@ -387,7 +387,7 @@ protected:
     {
         std::cout
             << std::endl << "Usage: " << get_usage(program_name) << std::endl
-            << std::endl << supported_options() << std::endl;
+            << std::endl << get_supported_options() << std::endl;
     }
 
 #endif
@@ -768,7 +768,7 @@ private:
         std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
         stream
             << "// The " << get_pmda_name() << " PMDA's domain number." << std::endl
-            << "#define " << upper_name << ' ' << default_pmda_domain_number() << std::endl;
+            << "#define " << upper_name << ' ' << get_default_pmda_domain_number() << std::endl;
     }
 
     void export_help_text(const std::string &filename) const

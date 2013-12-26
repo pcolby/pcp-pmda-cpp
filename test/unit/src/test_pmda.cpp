@@ -24,7 +24,7 @@ protected:
         return "stub";
     }
 
-    virtual int default_pmda_domain_number() const {
+    virtual int get_default_pmda_domain_number() const {
         return -123;
     }
 
