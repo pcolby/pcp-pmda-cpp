@@ -11,7 +11,7 @@ install:
   - sudo apt-get install -qq libboost-program-options-dev libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
 
 before_script:
-  - mkdir -p test/unit/build
+  - mkdir -p example/build test/unit/build
 
 script:
   # Run the unit tests.
@@ -19,4 +19,6 @@ script:
   - cmake .. && make check
   - popd
   # Ensure the examples compile cleanly.
-  - make -C example
+  - pushd example/build
+  - cmake ..
+  - popd
