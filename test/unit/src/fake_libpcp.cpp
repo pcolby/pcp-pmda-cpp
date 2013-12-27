@@ -2,6 +2,7 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <stdexcept>
 #include <string>
 
 extern "C" {
