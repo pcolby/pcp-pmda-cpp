@@ -1,3 +1,7 @@
+//               Copyright Paul Colby 2013.
+// Distributed under the Boost Software License, Version 1.0.
+//       (See accompanying file LICENSE.md or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
 
 // Boost headers that depend on boost/cstdint.hpp must be included before any
 // PCP headers, because pcp/config.h sets a number of macros like ULONGLONG_MAX
