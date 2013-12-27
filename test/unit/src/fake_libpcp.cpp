@@ -1,6 +1,9 @@
-#include <pcp/pmapi.h>
 
+// Boost headers that depend on boost/cstdint.hpp must be included before any
+// PCP headers, because pcp/config.h sets a number of macros like ULONGLONG_MAX
+// which fool Boost into thinking we're on an unknown, non-standard platform.
 #include <boost/lexical_cast.hpp>
+#include <pcp/pmapi.h>
 
 #include <stdexcept>
 #include <string>
