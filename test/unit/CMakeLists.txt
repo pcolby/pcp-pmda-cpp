@@ -80,9 +80,10 @@ ExternalProject_Get_Property(googletest binary_dir)
 if(NOT MSVC)
     set(pthread "-pthread")
 endif()
+find_package(Boost COMPONENTS program_options REQUIRED)
 target_link_libraries(
     test
-    boost_program_options
+    ${Boost_PROGRAM_OPTIONS_LIBRARY}
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
     optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
