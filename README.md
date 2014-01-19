@@ -113,5 +113,5 @@ PMDA++ code is available under the [OSI-approved](http://opensource.org/licenses
 [Boost Software License](http://www.boost.org/users/license.html).
 
 PMDA++ relies on [PCP](http://oss.sgi.com/projects/pcp/)
-libraries (`libpcp` and `libpcp_pmda`), which are [available under LGPL v2.1.](
+libraries (`libpcp` and `libpcp_pmda`), which are [available under LGPL v2.1](
 http://oss.sgi.com/projects/pcp/faq.html#Q1b).
