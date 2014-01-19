@@ -7,7 +7,9 @@ include_directories ("${PROJECT_SOURCE_DIR}/../../include")
 add_executable("pmda${PROJECT_NAME}" "${PROJECT_NAME}.cpp")
 add_executable("pmda${PROJECT_NAME}-noboost" "${PROJECT_NAME}.cpp")
 
-target_link_libraries("pmda${PROJECT_NAME}" pcp pcp_pmda boost_program_options)
+find_package(Boost COMPONENTS program_options REQUIRED)
+
+target_link_libraries("pmda${PROJECT_NAME}" pcp pcp_pmda ${Boost_PROGRAM_OPTIONS_LIBRARY})
 target_link_libraries("pmda${PROJECT_NAME}-noboost" pcp pcp_pmda)
 
 set_property(
