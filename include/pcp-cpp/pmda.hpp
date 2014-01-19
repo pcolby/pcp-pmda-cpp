@@ -197,8 +197,15 @@ protected:
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface)
     {
-        using namespace boost::program_options;
         boost::program_options::variables_map options;
+        return parse_command_line(argc, argv, interface, options);
+    }
+
+    virtual bool parse_command_line(const int argc, const char * const argv[],
+                                    pmdaInterface& interface,
+                                    boost::program_options::variables_map &options)
+    {
+        using namespace boost::program_options;
         store(command_line_parser(argc, argv)
               .options(get_supported_options().add(get_supported_hidden_options()))
               .positional(get_supported_positional_options()).run(), options);
