@@ -1,4 +1,4 @@
-//               Copyright Paul Colby 2013.
+//               Copyright Paul Colby 2013-2014.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -66,17 +66,17 @@ protected:
         // simple.now         SIMPLE:2:4
         return pcp::metrics_description()
         (0)
-            (0, "numfetch",pcp::type<uint32_t>(), PM_SEM_INSTANT,
+            (0, "numfetch", pcp::type<uint32_t>(), PM_SEM_INSTANT,
              pcp::units(0,0,0, 0,0,0), pcp::storable_metric)
             (1, "color",pcp::type<int32_t>(), PM_SEM_INSTANT,
              pcp::units(0,0,0, 0,0,0), &color_domain, pcp::storable_metric)
         (1, "time")
-            (2, "user",pcp::type<double>(), PM_SEM_COUNTER,
+            (2, "user", pcp::type<double>(), PM_SEM_COUNTER,
              pcp::units(0,1,0, 0,PM_TIME_SEC,0))
-            (3, "sys",pcp::type<double>(), PM_SEM_COUNTER,
+            (3, "sys", pcp::type<double>(), PM_SEM_COUNTER,
              pcp::units(0,1,0, 0,PM_TIME_SEC,0))
         (2)
-            (4, "now",pcp::type<uint32_t>(), PM_SEM_INSTANT,
+            (4, "now", pcp::type<uint32_t>(), PM_SEM_INSTANT,
              pcp::units(0,0,0, 0,0,0), &now_domain);
     }
 

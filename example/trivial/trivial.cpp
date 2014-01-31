@@ -1,4 +1,4 @@
-//               Copyright Paul Colby 2013.
+//               Copyright Paul Colby 2013-2014.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -37,7 +37,7 @@ protected:
     {
         // trivial.time aka TRIVIAL:0:0.
         return pcp::metrics_description()(0)
-            (0, "time",pcp::type<uint32_t>(), PM_SEM_COUNTER,
+            (0, "time", pcp::type<uint32_t>(), PM_SEM_COUNTER,
              pcp::units(0,1,0, 0,PM_TIME_SEC,0), NULL,
              "The time in seconds since 1 Jan 1970",
              "The time in seconds since the 1st of January, 1970.");
