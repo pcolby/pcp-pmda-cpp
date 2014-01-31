@@ -6,6 +6,8 @@ Features:
   ../../commit/950bebe5dca940fc8ae37bec8147425d6a099dd5))
 - more consistent API ([bdb5972](
   ../../commit/bdb5972183cf7b0396ccbe938cb3c68ba3006bd8))
+- CMake build system [#2](../../issues/2)
+- CLI option intercept support [#14](../../issues/14)
 - install targets ([#15](../../issues/15))
 
 ### 0.2.0 (2013-12-22)
