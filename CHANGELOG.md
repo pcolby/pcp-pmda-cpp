@@ -9,6 +9,7 @@ Features:
 - CMake build system ([#2](../../issues/2))
 - CLI option intercept support ([#14](../../issues/14))
 - install targets ([#15](../../issues/15))
+- duplicate cluster name support ([#19](../../issues/19))
 
 ### 0.2.0 (2013-12-22)
 
