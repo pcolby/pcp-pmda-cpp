@@ -897,13 +897,19 @@ private:
         stream << '}' << std::endl;
 
         // Third and final pass to export all metric groups.
+        std::string previous_cluster_name;
         for (metrics_description::const_iterator metrics_iter = supported_metrics.begin();
              metrics_iter != supported_metrics.end(); ++metrics_iter)
         {
             const metric_cluster &cluster = metrics_iter->second;
             const std::string cluster_name = cluster.get_cluster_name();
             if (!cluster_name.empty()) {
-                stream << std::endl << pmda_name << '.' << cluster_name << " {" << std::endl;
+                if (cluster_name != previous_cluster_name) {
+                    if (!previous_cluster_name.empty()) {
+                        stream << "}" << std::endl;
+                    }
+                    stream << std::endl << pmda_name << '.' << cluster_name << " {" << std::endl;
+                }
                 for (metric_cluster::const_iterator cluster_iter = cluster.begin();
                      cluster_iter != cluster.end(); ++cluster_iter)
                 {
@@ -912,8 +918,11 @@ private:
                            << upper_name << ':' << cluster.get_cluster_id() << ':'
                            << cluster_iter->first << std::endl;
                 }
-                stream << "}" << std::endl;
+                previous_cluster_name = cluster_name;
             }
+        }
+        if (!previous_cluster_name.empty()) {
+            stream << "}" << std::endl;
         }
         stream << std::endl;
     }
