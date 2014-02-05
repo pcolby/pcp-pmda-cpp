@@ -891,7 +891,11 @@ private:
                            << cluster_iter->first << std::endl;
                 }
             } else {
-                stream << "    " << cluster_name << std::endl;
+                static std::string previous_cluster_name;
+                if (cluster_name != previous_cluster_name) {
+                    stream << "    " << cluster_name << std::endl;
+                    previous_cluster_name = cluster_name;
+                }
             }
         }
         stream << '}' << std::endl;
