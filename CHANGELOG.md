@@ -10,6 +10,8 @@ Features:
 - CLI option intercept support ([#14](../../issues/14))
 - install targets ([#15](../../issues/15))
 - duplicate cluster name support ([#19](../../issues/19))
+- `pmda::supported_metrics` exposed as `protected` ([a0dc1f1](
+  ../../commit/a0dc1f1b39cd6772afedd92242359ed443eed952))
 
 ### 0.2.0 (2013-12-22)
 
