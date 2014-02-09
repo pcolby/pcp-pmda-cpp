@@ -56,6 +56,7 @@ public:
     }
 
 protected:
+    metrics_description supported_metrics;
 
     struct fetch_value_result {
         pmAtomValue atom;
@@ -754,7 +755,6 @@ protected:
 
 private:
     static pmda * instance;
-    metrics_description supported_metrics;
     std::stack<void *> free_on_destruction;
     std::map<pmInDom, instance_domain *> instance_domains;
 
