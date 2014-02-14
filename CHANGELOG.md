@@ -4,6 +4,8 @@
 Bug fixes:
 - `pcp::exception` copy constructor base construction ([52a392e](
   ../../commit/52a392e66922f53b4de4890256f4fb4f79438759))
+- install examples into examples directory ([93ce3ce](
+  ../../commit/93ce3cea24704bd74851ff3e92c78540dc12f4ee))
 
 ### 0.3.0 (2014-02-09)
 Features:
