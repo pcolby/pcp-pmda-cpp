@@ -24,7 +24,7 @@ install(
 
 install(
     FILES "${PROJECT_NAME}.cpp"
-    DESTINATION share/doc/pcp-cpp
+    DESTINATION share/doc/pcp-cpp/examples
 )
 
 # Enable (and stop on) compiler warnings.
