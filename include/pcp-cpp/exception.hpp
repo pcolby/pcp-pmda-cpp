@@ -34,7 +34,8 @@ public:
     }
 
     exception(const pcp::exception &other)
-        : pm_error_code(other.error_code()),
+        : std::exception(other),
+          pm_error_code(other.error_code()),
           message(other.what())
     {
     }
