@@ -1,5 +1,10 @@
 ## PMDA++ Changelog
 
+### 0.3.1 (2014-02-14)
+Bug fixes:
+- `pcp::exception` copy constructor base construction ([52a392e](
+  ../../commit/52a392e66922f53b4de4890256f4fb4f79438759))
+
 ### 0.3.0 (2014-02-09)
 Features:
 - hidden CLI option support ([950bebe](
