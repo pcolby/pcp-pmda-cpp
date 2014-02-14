@@ -17,8 +17,8 @@ BuildRequires: pcp-libs-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-This library is header-only, so the top-level pcp-pmda-cpp won't be built,
-and this message entirely ignored (yet required) by rpmbuild.
+PMDA++ is a header-only library that allows developers to write Performance
+Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 
 %prep
 %setup -c -q
