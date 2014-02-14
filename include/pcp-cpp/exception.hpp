@@ -39,7 +39,7 @@ public:
     {
     }
 
-    virtual ~exception() throw() { };
+    virtual ~exception() throw() { }
 
     virtual int error_code() const
     {
