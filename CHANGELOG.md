@@ -21,7 +21,6 @@ Features:
   ../../commit/a0dc1f1b39cd6772afedd92242359ed443eed952))
 
 ### 0.2.0 (2013-12-22)
-
 Features:
 - `PM_TEXT_INDOM` support ([#3](../../issues/3))
 - unit tests ([#12](../../issues/12))
