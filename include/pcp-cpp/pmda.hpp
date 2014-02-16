@@ -95,6 +95,14 @@ protected:
         return old_instance;
     }
 
+#ifndef PCP_CPP_NO_BOOST
+    virtual std::string get_config_file_pathname() const
+    {
+        const std::string sep(1, __pmPathSeparator());
+        return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "config";
+    }
+#endif
+
     virtual std::string get_help_text_pathname() const
     {
         const std::string sep(1, __pmPathSeparator());
@@ -207,9 +215,19 @@ protected:
                                     boost::program_options::variables_map &options)
     {
         using namespace boost::program_options;
-        store(command_line_parser(argc, argv)
-              .options(get_supported_options().add(get_supported_hidden_options()))
+        const options_description supported_options =
+                get_supported_options().add(get_supported_hidden_options());
+        store(command_line_parser(argc, argv).options(supported_options)
               .positional(get_supported_positional_options()).run(), options);
+
+        const variable_value &config = options.at("config");
+        std::ifstream config_stream(config.as<std::string>().c_str());
+        if (config_stream) {
+            store(parse_config_file(config_stream, supported_options), options);
+        } else if (!config.defaulted()) {
+            throw pcp::exception(PM_ERR_GENERIC, "Failed to open config file: " +
+                                 config.as<std::string>());
+        }
 
 #ifdef PCP_CPP_DEBUG_COMMAND_LINE_OPTIONS
         for (variables_map::const_iterator iter = options.begin(); iter != options.end(); ++iter) {
@@ -350,6 +368,8 @@ protected:
         using namespace boost::program_options;
         options_description options("Extra options");
         options.add_options()
+            ("config", value<std::string>()->default_value(get_config_file_pathname())
+             PCP_CPP_BOOST_PO_VALUE_NAME("file"), "load options from config file")
             ("export-all", value<string_vector>()
              PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "."), ".")
              PCP_CPP_BOOST_PO_VALUE_NAME("dir"), "export domain, help, pmns and root then exit")
