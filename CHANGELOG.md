@@ -1,5 +1,9 @@
 ## PMDA++ Changelog
 
+### 0.3.2 (2014-02-16)
+Features:
+- config file support ([#21](../../issues/21))
+
 ### 0.3.1 (2014-02-14)
 Bug fixes:
 - `pcp::exception` copy constructor base construction ([52a392e](
