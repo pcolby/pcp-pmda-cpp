@@ -1,5 +1,10 @@
 ## PMDA++ Changelog
 
+### 0.3.3 (2014-02-17)
+Features:
+- support for skipping `pcp::pmda::instance` definition ([7ffbd69](
+  ../../commit/7ffbd69ad7ea8aa182f2e4f1431f92267af83f1b))
+
 ### 0.3.2 (2014-02-16)
 Features:
 - config file support ([#21](../../issues/21))
