@@ -1102,7 +1102,9 @@ private:
 
 } // pcp namespace.
 
+#ifndef PCP_CPP_SKIP_PCP_PMDA_INSTANCE_DEFINITION
 pcp::pmda * pcp::pmda::instance(NULL);
+#endif
 
 PCP_CPP_END_NAMESPACE
 
