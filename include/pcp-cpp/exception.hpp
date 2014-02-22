@@ -14,9 +14,26 @@ PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
 
+/**
+ * @brief Base class for all PMDA++ exceptions.
+ */
 class exception : public std::exception {
 
 public:
+
+    /**
+     * @brief Constructor.
+     *
+     * If the optional \a message is not provided (or is empty), then either
+     * pmErrStr_r (if available) or pmErrStr will be used to fetch PCP's message
+     * for \a pm_error_code.
+     *
+     * @param pm_error_code PCP error code.
+     * @param message       Error message.
+     *
+     * @see pmErrStr
+     * @see pmErrStr_r
+     */
     exception(const int pm_error_code,
               const std::string &message = std::string())
         : pm_error_code(pm_error_code),
@@ -33,6 +50,11 @@ public:
         }
     }
 
+    /**
+     * @brief Copy constructor.
+     *
+     * @param other Other pcp::exception object to copy.
+     */
     exception(const pcp::exception &other)
         : std::exception(other),
           pm_error_code(other.error_code()),
@@ -40,6 +62,11 @@ public:
     {
     }
 
+    /**
+     * @brief Virtual destructor.
+     *
+     * For safe polymorphic destruction.
+     */
     virtual ~exception() throw() { }
 
     virtual int error_code() const
@@ -47,14 +74,19 @@ public:
         return pm_error_code;
     }
 
-    virtual const char* what() const throw()
+    /**
+     * @brief Fetch the exception's error message.
+     *
+     * @return An error message for this exception.
+     */
+    virtual const char * what() const throw()
     {
         return message.c_str();
     }
 
 protected:
-    int pm_error_code;
-    std::string message;
+    int pm_error_code;   ///< PCP error code.
+    std::string message; ///< Error message.
 };
 
 } // pcp namespace.
