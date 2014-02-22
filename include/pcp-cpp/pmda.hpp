@@ -102,25 +102,46 @@ protected:
     /// a cache of the value returned by get_supported_metrics during startup.
     metrics_description supported_metrics;
 
+    /**
+     * @brief  Struct returned by the fetch_value function.
+     *
+     * @see pcp::fetch_value
+     */
     struct fetch_value_result {
-        pmAtomValue atom;
-        int code;
+        pmAtomValue atom; ///< Atom value.
+        int code; ///< PMDA fetch code describing atom's memory allocation.
+
+        /**
+         * @brief Constructor.
+         *
+         * @param atom PCP atom value.
+         * @param code Optional code to return to PCP. Should be one of the
+         *             PMDA_FETCH_* constants.
+         */
         fetch_value_result(const pmAtomValue &atom,
                            const int code = PMDA_FETCH_STATIC)
             : atom(atom), code(code) { }
     };
 
+    /**
+     * @brief Indentifies a metric to be fetched.
+     *
+     * @see pcp::fetch_value
+     */
     struct metric_id {
-        cluster_id_type cluster;
-        item_id_type item;
-        instance_id_type instance;
-        atom_type_type type;
-        void * opaque;
+        cluster_id_type cluster;   ///< Cluster ID.
+        item_id_type item;         ///< Item ID.
+        instance_id_type instance; ///< Instance ID.
+        atom_type_type type;       ///< Expected atom type.
+        void * opaque;             ///< Opaque pointer.
     };
 
+    /// @brief  A simple vector of strings.
     typedef std::vector<std::string> string_vector;
 
-    /// @brief  Virtual destructor for safe polymorphic destruction.
+    /**
+     * @brief Destructor.
+     */
     virtual ~pmda()
     {
         while (!free_on_destruction.empty()) {
@@ -129,10 +150,32 @@ protected:
         }
     }
 
+    /**
+     * @brief Get the single PMDA instance.
+     *
+     * @return A pointer to the single PMDA instance, if set, otherwise \c NULL.
+     *
+     * @see set_instance
+     */
     static pmda * get_instance() {
         return instance;
     }
 
+    /**
+     * @brief Set the single PMDA instance.
+     *
+     * @note For performance reasons, this function is intentionally not thread
+     *       safe. Nor does it need to be, given that the instance is set by
+     *       either init_dso or run_daemon, long before any threads interested
+     *       in this instance have been created.
+     *
+     * @param new_instance The new instance to set.
+     *
+     * @return A pointer to the previous instance, if there was one, otherwise
+     *         \c NULL.
+     *
+     * @see get_instance
+     */
     static pmda * set_instance(pmda * const new_instance) {
         pmda * const old_instance = instance;
         instance = new_instance;
@@ -140,6 +183,16 @@ protected:
     }
 
 #ifndef PCP_CPP_NO_BOOST
+    /**
+     * @brief Get the default path to this PMDA's optional configuration file.
+     *
+     * Derived classes may override this function to provide a custom path. The
+     * default is equivalent to $PCP_PMDAS_DIR/$PMDA_NAME/config.
+     *
+     * @note This function is only available if Boost support is enabled.
+     *
+     * @return The path to this PMDA's optional configuration file.
+     */
     virtual std::string get_config_file_pathname() const
     {
         const std::string sep(1, __pmPathSeparator());
@@ -147,26 +200,86 @@ protected:
     }
 #endif
 
+    /**
+     * @brief Get the default path to this PMDA's optional help texts file.
+     *
+     * Derived classes may override this function to provide a custom path. The
+     * default is equivalent to $PCP_PMDAS_DIR/$PMDA_NAME/help.
+     *
+     * @return The path to this PMDA's optional help texts file.
+     */
     virtual std::string get_help_text_pathname() const
     {
         const std::string sep(1, __pmPathSeparator());
         return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "help";
     }
 
+    /**
+     * @brief Get the default path to this PMDA's log file.
+     *
+     * Derived classes may override this function to provide a custom path. The
+     * default is equivalent to $PCP_PMCD_DIR/$PMDA_NAME.log.
+     *
+     * @return The path to this PMDA's log file.
+     */
     virtual std::string get_log_file_pathname() const
     {
         return get_pmda_name() + ".log";
     }
 
+    /**
+     * @brief Get this PMDA's name.
+     *
+     * Derived classes must override this function to return the name of the
+     * PMDA.
+     *
+     * @return This PMDA's name.
+     */
     virtual std::string get_pmda_name() const = 0;
 
+    /**
+     * @brief Get this PMDA's default performance metrics domain number.
+     *
+     * Derived classes must override this function to return the default domain
+     * number for this PMDA.
+     *
+     * @note The PCP project maintains a list of standard PMIDs. You should
+     *       normally avoid clashing with any of those.
+     *
+     * @return This PMDA's name.
+     *
+     * @see http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmns/stdpmid.pcp;hb=HEAD
+     */
     virtual int get_default_pmda_domain_number() const = 0;
 
+    /**
+     * @brief Get this PMDA's version string.
+     *
+     * Derived classes may override this function to return a custom version
+     * string to be included in messages such as the outpt of the --version
+     * command line option.
+     *
+     * This base implementation returns an empty string.
+     *
+     * @return This PMDA's verstion string.
+     */
     virtual std::string get_pmda_version() const
     {
         return std::string();
     }
 
+    /**
+     * @brief Run this daemon.
+     *
+     * This function implements the main processing loop of the daemon-mode
+     * PMDA. It performs various initalisations such as parsing the command
+     * line options, then defers processing to the pmdaMain function.
+     *
+     * @param argc Argument count.
+     * @param argv Argument vector.
+     *
+     * @throw pcp::exception On error.
+     */
     virtual void run_daemon(const int argc, char * const argv[])
     {
         // Create some local strings.  We keep these as separate variables
@@ -217,6 +330,16 @@ protected:
     }
 
 #ifdef PCP_CPP_NO_BOOST
+    /**
+     * @brief Parse command line options.
+     *
+     * @param argc      Argument count.
+     * @param argv      Argumnet vector.
+     * @param interface PMDA interface.
+     *
+     * @return \c true if the caller should continue to run the PMDA, \c false
+     *         on error.
+     */
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface)
     {
@@ -247,6 +370,25 @@ protected:
              : std::string("unimplemented option '-") + char(c) + "')");
     }
 #else
+    /**
+     * @brief Parse command line options.
+     *
+     * Override this overload if you want to customise the command line parsing
+     * process, but don't want to access any of the parsed options explicitly.
+     *
+     * Note, it's pretty unsual to want to do this. This overload is really here
+     * to maintain compatibility between the Boost and non-Boost implementations
+     * of parse_command_line.
+     *
+     * @param argc      Argument count.
+     * @param argv      Argumnet vector.
+     * @param interface PMDA interface.
+     *
+     * @return \c true if the caller should continue to run the PMDA, else
+     *         \c false.
+     *
+     * @throw pcp::exception On error.
+     */
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface)
     {
@@ -254,6 +396,22 @@ protected:
         return parse_command_line(argc, argv, interface, options);
     }
 
+    /**
+     * @brief Parse command line options.
+     *
+     * Override this function to gain access explicit to the parsed command line
+     * options, if desired.
+     *
+     * @param argc      Argument count.
+     * @param argv      Argumnet vector.
+     * @param interface PMDA interface.
+     * @param options   The parsed program options.
+     *
+     * @return \c true if the caller should continue to run the PMDA, else
+     *         \c false.
+     *
+     * @throw pcp::exception On error.
+     */
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface,
                                     boost::program_options::variables_map &options)
@@ -379,6 +537,11 @@ protected:
         return true;
     }
 
+    /**
+     * @brief Get a list of command line options built into the PCP libraries.
+     *
+     * @return A list of command line options built into the PCP libraries.
+     */
     virtual boost::program_options::options_description pcp_builtin_options() const
     {
         using namespace boost::program_options;
@@ -407,6 +570,18 @@ protected:
         return options;
     }
 
+    /**
+     * @brief Get a list of command line options supported by this PMDA.
+     *
+     * This base implementation returns a set of options including options
+     * supported by the PCP libraries, as well as a number of custom options
+     * implemented by this pcp::pmda class (such as --help and --version).
+     *
+     * Derived classes may override this function to add to, or even replace,
+     * the set of options supported by the derived PMDA.
+     *
+     * @return A list of command line options supported by this PMDA.
+     */
     virtual boost::program_options::options_description get_supported_options() const
     {
         using namespace boost::program_options;
@@ -434,16 +609,54 @@ protected:
         return pcp_builtin_options().add(options);
     }
 
+    /**
+     * @brief Get a list of hidden supported command line options.
+     *
+     * Hidden command line options behave just like their non-hidden veriety,
+     * except that they are not included in the output of the --help option.
+     *
+     * This is allows derived classes to implement, for example, development
+     * only options or other options that would be confusing to end users,
+     * without necessary having to make the obvious.
+     *
+     * This, of course, should be used sparingly.
+     *
+     * This base implementation returns an empty list.
+     *
+     * @return A list of command line options to support, but not advertise.
+     */
     virtual boost::program_options::options_description get_supported_hidden_options() const
     {
         return boost::program_options::options_description();
     }
 
+    /**
+     * @brief Get a list of supported positional options.
+     *
+     * Derived classes may override this function to support positional options.
+     *
+     * This base implementation returns an empty list.
+     *
+     * @return A list of supported positional options.
+     */
     virtual boost::program_options::positional_options_description get_supported_positional_options()
     {
         return boost::program_options::positional_options_description();
     }
 
+    /**
+     * @brief Check for conflicting command line options.
+     *
+     * This convenience function can be used to check, in a standardised way,
+     * that two mutually exclusive options are not both set.
+     *
+     * @param options_map Parsed command line options.
+     * @param option1     The first of two options that are mutually exclusive.
+     * @param option2     The second of two options that are mutually exclusive.
+     *
+     * @throw boost::program_options::error If both \a option1 and \a option2
+     *                                      are set, and neither were defaulted.
+     */
     static void check_conflicting_options(const boost::program_options::variables_map &options_map,
                                           const std::string &option1, const std::string &option2)
     {
@@ -455,6 +668,16 @@ protected:
         }
     }
 
+    /**
+     * @brief Display a help message.
+     *
+     * This function is called if the --help command line option was given.
+     *
+     * Derived classes may override this function to customise the help text
+     * output.
+     *
+     * @param program_name The program name to include in the help message.
+     */
     virtual void display_help(const std::string &program_name) const
     {
         std::cout
@@ -464,6 +687,16 @@ protected:
 
 #endif
 
+    /**
+     * @brief Display a version message.
+     *
+     * This function is called if the --version command line option was given.
+     *
+     * Derived classes may override this function to customise the version text
+     * output.
+     *
+     * @see get_pmda_version
+     */
     virtual void display_version() const
     {
         std::cout << std::endl << get_pmda_name() << " PMDA";
@@ -479,11 +712,35 @@ protected:
                   << ')' << std::endl << std::endl;
     }
 
+    /**
+     * @brief Get a usage syntax string.
+     *
+     * This function returns a string defining the command line syntax. It is
+     * included, by default, in the text output of the --help command line
+     * option.
+     *
+     * This base implementation returns a string like: `program [options]`. But,
+     * for example, if a derived class made some options compulsory, and/or
+     * allowed position arguments, then that class would want to override this
+     * function to return something like:
+     * `program --required-flag=arg [options] filename1 filename2`.
+     *
+     * @param program_name The name of the program to include in the syntax line.
+     *
+     * @return A usage syntax line.
+     *
+     * @see display_help
+     */
     virtual std::string get_usage(const std::string &program_name) const
     {
         return program_name + " [options]";
     }
 
+    /**
+     * @brief Initialise this PMDA.
+     *
+     * @param interface PMDA interface to initialise.
+     */
     virtual void initialize_pmda(pmdaInterface &interface)
     {
         // Setup the instance domain and metrics tables. These will be
@@ -550,17 +807,92 @@ protected:
         }
     }
 
+    /**
+     * @brief Get descriptions of all of the metrics supported by this PMDA.
+     *
+     * Dervied classes must implement this function to define the metrics
+     * supported by this PMDA.
+     *
+     * @return Descriptions of all of the metrics supported by this PMDA.
+     */
     virtual pcp::metrics_description get_supported_metrics() = 0;
 
+    /**
+     * @brief Begin fetching values.
+     *
+     * Derived classes may override this function to perform any actions they
+     * wish to perform at the start of each batch of fetch of metric values.
+     *
+     * This base implementation performs no actions.
+     */
     virtual void begin_fetch_values() { }
 
+    /**
+     * @brief Fetch an individual metric value.
+     *
+     * Derived classes must implment this function to fetch individual metric
+     * values.
+     *
+     * If the requested metric value is not found, or some other error occurs,
+     * implementations should throw an appropriate pcp::exception, such as
+     * `pcp::exception(PMDA_FETCH_NOVALUES)`.
+     *
+     * Otherwise, the a valid atom value should be returned, encapsulated in a
+     * fetch_value_result struct.  Typically the \c code value of the returned
+     * struct should be left as `PMDA_FETCH_STATIC`. However, advanced PMDAs may
+     * use any of the `PMDA_FETCH_*` constants, such as `PMDA_FETCH_DYNAMIC`.
+     *
+     * Note, implementations should not return `PMDA_FETCH_NOVALUES` - in that
+     * case, they should throw `pcp::exception(PMDA_FETCH_NOVALUES)` instead.
+     *
+     * @param metric The metric to fetch the value of.
+     *
+     * @throw pcp::exception on error, or if the requested metric is not
+     *                       currently available.
+     *
+     * @return The value of the requested metric.
+     */
     virtual fetch_value_result fetch_value(const metric_id &metric) = 0;
 
+    /**
+     * @brief Store an in situ value.
+     *
+     * Derived classes may override this function to allow PCP to request metric
+     * values to be stored.
+     *
+     * This base implementation throws `pcp::exception(PM_ERR_PERMISSION)`.
+     *
+     * @note Unless `PCP_CPP_NO_ID_VALIDITY_CHECKS` has been defined, this
+     *       function will not be called for any metric that did not include
+     *       the `storable_metric` flag in the get_supported_metrics result.
+     *
+     * @param metric_id The metric to store.
+     * @param value     The value to store.
+     *
+     * @throw pcp::exception on error.
+     */
     virtual void store_value(const metric_id &/*metric*/, const int &/*value*/)
     {
         throw pcp::exception(PM_ERR_PERMISSION);
     }
 
+    /**
+     * @brief Store an ex situ value.
+     *
+     * Derived classes may override this function to allow PCP to request metric
+     * values to be stored.
+     *
+     * This base implementation throws `pcp::exception(PM_ERR_PERMISSION)`.
+     *
+     * @note Unless `PCP_CPP_NO_ID_VALIDITY_CHECKS` has been defined, this
+     *       function will not be called for any metric that did not include
+     *       the `storable_metric` flag in the get_supported_metrics result.
+     *
+     * @param metric_id The metric to store.
+     * @param value     The value to store.
+     *
+     * @throw pcp::exception on error.
+     */
     virtual void store_value(const metric_id &/*metric*/,
                              const pmValueBlock * const /*value*/)
     {
