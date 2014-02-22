@@ -19,6 +19,18 @@ PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
 
+/**
+ * @brief Caset a value to a PCP pmAtomValue.
+ *
+ * This base template definition handles most numeric types.
+ *
+ * @param type  The atom type to set.
+ * @param value The atom value to set.
+ *
+ * @tparam ValueType Type of value to set.
+ *
+ * @return A `pmAtomValue` containing \c value of type \c type.
+ */
 template <typename ValueType>
 pmAtomValue atom(const atom_type_type type, ValueType value)
 {
@@ -40,11 +52,22 @@ pmAtomValue atom(const atom_type_type type, ValueType value)
     return atom;
 }
 
-// Note, we do not provide a <const char *> template instantiation, since that
-// would require us to const_cast the value, which is something the caller
-// ought to be very clear about / aware is happening. Hence, if you want to use
-// a const char *, use: `pcp::atom(PM_TYPE_STRING, const_cast<char *>(value)`
-
+/**
+ * @brief Caset a value to a PCP pmAtomValue.
+ *
+ * This template specialisation hanldes `char *` strings.
+ *
+ * @note We do not provide a `const char *` template specialisation, since that
+ *       would require us to `const_cast` the value, which is something the
+ *       caller ought to be very clear about / aware is happening. Hence, if you
+ *       want to use a `const char *`, use something like:
+ *       `pcp::atom(PM_TYPE_STRING, const_cast<char *>(value)`
+ *
+ * @param type  The atom type to set.
+ * @param value The atom value to set.
+ *
+ * @return A `pmAtomValue` containing \c value of type \c type.
+ */
 template <>
 pmAtomValue atom<char *>(const atom_type_type type, char * value)
 {
@@ -66,6 +89,16 @@ pmAtomValue atom<char *>(const atom_type_type type, char * value)
     return atom;
 }
 
+/**
+ * @brief Caset a value to a PCP pmAtomValue.
+ *
+ * This template specialisation hanldes `pmValueBlock` values.
+ *
+ * @param type  The atom type to set.
+ * @param value The atom value to set.
+ *
+ * @return A `pmAtomValue` containing \c value of type \c type.
+ */
 template <>
 pmAtomValue atom<pmValueBlock *>(const atom_type_type type, pmValueBlock * value)
 {
