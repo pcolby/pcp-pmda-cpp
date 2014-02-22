@@ -11,6 +11,22 @@
 #ifndef __PCP_CPP_CONFIG_HPP__
 #define __PCP_CPP_CONFIG_HPP__
 
+/**
+ * @def PCP_CPP_BOOST_PO_IMPLICIT_VALUE
+ *
+ * @brief Sets a command line option's implicit value, if supported by the
+ *        version of Boost.Program_Options being built against.
+ */
+
+/**
+ * @def PCP_CPP_BOOST_PO_VALUE_NAME
+ *
+ * @brief Sets a command line option's value name, if supported by the version
+ *        of Boost.Program_Options being built against.
+ *
+ * @param name Option's value name
+ */
+
 // Boost headers that depend on boost/cstdint.hpp must be included before any
 // PCP headers, because pcp/config.h sets a number of macros like ULONGLONG_MAX
 // which fool Boost into thinking we're on an unknown, non-standard platform.
@@ -34,7 +50,7 @@
 #include <pcp/impl.h>  // more for older versions of PCP, so don't reorder them
 #include <pcp/pmda.h>  // without testing against older versions of PCP.
 
-// PMDA interface version to use; defaults to "latest".
+/// PMDA interface version to use; defaults to "latest".
 #ifndef PCP_CPP_PMDA_INTERFACE_VERSION
 #define PCP_CPP_PMDA_INTERFACE_VERSION PMDA_INTERFACE_LATEST
 #endif
@@ -52,6 +68,10 @@ PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
 
+/**
+ * @brief Get the PCP runtime version as a numeric value.
+ * @returns The PCP runtime version as a numeric value.
+ */
 template<typename Type>
 inline Type get_pcp_runtime_version()
 {
@@ -63,6 +83,10 @@ inline Type get_pcp_runtime_version()
          strtoul(pos[1]+1, NULL, 10);
 }
 
+/**
+ * @brief Get the PCP runtime version as a string.
+ * @returns The PCP runtime version as a string.
+ */
 template<>
 inline char * get_pcp_runtime_version()
 {
