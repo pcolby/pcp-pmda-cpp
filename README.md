@@ -74,6 +74,12 @@ int main(int argc, char *argv[])
 
 Compare that to PCP's official [trivial.c](http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/trivial/trivial.c) example.
 
+### API Documentation
+
+See the doxygen-generated [API documentation](
+http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html). Some additional
+information is available on the [wiki](../../wiki/).
+
 ## Benchmarks
 
 Some basic [benchmarks](../../wiki/Benchmarks) are availble on the [wiki](../../wiki/).
