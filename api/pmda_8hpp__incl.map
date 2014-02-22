@@ -1,0 +1,7 @@
+<map id="pmda.hpp" name="pmda.hpp">
+<area shape="rect" id="node3" href="$config_8hpp.html" title="Sets up common PMDA++ library macros. " alt="" coords="314,254,397,287"/>
+<area shape="rect" id="node13" href="$exception_8hpp.html" title="Defines the pcp::exception class. " alt="" coords="22,171,123,205"/>
+<area shape="rect" id="node18" href="$instance__domain_8hpp.html" title="Defines the pcp::instance_domain class. " alt="" coords="435,89,579,122"/>
+<area shape="rect" id="node28" href="$metric__description_8hpp.html" title="Defines various metric&#45;description related classes. " alt="" coords="161,89,313,122"/>
+<area shape="rect" id="node21" href="$types_8hpp.html" title="Declares various types used throughout the PMDA++ library. " alt="" coords="393,171,470,205"/>
+</map>
