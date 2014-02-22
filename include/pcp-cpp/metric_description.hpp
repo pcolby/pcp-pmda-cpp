@@ -256,6 +256,12 @@ class metrics_description : public std::map<cluster_id_type, metric_cluster> {
 
 public:
 
+    /**
+     * @brief Default constructor.
+     *
+     * Constructs an empty metrics_description class - ie one with no metric
+     * clusters yet.
+     */
     explicit metrics_description() :
         std::map<cluster_id_type, metric_cluster>(),
         most_recent_cluster(end())
@@ -263,6 +269,19 @@ public:
 
     }
 
+    /**
+     * @brief Cluster insertion functor.
+     *
+     * This functor inserts a new empty metric cluster into this object. It also
+     * records the insertion iterator so that future calls to any of the metric
+     * insertion functors add metrics to the new cluster inserted by this
+     * function.
+     *
+     * @param cluster_id   ID of the new cluster to insert.
+     * @param cluster_name Optional name of the cluster to insert.
+     *
+     * @return A reference to this metrics_description object.
+     */
     metrics_description& operator()(const cluster_id_type cluster_id,
                                     const std::string &cluster_name = std::string())
     {
@@ -271,6 +290,31 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Metric description insertion functor.
+     *
+     * This functor inserts a metric description in the most recently inserted
+     * cluster.
+     *
+     * The cluster insertion function must be called at least once prior to
+     * calling this, or any of the other metric description insertion functors,
+     * otherwise an exception will be throw.
+     *
+     * @param item_id             Metric ID.
+     * @param metric_name         Metric name.
+     * @param type                Metric atom type.
+     * @param semantic            PCP metric semantic.
+     * @param units               PCP metric units.
+     * @param flags               Optional metric flags.
+     * @param domain              Optional metric instance domain.
+     * @param short_description   Short metric description.
+     * @param verbose_description Verbose metric description.
+     * @param opaque              Optional opaque pointer to track.
+     *
+     * @throw pcp::exception If no metric cluster has been inserted yet.
+     *
+     * @return A reference to this metrics_description object.
+     */
     metrics_description& operator()(const item_id_type item_id,
                                     const std::string &metric_name,
                                     const atom_type_type type,
@@ -291,6 +335,31 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Metric description insertion functor.
+     *
+     * This functor inserts a metric description in the most recently inserted
+     * cluster.
+     *
+     * The cluster insertion function must be called at least once prior to
+     * calling this, or any of the other metric description insertion functors,
+     * otherwise an exception will be throw.
+     *
+     * @param item_id             Metric ID.
+     * @param metric_name         Metric name.
+     * @param type                Metric atom type.
+     * @param semantic            PCP metric semantic.
+     * @param units               PCP metric units.
+     * @param domain              Optional metric instance domain.
+     * @param flags               Optional metric flags.
+     * @param short_description   Short metric description.
+     * @param verbose_description Verbose metric description.
+     * @param opaque              Optional opaque pointer to track.
+     *
+     * @throw pcp::exception If no metric cluster has been inserted yet.
+     *
+     * @return A reference to this metrics_description object.
+     */
     metrics_description& operator()(const item_id_type item_id,
                                     const std::string &metric_name,
                                     const atom_type_type type,
@@ -311,6 +380,31 @@ public:
         return *this;
     }
 
+    /**
+     * @brief Metric description insertion functor.
+     *
+     * This functor inserts a metric description in the most recently inserted
+     * cluster.
+     *
+     * The cluster insertion function must be called at least once prior to
+     * calling this, or any of the other metric description insertion functors,
+     * otherwise an exception will be throw.
+     *
+     * @param item_id             Metric ID.
+     * @param metric_name         Metric name.
+     * @param type                Metric atom type.
+     * @param semantic            PCP metric semantic.
+     * @param units               PCP metric units.
+     * @param domain              Optional metric instance domain.
+     * @param short_description   Short metric description.
+     * @param verbose_description Verbose metric description.
+     * @param opaque              Optional opaque pointer to track.
+     * @param flags               Optional metric flags.
+     *
+     * @throw pcp::exception If no metric cluster has been inserted yet.
+     *
+     * @return A reference to this metrics_description object.
+     */
     metrics_description& operator()(const item_id_type item_id,
                                     const std::string &metric_name,
                                     const atom_type_type type,
