@@ -24,10 +24,25 @@ namespace pcp {
 
 class instance_domain;
 
+/**
+ * @brief Flags that may be applied to metric descriptions.
+ */
 enum metric_flags {
     storable_metric = 0x1 //< Metric supports pmstore operations.
 };
 
+/**
+ * @brief Pipe operator for combining metric_flags values.
+ *
+ * This function performs a logical OR of two metric_flags sets. This is a
+ * convenience function, allowing metric_flags enum values to be used both
+ * standalone, and in combination.
+ *
+ * @param a First set of flags.
+ * @param b Second set of flags.
+ *
+ * @return Combined set of both \a a and \a b flags.
+ */
 inline metric_flags operator|(metric_flags a, metric_flags b)
 {
     return static_cast<metric_flags>(
