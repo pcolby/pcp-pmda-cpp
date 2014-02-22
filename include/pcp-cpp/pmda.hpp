@@ -1125,6 +1125,15 @@ protected:
         return pmdaText(ident, type, buffer, pmda);
     }
 
+    /**
+     * @brief Set static callbacks on a PMDA interface.
+     *
+     * This function sets our static PMDA callback functions on the given
+     * pmdaInterface struct.  These static callback functions then redirect all
+     * calls to the current singleton PMDA instance.
+     *
+     * @param interface The interface to set our callbacks on.
+     */
     virtual void set_callbacks(pmdaInterface &interface)
     {
         interface.version.two.profile   = &callback_profile;
