@@ -3,6 +3,11 @@
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+/**
+ * @file
+ * @brief Defines the pcp::instance_domain class.
+ */
+
 #ifndef __PCP_CPP_INSTANCE_DOMAIN_HPP__
 #define __PCP_CPP_INSTANCE_DOMAIN_HPP__
 

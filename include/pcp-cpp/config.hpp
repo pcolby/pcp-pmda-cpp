@@ -3,6 +3,11 @@
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+/**
+ * @file
+ * @brief Sets up common PMDA++ library macros.
+ */
+
 #ifndef __PCP_CPP_CONFIG_HPP__
 #define __PCP_CPP_CONFIG_HPP__
 

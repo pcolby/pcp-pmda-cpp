@@ -3,6 +3,11 @@
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+/**
+ * @file
+ * @brief Declares various types used throughout the PMDA++ library.
+ */
+
 #ifndef __PCP_CPP_TYPES_HPP__
 #define __PCP_CPP_TYPES_HPP__
 

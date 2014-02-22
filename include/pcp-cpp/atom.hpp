@@ -3,6 +3,11 @@
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+/**
+ * @file
+ * @brief Defines the pcp::atom template class.
+ */
+
 #ifndef __PCP_CPP_ATOM_HPP__
 #define __PCP_CPP_ATOM_HPP__
 

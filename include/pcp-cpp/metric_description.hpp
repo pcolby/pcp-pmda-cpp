@@ -3,6 +3,11 @@
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+/**
+ * @file
+ * @brief Defines various metric-description related classes.
+ */
+
 #ifndef __PCP_CPP_METRIC_DESCRIPTION_HPP__
 #define __PCP_CPP_METRIC_DESCRIPTION_HPP__
 

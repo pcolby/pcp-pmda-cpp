@@ -5,7 +5,7 @@
 
 /**
  * @file
- * @brief Declares and implements the pcp::units template function.
+ * @brief Defines the pcp::units template function.
  */
 
 #ifndef __PCP_CPP_UNITS_HPP__
