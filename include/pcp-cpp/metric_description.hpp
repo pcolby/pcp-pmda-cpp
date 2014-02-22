@@ -253,85 +253,86 @@ private:
  * @brief Collection of clusters of metric descriptions.
  */
 class metrics_description : public std::map<cluster_id_type, metric_cluster> {
-    public:
 
-        explicit metrics_description() :
-            std::map<cluster_id_type, metric_cluster>(),
-            most_recent_cluster(end())
-        {
+public:
 
+    explicit metrics_description() :
+        std::map<cluster_id_type, metric_cluster>(),
+        most_recent_cluster(end())
+    {
+
+    }
+
+    metrics_description& operator()(const cluster_id_type cluster_id,
+                                    const std::string &cluster_name = std::string())
+    {
+        most_recent_cluster = insert(value_type(cluster_id,
+            metric_cluster(cluster_id, cluster_name))).first;
+        return *this;
+    }
+
+    metrics_description& operator()(const item_id_type item_id,
+                                    const std::string &metric_name,
+                                    const atom_type_type type,
+                                    const semantic_type semantic,
+                                    const pmUnits units,
+                                    const metric_flags flags,
+                                    instance_domain * const domain = NULL,
+                                    const std::string &short_description = std::string(),
+                                    const std::string &verbose_description = std::string(),
+                                    void * const opaque = NULL)
+    {
+        if (most_recent_cluster == end()) {
+            throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
         }
+        most_recent_cluster->second(item_id, metric_name, type, semantic,
+                                    units, domain, short_description,
+                                    verbose_description, opaque, flags);
+        return *this;
+    }
 
-        metrics_description& operator()(const cluster_id_type cluster_id,
-                                        const std::string &cluster_name = std::string())
-        {
-            most_recent_cluster = insert(value_type(cluster_id,
-                metric_cluster(cluster_id, cluster_name))).first;
-            return *this;
+    metrics_description& operator()(const item_id_type item_id,
+                                    const std::string &metric_name,
+                                    const atom_type_type type,
+                                    const semantic_type semantic,
+                                    const pmUnits units,
+                                    instance_domain * const domain,
+                                    const metric_flags flags,
+                                    const std::string &short_description = std::string(),
+                                    const std::string &verbose_description = std::string(),
+                                    void * const opaque = NULL)
+    {
+        if (most_recent_cluster == end()) {
+            throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
         }
+        most_recent_cluster->second(item_id, metric_name, type, semantic,
+                                    units, domain, short_description,
+                                    verbose_description, opaque, flags);
+        return *this;
+    }
 
-        metrics_description& operator()(const item_id_type item_id,
-                                        const std::string &metric_name,
-                                        const atom_type_type type,
-                                        const semantic_type semantic,
-                                        const pmUnits units,
-                                        const metric_flags flags,
-                                        instance_domain * const domain = NULL,
-                                        const std::string &short_description = std::string(),
-                                        const std::string &verbose_description = std::string(),
-                                        void * const opaque = NULL)
-        {
-            if (most_recent_cluster == end()) {
-                throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
-            }
-            most_recent_cluster->second(item_id, metric_name, type, semantic,
-                                        units, domain, short_description,
-                                        verbose_description, opaque, flags);
-            return *this;
+    metrics_description& operator()(const item_id_type item_id,
+                                    const std::string &metric_name,
+                                    const atom_type_type type,
+                                    const semantic_type semantic,
+                                    const pmUnits units,
+                                    instance_domain * const domain = NULL,
+                                    const std::string &short_description = std::string(),
+                                    const std::string &verbose_description = std::string(),
+                                    void * const opaque = NULL,
+                                    const metric_flags flags = static_cast<metric_flags>(0))
+    {
+        if (most_recent_cluster == end()) {
+            throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
         }
+        most_recent_cluster->second(item_id, metric_name, type, semantic,
+                                    units, domain, short_description,
+                                    verbose_description, opaque, flags);
+        return *this;
+    }
 
-        metrics_description& operator()(const item_id_type item_id,
-                                        const std::string &metric_name,
-                                        const atom_type_type type,
-                                        const semantic_type semantic,
-                                        const pmUnits units,
-                                        instance_domain * const domain,
-                                        const metric_flags flags,
-                                        const std::string &short_description = std::string(),
-                                        const std::string &verbose_description = std::string(),
-                                        void * const opaque = NULL)
-        {
-            if (most_recent_cluster == end()) {
-                throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
-            }
-            most_recent_cluster->second(item_id, metric_name, type, semantic,
-                                        units, domain, short_description,
-                                        verbose_description, opaque, flags);
-            return *this;
-        }
-
-        metrics_description& operator()(const item_id_type item_id,
-                                        const std::string &metric_name,
-                                        const atom_type_type type,
-                                        const semantic_type semantic,
-                                        const pmUnits units,
-                                        instance_domain * const domain = NULL,
-                                        const std::string &short_description = std::string(),
-                                        const std::string &verbose_description = std::string(),
-                                        void * const opaque = NULL,
-                                        const metric_flags flags = static_cast<metric_flags>(0))
-        {
-            if (most_recent_cluster == end()) {
-                throw pcp::exception(PM_ERR_GENERIC, "no cluster to add metric to");
-            }
-            most_recent_cluster->second(item_id, metric_name, type, semantic,
-                                        units, domain, short_description,
-                                        verbose_description, opaque, flags);
-            return *this;
-        }
-
-    private:
-        iterator most_recent_cluster; ///< The most-recently inserted cluster.
+private:
+    iterator most_recent_cluster; ///< The most-recently inserted cluster.
 };
 
 } // pcp namespace.
