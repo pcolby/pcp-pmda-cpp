@@ -4,4 +4,4 @@ Metrics Domain Agents (PMDAs) for [Performance Co-Pilot
 
 See https://github.com/pcolby/pcp-pmda-cpp for project information.
 
-See the tree to the left for API documentation.
+See the menu above for API documentation.
