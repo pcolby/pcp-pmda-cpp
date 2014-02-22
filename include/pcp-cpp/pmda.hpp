@@ -25,10 +25,31 @@ PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
 
+/**
+ * @brief Abstract base class for implementing PCP PMDAs.
+ */
 class pmda {
 
 public:
 
+    /**
+     * @brief Initialize PCP's DSO interface for a PMDA.
+     *
+     * Example usage:
+     * @code
+     * class my_pmda : public pcp::pmda {
+     *     ....
+     * };
+     *
+     * extern "C" void trivial_init(pmdaInterface *interface)
+     * {
+     *     pcp::pmda::init_dso<my_pmda>(interface);
+     * }
+     * @endcode
+     *
+     * @param interface PMDA interface point provided by PCP as part of the DSO
+     *                  initialisation process.
+     */
     template <class Agent>
     static void init_dso(pmdaInterface * const interface)
     {
@@ -40,6 +61,26 @@ public:
         }
     }
 
+    /**
+     * @brief Run a PMDA in PCP's daemon mode.
+     *
+     * Example usage:
+     * @code
+     * class my_pmda : public pcp::pmda {
+     *     ....
+     * };
+     *
+     * int main(int argc, char *argv[])
+     * {
+     *     return pcp::pmda::run_daemon<my_pmda>(argc, argv);
+     * }
+     * @endcode
+     *
+     * @param argc Argument count.
+     * @param argv Argument vector.
+     *
+     * @return EXIT_SUCCESS on success, EXIT_FAILURE on error.
+     */
     template <class Agent>
     static int run_daemon(const int argc, char * const argv[])
     {
@@ -56,6 +97,9 @@ public:
     }
 
 protected:
+
+    /// Description of all metrics supported by this PMDA. This is really just
+    /// a cache of the value returned by get_supported_metrics during startup.
     metrics_description supported_metrics;
 
     struct fetch_value_result {
