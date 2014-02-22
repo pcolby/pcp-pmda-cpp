@@ -69,15 +69,20 @@ public:
      */
     virtual ~exception() throw() { }
 
+    /**
+     * @brief Get this exception's error code.
+     *
+     * @return This exception's error code.
+     */
     virtual int error_code() const
     {
         return pm_error_code;
     }
 
     /**
-     * @brief Fetch the exception's error message.
+     * @brief Get this exception's error message.
      *
-     * @return An error message for this exception.
+     * @return This excetion's error message.
      */
     virtual const char * what() const throw()
     {

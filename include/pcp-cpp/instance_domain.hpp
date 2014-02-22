@@ -79,7 +79,7 @@ public:
      * This normally used by the pcp::pmda class to update the domain ID after
      * invoking pmdaInit.
      *
-     * @param id The domiain ID to set.
+     * @param domain The domiain ID to set.
      */
     void set_pm_instance_domain(const pmInDom domain)
     {
