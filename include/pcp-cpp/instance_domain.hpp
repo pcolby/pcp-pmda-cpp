@@ -148,7 +148,7 @@ public:
     }
 
     /**
-     * @brief Operator for implicit casts to pmInDom.
+     * @brief Operator for implicit cast to pmInDom.
      *
      * This operator allows this object to be used wherever PCP functions
      * require a pmInDom instance.  It is equivalent to calling the
