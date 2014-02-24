@@ -248,12 +248,16 @@ protected:
      * Derived classes must override this function to return the default domain
      * number for this PMDA.
      *
+     * Unless the command line parsing functions are overridden, this class will
+     * allow this default PMDA domain number to be overridden via the -d or
+     * --domain (Boost only) command line options.
+     *
      * @note The PCP project maintains a list of standard PMIDs. You should
      *       normally avoid clashing with any of those.
      *
-     * @return This PMDA's name.
+     * @return This PMDA's default domain number.
      *
-     * @see http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmns/stdpmid.pcp;hb=HEAD
+     * @see http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmns/stdpmid.pcp
      */
     virtual int get_default_pmda_domain_number() const = 0;
 
@@ -266,7 +270,7 @@ protected:
      *
      * This base implementation returns an empty string.
      *
-     * @return This PMDA's verstion string.
+     * @return This PMDA's version string.
      */
     virtual std::string get_pmda_version() const
     {
@@ -338,6 +342,10 @@ protected:
     /**
      * @brief Parse command line options.
      *
+     * This non-Boost version uses PCP's pmdaGetOpt function (a wrapper for the
+     * POSIX getopt function, with a number of built-in options) to parse the
+     * command line options.
+     *
      * @param argc      Argument count.
      * @param argv      Argumnet vector.
      * @param interface PMDA interface.
@@ -358,16 +366,55 @@ protected:
         return (error_count == 0);
     }
 
+    /**
+     * @brief Get a list of command line options supported by pmdaGetOpt.
+     *
+     * This function returns a getopt compatible list of command line options
+     * that are known to be supported by PCP's pmdaGetOpt function.  Derived
+     * classes may choose to build upon this list to add new command line
+     * options in addition to those already built-in to PCP.
+     *
+     * @return A list of command line options supported by pmdaGetOpt.
+     *
+     * @see pmdaGetOpt
+     * @see getopt
+     */
     static std::string pcp_builtin_options()
     {
         return "d:D:h:i:l:pu:6:";
     }
 
+    /**
+     * @brief Get a list of command line options supported by this PMDA.
+     *
+     * This base implementation simply returns the PCP built-in command line
+     * options, as returned by pcp_builtin_options.
+     *
+     * Derived classes may override this function to add to, or even replace,
+     * the set of command line options supported by the derived PMDA.
+     *
+     * @return A list of command line options supported by this PMDA.
+     */
     virtual std::string get_supported_options() const
     {
         return pcp_builtin_options();
     }
 
+    /**
+     * @brief Process as custom command line option.
+     *
+     * This function will be invoked by parse_command_line function for any
+     * option not supported by pmdaGetOpt.  That is, if a derived class
+     * overrides get_supported_options to include new custom command line
+     * options, then that derived class should also override this function to
+     * handle each of those command line options as they arise.
+     *
+     * This base implementation simply throws a generic pcp::exception.
+     *
+     * @param c The command line option character.
+     *
+     * @throw pcp::exception on error.
+     */
     virtual void process_command_line_option(const int c)
     {
         throw pcp::exception(PM_ERR_GENERIC, (c == '?')
