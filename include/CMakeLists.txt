@@ -12,4 +12,5 @@ if (DOXYGEN_FOUND)
         COMMENT "Generating API documentation with Doxygen" VERBATIM
         SOURCES Doxyfile.in
     )
+    set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES api)
 endif ()
