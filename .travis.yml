@@ -23,4 +23,6 @@ script:
   - popd
 
 after_success:
+  - coveralls -e example -E '.+build'  --verbose
+  - coveralls -e example -E '.+test.*\.cpp' --verbose
   - coveralls -e example -E '.+build' -E '.+test.*\.cpp' --verbose
