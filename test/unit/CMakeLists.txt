@@ -106,6 +106,7 @@ if (HAVE_TEST_COVERAGE)
         OUTPUT coverage.info
         COMMAND test
         COMMAND lcov --capture --directory ${CMAKE_BINARY_DIR} --output-file coverage.info --quiet
+        COMMAND lcov --remove coverage.info '/usr/**' 'test/*' --output-file coverage.info --quiet
         DEPENDS test
     )
     add_custom_target(
