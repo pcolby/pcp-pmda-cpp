@@ -23,5 +23,4 @@ script:
   - popd
 
 after_success:
-  - echo "$CXX"
   - if [ "$CXX" = "g++" ]; then coveralls -e example -E '.+build/(CMakeFiles|extern)/.*' -E '.+test.*\.cpp'; fi
