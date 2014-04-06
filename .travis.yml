@@ -23,6 +23,4 @@ script:
   - popd
 
 after_success:
-  #- if [ "$CXX" = "g++" ]; then coveralls -e example -E '.+build/(CMakeFiles|extern)/.*' -E '.+test.*\.cpp'; fi
-  - if [ "$CXX" = "g++" ]; then coveralls -E '.*/metric_description.hpp' -e example -E '.+build/(CMakeFiles|extern)/.*' -E '.+test.*\.cpp' --verbose | tr ',' '\n' | grep "'name':" | sort; fi
-  - if [ "$CXX" = "g++" ]; then coveralls -E '.*/units.hpp'              -e example -E '.+build/(CMakeFiles|extern)/.*' -E '.+test.*\.cpp' --verbose | tr ',' '\n' | grep "'name':" | sort; fi
+  - if [ "$CXX" = "g++" ]; then coveralls -e example -E '.+build/(CMakeFiles|extern)/.*' -E '.+test.*\.cpp'; fi
