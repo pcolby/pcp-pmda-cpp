@@ -24,4 +24,5 @@ script:
 
 after_success:
   - coveralls -e example --verbose | tr ',' '\n' | grep "'name':" | sort
+  - coveralls -e example -E '.+test.*\.cpp' --verbose | tr ',' '\n' | grep "'name':" | sort
   - coveralls -e example -E '.+build.*\.(cc?|h)' -E '.+test.*\.cpp' --verbose
