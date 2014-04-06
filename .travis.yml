@@ -23,4 +23,4 @@ script:
   - popd
 
 after_success:
-  - [ `find . -type f -name *.gcda -readable | wc -l` -eq 0 ] || coveralls -e example -E '.+build' -E '.+test.*\.cpp' --verbose
+  - coveralls -e example -E '.+build' -E '.+test.*\.cpp' --verbose
