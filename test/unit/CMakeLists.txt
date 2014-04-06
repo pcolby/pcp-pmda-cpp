@@ -55,6 +55,12 @@ if (HAVE_WEXTRA)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 endif()
 
+# Enabled test coverage reporting.
+check_cxx_compiler_flag(-ftest-coverage HAVE_TEST_COVERAGE)
+if (HAVE_TEST_COVERAGE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
+
 # Add test executable target
 aux_source_directory(${PROJECT_SOURCE_DIR}/../../include pcp_pmda_cpp_sources)
 add_executable(test
@@ -93,6 +99,21 @@ target_link_libraries(
 
 # Add a custom "check" target a la GNU's Standard Targets for Users.
 add_custom_target(check COMMAND test DEPENDS test)
+
+# Add a custom "coverage" target, if supported.
+if (HAVE_TEST_COVERAGE)
+    add_custom_command(
+        OUTPUT coverage.info
+        COMMAND test
+        COMMAND lcov --capture --directory ${CMAKE_BINARY_DIR} --output-file coverage.info --quiet
+        DEPENDS test
+    )
+    add_custom_target(
+        coverage
+        COMMAND genhtml --output-directory coverage_html --quiet coverage.info
+        DEPENDS coverage.info
+    )
+endif()
 
 install(
     TARGETS test
