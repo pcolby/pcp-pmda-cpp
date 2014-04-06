@@ -1,5 +1,10 @@
 ## PMDA++ Changelog
 
+### 0.3.4 (_unreleased_)
+Features:
+- extensive [code documentation](
+  http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html)
+
 ### 0.3.3 (2014-02-17)
 Features:
 - support for skipping `pcp::pmda::instance` definition ([7ffbd69](
