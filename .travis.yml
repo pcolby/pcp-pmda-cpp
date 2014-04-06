@@ -12,6 +12,7 @@ install:
     sudo apt-get install -qq
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
+  - sudo pip install cpp-coveralls --use-mirrors
 
 before_script:
   - mkdir -p build
@@ -20,3 +21,6 @@ script:
   - pushd build
   - cmake .. && make check
   - popd
+
+after_success:
+  - coveralls -e example -E '.+build' -E '.+test.*\.cpp'
