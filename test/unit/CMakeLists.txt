@@ -111,7 +111,7 @@ if (HAVE_TEST_COVERAGE)
     )
     add_custom_target(
         coverage
-        COMMAND genhtml --output-directory coverage_html --quiet coverage.info
+        COMMAND genhtml --output-directory coverage_html --quiet coverage.info --title 'PMDA++ Unit Tests'
         DEPENDS coverage.info
     )
 endif()
