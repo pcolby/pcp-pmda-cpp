@@ -14,7 +14,6 @@ install:
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
     rubygems
   - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov; fi
-  - sudo pip install cpp-coveralls --use-mirrors
   - gem install lcoveralls --pre
 
 before_script:
@@ -27,7 +26,4 @@ script:
   - popd
 
 after_success:
-  - pwd
-  - find . -name *.info
   - if [ "$CXX" = "g++" ]; then lcoveralls --trace; fi
-  - git status
