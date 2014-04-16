@@ -12,7 +12,7 @@ install:
     sudo apt-get install -qq
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
-    ruby
+    rubygems
   - sudo pip install cpp-coveralls --use-mirrors
   - sudo gem install lcoveralls --pre
 
