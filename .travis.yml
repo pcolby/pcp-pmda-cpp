@@ -25,4 +25,6 @@ script:
   - popd
 
 after_success:
+  - sudo updatedb
+  - sudo locate lcoveralls
   - if [ "$CXX" = "g++" ]; then lcoveralls; fi
