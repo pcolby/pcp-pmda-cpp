@@ -21,12 +21,10 @@ before_script:
 
 script:
   - pushd build
-  - cmake .. && make check
+  - cmake .. && make check && make coverage
   - popd
 
 after_success:
-  - sudo updatedb
-  - sudo locate lcoveralls
   - pwd
   - find . -name *.info
   - if [ "$CXX" = "g++" ]; then lcoveralls; fi
