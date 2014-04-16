@@ -14,7 +14,8 @@ install:
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
     rubygems
   - sudo pip install cpp-coveralls --use-mirrors
-  - sudo gem install lcoveralls --pre
+  - gem install lcoveralls --pre
+  - env
 
 before_script:
   - mkdir -p build
