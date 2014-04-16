@@ -15,7 +15,6 @@ install:
     rubygems
   - sudo pip install cpp-coveralls --use-mirrors
   - gem install lcoveralls --pre
-  - env
 
 before_script:
   - mkdir -p build
@@ -28,4 +27,7 @@ script:
 after_success:
   - sudo updatedb
   - sudo locate lcoveralls
+  - pwd
+  - find . -name *.info
   - if [ "$CXX" = "g++" ]; then lcoveralls; fi
+  - git status
