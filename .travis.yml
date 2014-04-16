@@ -25,4 +25,4 @@ script:
   - popd
 
 after_success:
-  - if [ "$CXX" = "g++" ]; then coveralls; fi
+  - if [ "$CXX" = "g++" ]; then lcoveralls; fi
