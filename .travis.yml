@@ -13,6 +13,7 @@ install:
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
   - sudo pip install cpp-coveralls --use-mirrors
+  - sudo gem install lcoveralls --pre
 
 before_script:
   - mkdir -p build
@@ -23,4 +24,4 @@ script:
   - popd
 
 after_success:
-  - if [ "$CXX" = "g++" ]; then coveralls -e example -E '.+build/(CMakeFiles|extern)/.*' -E '.+test.*\.cpp'; fi
+  - if [ "$CXX" = "g++" ]; then coveralls; fi
