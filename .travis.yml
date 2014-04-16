@@ -10,7 +10,7 @@ before_install:
 install:
   - >
     sudo apt-get install -qq
-    libboost-program-options-dev
+    lcov libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
     rubygems
   - sudo pip install cpp-coveralls --use-mirrors
