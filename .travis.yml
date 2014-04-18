@@ -26,4 +26,4 @@ script:
   - popd
 
 after_success:
-  - if [ "$CXX" = "g++" ]; then lcoveralls; fi
+  - if [ "$CXX" = "g++" ]; then lcoveralls --retry-count 5; fi
