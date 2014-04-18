@@ -1,4 +1,6 @@
-# [![PMDA++](https://f.cloud.github.com/assets/5195222/1797017/fcae7e82-6a9f-11e3-90e0-191374ae939b.png)](#) PMDA++ [![Build Status](https://travis-ci.org/pcolby/pcp-pmda-cpp.png?branch=master)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
+# [![PMDA++](https://f.cloud.github.com/assets/5195222/1797017/fcae7e82-6a9f-11e3-90e0-191374ae939b.png)](#) PMDA++ 
+[![Build Status](https://travis-ci.org/pcolby/pcp-pmda-cpp.svg?branch=master)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
+[![GitHub version](https://badge.fury.io/gh/pcolby%2Fpcp-pmda-cpp.svg)](http://badge.fury.io/gh/pcolby%2Fpcp-pmda-cpp)
 
 PMDA++ is a header-only library that allows developers to write Performance
 Metrics Domain Agents (PMDAs) for [Performance Co-Pilot
