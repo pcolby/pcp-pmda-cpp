@@ -1,7 +1,9 @@
-//               Copyright Paul Colby 2013.
+//               Copyright Paul Colby 2013-2014.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
+
+#include "fake_libpcp.h"
 
 // Boost headers that depend on boost/cstdint.hpp must be included before any
 // PCP headers, because pcp/config.h sets a number of macros like ULONGLONG_MAX
@@ -11,6 +13,8 @@
 
 #include <stdexcept>
 #include <string>
+
+std::map<std::string, char *> fake_pm_config;
 
 extern "C" {
 
@@ -46,7 +50,9 @@ const char *pmErrStr(int code)
 
 char *pmGetConfig(const char *variable)
 {
-    return strdup(variable);
+    const std::map<std::string, char *>::const_iterator iter =
+        fake_pm_config.find(variable);
+    return (iter == fake_pm_config.end()) ? strdup(variable) : iter->second;
 }
 
 void __pmNotifyErr(int /*priority*/, const char */*message*/, ...)
