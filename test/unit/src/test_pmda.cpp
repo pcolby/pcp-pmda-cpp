@@ -13,9 +13,13 @@ class stub_pmda : public pcp::pmda {
 public:
     pcp::metrics_description supported_metrics;
 
+    /// Expose the get_instance method publicly.
+    static pmda * get_instance() {
+        return pcp::pmda::get_instance();
+    }
+
     /// Expose the initialise_pmda method publicly.
-    virtual void initialize_pmda(pmdaInterface &interface)
-    {
+    virtual void initialize_pmda(pmdaInterface &interface) {
         pcp::pmda::initialize_pmda(interface);
     }
 
@@ -38,6 +42,12 @@ protected:
     }
 
 };
+
+TEST(get_instance, null) {
+    // Instance should be NULL, since we haven't initialised any DSO or daemon
+    // interfaces yet.
+    EXPECT_EQ(NULL, stub_pmda::get_instance());
+}
 
 TEST(pmda, initialize_pmda) {
     stub_pmda pmda;
