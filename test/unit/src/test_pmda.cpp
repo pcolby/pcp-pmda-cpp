@@ -36,10 +36,15 @@ protected:
 
 };
 
-TEST(get_instance, null) {
+TEST(pmda, get_instance) {
     // Instance should be NULL, since we haven't initialised any DSO or daemon
     // interfaces yet.
     EXPECT_EQ(NULL, pcp::pmda::get_instance());
+}
+
+TEST(pmda, get_config_file_pathname) {
+    stub_pmda pmda;
+    EXPECT_EQ("PCP_PMDAS_DIR|stub|config", pmda.get_config_file_pathname());
 }
 
 TEST(pmda, initialize_pmda) {
