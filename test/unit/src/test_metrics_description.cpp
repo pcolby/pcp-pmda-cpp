@@ -34,7 +34,8 @@ TEST(metrics_description, insert_child_functor_1) {
 
     // Insert-child functors should throw if the insert-parent functor has not been called yet.
     EXPECT_THROW(
-        desc(123, "metric", PM_TYPE_U64, PM_SEM_COUNTER, pcp::units(1,2,3, 4,5,6)),
+        desc(123, "metric", PM_TYPE_U64, PM_SEM_COUNTER, pcp::units(1,2,3, 4,5,6),
+             pcp::storable_metric, NULL, "short description", "verbose description"),
         pcp::exception
     );
 
@@ -92,7 +93,8 @@ TEST(metrics_description, insert_child_functor_2) {
 
     // Insert-child functors should throw if the insert-parent functor has not been called yet.
     EXPECT_THROW(
-        desc(123, "metric", PM_TYPE_U64, PM_SEM_COUNTER, pcp::units(1,2,3, 4,5,6)),
+        desc(123, "metric", PM_TYPE_U64, PM_SEM_COUNTER, pcp::units(1,2,3, 4,5,6), NULL,
+             pcp::storable_metric, "short description", "verbose description", NULL),
         pcp::exception
     );
 
@@ -150,7 +152,8 @@ TEST(metrics_description, insert_child_functor_3) {
 
     // Insert-child functors should throw if the insert-parent functor has not been called yet.
     EXPECT_THROW(
-        desc(123, "metric", PM_TYPE_U64, PM_SEM_COUNTER, pcp::units(1,2,3, 4,5,6)),
+        desc(123, "metric", PM_TYPE_U64, PM_SEM_COUNTER, pcp::units(1,2,3, 4,5,6), NULL,
+             "short description", "verbose description", NULL, pcp::storable_metric),
         pcp::exception
     );
 
