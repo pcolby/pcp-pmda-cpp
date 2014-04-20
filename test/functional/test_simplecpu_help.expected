@@ -1,0 +1,31 @@
+
+Usage: pmdasimplecpu [options]
+
+Libpcp-pmda options:
+  -D [ --debug ] [=arg(=-1)]            set debug specification
+  -d [ --domain ] arg (=129)            domain number to use
+  -h [ --help-file ] arg (=/var/lib/pcp/pmdas/simplecpu/help)
+                                        file containing help text
+  -i [ --inet ] arg                     use inet port for pmcd comms; conflicts
+                                        with -p, -u and -6
+  -l [ --log-file ] arg (=simplecpu.log)
+                                        file to use for logging
+  -p [ --pipe ]                         use stdin/stdout for pmcd comms; 
+                                        conflicts with -i, -u and -6
+  -u [ --unix ] arg                     use named socket for pmcd comms; 
+                                        conflicts with -i, -p and -6
+  -6 [ --inet6 ] arg                    use IPv6 port for pmcd comms; conflicts
+                                        with -i, -p and -u
+
+Extra options:
+  --config arg (=/var/lib/pcp/pmdas/simplecpu/config)
+                                        load options from config file
+  --export-all [=arg(=.)]               export domain, help, pmns and root then
+                                        exit
+  --export-domain [=arg(=-)]            export domain header then exit
+  --export-help [=arg(=-)]              export help text then exit
+  --export-pmns [=arg(=-)]              export pmns text then exit
+  --export-root [=arg(=-)]              export pmns root then exit
+  --help                                display this message then exit
+  --version                             display version info then exit
+

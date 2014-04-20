@@ -1,0 +1,1 @@
+pmdatrivial --export-pmns

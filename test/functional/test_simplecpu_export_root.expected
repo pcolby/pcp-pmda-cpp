@@ -1,0 +1,7 @@
+
+#include <stdpmid>
+
+root { simplecpu }
+
+#include "pmns"
+

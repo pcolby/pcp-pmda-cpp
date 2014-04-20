@@ -1,0 +1,1 @@
+pmdasimple --version

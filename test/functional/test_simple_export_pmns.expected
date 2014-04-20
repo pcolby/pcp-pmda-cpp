@@ -1,0 +1,13 @@
+
+simple {
+    numfetch    SIMPLE:0:0
+    color       SIMPLE:0:1
+    time
+    now         SIMPLE:2:4
+}
+
+simple.time {
+    user        SIMPLE:1:2
+    sys         SIMPLE:1:3
+}
+
