@@ -13,8 +13,6 @@ Libpcp-pmda options:
                                         conflicts with -i, -u and -6
   -u [ --unix ] arg                     use named socket for pmcd comms; 
                                         conflicts with -i, -p and -6
-  -6 [ --inet6 ] arg                    use IPv6 port for pmcd comms; conflicts
-                                        with -i, -p and -u
 
 Extra options:
   --config arg (=/var/lib/pcp/pmdas/trivial/config)

@@ -15,7 +15,7 @@ while IFS= read -d '' -r COMMAND; do
     . "$COMMAND" > "$TEST_NAME.output"; RC=$?
     if [ $RC -ne 0 ]; then exit $RC; fi
     if [ -e "$TEST_DIR/$TEST_NAME.expected" ]; then
-        DIFF_OUTPUT=`"$DIFF" "$TEST_DIR/$TEST_NAME.expected" "$TEST_NAME.output"`; RC=$?
+        DIFF_OUTPUT=`"$DIFF" -u "$TEST_DIR/$TEST_NAME.expected" "$TEST_NAME.output"`; RC=$?
         if [ $RC -ne 0 ]; then
            echo 'FAILED (files differ)' >&2
             echo "\"$DIFF\" \"$TEST_DIR/$TEST_NAME.expected\" \"$TEST_NAME.output\""
