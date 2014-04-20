@@ -1,1 +1,0 @@
-./pmdasimplecpu --export-help

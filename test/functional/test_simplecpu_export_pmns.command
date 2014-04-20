@@ -1,1 +1,1 @@
-./pmdasimplecpu --export-pmns
+./pmdasimplecpu --export-pmns | grep -Eve 'cpu[1-9]'

@@ -6,12 +6,5 @@ simplecpu {
 simplecpu.ticks {
     total    SIMPLECPU:0:0
     cpu0     SIMPLECPU:0:1
-    cpu1     SIMPLECPU:0:2
-    cpu2     SIMPLECPU:0:3
-    cpu3     SIMPLECPU:0:4
-    cpu4     SIMPLECPU:0:5
-    cpu5     SIMPLECPU:0:6
-    cpu6     SIMPLECPU:0:7
-    cpu7     SIMPLECPU:0:8
 }
 
