@@ -11,12 +11,12 @@
 
 #include "gtest/gtest.h"
 
+/// @brief  Implements a bare-minimum concrete PMDA implementation.
 class stub_pmda : public pcp::pmda {
 
 public:
     pcp::metrics_description supported_metrics;
 
-protected:
     virtual std::string get_pmda_name() const {
         return "stub";
     }
@@ -36,6 +36,29 @@ protected:
 
 };
 
+/// @brief  Overrides virtual pcp::pmda methods to verify thier virtualisation.
+class override_pmda : public stub_pmda {
+public:
+    virtual std::string get_config_file_pathname() const
+    {
+        return "overridden config file pathname";
+    }
+
+    virtual std::string get_help_text_pathname() const
+    {
+        return "overridden help text pathname";
+    }
+
+    virtual std::string get_log_file_pathname() const
+    {
+        return "overridden log file pathname";
+    }
+
+    virtual std::string get_pmda_version() const {
+        return "overridden version";
+    }
+};
+
 TEST(pmda, get_instance) {
     // Instance should be NULL, since we haven't initialised any DSO or daemon
     // interfaces yet.
@@ -43,8 +66,51 @@ TEST(pmda, get_instance) {
 }
 
 TEST(pmda, get_config_file_pathname) {
-    stub_pmda pmda;
-    EXPECT_EQ("PCP_PMDAS_DIR|stub|config", pmda.get_config_file_pathname());
+    // The base implementation return a constructed pathname.
+    stub_pmda pmda1;
+    EXPECT_EQ("PCP_PMDAS_DIR|stub|config", pmda1.get_config_file_pathname());
+
+    // The base implementation must be virtual, allowing us to override.
+    override_pmda pmda2;
+    EXPECT_EQ("overridden config file pathname", pmda2.get_config_file_pathname());
+    EXPECT_EQ("overridden config file pathname", static_cast<pcp::pmda &>(pmda2).get_config_file_pathname());
+    EXPECT_EQ(pmda2.get_config_file_pathname(), static_cast<pcp::pmda &>(pmda2).get_config_file_pathname());
+}
+
+TEST(pmda, get_help_text_pathname) {
+    // The base implementation return a constructed pathname.
+    stub_pmda pmda1;
+    EXPECT_EQ("PCP_PMDAS_DIR|stub|help", pmda1.get_help_text_pathname());
+
+    // The base implementation must be virtual, allowing us to override.
+    override_pmda pmda2;
+    EXPECT_EQ("overridden help text pathname", pmda2.get_help_text_pathname());
+    EXPECT_EQ("overridden help text pathname", static_cast<pcp::pmda &>(pmda2).get_help_text_pathname());
+    EXPECT_EQ(pmda2.get_help_text_pathname(), static_cast<pcp::pmda &>(pmda2).get_help_text_pathname());
+}
+
+TEST(pmda, get_log_file_pathname) {
+    // The base implementation should return the PMDA name with ".log" extension.
+    stub_pmda pmda1;
+    EXPECT_EQ(pmda1.get_pmda_name() + ".log", pmda1.get_log_file_pathname());
+
+    // The base implementation must be virtual, allowing us to override.
+    override_pmda pmda2;
+    EXPECT_EQ("overridden log file pathname", pmda2.get_log_file_pathname());
+    EXPECT_EQ("overridden log file pathname", static_cast<pcp::pmda &>(pmda2).get_log_file_pathname());
+    EXPECT_EQ(pmda2.get_log_file_pathname(), static_cast<pcp::pmda &>(pmda2).get_log_file_pathname());
+}
+
+TEST(pmda, get_pmda_version) {
+    // The base implementation should return an empty PMDA version string.
+    stub_pmda pmda1;
+    EXPECT_EQ("", pmda1.get_pmda_version());
+
+    // The base implementation must be virtual, allowing us to override.
+    override_pmda pmda2;
+    EXPECT_EQ("overridden version", pmda2.get_pmda_version());
+    EXPECT_EQ("overridden version", static_cast<pcp::pmda &>(pmda2).get_pmda_version());
+    EXPECT_EQ(pmda2.get_pmda_version(), static_cast<pcp::pmda &>(pmda2).get_pmda_version());
 }
 
 TEST(pmda, initialize_pmda) {
