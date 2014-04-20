@@ -5,7 +5,7 @@ DIFF=`which diff`
 TEST_DIR=`dirname "$0"`
 
 if [ $# -lt 1 ]; then
-    echo "Usage: `basname $0 .sh` <cmake-binary-dir>" 2>&1
+    echo "Usage: `basename $0 .sh` <cmake-binary-dir>" 2>&1
     exit 1
 fi
 
