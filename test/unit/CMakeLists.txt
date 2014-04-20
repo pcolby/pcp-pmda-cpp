@@ -103,24 +103,8 @@ target_link_libraries(
     ${pthread}
 )
 
-# Add a custom "check" target a la GNU's Standard Targets for Users.
-add_custom_target(check COMMAND test DEPENDS test)
-
-# Add a custom "coverage" target, if supported.
-if (HAVE_TEST_COVERAGE)
-    add_custom_command(
-        OUTPUT coverage.info
-        COMMAND test
-        COMMAND lcov --capture --directory ${CMAKE_BINARY_DIR} --output-file coverage.info --quiet
-        COMMAND lcov --remove coverage.info '/usr/**' 'example/*' 'test/*' --output-file coverage.info --quiet
-        DEPENDS test
-    )
-    add_custom_target(
-        coverage
-        COMMAND genhtml --output-directory coverage_html --quiet coverage.info --title 'PMDA++ Unit Tests'
-        DEPENDS coverage.info
-    )
-endif()
+# Add a custom "check-unit" target.
+add_custom_target(check-unit COMMAND test DEPENDS test)
 
 install(
     TARGETS test
