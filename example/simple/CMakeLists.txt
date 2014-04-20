@@ -41,3 +41,14 @@ endif()
 if (HAVE_WEXTRA)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 endif()
+
+# Enabled code coverage instrumentation, if supported by the compiler.
+check_cxx_compiler_flag(-ftest-coverage HAVE_TEST_COVERAGE)
+if (HAVE_TEST_COVERAGE)
+    # Remove any optimisation flags for most accurate coverage reporting.
+    string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS         ${CMAKE_CXX_FLAGS})
+    string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS_DEBUG   ${CMAKE_CXX_FLAGS_DEBUG})
+    string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+    # Enable gcov code instrumentation for code coverage reporting.
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -O0")
+endif()
