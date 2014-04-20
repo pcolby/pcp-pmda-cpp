@@ -1,1 +1,1 @@
-pmdasimple --export-pmns
+./pmdasimple --export-pmns

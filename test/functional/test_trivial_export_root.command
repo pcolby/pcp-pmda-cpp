@@ -1,1 +1,1 @@
-pmdatrivial --export-root
+./pmdatrivial --export-root

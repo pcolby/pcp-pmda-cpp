@@ -1,1 +1,1 @@
-pmdatrivial --export-domain
+./pmdatrivial --export-domain

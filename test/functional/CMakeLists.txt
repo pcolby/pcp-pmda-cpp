@@ -4,7 +4,8 @@ project(Functional)
 # Add a custom "check-unit" target.
 add_custom_target(
     check-functional
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test.sh ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test.sh
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
 if (TARGET pmdasimple)

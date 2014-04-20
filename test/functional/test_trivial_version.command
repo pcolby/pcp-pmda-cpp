@@ -1,1 +1,1 @@
-pmdatrivial --version | grep -v '^PCP version'
+./pmdatrivial --version | grep -v '^PCP version'

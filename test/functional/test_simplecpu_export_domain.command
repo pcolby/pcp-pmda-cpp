@@ -1,1 +1,1 @@
-pmdasimplecpu --export-domain
+./pmdasimplecpu --export-domain

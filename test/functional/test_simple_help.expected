@@ -1,5 +1,5 @@
 
-Usage: pmdasimple [options]
+Usage: ./pmdasimple [options]
 
 Libpcp-pmda options:
   -D [ --debug ] [=arg(=-1)]            set debug specification

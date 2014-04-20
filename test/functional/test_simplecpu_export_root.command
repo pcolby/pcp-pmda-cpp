@@ -1,1 +1,1 @@
-pmdasimplecpu --export-root
+./pmdasimplecpu --export-root

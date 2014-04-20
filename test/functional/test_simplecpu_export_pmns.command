@@ -1,1 +1,1 @@
-pmdasimplecpu --export-pmns
+./pmdasimplecpu --export-pmns

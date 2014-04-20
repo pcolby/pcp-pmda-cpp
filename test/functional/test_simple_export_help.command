@@ -1,1 +1,1 @@
-pmdasimple --export-help
+./pmdasimple --export-help

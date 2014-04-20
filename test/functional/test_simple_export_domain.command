@@ -1,1 +1,1 @@
-pmdasimple --export-domain
+./pmdasimple --export-domain

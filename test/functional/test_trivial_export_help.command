@@ -1,1 +1,1 @@
-pmdatrivial --export-help
+./pmdatrivial --export-help

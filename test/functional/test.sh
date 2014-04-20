@@ -4,11 +4,6 @@ DIFF=`which diff`
 
 TEST_DIR=`dirname "$0"`
 
-if [ $# -lt 1 ]; then
-    echo "Usage: `basename $0 .sh` <cmake-binary-dir>" 2>&1
-    exit 1
-fi
-
 while IFS= read -d '' -r COMMAND; do
     TEST_NAME=`basename $COMMAND .command`
     echo -n "Checking $TEST_NAME: "

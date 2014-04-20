@@ -1,1 +1,1 @@
-pmdasimple --export-root
+./pmdasimple --export-root
