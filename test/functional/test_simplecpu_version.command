@@ -1,1 +1,1 @@
-./pmdasimplecpu --version | grep -v '^PCP version'
+./pmdasimplecpu --version | sed -re 's/^((PCP|PMDA interface) version ).*$/\1<redacted>/'
