@@ -31,6 +31,7 @@
 // PCP headers, because pcp/config.h sets a number of macros like ULONGLONG_MAX
 // which fool Boost into thinking we're on an unknown, non-standard platform.
 #ifndef PCP_CPP_NO_BOOST
+#  include <boost/date_time/posix_time/posix_time_duration.hpp>
 #  include <boost/program_options.hpp>
 // boost::program_options::typed_value::implicit_value was added in 1.35.0.
 #  if BOOST_VERSION > 103500

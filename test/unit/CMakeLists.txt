@@ -73,6 +73,7 @@ add_executable(test
     ${PROJECT_SOURCE_DIR}/src/fake_libpcp.cpp
     ${PROJECT_SOURCE_DIR}/src/fake_libpcp-pmda.cpp
     ${PROJECT_SOURCE_DIR}/src/test_atom.cpp
+    ${PROJECT_SOURCE_DIR}/src/test_cache.cpp
     ${PROJECT_SOURCE_DIR}/src/test_config.cpp
     ${PROJECT_SOURCE_DIR}/src/test_exception.cpp
     ${PROJECT_SOURCE_DIR}/src/test_instance_domain.cpp
