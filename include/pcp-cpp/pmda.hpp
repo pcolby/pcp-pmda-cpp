@@ -428,9 +428,9 @@ protected:
      * Override this overload if you want to customise the command line parsing
      * process, but don't want to access any of the parsed options explicitly.
      *
-     * Note, it's pretty unsual to want to do this. This overload is really here
-     * to maintain compatibility between the Boost and non-Boost implementations
-     * of parse_command_line.
+     * Note, it's pretty unusual to want to do this. This overload is really
+     * here to maintain compatibility between the Boost and non-Boost
+     * implementations of parse_command_line.
      *
      * @param argc      Argument count.
      * @param argv      Argumnet vector.
