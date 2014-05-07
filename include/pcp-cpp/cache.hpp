@@ -109,7 +109,13 @@ instance_id_type store(const pmInDom indom, const std::string &name,
     return result;
 }
 
-//op;
+/// @todo  Sensible name for this function.
+int op(const pmInDom indom, int op)
+{
+    /// @todo  Error handling, of course.
+    const int result = pmdaCacheOp(indom, op);
+    return result;
+}
 
 } } // pcp::cache namespace.
 
