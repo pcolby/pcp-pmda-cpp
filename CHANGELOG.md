@@ -1,6 +1,6 @@
 ## PMDA++ Changelog
 
-### 0.3.4 (_unreleased_)
+### 0.3.4 (2014-05-10)
 Features:
 - [API documentation](http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html)
 
