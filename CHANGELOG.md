@@ -4,6 +4,9 @@
 Features:
 - [API documentation](http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html)
 
+Bug fixes:
+- metrics description fallback ([#22](../../issues/22))
+
 ### 0.3.3 (2014-02-17)
 Features:
 - support for skipping `pcp::pmda::instance` definition ([7ffbd69](
