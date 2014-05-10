@@ -1,4 +1,8 @@
 
+#ifndef SIMPLE
+#define SIMPLE 253
+#endif
+
 simple {
     numfetch    SIMPLE:0:0
     color       SIMPLE:0:1

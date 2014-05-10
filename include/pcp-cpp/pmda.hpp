@@ -1310,6 +1310,11 @@ private:
 
     void export_pmns_data(const std::string &filename) const
     {
+        // Some basic strings we'll use a couple of times.
+        const std::string &pmda_name = get_pmda_name();
+        std::string upper_name = get_pmda_name();
+        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
+
         // Open the output file.
         std::ofstream file_stream;
         if (filename != "-") {
@@ -1319,6 +1324,13 @@ private:
             }
         }
         std::ostream &stream = (filename == "-") ? std::cout : file_stream;
+
+        // Define the PMID, if not already.
+        stream
+            << std::endl
+            << "#ifndef " << upper_name << std::endl
+            << "#define " << upper_name << ' ' << get_default_pmda_domain_number() << std::endl
+            << "#endif" << std::endl;
 
         // First pass to find the length of the longest metric name.
         std::string::size_type max_metric_name_size = 0;
@@ -1334,11 +1346,6 @@ private:
                 }
             }
         }
-
-        // Some basic strings we'll use a couple of times.
-        const std::string &pmda_name = get_pmda_name();
-        std::string upper_name = get_pmda_name();
-        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
 
         // Second pass to export the group names and ungrouped metrics.
         stream << std::endl << pmda_name << " {" << std::endl;

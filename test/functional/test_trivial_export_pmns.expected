@@ -1,4 +1,8 @@
 
+#ifndef TRIVIAL
+#define TRIVIAL 250
+#endif
+
 trivial {
     time    TRIVIAL:0:0
 }
