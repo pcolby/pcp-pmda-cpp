@@ -1240,7 +1240,7 @@ private:
         std::string upper_name = get_pmda_name();
         std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
         stream
-            << "// The " << get_pmda_name() << " PMDA's domain number." << std::endl
+            << "/* The " << get_pmda_name() << " PMDA's domain number. */" << std::endl
             << "#define " << upper_name << ' ' << get_default_pmda_domain_number() << std::endl;
     }
 

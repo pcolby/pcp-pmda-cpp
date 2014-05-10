@@ -1,2 +1,2 @@
-// The simplecpu PMDA's domain number.
+/* The simplecpu PMDA's domain number. */
 #define SIMPLECPU 129
