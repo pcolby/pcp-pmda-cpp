@@ -1135,11 +1135,15 @@ protected:
     virtual int on_text(int ident, int type, char **buffer, pmdaExt *pmda)
     {
         try {
+            const bool get_one_line = ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE);
             if ((type & PM_TEXT_PMID) == PM_TEXT_PMID) {
                 const metric_description &description =
                     supported_metrics.at(pmid_cluster(ident)).at(pmid_item(ident));
-                const std::string &text =
-                    ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE)
+                const std::string &text = get_one_line
+                    ? description.short_description.empty()
+                        ? description.verbose_description
+                        : description.short_description
+                    : description.verbose_description.empty()
                         ? description.short_description
                         : description.verbose_description;
                 if (text.empty()) {
@@ -1150,8 +1154,11 @@ protected:
             } else if ((type & PM_TEXT_INDOM) == PM_TEXT_INDOM) {
                 const pcp::instance_info &info =
                     instance_domains.at(pmInDom_domain(ident))->at(pmInDom_serial(ident));
-                const std::string &text =
-                    ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE)
+                const std::string &text = get_one_line
+                    ? info.short_description.empty()
+                        ? info.verbose_description
+                        : info.short_description
+                    : info.verbose_description.empty()
                         ? info.short_description
                         : info.verbose_description;
                 if (text.empty()) {
@@ -1165,6 +1172,8 @@ protected:
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PM_ERR_TEXT) {
                 __pmNotifyErr(LOG_NOTICE, "%s", ex.what());
+            } else {
+                __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
             }
         } catch (const std::out_of_range &ex) {
             __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
