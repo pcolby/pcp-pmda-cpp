@@ -1,0 +1,10 @@
+open pipe pmdasimplecpu
+Start pmdasimplecpu PMDA: ./pmdasimplecpu
+text simplecpu.ticks.total
+PMID: 129.0.0
+[The amount of time spent in various states]
+The amount of time spent in various states
+text simplecpu.ticks.cpu0
+PMID: 129.0.1
+[The amount of time spent in various states]
+The amount of time spent in various states

@@ -1,4 +1,8 @@
 
+#ifndef SIMPLECPU
+#define SIMPLECPU 129
+#endif
+
 simplecpu {
     ticks
 }
