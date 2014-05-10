@@ -3,6 +3,8 @@
 ### 0.3.4 (2014-05-10)
 Features:
 - [API documentation](http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html)
+- default PMID in PMNS exports ([48a26c7](
+  ../../commit/c4aba3608f0f699b2df6c3d61e9f7df3aca859a0))
 
 Bug fixes:
 - metrics description fallback ([#22](../../issues/22))
