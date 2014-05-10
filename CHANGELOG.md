@@ -6,6 +6,7 @@ Features:
 
 Bug fixes:
 - metrics description fallback ([#22](../../issues/22))
+- C-style comments for PMNS ([#23](../../issues/23))
 
 ### 0.3.3 (2014-02-17)
 Features:

@@ -1,2 +1,2 @@
-// The trivial PMDA's domain number.
+/* The trivial PMDA's domain number. */
 #define TRIVIAL 250
