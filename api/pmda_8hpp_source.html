@@ -1222,417 +1222,433 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01135"></a><span class="lineno"><a class="line" href="classpcp_1_1pmda.html#a655058cc2963ba2759fcdf789a193c05"> 1135</a></span>&#160;<span class="comment"></span>    <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classpcp_1_1pmda.html#a655058cc2963ba2759fcdf789a193c05">on_text</a>(<span class="keywordtype">int</span> ident, <span class="keywordtype">int</span> type, <span class="keywordtype">char</span> **buffer, pmdaExt *<a class="code" href="classpcp_1_1pmda.html">pmda</a>)</div>
 <div class="line"><a name="l01136"></a><span class="lineno"> 1136</span>&#160;    {</div>
 <div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;            <span class="keywordflow">if</span> ((type &amp; PM_TEXT_PMID) == PM_TEXT_PMID) {</div>
-<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;                <span class="keyword">const</span> <a class="code" href="structpcp_1_1metric__description.html">metric_description</a> &amp;description =</div>
-<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;                    <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.at(pmid_cluster(ident)).at(pmid_item(ident));</div>
-<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;                <span class="keyword">const</span> std::string &amp;text =</div>
-<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;                    ((type &amp; PM_TEXT_ONELINE) == PM_TEXT_ONELINE)</div>
-<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;                        ? description.<a class="code" href="structpcp_1_1metric__description.html#a3fe6fc395bede2ae6708ecb0668ed38f">short_description</a></div>
-<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;                        : description.<a class="code" href="structpcp_1_1metric__description.html#aff96a72a0fe9691120f2200c7d0f1bf6">verbose_description</a>;</div>
-<div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160;                <span class="keywordflow">if</span> (text.empty()) {</div>
-<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;                    <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_TEXT);</div>
-<div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160;                }</div>
-<div class="line"><a name="l01148"></a><span class="lineno"> 1148</span>&#160;                *buffer = strdup(text.c_str());</div>
-<div class="line"><a name="l01149"></a><span class="lineno"> 1149</span>&#160;                <span class="keywordflow">return</span> 0; <span class="comment">// &gt;= 0 implies success.</span></div>
-<div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((type &amp; PM_TEXT_INDOM) == PM_TEXT_INDOM) {</div>
-<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;                <span class="keyword">const</span> <a class="code" href="structpcp_1_1instance__info.html">pcp::instance_info</a> &amp;info =</div>
-<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;                    instance_domains.at(pmInDom_domain(ident))-&gt;at(pmInDom_serial(ident));</div>
-<div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160;                <span class="keyword">const</span> std::string &amp;text =</div>
-<div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160;                    ((type &amp; PM_TEXT_ONELINE) == PM_TEXT_ONELINE)</div>
-<div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160;                        ? info.<a class="code" href="structpcp_1_1instance__info.html#a9d5e50805f5ef82a7428bd59d66ffa24">short_description</a></div>
-<div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;                        : info.<a class="code" href="structpcp_1_1instance__info.html#add3efcb431cc747cf1645b91ddfc7681">verbose_description</a>;</div>
-<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;                <span class="keywordflow">if</span> (text.empty()) {</div>
-<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;                    <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_TEXT);</div>
-<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;                }</div>
-<div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;                *buffer = strdup(text.c_str());</div>
-<div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;                <span class="keywordflow">return</span> 0; <span class="comment">// &gt;= 0 implies success.</span></div>
-<div class="line"><a name="l01162"></a><span class="lineno"> 1162</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l01163"></a><span class="lineno"> 1163</span>&#160;                __pmNotifyErr(LOG_NOTICE, <span class="stringliteral">&quot;unknown text type 0x%x&quot;</span>, type);</div>
-<div class="line"><a name="l01164"></a><span class="lineno"> 1164</span>&#160;            }</div>
-<div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;        } <span class="keywordflow">catch</span> (<span class="keyword">const</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a> &amp;ex) {</div>
-<div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;            <span class="keywordflow">if</span> (ex.<a class="code" href="classpcp_1_1exception.html#af7044cc68406737c73eddc0036603eaf">error_code</a>() != PM_ERR_TEXT) {</div>
-<div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160;                __pmNotifyErr(LOG_NOTICE, <span class="stringliteral">&quot;%s&quot;</span>, ex.<a class="code" href="classpcp_1_1exception.html#a907922e205eb98a1d545efac0bf04509">what</a>());</div>
-<div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;            }</div>
-<div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;        } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::out_of_range &amp;ex) {</div>
-<div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;            __pmNotifyErr(LOG_DEBUG, <span class="stringliteral">&quot;%s:%d:%s %s&quot;</span>, __FILE__, __LINE__, __FUNCTION__, ex.what());</div>
-<div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160;        } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception &amp;ex) {</div>
-<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;            __pmNotifyErr(LOG_NOTICE, <span class="stringliteral">&quot;%s&quot;</span>, ex.what());</div>
-<div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;        } <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;            __pmNotifyErr(LOG_ERR, <span class="stringliteral">&quot;unknown exception in on_text&quot;</span>);</div>
-<div class="line"><a name="l01175"></a><span class="lineno"> 1175</span>&#160;            <span class="keywordflow">return</span> PM_ERR_GENERIC;</div>
-<div class="line"><a name="l01176"></a><span class="lineno"> 1176</span>&#160;        }</div>
-<div class="line"><a name="l01177"></a><span class="lineno"> 1177</span>&#160;        <span class="keywordflow">return</span> pmdaText(ident, type, buffer, pmda);</div>
-<div class="line"><a name="l01178"></a><span class="lineno"> 1178</span>&#160;    }</div>
-<div class="line"><a name="l01179"></a><span class="lineno"> 1179</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l01180"></a><span class="lineno"> 1180</span>&#160;<span class="comment">    /**</span></div>
-<div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160;<span class="comment">     * @brief Set static callbacks on a PMDA interface.</span></div>
-<div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;<span class="comment">     *</span></div>
-<div class="line"><a name="l01183"></a><span class="lineno"> 1183</span>&#160;<span class="comment">     * This function sets our static PMDA callback functions on the given</span></div>
-<div class="line"><a name="l01184"></a><span class="lineno"> 1184</span>&#160;<span class="comment">     * pmdaInterface struct.  These static callback functions then redirect all</span></div>
-<div class="line"><a name="l01185"></a><span class="lineno"> 1185</span>&#160;<span class="comment">     * calls to the current singleton PMDA instance.</span></div>
-<div class="line"><a name="l01186"></a><span class="lineno"> 1186</span>&#160;<span class="comment">     *</span></div>
-<div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;<span class="comment">     * @param interface The interface to set our callbacks on.</span></div>
-<div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l01189"></a><span class="lineno"><a class="line" href="classpcp_1_1pmda.html#ae570f1e502c09010efab5d49e659deeb"> 1189</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classpcp_1_1pmda.html#ae570f1e502c09010efab5d49e659deeb">set_callbacks</a>(pmdaInterface &amp;interface)</div>
-<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;    {</div>
-<div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160;        interface.version.two.profile   = &amp;callback_profile;</div>
-<div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;        interface.version.two.fetch     = &amp;callback_fetch;</div>
-<div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;        interface.version.two.desc      = &amp;callback_desc;</div>
-<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;        interface.version.two.instance  = &amp;callback_instance;</div>
-<div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;        interface.version.two.text      = &amp;callback_text;</div>
-<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;        interface.version.two.store     = &amp;callback_store;</div>
-<div class="line"><a name="l01197"></a><span class="lineno"> 1197</span>&#160;<span class="preprocessor">        #if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 4</span></div>
-<div class="line"><a name="l01198"></a><span class="lineno"> 1198</span>&#160;<span class="preprocessor"></span>        interface.version.four.pmid     = &amp;callback_pmid;</div>
-<div class="line"><a name="l01199"></a><span class="lineno"> 1199</span>&#160;        interface.version.four.name     = &amp;callback_name;</div>
-<div class="line"><a name="l01200"></a><span class="lineno"> 1200</span>&#160;        interface.version.four.children = &amp;callback_children;</div>
-<div class="line"><a name="l01201"></a><span class="lineno"> 1201</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01202"></a><span class="lineno"> 1202</span>&#160;<span class="preprocessor"></span><span class="preprocessor">        #if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 6</span></div>
-<div class="line"><a name="l01203"></a><span class="lineno"> 1203</span>&#160;<span class="preprocessor"></span>        interface.version.six.attribute = &amp;callback_attribute;</div>
-<div class="line"><a name="l01204"></a><span class="lineno"> 1204</span>&#160;<span class="preprocessor">        #endif</span></div>
-<div class="line"><a name="l01205"></a><span class="lineno"> 1205</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01206"></a><span class="lineno"> 1206</span>&#160;        <span class="comment">//pmdaSetResultCallBack(&amp;interface, ...);</span></div>
-<div class="line"><a name="l01207"></a><span class="lineno"> 1207</span>&#160;        pmdaSetFetchCallBack(&amp;interface, &amp;callback_fetch_callback);</div>
-<div class="line"><a name="l01208"></a><span class="lineno"> 1208</span>&#160;        <span class="comment">//pmdaSetCheckCallBack(&amp;interface, ...);</span></div>
-<div class="line"><a name="l01209"></a><span class="lineno"> 1209</span>&#160;        <span class="comment">//pmdaSetDoneCallBack(&amp;interface, ...);</span></div>
-<div class="line"><a name="l01210"></a><span class="lineno"> 1210</span>&#160;        <span class="comment">//pmdaSetEndContextCallBack(&amp;interface, ...);</span></div>
-<div class="line"><a name="l01211"></a><span class="lineno"> 1211</span>&#160;    }</div>
-<div class="line"><a name="l01212"></a><span class="lineno"> 1212</span>&#160;</div>
-<div class="line"><a name="l01213"></a><span class="lineno"> 1213</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l01214"></a><span class="lineno"> 1214</span>&#160;    <span class="keyword">static</span> <a class="code" href="classpcp_1_1pmda.html">pmda</a> * instance;</div>
-<div class="line"><a name="l01215"></a><span class="lineno"> 1215</span>&#160;    std::stack&lt;void *&gt; free_on_destruction;</div>
-<div class="line"><a name="l01216"></a><span class="lineno"> 1216</span>&#160;    std::map&lt;pmInDom, instance_domain *&gt; instance_domains;</div>
-<div class="line"><a name="l01217"></a><span class="lineno"> 1217</span>&#160;</div>
-<div class="line"><a name="l01218"></a><span class="lineno"> 1218</span>&#160;    <span class="keywordtype">void</span> export_domain_header(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
-<div class="line"><a name="l01219"></a><span class="lineno"> 1219</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l01220"></a><span class="lineno"> 1220</span>&#160;        <span class="comment">// Open the output file.</span></div>
-<div class="line"><a name="l01221"></a><span class="lineno"> 1221</span>&#160;        std::ofstream file_stream;</div>
-<div class="line"><a name="l01222"></a><span class="lineno"> 1222</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
-<div class="line"><a name="l01223"></a><span class="lineno"> 1223</span>&#160;            file_stream.open(filename.c_str());</div>
-<div class="line"><a name="l01224"></a><span class="lineno"> 1224</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
-<div class="line"><a name="l01225"></a><span class="lineno"> 1225</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
-<div class="line"><a name="l01226"></a><span class="lineno"> 1226</span>&#160;            }</div>
-<div class="line"><a name="l01227"></a><span class="lineno"> 1227</span>&#160;        }</div>
-<div class="line"><a name="l01228"></a><span class="lineno"> 1228</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
-<div class="line"><a name="l01229"></a><span class="lineno"> 1229</span>&#160;</div>
-<div class="line"><a name="l01230"></a><span class="lineno"> 1230</span>&#160;        <span class="comment">// Export the header file content.</span></div>
-<div class="line"><a name="l01231"></a><span class="lineno"> 1231</span>&#160;        std::string upper_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
-<div class="line"><a name="l01232"></a><span class="lineno"> 1232</span>&#160;        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);</div>
-<div class="line"><a name="l01233"></a><span class="lineno"> 1233</span>&#160;        stream</div>
-<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;// The &quot;</span> &lt;&lt; <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>() &lt;&lt; <span class="stringliteral">&quot; PMDA&#39;s domain number.&quot;</span> &lt;&lt; std::endl</div>
-<div class="line"><a name="l01235"></a><span class="lineno"> 1235</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#define &quot;</span> &lt;&lt; upper_name &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; <a class="code" href="classpcp_1_1pmda.html#ad2eed477fc08682273837c62a39fa6e0">get_default_pmda_domain_number</a>() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01236"></a><span class="lineno"> 1236</span>&#160;    }</div>
-<div class="line"><a name="l01237"></a><span class="lineno"> 1237</span>&#160;</div>
-<div class="line"><a name="l01238"></a><span class="lineno"> 1238</span>&#160;    <span class="keywordtype">void</span> export_help_text(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
-<div class="line"><a name="l01239"></a><span class="lineno"> 1239</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;        <span class="comment">// Generated ordered maps of metric names and instance IDs to help texts.</span></div>
-<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;        std::map&lt;std::string, metric_description&gt; metrics;</div>
-<div class="line"><a name="l01242"></a><span class="lineno"> 1242</span>&#160;        std::map&lt;domain_id_type, const instance_domain *&gt; instances;</div>
-<div class="line"><a name="l01243"></a><span class="lineno"> 1243</span>&#160;        <span class="keyword">const</span> std::string pmda_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
-<div class="line"><a name="l01244"></a><span class="lineno"> 1244</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
-<div class="line"><a name="l01245"></a><span class="lineno"> 1245</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
-<div class="line"><a name="l01246"></a><span class="lineno"> 1246</span>&#160;        {</div>
-<div class="line"><a name="l01247"></a><span class="lineno"> 1247</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
-<div class="line"><a name="l01248"></a><span class="lineno"> 1248</span>&#160;            <span class="keyword">const</span> std::string cluster_name = cluster.get_cluster_name();</div>
-<div class="line"><a name="l01249"></a><span class="lineno"> 1249</span>&#160;            <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
-<div class="line"><a name="l01250"></a><span class="lineno"> 1250</span>&#160;                 cluster_iter != cluster.end(); ++cluster_iter)</div>
-<div class="line"><a name="l01251"></a><span class="lineno"> 1251</span>&#160;            {</div>
-<div class="line"><a name="l01252"></a><span class="lineno"> 1252</span>&#160;                <span class="keyword">const</span> metric_description &amp;metric = cluster_iter-&gt;second;</div>
-<div class="line"><a name="l01253"></a><span class="lineno"> 1253</span>&#160;                std::string metric_name = pmda_name;</div>
-<div class="line"><a name="l01254"></a><span class="lineno"> 1254</span>&#160;                <span class="keywordflow">if</span> (!cluster_name.empty()) {</div>
-<div class="line"><a name="l01255"></a><span class="lineno"> 1255</span>&#160;                    metric_name += <span class="charliteral">&#39;.&#39;</span> + cluster_name;</div>
-<div class="line"><a name="l01256"></a><span class="lineno"> 1256</span>&#160;                }</div>
-<div class="line"><a name="l01257"></a><span class="lineno"> 1257</span>&#160;                metric_name += <span class="charliteral">&#39;.&#39;</span> + metric.metric_name;</div>
-<div class="line"><a name="l01258"></a><span class="lineno"> 1258</span>&#160;                metrics.insert(std::make_pair(metric_name, metric));</div>
-<div class="line"><a name="l01259"></a><span class="lineno"> 1259</span>&#160;                <span class="keywordflow">if</span> (metric.domain != NULL) {</div>
-<div class="line"><a name="l01260"></a><span class="lineno"> 1260</span>&#160;                    instances.insert(std::make_pair(metric.domain-&gt;get_domain_id(), metric.domain));</div>
-<div class="line"><a name="l01261"></a><span class="lineno"> 1261</span>&#160;                }</div>
-<div class="line"><a name="l01262"></a><span class="lineno"> 1262</span>&#160;            }</div>
-<div class="line"><a name="l01263"></a><span class="lineno"> 1263</span>&#160;        }</div>
-<div class="line"><a name="l01264"></a><span class="lineno"> 1264</span>&#160;</div>
-<div class="line"><a name="l01265"></a><span class="lineno"> 1265</span>&#160;        <span class="comment">// Open the output file.</span></div>
-<div class="line"><a name="l01266"></a><span class="lineno"> 1266</span>&#160;        std::ofstream file_stream;</div>
-<div class="line"><a name="l01267"></a><span class="lineno"> 1267</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
-<div class="line"><a name="l01268"></a><span class="lineno"> 1268</span>&#160;            file_stream.open(filename.c_str());</div>
-<div class="line"><a name="l01269"></a><span class="lineno"> 1269</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
-<div class="line"><a name="l01270"></a><span class="lineno"> 1270</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
+<div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">bool</span> get_one_line = ((type &amp; PM_TEXT_ONELINE) == PM_TEXT_ONELINE);</div>
+<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;            <span class="keywordflow">if</span> ((type &amp; PM_TEXT_PMID) == PM_TEXT_PMID) {</div>
+<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;                <span class="keyword">const</span> <a class="code" href="structpcp_1_1metric__description.html">metric_description</a> &amp;description =</div>
+<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;                    <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.at(pmid_cluster(ident)).at(pmid_item(ident));</div>
+<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;                <span class="keyword">const</span> std::string &amp;text = get_one_line</div>
+<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;                    ? description.<a class="code" href="structpcp_1_1metric__description.html#a3fe6fc395bede2ae6708ecb0668ed38f">short_description</a>.empty()</div>
+<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;                        ? description.<a class="code" href="structpcp_1_1metric__description.html#aff96a72a0fe9691120f2200c7d0f1bf6">verbose_description</a></div>
+<div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160;                        : description.<a class="code" href="structpcp_1_1metric__description.html#a3fe6fc395bede2ae6708ecb0668ed38f">short_description</a></div>
+<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;                    : description.<a class="code" href="structpcp_1_1metric__description.html#aff96a72a0fe9691120f2200c7d0f1bf6">verbose_description</a>.empty()</div>
+<div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160;                        ? description.<a class="code" href="structpcp_1_1metric__description.html#a3fe6fc395bede2ae6708ecb0668ed38f">short_description</a></div>
+<div class="line"><a name="l01148"></a><span class="lineno"> 1148</span>&#160;                        : description.<a class="code" href="structpcp_1_1metric__description.html#aff96a72a0fe9691120f2200c7d0f1bf6">verbose_description</a>;</div>
+<div class="line"><a name="l01149"></a><span class="lineno"> 1149</span>&#160;                <span class="keywordflow">if</span> (text.empty()) {</div>
+<div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160;                    <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_TEXT);</div>
+<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;                }</div>
+<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;                *buffer = strdup(text.c_str());</div>
+<div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160;                <span class="keywordflow">return</span> 0; <span class="comment">// &gt;= 0 implies success.</span></div>
+<div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((type &amp; PM_TEXT_INDOM) == PM_TEXT_INDOM) {</div>
+<div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160;                <span class="keyword">const</span> <a class="code" href="structpcp_1_1instance__info.html">pcp::instance_info</a> &amp;info =</div>
+<div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;                    instance_domains.at(pmInDom_domain(ident))-&gt;at(pmInDom_serial(ident));</div>
+<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;                <span class="keyword">const</span> std::string &amp;text = get_one_line</div>
+<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;                    ? info.<a class="code" href="structpcp_1_1instance__info.html#a9d5e50805f5ef82a7428bd59d66ffa24">short_description</a>.empty()</div>
+<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;                        ? info.<a class="code" href="structpcp_1_1instance__info.html#add3efcb431cc747cf1645b91ddfc7681">verbose_description</a></div>
+<div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;                        : info.<a class="code" href="structpcp_1_1instance__info.html#a9d5e50805f5ef82a7428bd59d66ffa24">short_description</a></div>
+<div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;                    : info.<a class="code" href="structpcp_1_1instance__info.html#add3efcb431cc747cf1645b91ddfc7681">verbose_description</a>.empty()</div>
+<div class="line"><a name="l01162"></a><span class="lineno"> 1162</span>&#160;                        ? info.<a class="code" href="structpcp_1_1instance__info.html#a9d5e50805f5ef82a7428bd59d66ffa24">short_description</a></div>
+<div class="line"><a name="l01163"></a><span class="lineno"> 1163</span>&#160;                        : info.<a class="code" href="structpcp_1_1instance__info.html#add3efcb431cc747cf1645b91ddfc7681">verbose_description</a>;</div>
+<div class="line"><a name="l01164"></a><span class="lineno"> 1164</span>&#160;                <span class="keywordflow">if</span> (text.empty()) {</div>
+<div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;                    <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_TEXT);</div>
+<div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;                }</div>
+<div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160;                *buffer = strdup(text.c_str());</div>
+<div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;                <span class="keywordflow">return</span> 0; <span class="comment">// &gt;= 0 implies success.</span></div>
+<div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;                __pmNotifyErr(LOG_NOTICE, <span class="stringliteral">&quot;unknown text type 0x%x&quot;</span>, type);</div>
+<div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160;            }</div>
+<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;        } <span class="keywordflow">catch</span> (<span class="keyword">const</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a> &amp;ex) {</div>
+<div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;            <span class="keywordflow">if</span> (ex.<a class="code" href="classpcp_1_1exception.html#af7044cc68406737c73eddc0036603eaf">error_code</a>() != PM_ERR_TEXT) {</div>
+<div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;                __pmNotifyErr(LOG_NOTICE, <span class="stringliteral">&quot;%s&quot;</span>, ex.<a class="code" href="classpcp_1_1exception.html#a907922e205eb98a1d545efac0bf04509">what</a>());</div>
+<div class="line"><a name="l01175"></a><span class="lineno"> 1175</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l01176"></a><span class="lineno"> 1176</span>&#160;                __pmNotifyErr(LOG_DEBUG, <span class="stringliteral">&quot;%s:%d:%s %s&quot;</span>, __FILE__, __LINE__, __FUNCTION__, ex.<a class="code" href="classpcp_1_1exception.html#a907922e205eb98a1d545efac0bf04509">what</a>());</div>
+<div class="line"><a name="l01177"></a><span class="lineno"> 1177</span>&#160;            }</div>
+<div class="line"><a name="l01178"></a><span class="lineno"> 1178</span>&#160;        } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::out_of_range &amp;ex) {</div>
+<div class="line"><a name="l01179"></a><span class="lineno"> 1179</span>&#160;            __pmNotifyErr(LOG_DEBUG, <span class="stringliteral">&quot;%s:%d:%s %s&quot;</span>, __FILE__, __LINE__, __FUNCTION__, ex.what());</div>
+<div class="line"><a name="l01180"></a><span class="lineno"> 1180</span>&#160;        } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception &amp;ex) {</div>
+<div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160;            __pmNotifyErr(LOG_NOTICE, <span class="stringliteral">&quot;%s&quot;</span>, ex.what());</div>
+<div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;        } <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><a name="l01183"></a><span class="lineno"> 1183</span>&#160;            __pmNotifyErr(LOG_ERR, <span class="stringliteral">&quot;unknown exception in on_text&quot;</span>);</div>
+<div class="line"><a name="l01184"></a><span class="lineno"> 1184</span>&#160;            <span class="keywordflow">return</span> PM_ERR_GENERIC;</div>
+<div class="line"><a name="l01185"></a><span class="lineno"> 1185</span>&#160;        }</div>
+<div class="line"><a name="l01186"></a><span class="lineno"> 1186</span>&#160;        <span class="keywordflow">return</span> pmdaText(ident, type, buffer, pmda);</div>
+<div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;    }</div>
+<div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l01189"></a><span class="lineno"> 1189</span>&#160;<span class="comment">    /**</span></div>
+<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;<span class="comment">     * @brief Set static callbacks on a PMDA interface.</span></div>
+<div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160;<span class="comment">     *</span></div>
+<div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;<span class="comment">     * This function sets our static PMDA callback functions on the given</span></div>
+<div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;<span class="comment">     * pmdaInterface struct.  These static callback functions then redirect all</span></div>
+<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;<span class="comment">     * calls to the current singleton PMDA instance.</span></div>
+<div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;<span class="comment">     *</span></div>
+<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;<span class="comment">     * @param interface The interface to set our callbacks on.</span></div>
+<div class="line"><a name="l01197"></a><span class="lineno"> 1197</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l01198"></a><span class="lineno"><a class="line" href="classpcp_1_1pmda.html#ae570f1e502c09010efab5d49e659deeb"> 1198</a></span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classpcp_1_1pmda.html#ae570f1e502c09010efab5d49e659deeb">set_callbacks</a>(pmdaInterface &amp;interface)</div>
+<div class="line"><a name="l01199"></a><span class="lineno"> 1199</span>&#160;    {</div>
+<div class="line"><a name="l01200"></a><span class="lineno"> 1200</span>&#160;        interface.version.two.profile   = &amp;callback_profile;</div>
+<div class="line"><a name="l01201"></a><span class="lineno"> 1201</span>&#160;        interface.version.two.fetch     = &amp;callback_fetch;</div>
+<div class="line"><a name="l01202"></a><span class="lineno"> 1202</span>&#160;        interface.version.two.desc      = &amp;callback_desc;</div>
+<div class="line"><a name="l01203"></a><span class="lineno"> 1203</span>&#160;        interface.version.two.instance  = &amp;callback_instance;</div>
+<div class="line"><a name="l01204"></a><span class="lineno"> 1204</span>&#160;        interface.version.two.text      = &amp;callback_text;</div>
+<div class="line"><a name="l01205"></a><span class="lineno"> 1205</span>&#160;        interface.version.two.store     = &amp;callback_store;</div>
+<div class="line"><a name="l01206"></a><span class="lineno"> 1206</span>&#160;<span class="preprocessor">        #if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 4</span></div>
+<div class="line"><a name="l01207"></a><span class="lineno"> 1207</span>&#160;<span class="preprocessor"></span>        interface.version.four.pmid     = &amp;callback_pmid;</div>
+<div class="line"><a name="l01208"></a><span class="lineno"> 1208</span>&#160;        interface.version.four.name     = &amp;callback_name;</div>
+<div class="line"><a name="l01209"></a><span class="lineno"> 1209</span>&#160;        interface.version.four.children = &amp;callback_children;</div>
+<div class="line"><a name="l01210"></a><span class="lineno"> 1210</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01211"></a><span class="lineno"> 1211</span>&#160;<span class="preprocessor"></span><span class="preprocessor">        #if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 6</span></div>
+<div class="line"><a name="l01212"></a><span class="lineno"> 1212</span>&#160;<span class="preprocessor"></span>        interface.version.six.attribute = &amp;callback_attribute;</div>
+<div class="line"><a name="l01213"></a><span class="lineno"> 1213</span>&#160;<span class="preprocessor">        #endif</span></div>
+<div class="line"><a name="l01214"></a><span class="lineno"> 1214</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01215"></a><span class="lineno"> 1215</span>&#160;        <span class="comment">//pmdaSetResultCallBack(&amp;interface, ...);</span></div>
+<div class="line"><a name="l01216"></a><span class="lineno"> 1216</span>&#160;        pmdaSetFetchCallBack(&amp;interface, &amp;callback_fetch_callback);</div>
+<div class="line"><a name="l01217"></a><span class="lineno"> 1217</span>&#160;        <span class="comment">//pmdaSetCheckCallBack(&amp;interface, ...);</span></div>
+<div class="line"><a name="l01218"></a><span class="lineno"> 1218</span>&#160;        <span class="comment">//pmdaSetDoneCallBack(&amp;interface, ...);</span></div>
+<div class="line"><a name="l01219"></a><span class="lineno"> 1219</span>&#160;        <span class="comment">//pmdaSetEndContextCallBack(&amp;interface, ...);</span></div>
+<div class="line"><a name="l01220"></a><span class="lineno"> 1220</span>&#160;    }</div>
+<div class="line"><a name="l01221"></a><span class="lineno"> 1221</span>&#160;</div>
+<div class="line"><a name="l01222"></a><span class="lineno"> 1222</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l01223"></a><span class="lineno"> 1223</span>&#160;    <span class="keyword">static</span> <a class="code" href="classpcp_1_1pmda.html">pmda</a> * instance;</div>
+<div class="line"><a name="l01224"></a><span class="lineno"> 1224</span>&#160;    std::stack&lt;void *&gt; free_on_destruction;</div>
+<div class="line"><a name="l01225"></a><span class="lineno"> 1225</span>&#160;    std::map&lt;pmInDom, instance_domain *&gt; instance_domains;</div>
+<div class="line"><a name="l01226"></a><span class="lineno"> 1226</span>&#160;</div>
+<div class="line"><a name="l01227"></a><span class="lineno"> 1227</span>&#160;    <span class="keywordtype">void</span> export_domain_header(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
+<div class="line"><a name="l01228"></a><span class="lineno"> 1228</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l01229"></a><span class="lineno"> 1229</span>&#160;        <span class="comment">// Open the output file.</span></div>
+<div class="line"><a name="l01230"></a><span class="lineno"> 1230</span>&#160;        std::ofstream file_stream;</div>
+<div class="line"><a name="l01231"></a><span class="lineno"> 1231</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
+<div class="line"><a name="l01232"></a><span class="lineno"> 1232</span>&#160;            file_stream.open(filename.c_str());</div>
+<div class="line"><a name="l01233"></a><span class="lineno"> 1233</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
+<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
+<div class="line"><a name="l01235"></a><span class="lineno"> 1235</span>&#160;            }</div>
+<div class="line"><a name="l01236"></a><span class="lineno"> 1236</span>&#160;        }</div>
+<div class="line"><a name="l01237"></a><span class="lineno"> 1237</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
+<div class="line"><a name="l01238"></a><span class="lineno"> 1238</span>&#160;</div>
+<div class="line"><a name="l01239"></a><span class="lineno"> 1239</span>&#160;        <span class="comment">// Export the header file content.</span></div>
+<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;        std::string upper_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
+<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);</div>
+<div class="line"><a name="l01242"></a><span class="lineno"> 1242</span>&#160;        stream</div>
+<div class="line"><a name="l01243"></a><span class="lineno"> 1243</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;/* The &quot;</span> &lt;&lt; <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>() &lt;&lt; <span class="stringliteral">&quot; PMDA&#39;s domain number. */&quot;</span> &lt;&lt; std::endl</div>
+<div class="line"><a name="l01244"></a><span class="lineno"> 1244</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#define &quot;</span> &lt;&lt; upper_name &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; <a class="code" href="classpcp_1_1pmda.html#ad2eed477fc08682273837c62a39fa6e0">get_default_pmda_domain_number</a>() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01245"></a><span class="lineno"> 1245</span>&#160;    }</div>
+<div class="line"><a name="l01246"></a><span class="lineno"> 1246</span>&#160;</div>
+<div class="line"><a name="l01247"></a><span class="lineno"> 1247</span>&#160;    <span class="keywordtype">void</span> export_help_text(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
+<div class="line"><a name="l01248"></a><span class="lineno"> 1248</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l01249"></a><span class="lineno"> 1249</span>&#160;        <span class="comment">// Generated ordered maps of metric names and instance IDs to help texts.</span></div>
+<div class="line"><a name="l01250"></a><span class="lineno"> 1250</span>&#160;        std::map&lt;std::string, metric_description&gt; metrics;</div>
+<div class="line"><a name="l01251"></a><span class="lineno"> 1251</span>&#160;        std::map&lt;domain_id_type, const instance_domain *&gt; instances;</div>
+<div class="line"><a name="l01252"></a><span class="lineno"> 1252</span>&#160;        <span class="keyword">const</span> std::string pmda_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
+<div class="line"><a name="l01253"></a><span class="lineno"> 1253</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
+<div class="line"><a name="l01254"></a><span class="lineno"> 1254</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
+<div class="line"><a name="l01255"></a><span class="lineno"> 1255</span>&#160;        {</div>
+<div class="line"><a name="l01256"></a><span class="lineno"> 1256</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
+<div class="line"><a name="l01257"></a><span class="lineno"> 1257</span>&#160;            <span class="keyword">const</span> std::string cluster_name = cluster.get_cluster_name();</div>
+<div class="line"><a name="l01258"></a><span class="lineno"> 1258</span>&#160;            <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
+<div class="line"><a name="l01259"></a><span class="lineno"> 1259</span>&#160;                 cluster_iter != cluster.end(); ++cluster_iter)</div>
+<div class="line"><a name="l01260"></a><span class="lineno"> 1260</span>&#160;            {</div>
+<div class="line"><a name="l01261"></a><span class="lineno"> 1261</span>&#160;                <span class="keyword">const</span> metric_description &amp;metric = cluster_iter-&gt;second;</div>
+<div class="line"><a name="l01262"></a><span class="lineno"> 1262</span>&#160;                std::string metric_name = pmda_name;</div>
+<div class="line"><a name="l01263"></a><span class="lineno"> 1263</span>&#160;                <span class="keywordflow">if</span> (!cluster_name.empty()) {</div>
+<div class="line"><a name="l01264"></a><span class="lineno"> 1264</span>&#160;                    metric_name += <span class="charliteral">&#39;.&#39;</span> + cluster_name;</div>
+<div class="line"><a name="l01265"></a><span class="lineno"> 1265</span>&#160;                }</div>
+<div class="line"><a name="l01266"></a><span class="lineno"> 1266</span>&#160;                metric_name += <span class="charliteral">&#39;.&#39;</span> + metric.metric_name;</div>
+<div class="line"><a name="l01267"></a><span class="lineno"> 1267</span>&#160;                metrics.insert(std::make_pair(metric_name, metric));</div>
+<div class="line"><a name="l01268"></a><span class="lineno"> 1268</span>&#160;                <span class="keywordflow">if</span> (metric.domain != NULL) {</div>
+<div class="line"><a name="l01269"></a><span class="lineno"> 1269</span>&#160;                    instances.insert(std::make_pair(metric.domain-&gt;get_domain_id(), metric.domain));</div>
+<div class="line"><a name="l01270"></a><span class="lineno"> 1270</span>&#160;                }</div>
 <div class="line"><a name="l01271"></a><span class="lineno"> 1271</span>&#160;            }</div>
 <div class="line"><a name="l01272"></a><span class="lineno"> 1272</span>&#160;        }</div>
-<div class="line"><a name="l01273"></a><span class="lineno"> 1273</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
-<div class="line"><a name="l01274"></a><span class="lineno"> 1274</span>&#160;</div>
-<div class="line"><a name="l01275"></a><span class="lineno"> 1275</span>&#160;        <span class="comment">// Export the help text.</span></div>
-<div class="line"><a name="l01276"></a><span class="lineno"> 1276</span>&#160;        stream &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01277"></a><span class="lineno"> 1277</span>&#160;        <span class="keywordflow">for</span> (std::map&lt;std::string, metric_description&gt;::const_iterator metric = metrics.begin();</div>
-<div class="line"><a name="l01278"></a><span class="lineno"> 1278</span>&#160;             metric != metrics.end(); ++metric)</div>
-<div class="line"><a name="l01279"></a><span class="lineno"> 1279</span>&#160;        {</div>
-<div class="line"><a name="l01280"></a><span class="lineno"> 1280</span>&#160;            stream &lt;&lt; <span class="stringliteral">&quot;@ &quot;</span> &lt;&lt; metric-&gt;first &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; metric-&gt;second.short_description &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01281"></a><span class="lineno"> 1281</span>&#160;            <span class="keywordflow">if</span> (!metric-&gt;second.verbose_description.empty()) {</div>
-<div class="line"><a name="l01282"></a><span class="lineno"> 1282</span>&#160;                stream &lt;&lt; metric-&gt;second.verbose_description &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01283"></a><span class="lineno"> 1283</span>&#160;            }</div>
-<div class="line"><a name="l01284"></a><span class="lineno"> 1284</span>&#160;            stream &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01285"></a><span class="lineno"> 1285</span>&#160;        }</div>
-<div class="line"><a name="l01286"></a><span class="lineno"> 1286</span>&#160;        <span class="keywordflow">for</span> (std::map&lt;domain_id_type, const instance_domain *&gt;::const_iterator indom = instances.begin();</div>
-<div class="line"><a name="l01287"></a><span class="lineno"> 1287</span>&#160;             indom != instances.end(); indom++)</div>
+<div class="line"><a name="l01273"></a><span class="lineno"> 1273</span>&#160;</div>
+<div class="line"><a name="l01274"></a><span class="lineno"> 1274</span>&#160;        <span class="comment">// Open the output file.</span></div>
+<div class="line"><a name="l01275"></a><span class="lineno"> 1275</span>&#160;        std::ofstream file_stream;</div>
+<div class="line"><a name="l01276"></a><span class="lineno"> 1276</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
+<div class="line"><a name="l01277"></a><span class="lineno"> 1277</span>&#160;            file_stream.open(filename.c_str());</div>
+<div class="line"><a name="l01278"></a><span class="lineno"> 1278</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
+<div class="line"><a name="l01279"></a><span class="lineno"> 1279</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
+<div class="line"><a name="l01280"></a><span class="lineno"> 1280</span>&#160;            }</div>
+<div class="line"><a name="l01281"></a><span class="lineno"> 1281</span>&#160;        }</div>
+<div class="line"><a name="l01282"></a><span class="lineno"> 1282</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
+<div class="line"><a name="l01283"></a><span class="lineno"> 1283</span>&#160;</div>
+<div class="line"><a name="l01284"></a><span class="lineno"> 1284</span>&#160;        <span class="comment">// Export the help text.</span></div>
+<div class="line"><a name="l01285"></a><span class="lineno"> 1285</span>&#160;        stream &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01286"></a><span class="lineno"> 1286</span>&#160;        <span class="keywordflow">for</span> (std::map&lt;std::string, metric_description&gt;::const_iterator metric = metrics.begin();</div>
+<div class="line"><a name="l01287"></a><span class="lineno"> 1287</span>&#160;             metric != metrics.end(); ++metric)</div>
 <div class="line"><a name="l01288"></a><span class="lineno"> 1288</span>&#160;        {</div>
-<div class="line"><a name="l01289"></a><span class="lineno"> 1289</span>&#160;            <span class="keywordflow">for</span> (instance_domain::const_iterator instance = indom-&gt;second-&gt;begin();</div>
-<div class="line"><a name="l01290"></a><span class="lineno"> 1290</span>&#160;                 instance != indom-&gt;second-&gt;end(); ++instance)</div>
-<div class="line"><a name="l01291"></a><span class="lineno"> 1291</span>&#160;            {</div>
-<div class="line"><a name="l01292"></a><span class="lineno"> 1292</span>&#160;                stream &lt;&lt; <span class="stringliteral">&quot;@ &quot;</span> &lt;&lt; indom-&gt;first &lt;&lt; <span class="charliteral">&#39;.&#39;</span> &lt;&lt; instance-&gt;first</div>
-<div class="line"><a name="l01293"></a><span class="lineno"> 1293</span>&#160;                       &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; instance-&gt;second.short_description &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01294"></a><span class="lineno"> 1294</span>&#160;                <span class="keywordflow">if</span> (!instance-&gt;second.verbose_description.empty()) {</div>
-<div class="line"><a name="l01295"></a><span class="lineno"> 1295</span>&#160;                    stream &lt;&lt; instance-&gt;second.verbose_description &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01296"></a><span class="lineno"> 1296</span>&#160;                }</div>
-<div class="line"><a name="l01297"></a><span class="lineno"> 1297</span>&#160;                stream &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01298"></a><span class="lineno"> 1298</span>&#160;            }</div>
-<div class="line"><a name="l01299"></a><span class="lineno"> 1299</span>&#160;        }</div>
-<div class="line"><a name="l01300"></a><span class="lineno"> 1300</span>&#160;    }</div>
-<div class="line"><a name="l01301"></a><span class="lineno"> 1301</span>&#160;</div>
-<div class="line"><a name="l01302"></a><span class="lineno"> 1302</span>&#160;    <span class="keywordtype">void</span> export_pmns_data(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
-<div class="line"><a name="l01303"></a><span class="lineno"> 1303</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l01304"></a><span class="lineno"> 1304</span>&#160;        <span class="comment">// Open the output file.</span></div>
-<div class="line"><a name="l01305"></a><span class="lineno"> 1305</span>&#160;        std::ofstream file_stream;</div>
-<div class="line"><a name="l01306"></a><span class="lineno"> 1306</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
-<div class="line"><a name="l01307"></a><span class="lineno"> 1307</span>&#160;            file_stream.open(filename.c_str());</div>
-<div class="line"><a name="l01308"></a><span class="lineno"> 1308</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
-<div class="line"><a name="l01309"></a><span class="lineno"> 1309</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
-<div class="line"><a name="l01310"></a><span class="lineno"> 1310</span>&#160;            }</div>
-<div class="line"><a name="l01311"></a><span class="lineno"> 1311</span>&#160;        }</div>
-<div class="line"><a name="l01312"></a><span class="lineno"> 1312</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
-<div class="line"><a name="l01313"></a><span class="lineno"> 1313</span>&#160;</div>
-<div class="line"><a name="l01314"></a><span class="lineno"> 1314</span>&#160;        <span class="comment">// First pass to find the length of the longest metric name.</span></div>
-<div class="line"><a name="l01315"></a><span class="lineno"> 1315</span>&#160;        std::string::size_type max_metric_name_size = 0;</div>
-<div class="line"><a name="l01316"></a><span class="lineno"> 1316</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
-<div class="line"><a name="l01317"></a><span class="lineno"> 1317</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
-<div class="line"><a name="l01318"></a><span class="lineno"> 1318</span>&#160;        {</div>
-<div class="line"><a name="l01319"></a><span class="lineno"> 1319</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
-<div class="line"><a name="l01320"></a><span class="lineno"> 1320</span>&#160;            <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
-<div class="line"><a name="l01321"></a><span class="lineno"> 1321</span>&#160;                 cluster_iter != cluster.end(); ++cluster_iter)</div>
-<div class="line"><a name="l01322"></a><span class="lineno"> 1322</span>&#160;            {</div>
-<div class="line"><a name="l01323"></a><span class="lineno"> 1323</span>&#160;                <span class="keywordflow">if</span> (cluster_iter-&gt;second.metric_name.size() &gt; max_metric_name_size) {</div>
-<div class="line"><a name="l01324"></a><span class="lineno"> 1324</span>&#160;                    max_metric_name_size = cluster_iter-&gt;second.metric_name.size();</div>
-<div class="line"><a name="l01325"></a><span class="lineno"> 1325</span>&#160;                }</div>
-<div class="line"><a name="l01326"></a><span class="lineno"> 1326</span>&#160;            }</div>
-<div class="line"><a name="l01327"></a><span class="lineno"> 1327</span>&#160;        }</div>
-<div class="line"><a name="l01328"></a><span class="lineno"> 1328</span>&#160;</div>
-<div class="line"><a name="l01329"></a><span class="lineno"> 1329</span>&#160;        <span class="comment">// Some basic strings we&#39;ll use a couple of times.</span></div>
-<div class="line"><a name="l01330"></a><span class="lineno"> 1330</span>&#160;        <span class="keyword">const</span> std::string &amp;pmda_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
-<div class="line"><a name="l01331"></a><span class="lineno"> 1331</span>&#160;        std::string upper_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
-<div class="line"><a name="l01332"></a><span class="lineno"> 1332</span>&#160;        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);</div>
-<div class="line"><a name="l01333"></a><span class="lineno"> 1333</span>&#160;</div>
-<div class="line"><a name="l01334"></a><span class="lineno"> 1334</span>&#160;        <span class="comment">// Second pass to export the group names and ungrouped metrics.</span></div>
-<div class="line"><a name="l01335"></a><span class="lineno"> 1335</span>&#160;        stream &lt;&lt; std::endl &lt;&lt; pmda_name &lt;&lt; <span class="stringliteral">&quot; {&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01336"></a><span class="lineno"> 1336</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
-<div class="line"><a name="l01337"></a><span class="lineno"> 1337</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
-<div class="line"><a name="l01338"></a><span class="lineno"> 1338</span>&#160;        {</div>
-<div class="line"><a name="l01339"></a><span class="lineno"> 1339</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
-<div class="line"><a name="l01340"></a><span class="lineno"> 1340</span>&#160;            <span class="keyword">const</span> std::string cluster_name = cluster.get_cluster_name();</div>
-<div class="line"><a name="l01341"></a><span class="lineno"> 1341</span>&#160;            <span class="keywordflow">if</span> (cluster_name.empty()) {</div>
-<div class="line"><a name="l01342"></a><span class="lineno"> 1342</span>&#160;                <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
-<div class="line"><a name="l01343"></a><span class="lineno"> 1343</span>&#160;                     cluster_iter != cluster.end(); ++cluster_iter)</div>
-<div class="line"><a name="l01344"></a><span class="lineno"> 1344</span>&#160;                {</div>
-<div class="line"><a name="l01345"></a><span class="lineno"> 1345</span>&#160;                    stream &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; cluster_iter-&gt;second.metric_name</div>
-<div class="line"><a name="l01346"></a><span class="lineno"> 1346</span>&#160;                           &lt;&lt; std::string(max_metric_name_size - cluster_iter-&gt;second.metric_name.size() + 4, <span class="charliteral">&#39; &#39;</span>)</div>
-<div class="line"><a name="l01347"></a><span class="lineno"> 1347</span>&#160;                           &lt;&lt; upper_name &lt;&lt; <span class="charliteral">&#39;:&#39;</span> &lt;&lt; cluster.get_cluster_id() &lt;&lt; <span class="charliteral">&#39;:&#39;</span></div>
-<div class="line"><a name="l01348"></a><span class="lineno"> 1348</span>&#160;                           &lt;&lt; cluster_iter-&gt;first &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01349"></a><span class="lineno"> 1349</span>&#160;                }</div>
-<div class="line"><a name="l01350"></a><span class="lineno"> 1350</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l01351"></a><span class="lineno"> 1351</span>&#160;                <span class="keyword">static</span> std::string previous_cluster_name;</div>
-<div class="line"><a name="l01352"></a><span class="lineno"> 1352</span>&#160;                <span class="keywordflow">if</span> (cluster_name != previous_cluster_name) {</div>
-<div class="line"><a name="l01353"></a><span class="lineno"> 1353</span>&#160;                    stream &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; cluster_name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01354"></a><span class="lineno"> 1354</span>&#160;                    previous_cluster_name = cluster_name;</div>
-<div class="line"><a name="l01355"></a><span class="lineno"> 1355</span>&#160;                }</div>
-<div class="line"><a name="l01356"></a><span class="lineno"> 1356</span>&#160;            }</div>
-<div class="line"><a name="l01357"></a><span class="lineno"> 1357</span>&#160;        }</div>
-<div class="line"><a name="l01358"></a><span class="lineno"> 1358</span>&#160;        stream &lt;&lt; <span class="charliteral">&#39;}&#39;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01359"></a><span class="lineno"> 1359</span>&#160;</div>
-<div class="line"><a name="l01360"></a><span class="lineno"> 1360</span>&#160;        <span class="comment">// Third and final pass to export all metric groups.</span></div>
-<div class="line"><a name="l01361"></a><span class="lineno"> 1361</span>&#160;        std::string previous_cluster_name;</div>
-<div class="line"><a name="l01362"></a><span class="lineno"> 1362</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
-<div class="line"><a name="l01363"></a><span class="lineno"> 1363</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
-<div class="line"><a name="l01364"></a><span class="lineno"> 1364</span>&#160;        {</div>
-<div class="line"><a name="l01365"></a><span class="lineno"> 1365</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
-<div class="line"><a name="l01366"></a><span class="lineno"> 1366</span>&#160;            <span class="keyword">const</span> std::string cluster_name = cluster.get_cluster_name();</div>
-<div class="line"><a name="l01367"></a><span class="lineno"> 1367</span>&#160;            <span class="keywordflow">if</span> (!cluster_name.empty()) {</div>
+<div class="line"><a name="l01289"></a><span class="lineno"> 1289</span>&#160;            stream &lt;&lt; <span class="stringliteral">&quot;@ &quot;</span> &lt;&lt; metric-&gt;first &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; metric-&gt;second.short_description &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01290"></a><span class="lineno"> 1290</span>&#160;            <span class="keywordflow">if</span> (!metric-&gt;second.verbose_description.empty()) {</div>
+<div class="line"><a name="l01291"></a><span class="lineno"> 1291</span>&#160;                stream &lt;&lt; metric-&gt;second.verbose_description &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01292"></a><span class="lineno"> 1292</span>&#160;            }</div>
+<div class="line"><a name="l01293"></a><span class="lineno"> 1293</span>&#160;            stream &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01294"></a><span class="lineno"> 1294</span>&#160;        }</div>
+<div class="line"><a name="l01295"></a><span class="lineno"> 1295</span>&#160;        <span class="keywordflow">for</span> (std::map&lt;domain_id_type, const instance_domain *&gt;::const_iterator indom = instances.begin();</div>
+<div class="line"><a name="l01296"></a><span class="lineno"> 1296</span>&#160;             indom != instances.end(); indom++)</div>
+<div class="line"><a name="l01297"></a><span class="lineno"> 1297</span>&#160;        {</div>
+<div class="line"><a name="l01298"></a><span class="lineno"> 1298</span>&#160;            <span class="keywordflow">for</span> (instance_domain::const_iterator instance = indom-&gt;second-&gt;begin();</div>
+<div class="line"><a name="l01299"></a><span class="lineno"> 1299</span>&#160;                 instance != indom-&gt;second-&gt;end(); ++instance)</div>
+<div class="line"><a name="l01300"></a><span class="lineno"> 1300</span>&#160;            {</div>
+<div class="line"><a name="l01301"></a><span class="lineno"> 1301</span>&#160;                stream &lt;&lt; <span class="stringliteral">&quot;@ &quot;</span> &lt;&lt; indom-&gt;first &lt;&lt; <span class="charliteral">&#39;.&#39;</span> &lt;&lt; instance-&gt;first</div>
+<div class="line"><a name="l01302"></a><span class="lineno"> 1302</span>&#160;                       &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; instance-&gt;second.short_description &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01303"></a><span class="lineno"> 1303</span>&#160;                <span class="keywordflow">if</span> (!instance-&gt;second.verbose_description.empty()) {</div>
+<div class="line"><a name="l01304"></a><span class="lineno"> 1304</span>&#160;                    stream &lt;&lt; instance-&gt;second.verbose_description &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01305"></a><span class="lineno"> 1305</span>&#160;                }</div>
+<div class="line"><a name="l01306"></a><span class="lineno"> 1306</span>&#160;                stream &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01307"></a><span class="lineno"> 1307</span>&#160;            }</div>
+<div class="line"><a name="l01308"></a><span class="lineno"> 1308</span>&#160;        }</div>
+<div class="line"><a name="l01309"></a><span class="lineno"> 1309</span>&#160;    }</div>
+<div class="line"><a name="l01310"></a><span class="lineno"> 1310</span>&#160;</div>
+<div class="line"><a name="l01311"></a><span class="lineno"> 1311</span>&#160;    <span class="keywordtype">void</span> export_pmns_data(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
+<div class="line"><a name="l01312"></a><span class="lineno"> 1312</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l01313"></a><span class="lineno"> 1313</span>&#160;        <span class="comment">// Some basic strings we&#39;ll use a couple of times.</span></div>
+<div class="line"><a name="l01314"></a><span class="lineno"> 1314</span>&#160;        <span class="keyword">const</span> std::string &amp;pmda_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
+<div class="line"><a name="l01315"></a><span class="lineno"> 1315</span>&#160;        std::string upper_name = <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>();</div>
+<div class="line"><a name="l01316"></a><span class="lineno"> 1316</span>&#160;        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);</div>
+<div class="line"><a name="l01317"></a><span class="lineno"> 1317</span>&#160;</div>
+<div class="line"><a name="l01318"></a><span class="lineno"> 1318</span>&#160;        <span class="comment">// Open the output file.</span></div>
+<div class="line"><a name="l01319"></a><span class="lineno"> 1319</span>&#160;        std::ofstream file_stream;</div>
+<div class="line"><a name="l01320"></a><span class="lineno"> 1320</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
+<div class="line"><a name="l01321"></a><span class="lineno"> 1321</span>&#160;            file_stream.open(filename.c_str());</div>
+<div class="line"><a name="l01322"></a><span class="lineno"> 1322</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
+<div class="line"><a name="l01323"></a><span class="lineno"> 1323</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
+<div class="line"><a name="l01324"></a><span class="lineno"> 1324</span>&#160;            }</div>
+<div class="line"><a name="l01325"></a><span class="lineno"> 1325</span>&#160;        }</div>
+<div class="line"><a name="l01326"></a><span class="lineno"> 1326</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
+<div class="line"><a name="l01327"></a><span class="lineno"> 1327</span>&#160;</div>
+<div class="line"><a name="l01328"></a><span class="lineno"> 1328</span>&#160;        <span class="comment">// Define the PMID, if not already.</span></div>
+<div class="line"><a name="l01329"></a><span class="lineno"> 1329</span>&#160;        stream</div>
+<div class="line"><a name="l01330"></a><span class="lineno"> 1330</span>&#160;            &lt;&lt; std::endl</div>
+<div class="line"><a name="l01331"></a><span class="lineno"> 1331</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#ifndef &quot;</span> &lt;&lt; upper_name &lt;&lt; std::endl</div>
+<div class="line"><a name="l01332"></a><span class="lineno"> 1332</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#define &quot;</span> &lt;&lt; upper_name &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; <a class="code" href="classpcp_1_1pmda.html#ad2eed477fc08682273837c62a39fa6e0">get_default_pmda_domain_number</a>() &lt;&lt; std::endl</div>
+<div class="line"><a name="l01333"></a><span class="lineno"> 1333</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#endif&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01334"></a><span class="lineno"> 1334</span>&#160;</div>
+<div class="line"><a name="l01335"></a><span class="lineno"> 1335</span>&#160;        <span class="comment">// First pass to find the length of the longest metric name.</span></div>
+<div class="line"><a name="l01336"></a><span class="lineno"> 1336</span>&#160;        std::string::size_type max_metric_name_size = 0;</div>
+<div class="line"><a name="l01337"></a><span class="lineno"> 1337</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
+<div class="line"><a name="l01338"></a><span class="lineno"> 1338</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
+<div class="line"><a name="l01339"></a><span class="lineno"> 1339</span>&#160;        {</div>
+<div class="line"><a name="l01340"></a><span class="lineno"> 1340</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
+<div class="line"><a name="l01341"></a><span class="lineno"> 1341</span>&#160;            <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
+<div class="line"><a name="l01342"></a><span class="lineno"> 1342</span>&#160;                 cluster_iter != cluster.end(); ++cluster_iter)</div>
+<div class="line"><a name="l01343"></a><span class="lineno"> 1343</span>&#160;            {</div>
+<div class="line"><a name="l01344"></a><span class="lineno"> 1344</span>&#160;                <span class="keywordflow">if</span> (cluster_iter-&gt;second.metric_name.size() &gt; max_metric_name_size) {</div>
+<div class="line"><a name="l01345"></a><span class="lineno"> 1345</span>&#160;                    max_metric_name_size = cluster_iter-&gt;second.metric_name.size();</div>
+<div class="line"><a name="l01346"></a><span class="lineno"> 1346</span>&#160;                }</div>
+<div class="line"><a name="l01347"></a><span class="lineno"> 1347</span>&#160;            }</div>
+<div class="line"><a name="l01348"></a><span class="lineno"> 1348</span>&#160;        }</div>
+<div class="line"><a name="l01349"></a><span class="lineno"> 1349</span>&#160;</div>
+<div class="line"><a name="l01350"></a><span class="lineno"> 1350</span>&#160;        <span class="comment">// Second pass to export the group names and ungrouped metrics.</span></div>
+<div class="line"><a name="l01351"></a><span class="lineno"> 1351</span>&#160;        stream &lt;&lt; std::endl &lt;&lt; pmda_name &lt;&lt; <span class="stringliteral">&quot; {&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01352"></a><span class="lineno"> 1352</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
+<div class="line"><a name="l01353"></a><span class="lineno"> 1353</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
+<div class="line"><a name="l01354"></a><span class="lineno"> 1354</span>&#160;        {</div>
+<div class="line"><a name="l01355"></a><span class="lineno"> 1355</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
+<div class="line"><a name="l01356"></a><span class="lineno"> 1356</span>&#160;            <span class="keyword">const</span> std::string cluster_name = cluster.get_cluster_name();</div>
+<div class="line"><a name="l01357"></a><span class="lineno"> 1357</span>&#160;            <span class="keywordflow">if</span> (cluster_name.empty()) {</div>
+<div class="line"><a name="l01358"></a><span class="lineno"> 1358</span>&#160;                <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
+<div class="line"><a name="l01359"></a><span class="lineno"> 1359</span>&#160;                     cluster_iter != cluster.end(); ++cluster_iter)</div>
+<div class="line"><a name="l01360"></a><span class="lineno"> 1360</span>&#160;                {</div>
+<div class="line"><a name="l01361"></a><span class="lineno"> 1361</span>&#160;                    stream &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; cluster_iter-&gt;second.metric_name</div>
+<div class="line"><a name="l01362"></a><span class="lineno"> 1362</span>&#160;                           &lt;&lt; std::string(max_metric_name_size - cluster_iter-&gt;second.metric_name.size() + 4, <span class="charliteral">&#39; &#39;</span>)</div>
+<div class="line"><a name="l01363"></a><span class="lineno"> 1363</span>&#160;                           &lt;&lt; upper_name &lt;&lt; <span class="charliteral">&#39;:&#39;</span> &lt;&lt; cluster.get_cluster_id() &lt;&lt; <span class="charliteral">&#39;:&#39;</span></div>
+<div class="line"><a name="l01364"></a><span class="lineno"> 1364</span>&#160;                           &lt;&lt; cluster_iter-&gt;first &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01365"></a><span class="lineno"> 1365</span>&#160;                }</div>
+<div class="line"><a name="l01366"></a><span class="lineno"> 1366</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l01367"></a><span class="lineno"> 1367</span>&#160;                <span class="keyword">static</span> std::string previous_cluster_name;</div>
 <div class="line"><a name="l01368"></a><span class="lineno"> 1368</span>&#160;                <span class="keywordflow">if</span> (cluster_name != previous_cluster_name) {</div>
-<div class="line"><a name="l01369"></a><span class="lineno"> 1369</span>&#160;                    <span class="keywordflow">if</span> (!previous_cluster_name.empty()) {</div>
-<div class="line"><a name="l01370"></a><span class="lineno"> 1370</span>&#160;                        stream &lt;&lt; <span class="stringliteral">&quot;}&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01371"></a><span class="lineno"> 1371</span>&#160;                    }</div>
-<div class="line"><a name="l01372"></a><span class="lineno"> 1372</span>&#160;                    stream &lt;&lt; std::endl &lt;&lt; pmda_name &lt;&lt; <span class="charliteral">&#39;.&#39;</span> &lt;&lt; cluster_name &lt;&lt; <span class="stringliteral">&quot; {&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01373"></a><span class="lineno"> 1373</span>&#160;                }</div>
-<div class="line"><a name="l01374"></a><span class="lineno"> 1374</span>&#160;                <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
-<div class="line"><a name="l01375"></a><span class="lineno"> 1375</span>&#160;                     cluster_iter != cluster.end(); ++cluster_iter)</div>
-<div class="line"><a name="l01376"></a><span class="lineno"> 1376</span>&#160;                {</div>
-<div class="line"><a name="l01377"></a><span class="lineno"> 1377</span>&#160;                    stream &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; cluster_iter-&gt;second.metric_name</div>
-<div class="line"><a name="l01378"></a><span class="lineno"> 1378</span>&#160;                           &lt;&lt; std::string(max_metric_name_size - cluster_iter-&gt;second.metric_name.size() + 4, <span class="charliteral">&#39; &#39;</span>)</div>
-<div class="line"><a name="l01379"></a><span class="lineno"> 1379</span>&#160;                           &lt;&lt; upper_name &lt;&lt; <span class="charliteral">&#39;:&#39;</span> &lt;&lt; cluster.get_cluster_id() &lt;&lt; <span class="charliteral">&#39;:&#39;</span></div>
-<div class="line"><a name="l01380"></a><span class="lineno"> 1380</span>&#160;                           &lt;&lt; cluster_iter-&gt;first &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01381"></a><span class="lineno"> 1381</span>&#160;                }</div>
-<div class="line"><a name="l01382"></a><span class="lineno"> 1382</span>&#160;                previous_cluster_name = cluster_name;</div>
-<div class="line"><a name="l01383"></a><span class="lineno"> 1383</span>&#160;            }</div>
-<div class="line"><a name="l01384"></a><span class="lineno"> 1384</span>&#160;        }</div>
-<div class="line"><a name="l01385"></a><span class="lineno"> 1385</span>&#160;        <span class="keywordflow">if</span> (!previous_cluster_name.empty()) {</div>
-<div class="line"><a name="l01386"></a><span class="lineno"> 1386</span>&#160;            stream &lt;&lt; <span class="stringliteral">&quot;}&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01387"></a><span class="lineno"> 1387</span>&#160;        }</div>
-<div class="line"><a name="l01388"></a><span class="lineno"> 1388</span>&#160;        stream &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01389"></a><span class="lineno"> 1389</span>&#160;    }</div>
-<div class="line"><a name="l01390"></a><span class="lineno"> 1390</span>&#160;</div>
-<div class="line"><a name="l01391"></a><span class="lineno"> 1391</span>&#160;    <span class="keywordtype">void</span> export_pmns_root(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
-<div class="line"><a name="l01392"></a><span class="lineno"> 1392</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l01393"></a><span class="lineno"> 1393</span>&#160;        <span class="comment">// Open the output file.</span></div>
-<div class="line"><a name="l01394"></a><span class="lineno"> 1394</span>&#160;        std::ofstream file_stream;</div>
-<div class="line"><a name="l01395"></a><span class="lineno"> 1395</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
-<div class="line"><a name="l01396"></a><span class="lineno"> 1396</span>&#160;            file_stream.open(filename.c_str());</div>
-<div class="line"><a name="l01397"></a><span class="lineno"> 1397</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
-<div class="line"><a name="l01398"></a><span class="lineno"> 1398</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
+<div class="line"><a name="l01369"></a><span class="lineno"> 1369</span>&#160;                    stream &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; cluster_name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01370"></a><span class="lineno"> 1370</span>&#160;                    previous_cluster_name = cluster_name;</div>
+<div class="line"><a name="l01371"></a><span class="lineno"> 1371</span>&#160;                }</div>
+<div class="line"><a name="l01372"></a><span class="lineno"> 1372</span>&#160;            }</div>
+<div class="line"><a name="l01373"></a><span class="lineno"> 1373</span>&#160;        }</div>
+<div class="line"><a name="l01374"></a><span class="lineno"> 1374</span>&#160;        stream &lt;&lt; <span class="charliteral">&#39;}&#39;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01375"></a><span class="lineno"> 1375</span>&#160;</div>
+<div class="line"><a name="l01376"></a><span class="lineno"> 1376</span>&#160;        <span class="comment">// Third and final pass to export all metric groups.</span></div>
+<div class="line"><a name="l01377"></a><span class="lineno"> 1377</span>&#160;        std::string previous_cluster_name;</div>
+<div class="line"><a name="l01378"></a><span class="lineno"> 1378</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.begin();</div>
+<div class="line"><a name="l01379"></a><span class="lineno"> 1379</span>&#160;             metrics_iter != <a class="code" href="classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130">supported_metrics</a>.end(); ++metrics_iter)</div>
+<div class="line"><a name="l01380"></a><span class="lineno"> 1380</span>&#160;        {</div>
+<div class="line"><a name="l01381"></a><span class="lineno"> 1381</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
+<div class="line"><a name="l01382"></a><span class="lineno"> 1382</span>&#160;            <span class="keyword">const</span> std::string cluster_name = cluster.get_cluster_name();</div>
+<div class="line"><a name="l01383"></a><span class="lineno"> 1383</span>&#160;            <span class="keywordflow">if</span> (!cluster_name.empty()) {</div>
+<div class="line"><a name="l01384"></a><span class="lineno"> 1384</span>&#160;                <span class="keywordflow">if</span> (cluster_name != previous_cluster_name) {</div>
+<div class="line"><a name="l01385"></a><span class="lineno"> 1385</span>&#160;                    <span class="keywordflow">if</span> (!previous_cluster_name.empty()) {</div>
+<div class="line"><a name="l01386"></a><span class="lineno"> 1386</span>&#160;                        stream &lt;&lt; <span class="stringliteral">&quot;}&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01387"></a><span class="lineno"> 1387</span>&#160;                    }</div>
+<div class="line"><a name="l01388"></a><span class="lineno"> 1388</span>&#160;                    stream &lt;&lt; std::endl &lt;&lt; pmda_name &lt;&lt; <span class="charliteral">&#39;.&#39;</span> &lt;&lt; cluster_name &lt;&lt; <span class="stringliteral">&quot; {&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01389"></a><span class="lineno"> 1389</span>&#160;                }</div>
+<div class="line"><a name="l01390"></a><span class="lineno"> 1390</span>&#160;                <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
+<div class="line"><a name="l01391"></a><span class="lineno"> 1391</span>&#160;                     cluster_iter != cluster.end(); ++cluster_iter)</div>
+<div class="line"><a name="l01392"></a><span class="lineno"> 1392</span>&#160;                {</div>
+<div class="line"><a name="l01393"></a><span class="lineno"> 1393</span>&#160;                    stream &lt;&lt; <span class="stringliteral">&quot;    &quot;</span> &lt;&lt; cluster_iter-&gt;second.metric_name</div>
+<div class="line"><a name="l01394"></a><span class="lineno"> 1394</span>&#160;                           &lt;&lt; std::string(max_metric_name_size - cluster_iter-&gt;second.metric_name.size() + 4, <span class="charliteral">&#39; &#39;</span>)</div>
+<div class="line"><a name="l01395"></a><span class="lineno"> 1395</span>&#160;                           &lt;&lt; upper_name &lt;&lt; <span class="charliteral">&#39;:&#39;</span> &lt;&lt; cluster.get_cluster_id() &lt;&lt; <span class="charliteral">&#39;:&#39;</span></div>
+<div class="line"><a name="l01396"></a><span class="lineno"> 1396</span>&#160;                           &lt;&lt; cluster_iter-&gt;first &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01397"></a><span class="lineno"> 1397</span>&#160;                }</div>
+<div class="line"><a name="l01398"></a><span class="lineno"> 1398</span>&#160;                previous_cluster_name = cluster_name;</div>
 <div class="line"><a name="l01399"></a><span class="lineno"> 1399</span>&#160;            }</div>
 <div class="line"><a name="l01400"></a><span class="lineno"> 1400</span>&#160;        }</div>
-<div class="line"><a name="l01401"></a><span class="lineno"> 1401</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
-<div class="line"><a name="l01402"></a><span class="lineno"> 1402</span>&#160;        stream</div>
-<div class="line"><a name="l01403"></a><span class="lineno"> 1403</span>&#160;            &lt;&lt; std::endl</div>
-<div class="line"><a name="l01404"></a><span class="lineno"> 1404</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#include &lt;stdpmid&gt;&quot;</span> &lt;&lt; std::endl &lt;&lt; std::endl</div>
-<div class="line"><a name="l01405"></a><span class="lineno"> 1405</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;root { &quot;</span> &lt;&lt; <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>() &lt;&lt; <span class="stringliteral">&quot; }&quot;</span> &lt;&lt; std::endl &lt;&lt; std::endl</div>
-<div class="line"><a name="l01406"></a><span class="lineno"> 1406</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#include \&quot;pmns\&quot;&quot;</span> &lt;&lt; std::endl &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01407"></a><span class="lineno"> 1407</span>&#160;    }</div>
-<div class="line"><a name="l01408"></a><span class="lineno"> 1408</span>&#160;</div>
-<div class="line"><a name="l01409"></a><span class="lineno"> 1409</span>&#160;    <span class="keywordtype">void</span> export_support_files(<span class="keyword">const</span> std::string &amp;directory_name)<span class="keyword"> const</span></div>
-<div class="line"><a name="l01410"></a><span class="lineno"> 1410</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l01411"></a><span class="lineno"> 1411</span>&#160;        <span class="keyword">const</span> std::string sep(1, __pmPathSeparator());</div>
-<div class="line"><a name="l01412"></a><span class="lineno"> 1412</span>&#160;        export_domain_header(directory_name + sep + <span class="stringliteral">&quot;domain.h&quot;</span>);</div>
-<div class="line"><a name="l01413"></a><span class="lineno"> 1413</span>&#160;        export_help_text(directory_name + sep + <span class="stringliteral">&quot;help&quot;</span>);</div>
-<div class="line"><a name="l01414"></a><span class="lineno"> 1414</span>&#160;        export_pmns_data(directory_name + sep + <span class="stringliteral">&quot;pmns&quot;</span>);</div>
-<div class="line"><a name="l01415"></a><span class="lineno"> 1415</span>&#160;        export_pmns_root(directory_name + sep + <span class="stringliteral">&quot;root&quot;</span>);</div>
-<div class="line"><a name="l01416"></a><span class="lineno"> 1416</span>&#160;    }</div>
-<div class="line"><a name="l01417"></a><span class="lineno"> 1417</span>&#160;</div>
-<div class="line"><a name="l01418"></a><span class="lineno"> 1418</span>&#160;    <span class="keyword">inline</span> std::pair&lt;size_t, size_t&gt; count_metrics(<span class="keyword">const</span> metrics_description &amp;metrics)<span class="keyword"> const</span></div>
-<div class="line"><a name="l01419"></a><span class="lineno"> 1419</span>&#160;<span class="keyword">    </span>{</div>
-<div class="line"><a name="l01420"></a><span class="lineno"> 1420</span>&#160;        std::set&lt;const instance_domain *&gt; instance_domains;</div>
-<div class="line"><a name="l01421"></a><span class="lineno"> 1421</span>&#160;        <span class="keywordtype">size_t</span> metric_count = 0;</div>
-<div class="line"><a name="l01422"></a><span class="lineno"> 1422</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = metrics.begin();</div>
-<div class="line"><a name="l01423"></a><span class="lineno"> 1423</span>&#160;             metrics_iter != metrics.end(); ++metrics_iter)</div>
-<div class="line"><a name="l01424"></a><span class="lineno"> 1424</span>&#160;        {</div>
-<div class="line"><a name="l01425"></a><span class="lineno"> 1425</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
-<div class="line"><a name="l01426"></a><span class="lineno"> 1426</span>&#160;            <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
-<div class="line"><a name="l01427"></a><span class="lineno"> 1427</span>&#160;                 cluster_iter != cluster.end(); ++cluster_iter)</div>
-<div class="line"><a name="l01428"></a><span class="lineno"> 1428</span>&#160;            {</div>
-<div class="line"><a name="l01429"></a><span class="lineno"> 1429</span>&#160;                <span class="keywordflow">if</span> (cluster_iter-&gt;second.domain != NULL) {</div>
-<div class="line"><a name="l01430"></a><span class="lineno"> 1430</span>&#160;                    instance_domains.insert(cluster_iter-&gt;second.domain);</div>
-<div class="line"><a name="l01431"></a><span class="lineno"> 1431</span>&#160;                }</div>
-<div class="line"><a name="l01432"></a><span class="lineno"> 1432</span>&#160;                metric_count++;</div>
-<div class="line"><a name="l01433"></a><span class="lineno"> 1433</span>&#160;            }</div>
-<div class="line"><a name="l01434"></a><span class="lineno"> 1434</span>&#160;        }</div>
-<div class="line"><a name="l01435"></a><span class="lineno"> 1435</span>&#160;        <span class="keywordflow">return</span> std::pair&lt;size_t, size_t&gt;(metric_count, instance_domains.size());</div>
-<div class="line"><a name="l01436"></a><span class="lineno"> 1436</span>&#160;    }</div>
-<div class="line"><a name="l01437"></a><span class="lineno"> 1437</span>&#160;</div>
-<div class="line"><a name="l01438"></a><span class="lineno"> 1438</span>&#160;    <span class="keyword">static</span> <span class="keyword">inline</span> pmdaIndom allocate_pmda_indom(<span class="keyword">const</span> instance_domain &amp;domain)</div>
-<div class="line"><a name="l01439"></a><span class="lineno"> 1439</span>&#160;    {</div>
-<div class="line"><a name="l01440"></a><span class="lineno"> 1440</span>&#160;        pmdaIndom indom;</div>
-<div class="line"><a name="l01441"></a><span class="lineno"> 1441</span>&#160;        indom.it_indom = domain.get_domain_id();</div>
-<div class="line"><a name="l01442"></a><span class="lineno"> 1442</span>&#160;        indom.it_numinst = domain.size();</div>
-<div class="line"><a name="l01443"></a><span class="lineno"> 1443</span>&#160;        indom.it_set = <span class="keyword">new</span> pmdaInstid [domain.size()];</div>
-<div class="line"><a name="l01444"></a><span class="lineno"> 1444</span>&#160;        <span class="keywordtype">size_t</span> index = 0;</div>
-<div class="line"><a name="l01445"></a><span class="lineno"> 1445</span>&#160;        <span class="keywordflow">for</span> (instance_domain::const_iterator iter = domain.begin(); iter != domain.end(); ++iter, ++index) {</div>
-<div class="line"><a name="l01446"></a><span class="lineno"> 1446</span>&#160;            indom.it_set[index].i_inst = iter-&gt;first;</div>
-<div class="line"><a name="l01447"></a><span class="lineno"> 1447</span>&#160;            indom.it_set[index].i_name = <span class="keyword">const_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span>(iter-&gt;second.instance_name.c_str());</div>
-<div class="line"><a name="l01448"></a><span class="lineno"> 1448</span>&#160;        }</div>
-<div class="line"><a name="l01449"></a><span class="lineno"> 1449</span>&#160;        <span class="keywordflow">return</span> indom;</div>
-<div class="line"><a name="l01450"></a><span class="lineno"> 1450</span>&#160;    }</div>
-<div class="line"><a name="l01451"></a><span class="lineno"> 1451</span>&#160;</div>
-<div class="line"><a name="l01452"></a><span class="lineno"> 1452</span>&#160;    <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> validate_instance(<span class="keyword">const</span> metric_description &amp;description,</div>
-<div class="line"><a name="l01453"></a><span class="lineno"> 1453</span>&#160;                                         <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> instance)</div>
-<div class="line"><a name="l01454"></a><span class="lineno"> 1454</span>&#160;    {</div>
-<div class="line"><a name="l01455"></a><span class="lineno"> 1455</span>&#160;<span class="preprocessor">#ifndef PCP_CPP_NO_ID_VALIDITY_CHECKS</span></div>
-<div class="line"><a name="l01456"></a><span class="lineno"> 1456</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">if</span> (instance != PM_INDOM_NULL) {</div>
-<div class="line"><a name="l01457"></a><span class="lineno"> 1457</span>&#160;            <span class="keywordflow">if</span> (description.domain == NULL) {</div>
-<div class="line"><a name="l01458"></a><span class="lineno"> 1458</span>&#160;                <span class="comment">// Instance provided, but non required.</span></div>
-<div class="line"><a name="l01459"></a><span class="lineno"> 1459</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_INDOM);</div>
-<div class="line"><a name="l01460"></a><span class="lineno"> 1460</span>&#160;            }</div>
-<div class="line"><a name="l01461"></a><span class="lineno"> 1461</span>&#160;            <span class="keywordflow">if</span> (description.domain-&gt;count(instance) &lt;= 0) {</div>
-<div class="line"><a name="l01462"></a><span class="lineno"> 1462</span>&#160;                <span class="comment">// Instance provided, but not one we&#39;ve registered.</span></div>
-<div class="line"><a name="l01463"></a><span class="lineno"> 1463</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_INST);</div>
-<div class="line"><a name="l01464"></a><span class="lineno"> 1464</span>&#160;            }</div>
-<div class="line"><a name="l01465"></a><span class="lineno"> 1465</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (description.domain != NULL) {</div>
-<div class="line"><a name="l01466"></a><span class="lineno"> 1466</span>&#160;            <span class="comment">// Instance required, but none provided.</span></div>
-<div class="line"><a name="l01467"></a><span class="lineno"> 1467</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_INDOM);</div>
-<div class="line"><a name="l01468"></a><span class="lineno"> 1468</span>&#160;        }</div>
-<div class="line"><a name="l01469"></a><span class="lineno"> 1469</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01470"></a><span class="lineno"> 1470</span>&#160;<span class="preprocessor"></span>    }</div>
-<div class="line"><a name="l01471"></a><span class="lineno"> 1471</span>&#160;</div>
-<div class="line"><a name="l01472"></a><span class="lineno"> 1472</span>&#160;    <span class="comment">/*</span></div>
-<div class="line"><a name="l01473"></a><span class="lineno"> 1473</span>&#160;<span class="comment">     * Static callback functions registered by the register_callbacks functions.</span></div>
-<div class="line"><a name="l01474"></a><span class="lineno"> 1474</span>&#160;<span class="comment">     * These all redirect thier non-static singleton counterparts above.</span></div>
-<div class="line"><a name="l01475"></a><span class="lineno"> 1475</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l01476"></a><span class="lineno"> 1476</span>&#160;</div>
-<div class="line"><a name="l01477"></a><span class="lineno"> 1477</span>&#160;<span class="preprocessor">#if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 6</span></div>
-<div class="line"><a name="l01478"></a><span class="lineno"> 1478</span>&#160;<span class="preprocessor"></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_attribute(<span class="keywordtype">int</span> ctx, <span class="keywordtype">int</span> attr, <span class="keyword">const</span> <span class="keywordtype">char</span> *value,<span class="keywordtype">int</span> length, pmdaExt *pmda)</div>
-<div class="line"><a name="l01479"></a><span class="lineno"> 1479</span>&#160;    {</div>
-<div class="line"><a name="l01480"></a><span class="lineno"> 1480</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_attribute(ctx, attr, value, length, pmda);</div>
-<div class="line"><a name="l01481"></a><span class="lineno"> 1481</span>&#160;    }</div>
-<div class="line"><a name="l01482"></a><span class="lineno"> 1482</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01483"></a><span class="lineno"> 1483</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01484"></a><span class="lineno"> 1484</span>&#160;<span class="preprocessor">#if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 4</span></div>
-<div class="line"><a name="l01485"></a><span class="lineno"> 1485</span>&#160;<span class="preprocessor"></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_children(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">int</span> traverse, <span class="keywordtype">char</span> ***kids, <span class="keywordtype">int</span> **sts, pmdaExt *pmda)</div>
-<div class="line"><a name="l01486"></a><span class="lineno"> 1486</span>&#160;    {</div>
-<div class="line"><a name="l01487"></a><span class="lineno"> 1487</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_children(name, traverse, kids, sts, pmda);</div>
-<div class="line"><a name="l01488"></a><span class="lineno"> 1488</span>&#160;    }</div>
-<div class="line"><a name="l01489"></a><span class="lineno"> 1489</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01490"></a><span class="lineno"> 1490</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01491"></a><span class="lineno"> 1491</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)</div>
-<div class="line"><a name="l01492"></a><span class="lineno"> 1492</span>&#160;    {</div>
-<div class="line"><a name="l01493"></a><span class="lineno"> 1493</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a40bc47088c6a25e011fe79874251e945">on_desc</a>(pmid, desc, pmda);</div>
-<div class="line"><a name="l01494"></a><span class="lineno"> 1494</span>&#160;    }</div>
-<div class="line"><a name="l01495"></a><span class="lineno"> 1495</span>&#160;</div>
-<div class="line"><a name="l01496"></a><span class="lineno"> 1496</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_fetch(<span class="keywordtype">int</span> numpmid, pmID *pmidlist, pmResult **resp, pmdaExt *pmda)</div>
-<div class="line"><a name="l01497"></a><span class="lineno"> 1497</span>&#160;    {</div>
-<div class="line"><a name="l01498"></a><span class="lineno"> 1498</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#abde8b04a9346a7ad6dc69fa1c700bba9">on_fetch</a>(numpmid, pmidlist, resp, pmda);</div>
-<div class="line"><a name="l01499"></a><span class="lineno"> 1499</span>&#160;    }</div>
-<div class="line"><a name="l01500"></a><span class="lineno"> 1500</span>&#160;</div>
-<div class="line"><a name="l01501"></a><span class="lineno"> 1501</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_fetch_callback(pmdaMetric *mdesc, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> inst, pmAtomValue *avp)</div>
+<div class="line"><a name="l01401"></a><span class="lineno"> 1401</span>&#160;        <span class="keywordflow">if</span> (!previous_cluster_name.empty()) {</div>
+<div class="line"><a name="l01402"></a><span class="lineno"> 1402</span>&#160;            stream &lt;&lt; <span class="stringliteral">&quot;}&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01403"></a><span class="lineno"> 1403</span>&#160;        }</div>
+<div class="line"><a name="l01404"></a><span class="lineno"> 1404</span>&#160;        stream &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01405"></a><span class="lineno"> 1405</span>&#160;    }</div>
+<div class="line"><a name="l01406"></a><span class="lineno"> 1406</span>&#160;</div>
+<div class="line"><a name="l01407"></a><span class="lineno"> 1407</span>&#160;    <span class="keywordtype">void</span> export_pmns_root(<span class="keyword">const</span> std::string &amp;filename)<span class="keyword"> const</span></div>
+<div class="line"><a name="l01408"></a><span class="lineno"> 1408</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l01409"></a><span class="lineno"> 1409</span>&#160;        <span class="comment">// Open the output file.</span></div>
+<div class="line"><a name="l01410"></a><span class="lineno"> 1410</span>&#160;        std::ofstream file_stream;</div>
+<div class="line"><a name="l01411"></a><span class="lineno"> 1411</span>&#160;        <span class="keywordflow">if</span> (filename != <span class="stringliteral">&quot;-&quot;</span>) {</div>
+<div class="line"><a name="l01412"></a><span class="lineno"> 1412</span>&#160;            file_stream.open(filename.c_str());</div>
+<div class="line"><a name="l01413"></a><span class="lineno"> 1413</span>&#160;            <span class="keywordflow">if</span> (!file_stream.is_open()) {</div>
+<div class="line"><a name="l01414"></a><span class="lineno"> 1414</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_GENERIC, <span class="stringliteral">&quot;failed to open file for writing: &quot;</span> + filename);</div>
+<div class="line"><a name="l01415"></a><span class="lineno"> 1415</span>&#160;            }</div>
+<div class="line"><a name="l01416"></a><span class="lineno"> 1416</span>&#160;        }</div>
+<div class="line"><a name="l01417"></a><span class="lineno"> 1417</span>&#160;        std::ostream &amp;stream = (filename == <span class="stringliteral">&quot;-&quot;</span>) ? std::cout : file_stream;</div>
+<div class="line"><a name="l01418"></a><span class="lineno"> 1418</span>&#160;        stream</div>
+<div class="line"><a name="l01419"></a><span class="lineno"> 1419</span>&#160;            &lt;&lt; std::endl</div>
+<div class="line"><a name="l01420"></a><span class="lineno"> 1420</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#include &lt;stdpmid&gt;&quot;</span> &lt;&lt; std::endl &lt;&lt; std::endl</div>
+<div class="line"><a name="l01421"></a><span class="lineno"> 1421</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;root { &quot;</span> &lt;&lt; <a class="code" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name</a>() &lt;&lt; <span class="stringliteral">&quot; }&quot;</span> &lt;&lt; std::endl &lt;&lt; std::endl</div>
+<div class="line"><a name="l01422"></a><span class="lineno"> 1422</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;#include \&quot;pmns\&quot;&quot;</span> &lt;&lt; std::endl &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01423"></a><span class="lineno"> 1423</span>&#160;    }</div>
+<div class="line"><a name="l01424"></a><span class="lineno"> 1424</span>&#160;</div>
+<div class="line"><a name="l01425"></a><span class="lineno"> 1425</span>&#160;    <span class="keywordtype">void</span> export_support_files(<span class="keyword">const</span> std::string &amp;directory_name)<span class="keyword"> const</span></div>
+<div class="line"><a name="l01426"></a><span class="lineno"> 1426</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l01427"></a><span class="lineno"> 1427</span>&#160;        <span class="keyword">const</span> std::string sep(1, __pmPathSeparator());</div>
+<div class="line"><a name="l01428"></a><span class="lineno"> 1428</span>&#160;        export_domain_header(directory_name + sep + <span class="stringliteral">&quot;domain.h&quot;</span>);</div>
+<div class="line"><a name="l01429"></a><span class="lineno"> 1429</span>&#160;        export_help_text(directory_name + sep + <span class="stringliteral">&quot;help&quot;</span>);</div>
+<div class="line"><a name="l01430"></a><span class="lineno"> 1430</span>&#160;        export_pmns_data(directory_name + sep + <span class="stringliteral">&quot;pmns&quot;</span>);</div>
+<div class="line"><a name="l01431"></a><span class="lineno"> 1431</span>&#160;        export_pmns_root(directory_name + sep + <span class="stringliteral">&quot;root&quot;</span>);</div>
+<div class="line"><a name="l01432"></a><span class="lineno"> 1432</span>&#160;    }</div>
+<div class="line"><a name="l01433"></a><span class="lineno"> 1433</span>&#160;</div>
+<div class="line"><a name="l01434"></a><span class="lineno"> 1434</span>&#160;    <span class="keyword">inline</span> std::pair&lt;size_t, size_t&gt; count_metrics(<span class="keyword">const</span> metrics_description &amp;metrics)<span class="keyword"> const</span></div>
+<div class="line"><a name="l01435"></a><span class="lineno"> 1435</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l01436"></a><span class="lineno"> 1436</span>&#160;        std::set&lt;const instance_domain *&gt; instance_domains;</div>
+<div class="line"><a name="l01437"></a><span class="lineno"> 1437</span>&#160;        <span class="keywordtype">size_t</span> metric_count = 0;</div>
+<div class="line"><a name="l01438"></a><span class="lineno"> 1438</span>&#160;        <span class="keywordflow">for</span> (metrics_description::const_iterator metrics_iter = metrics.begin();</div>
+<div class="line"><a name="l01439"></a><span class="lineno"> 1439</span>&#160;             metrics_iter != metrics.end(); ++metrics_iter)</div>
+<div class="line"><a name="l01440"></a><span class="lineno"> 1440</span>&#160;        {</div>
+<div class="line"><a name="l01441"></a><span class="lineno"> 1441</span>&#160;            <span class="keyword">const</span> metric_cluster &amp;cluster = metrics_iter-&gt;second;</div>
+<div class="line"><a name="l01442"></a><span class="lineno"> 1442</span>&#160;            <span class="keywordflow">for</span> (metric_cluster::const_iterator cluster_iter = cluster.begin();</div>
+<div class="line"><a name="l01443"></a><span class="lineno"> 1443</span>&#160;                 cluster_iter != cluster.end(); ++cluster_iter)</div>
+<div class="line"><a name="l01444"></a><span class="lineno"> 1444</span>&#160;            {</div>
+<div class="line"><a name="l01445"></a><span class="lineno"> 1445</span>&#160;                <span class="keywordflow">if</span> (cluster_iter-&gt;second.domain != NULL) {</div>
+<div class="line"><a name="l01446"></a><span class="lineno"> 1446</span>&#160;                    instance_domains.insert(cluster_iter-&gt;second.domain);</div>
+<div class="line"><a name="l01447"></a><span class="lineno"> 1447</span>&#160;                }</div>
+<div class="line"><a name="l01448"></a><span class="lineno"> 1448</span>&#160;                metric_count++;</div>
+<div class="line"><a name="l01449"></a><span class="lineno"> 1449</span>&#160;            }</div>
+<div class="line"><a name="l01450"></a><span class="lineno"> 1450</span>&#160;        }</div>
+<div class="line"><a name="l01451"></a><span class="lineno"> 1451</span>&#160;        <span class="keywordflow">return</span> std::pair&lt;size_t, size_t&gt;(metric_count, instance_domains.size());</div>
+<div class="line"><a name="l01452"></a><span class="lineno"> 1452</span>&#160;    }</div>
+<div class="line"><a name="l01453"></a><span class="lineno"> 1453</span>&#160;</div>
+<div class="line"><a name="l01454"></a><span class="lineno"> 1454</span>&#160;    <span class="keyword">static</span> <span class="keyword">inline</span> pmdaIndom allocate_pmda_indom(<span class="keyword">const</span> instance_domain &amp;domain)</div>
+<div class="line"><a name="l01455"></a><span class="lineno"> 1455</span>&#160;    {</div>
+<div class="line"><a name="l01456"></a><span class="lineno"> 1456</span>&#160;        pmdaIndom indom;</div>
+<div class="line"><a name="l01457"></a><span class="lineno"> 1457</span>&#160;        indom.it_indom = domain.get_domain_id();</div>
+<div class="line"><a name="l01458"></a><span class="lineno"> 1458</span>&#160;        indom.it_numinst = domain.size();</div>
+<div class="line"><a name="l01459"></a><span class="lineno"> 1459</span>&#160;        indom.it_set = <span class="keyword">new</span> pmdaInstid [domain.size()];</div>
+<div class="line"><a name="l01460"></a><span class="lineno"> 1460</span>&#160;        <span class="keywordtype">size_t</span> index = 0;</div>
+<div class="line"><a name="l01461"></a><span class="lineno"> 1461</span>&#160;        <span class="keywordflow">for</span> (instance_domain::const_iterator iter = domain.begin(); iter != domain.end(); ++iter, ++index) {</div>
+<div class="line"><a name="l01462"></a><span class="lineno"> 1462</span>&#160;            indom.it_set[index].i_inst = iter-&gt;first;</div>
+<div class="line"><a name="l01463"></a><span class="lineno"> 1463</span>&#160;            indom.it_set[index].i_name = <span class="keyword">const_cast&lt;</span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span>(iter-&gt;second.instance_name.c_str());</div>
+<div class="line"><a name="l01464"></a><span class="lineno"> 1464</span>&#160;        }</div>
+<div class="line"><a name="l01465"></a><span class="lineno"> 1465</span>&#160;        <span class="keywordflow">return</span> indom;</div>
+<div class="line"><a name="l01466"></a><span class="lineno"> 1466</span>&#160;    }</div>
+<div class="line"><a name="l01467"></a><span class="lineno"> 1467</span>&#160;</div>
+<div class="line"><a name="l01468"></a><span class="lineno"> 1468</span>&#160;    <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> validate_instance(<span class="keyword">const</span> metric_description &amp;description,</div>
+<div class="line"><a name="l01469"></a><span class="lineno"> 1469</span>&#160;                                         <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> instance)</div>
+<div class="line"><a name="l01470"></a><span class="lineno"> 1470</span>&#160;    {</div>
+<div class="line"><a name="l01471"></a><span class="lineno"> 1471</span>&#160;<span class="preprocessor">#ifndef PCP_CPP_NO_ID_VALIDITY_CHECKS</span></div>
+<div class="line"><a name="l01472"></a><span class="lineno"> 1472</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">if</span> (instance != PM_INDOM_NULL) {</div>
+<div class="line"><a name="l01473"></a><span class="lineno"> 1473</span>&#160;            <span class="keywordflow">if</span> (description.domain == NULL) {</div>
+<div class="line"><a name="l01474"></a><span class="lineno"> 1474</span>&#160;                <span class="comment">// Instance provided, but non required.</span></div>
+<div class="line"><a name="l01475"></a><span class="lineno"> 1475</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_INDOM);</div>
+<div class="line"><a name="l01476"></a><span class="lineno"> 1476</span>&#160;            }</div>
+<div class="line"><a name="l01477"></a><span class="lineno"> 1477</span>&#160;            <span class="keywordflow">if</span> (description.domain-&gt;count(instance) &lt;= 0) {</div>
+<div class="line"><a name="l01478"></a><span class="lineno"> 1478</span>&#160;                <span class="comment">// Instance provided, but not one we&#39;ve registered.</span></div>
+<div class="line"><a name="l01479"></a><span class="lineno"> 1479</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_INST);</div>
+<div class="line"><a name="l01480"></a><span class="lineno"> 1480</span>&#160;            }</div>
+<div class="line"><a name="l01481"></a><span class="lineno"> 1481</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (description.domain != NULL) {</div>
+<div class="line"><a name="l01482"></a><span class="lineno"> 1482</span>&#160;            <span class="comment">// Instance required, but none provided.</span></div>
+<div class="line"><a name="l01483"></a><span class="lineno"> 1483</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classpcp_1_1exception.html">pcp::exception</a>(PM_ERR_INDOM);</div>
+<div class="line"><a name="l01484"></a><span class="lineno"> 1484</span>&#160;        }</div>
+<div class="line"><a name="l01485"></a><span class="lineno"> 1485</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01486"></a><span class="lineno"> 1486</span>&#160;<span class="preprocessor"></span>    }</div>
+<div class="line"><a name="l01487"></a><span class="lineno"> 1487</span>&#160;</div>
+<div class="line"><a name="l01488"></a><span class="lineno"> 1488</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l01489"></a><span class="lineno"> 1489</span>&#160;<span class="comment">     * Static callback functions registered by the register_callbacks functions.</span></div>
+<div class="line"><a name="l01490"></a><span class="lineno"> 1490</span>&#160;<span class="comment">     * These all redirect thier non-static singleton counterparts above.</span></div>
+<div class="line"><a name="l01491"></a><span class="lineno"> 1491</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l01492"></a><span class="lineno"> 1492</span>&#160;</div>
+<div class="line"><a name="l01493"></a><span class="lineno"> 1493</span>&#160;<span class="preprocessor">#if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 6</span></div>
+<div class="line"><a name="l01494"></a><span class="lineno"> 1494</span>&#160;<span class="preprocessor"></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_attribute(<span class="keywordtype">int</span> ctx, <span class="keywordtype">int</span> attr, <span class="keyword">const</span> <span class="keywordtype">char</span> *value,<span class="keywordtype">int</span> length, pmdaExt *pmda)</div>
+<div class="line"><a name="l01495"></a><span class="lineno"> 1495</span>&#160;    {</div>
+<div class="line"><a name="l01496"></a><span class="lineno"> 1496</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_attribute(ctx, attr, value, length, pmda);</div>
+<div class="line"><a name="l01497"></a><span class="lineno"> 1497</span>&#160;    }</div>
+<div class="line"><a name="l01498"></a><span class="lineno"> 1498</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01499"></a><span class="lineno"> 1499</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01500"></a><span class="lineno"> 1500</span>&#160;<span class="preprocessor">#if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 4</span></div>
+<div class="line"><a name="l01501"></a><span class="lineno"> 1501</span>&#160;<span class="preprocessor"></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_children(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">int</span> traverse, <span class="keywordtype">char</span> ***kids, <span class="keywordtype">int</span> **sts, pmdaExt *pmda)</div>
 <div class="line"><a name="l01502"></a><span class="lineno"> 1502</span>&#160;    {</div>
-<div class="line"><a name="l01503"></a><span class="lineno"> 1503</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#aacb4153aaf42f4b55601481daa31b7dc">on_fetch_callback</a>(mdesc, inst, avp);</div>
+<div class="line"><a name="l01503"></a><span class="lineno"> 1503</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_children(name, traverse, kids, sts, pmda);</div>
 <div class="line"><a name="l01504"></a><span class="lineno"> 1504</span>&#160;    }</div>
-<div class="line"><a name="l01505"></a><span class="lineno"> 1505</span>&#160;</div>
-<div class="line"><a name="l01506"></a><span class="lineno"> 1506</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_instance(pmInDom indom, <span class="keywordtype">int</span> inst, <span class="keywordtype">char</span> *name, __pmInResult **result, pmdaExt *pmda)</div>
-<div class="line"><a name="l01507"></a><span class="lineno"> 1507</span>&#160;    {</div>
-<div class="line"><a name="l01508"></a><span class="lineno"> 1508</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a87526b3d53708ca74f2846a61004397b">on_instance</a>(indom, inst, name, result, pmda);</div>
-<div class="line"><a name="l01509"></a><span class="lineno"> 1509</span>&#160;    }</div>
-<div class="line"><a name="l01510"></a><span class="lineno"> 1510</span>&#160;</div>
-<div class="line"><a name="l01511"></a><span class="lineno"> 1511</span>&#160;<span class="preprocessor">#if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 4</span></div>
-<div class="line"><a name="l01512"></a><span class="lineno"> 1512</span>&#160;<span class="preprocessor"></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_name(pmID pmid, <span class="keywordtype">char</span> ***nameset, pmdaExt *pmda)</div>
+<div class="line"><a name="l01505"></a><span class="lineno"> 1505</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01506"></a><span class="lineno"> 1506</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01507"></a><span class="lineno"> 1507</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_desc(pmID pmid, pmDesc *desc, pmdaExt *pmda)</div>
+<div class="line"><a name="l01508"></a><span class="lineno"> 1508</span>&#160;    {</div>
+<div class="line"><a name="l01509"></a><span class="lineno"> 1509</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a40bc47088c6a25e011fe79874251e945">on_desc</a>(pmid, desc, pmda);</div>
+<div class="line"><a name="l01510"></a><span class="lineno"> 1510</span>&#160;    }</div>
+<div class="line"><a name="l01511"></a><span class="lineno"> 1511</span>&#160;</div>
+<div class="line"><a name="l01512"></a><span class="lineno"> 1512</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_fetch(<span class="keywordtype">int</span> numpmid, pmID *pmidlist, pmResult **resp, pmdaExt *pmda)</div>
 <div class="line"><a name="l01513"></a><span class="lineno"> 1513</span>&#160;    {</div>
-<div class="line"><a name="l01514"></a><span class="lineno"> 1514</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_name(pmid, nameset, pmda);</div>
+<div class="line"><a name="l01514"></a><span class="lineno"> 1514</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#abde8b04a9346a7ad6dc69fa1c700bba9">on_fetch</a>(numpmid, pmidlist, resp, pmda);</div>
 <div class="line"><a name="l01515"></a><span class="lineno"> 1515</span>&#160;    }</div>
 <div class="line"><a name="l01516"></a><span class="lineno"> 1516</span>&#160;</div>
-<div class="line"><a name="l01517"></a><span class="lineno"> 1517</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_pmid(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, pmID *pmid, pmdaExt *pmda)</div>
+<div class="line"><a name="l01517"></a><span class="lineno"> 1517</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_fetch_callback(pmdaMetric *mdesc, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> inst, pmAtomValue *avp)</div>
 <div class="line"><a name="l01518"></a><span class="lineno"> 1518</span>&#160;    {</div>
-<div class="line"><a name="l01519"></a><span class="lineno"> 1519</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_pmid(name, pmid, pmda);</div>
+<div class="line"><a name="l01519"></a><span class="lineno"> 1519</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#aacb4153aaf42f4b55601481daa31b7dc">on_fetch_callback</a>(mdesc, inst, avp);</div>
 <div class="line"><a name="l01520"></a><span class="lineno"> 1520</span>&#160;    }</div>
-<div class="line"><a name="l01521"></a><span class="lineno"> 1521</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01522"></a><span class="lineno"> 1522</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01523"></a><span class="lineno"> 1523</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_profile(__pmProfile *prof, pmdaExt *pmda)</div>
-<div class="line"><a name="l01524"></a><span class="lineno"> 1524</span>&#160;    {</div>
-<div class="line"><a name="l01525"></a><span class="lineno"> 1525</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a3fc97af29e9e29ec450a416efa527a13">on_profile</a>(prof, pmda);</div>
-<div class="line"><a name="l01526"></a><span class="lineno"> 1526</span>&#160;    }</div>
-<div class="line"><a name="l01527"></a><span class="lineno"> 1527</span>&#160;</div>
-<div class="line"><a name="l01528"></a><span class="lineno"> 1528</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_store(pmResult *result, pmdaExt *pmda)</div>
+<div class="line"><a name="l01521"></a><span class="lineno"> 1521</span>&#160;</div>
+<div class="line"><a name="l01522"></a><span class="lineno"> 1522</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_instance(pmInDom indom, <span class="keywordtype">int</span> inst, <span class="keywordtype">char</span> *name, __pmInResult **result, pmdaExt *pmda)</div>
+<div class="line"><a name="l01523"></a><span class="lineno"> 1523</span>&#160;    {</div>
+<div class="line"><a name="l01524"></a><span class="lineno"> 1524</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a87526b3d53708ca74f2846a61004397b">on_instance</a>(indom, inst, name, result, pmda);</div>
+<div class="line"><a name="l01525"></a><span class="lineno"> 1525</span>&#160;    }</div>
+<div class="line"><a name="l01526"></a><span class="lineno"> 1526</span>&#160;</div>
+<div class="line"><a name="l01527"></a><span class="lineno"> 1527</span>&#160;<span class="preprocessor">#if PCP_CPP_PMDA_INTERFACE_VERSION &gt;= 4</span></div>
+<div class="line"><a name="l01528"></a><span class="lineno"> 1528</span>&#160;<span class="preprocessor"></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_name(pmID pmid, <span class="keywordtype">char</span> ***nameset, pmdaExt *pmda)</div>
 <div class="line"><a name="l01529"></a><span class="lineno"> 1529</span>&#160;    {</div>
-<div class="line"><a name="l01530"></a><span class="lineno"> 1530</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a2c76091b2fb4c40573534e45372a84e6">on_store</a>(result, pmda);</div>
+<div class="line"><a name="l01530"></a><span class="lineno"> 1530</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_name(pmid, nameset, pmda);</div>
 <div class="line"><a name="l01531"></a><span class="lineno"> 1531</span>&#160;    }</div>
 <div class="line"><a name="l01532"></a><span class="lineno"> 1532</span>&#160;</div>
-<div class="line"><a name="l01533"></a><span class="lineno"> 1533</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_text(<span class="keywordtype">int</span> ident, <span class="keywordtype">int</span> type, <span class="keywordtype">char</span> **buffer, pmdaExt *pmda)</div>
+<div class="line"><a name="l01533"></a><span class="lineno"> 1533</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_pmid(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, pmID *pmid, pmdaExt *pmda)</div>
 <div class="line"><a name="l01534"></a><span class="lineno"> 1534</span>&#160;    {</div>
-<div class="line"><a name="l01535"></a><span class="lineno"> 1535</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a655058cc2963ba2759fcdf789a193c05">on_text</a>(ident, type, buffer, pmda);</div>
+<div class="line"><a name="l01535"></a><span class="lineno"> 1535</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;on_pmid(name, pmid, pmda);</div>
 <div class="line"><a name="l01536"></a><span class="lineno"> 1536</span>&#160;    }</div>
-<div class="line"><a name="l01537"></a><span class="lineno"> 1537</span>&#160;</div>
-<div class="line"><a name="l01538"></a><span class="lineno"> 1538</span>&#160;};</div>
-<div class="line"><a name="l01539"></a><span class="lineno"> 1539</span>&#160;</div>
-<div class="line"><a name="l01540"></a><span class="lineno"> 1540</span>&#160;} <span class="comment">// pcp namespace.</span></div>
-<div class="line"><a name="l01541"></a><span class="lineno"> 1541</span>&#160;</div>
-<div class="line"><a name="l01542"></a><span class="lineno"> 1542</span>&#160;<span class="preprocessor">#ifndef PCP_CPP_SKIP_PCP_PMDA_INSTANCE_DEFINITION</span></div>
-<div class="line"><a name="l01543"></a><span class="lineno"> 1543</span>&#160;<span class="preprocessor"></span><a class="code" href="classpcp_1_1pmda.html">pcp::pmda</a> * pcp::pmda::instance(NULL);</div>
-<div class="line"><a name="l01544"></a><span class="lineno"> 1544</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l01545"></a><span class="lineno"> 1545</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l01546"></a><span class="lineno"> 1546</span>&#160;PCP_CPP_END_NAMESPACE</div>
-<div class="line"><a name="l01547"></a><span class="lineno"> 1547</span>&#160;</div>
-<div class="line"><a name="l01548"></a><span class="lineno"> 1548</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01537"></a><span class="lineno"> 1537</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01538"></a><span class="lineno"> 1538</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01539"></a><span class="lineno"> 1539</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_profile(__pmProfile *prof, pmdaExt *pmda)</div>
+<div class="line"><a name="l01540"></a><span class="lineno"> 1540</span>&#160;    {</div>
+<div class="line"><a name="l01541"></a><span class="lineno"> 1541</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a3fc97af29e9e29ec450a416efa527a13">on_profile</a>(prof, pmda);</div>
+<div class="line"><a name="l01542"></a><span class="lineno"> 1542</span>&#160;    }</div>
+<div class="line"><a name="l01543"></a><span class="lineno"> 1543</span>&#160;</div>
+<div class="line"><a name="l01544"></a><span class="lineno"> 1544</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_store(pmResult *result, pmdaExt *pmda)</div>
+<div class="line"><a name="l01545"></a><span class="lineno"> 1545</span>&#160;    {</div>
+<div class="line"><a name="l01546"></a><span class="lineno"> 1546</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a2c76091b2fb4c40573534e45372a84e6">on_store</a>(result, pmda);</div>
+<div class="line"><a name="l01547"></a><span class="lineno"> 1547</span>&#160;    }</div>
+<div class="line"><a name="l01548"></a><span class="lineno"> 1548</span>&#160;</div>
+<div class="line"><a name="l01549"></a><span class="lineno"> 1549</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">int</span> callback_text(<span class="keywordtype">int</span> ident, <span class="keywordtype">int</span> type, <span class="keywordtype">char</span> **buffer, pmdaExt *pmda)</div>
+<div class="line"><a name="l01550"></a><span class="lineno"> 1550</span>&#160;    {</div>
+<div class="line"><a name="l01551"></a><span class="lineno"> 1551</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795">get_instance</a>()-&gt;<a class="code" href="classpcp_1_1pmda.html#a655058cc2963ba2759fcdf789a193c05">on_text</a>(ident, type, buffer, pmda);</div>
+<div class="line"><a name="l01552"></a><span class="lineno"> 1552</span>&#160;    }</div>
+<div class="line"><a name="l01553"></a><span class="lineno"> 1553</span>&#160;</div>
+<div class="line"><a name="l01554"></a><span class="lineno"> 1554</span>&#160;};</div>
+<div class="line"><a name="l01555"></a><span class="lineno"> 1555</span>&#160;</div>
+<div class="line"><a name="l01556"></a><span class="lineno"> 1556</span>&#160;} <span class="comment">// pcp namespace.</span></div>
+<div class="line"><a name="l01557"></a><span class="lineno"> 1557</span>&#160;</div>
+<div class="line"><a name="l01558"></a><span class="lineno"> 1558</span>&#160;<span class="preprocessor">#ifndef PCP_CPP_SKIP_PCP_PMDA_INSTANCE_DEFINITION</span></div>
+<div class="line"><a name="l01559"></a><span class="lineno"> 1559</span>&#160;<span class="preprocessor"></span><a class="code" href="classpcp_1_1pmda.html">pcp::pmda</a> * pcp::pmda::instance(NULL);</div>
+<div class="line"><a name="l01560"></a><span class="lineno"> 1560</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l01561"></a><span class="lineno"> 1561</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l01562"></a><span class="lineno"> 1562</span>&#160;PCP_CPP_END_NAMESPACE</div>
+<div class="line"><a name="l01563"></a><span class="lineno"> 1563</span>&#160;</div>
+<div class="line"><a name="l01564"></a><span class="lineno"> 1564</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classpcp_1_1pmda_html_ac7011192f8ecc55556a0906f049ba864"><div class="ttname"><a href="classpcp_1_1pmda.html#ac7011192f8ecc55556a0906f049ba864">pcp::pmda::store_value</a></div><div class="ttdeci">virtual void store_value(const metric_id &amp;, const int &amp;)</div><div class="ttdoc">Store an in situ value. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l00926">pmda.hpp:926</a></div></div>
 <div class="ttc" id="classpcp_1_1pmda_html_a4fb55a0c3388b355676239222ee4ae74"><div class="ttname"><a href="classpcp_1_1pmda.html#a4fb55a0c3388b355676239222ee4ae74">pcp::pmda::parse_command_line</a></div><div class="ttdeci">virtual bool parse_command_line(const int argc, const char *const argv[], pmdaInterface &amp;interface)</div><div class="ttdoc">Parse command line options. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l00444">pmda.hpp:444</a></div></div>
 <div class="ttc" id="classpcp_1_1pmda_html_a338212f59ca5de548e6dff05d536ebd9"><div class="ttname"><a href="classpcp_1_1pmda.html#a338212f59ca5de548e6dff05d536ebd9">pcp::pmda::run_daemon</a></div><div class="ttdeci">virtual void run_daemon(const int argc, char *const argv[])</div><div class="ttdoc">Run this daemon. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l00292">pmda.hpp:292</a></div></div>
@@ -1662,7 +1678,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="config_8hpp_html_a834243a94f16a1344e5382956251817f"><div class="ttname"><a href="config_8hpp.html#a834243a94f16a1344e5382956251817f">PCP_CPP_BOOST_PO_IMPLICIT_VALUE</a></div><div class="ttdeci">#define PCP_CPP_BOOST_PO_IMPLICIT_VALUE(...)</div><div class="ttdoc">Sets a command line option&#39;s implicit value, if supported by the version of Boost.Program_Options being built against. </div><div class="ttdef"><b>Definition:</b> <a href="config_8hpp_source.html#l00039">config.hpp:39</a></div></div>
 <div class="ttc" id="config_8hpp_html"><div class="ttname"><a href="config_8hpp.html">config.hpp</a></div><div class="ttdoc">Sets up common PMDA++ library macros. </div></div>
 <div class="ttc" id="structpcp_1_1pmda_1_1metric__id_html_aeaa4bd3dabc427ba9d071583d900771d"><div class="ttname"><a href="structpcp_1_1pmda_1_1metric__id.html#aeaa4bd3dabc427ba9d071583d900771d">pcp::pmda::metric_id::type</a></div><div class="ttdeci">atom_type_type type</div><div class="ttdoc">Expected atom type. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l00140">pmda.hpp:140</a></div></div>
-<div class="ttc" id="classpcp_1_1pmda_html_ae570f1e502c09010efab5d49e659deeb"><div class="ttname"><a href="classpcp_1_1pmda.html#ae570f1e502c09010efab5d49e659deeb">pcp::pmda::set_callbacks</a></div><div class="ttdeci">virtual void set_callbacks(pmdaInterface &amp;interface)</div><div class="ttdoc">Set static callbacks on a PMDA interface. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l01189">pmda.hpp:1189</a></div></div>
+<div class="ttc" id="classpcp_1_1pmda_html_ae570f1e502c09010efab5d49e659deeb"><div class="ttname"><a href="classpcp_1_1pmda.html#ae570f1e502c09010efab5d49e659deeb">pcp::pmda::set_callbacks</a></div><div class="ttdeci">virtual void set_callbacks(pmdaInterface &amp;interface)</div><div class="ttdoc">Set static callbacks on a PMDA interface. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l01198">pmda.hpp:1198</a></div></div>
 <div class="ttc" id="classpcp_1_1pmda_html_a96bc87f88467fc41835bce45473d7958"><div class="ttname"><a href="classpcp_1_1pmda.html#a96bc87f88467fc41835bce45473d7958">pcp::pmda::fetch_value</a></div><div class="ttdeci">virtual fetch_value_result fetch_value(const metric_id &amp;metric)=0</div><div class="ttdoc">Fetch an individual metric value. </div></div>
 <div class="ttc" id="classpcp_1_1pmda_html_a5f284a94329d61b1dbaf7cab617c3333"><div class="ttname"><a href="classpcp_1_1pmda.html#a5f284a94329d61b1dbaf7cab617c3333">pcp::pmda::get_supported_options</a></div><div class="ttdeci">virtual boost::program_options::options_description get_supported_options() const </div><div class="ttdoc">Get a list of command line options supported by this PMDA. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l00637">pmda.hpp:637</a></div></div>
 <div class="ttc" id="structpcp_1_1pmda_1_1metric__id_html_aea10a2e2a07bbe682643461485e1fb77"><div class="ttname"><a href="structpcp_1_1pmda_1_1metric__id.html#aea10a2e2a07bbe682643461485e1fb77">pcp::pmda::metric_id::opaque</a></div><div class="ttdeci">void * opaque</div><div class="ttdoc">Opaque pointer. </div><div class="ttdef"><b>Definition:</b> <a href="pmda_8hpp_source.html#l00141">pmda.hpp:141</a></div></div>
@@ -1712,7 +1728,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 7 2014 20:59:59 for PMDA++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 10 2014 17:04:32 for PMDA++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
