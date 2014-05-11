@@ -46,14 +46,37 @@ inline lookup_flags operator|(lookup_flags a, lookup_flags b)
     );
 }
 
+/**
+ * @brief Structure for return results from pcp::cache::lookup functions.
+ *
+ * @tparam Type Type to cast opaque pointers to.
+ */
 template <typename Type>
 struct lookup_result_type {
-    char * name;
-    instance_id_type instance_id;
-    Type opaque;
-    int status;
+    char * name;                  ///< Instance name.
+    instance_id_type instance_id; ///< Instance identifier.
+    Type opaque;                  ///< Opaque pointer, cast to type \a Type.
+    int status;                   ///< Entry status, such as PMDA_CACHE_ACTIVE.
 };
 
+/**
+ * @brief Lookup a cache entry, by instance ID.
+ *
+ * If \a flags includes \a require_active, and an inactive cache entry is found,
+ * a pcp::exception will be thrown instead of the inactive entry returned.
+ *
+ * @tparam Type        Type to cast opaque pointers to.
+ *
+ * @param  indom       Instance domain to lookup.
+ * @param  instance_id Instance ID to lookup.
+ * @param  flags       Optional flags that alter the function's behaviour.
+ *
+ * @throw  pcp::exception  If no cache entry entry found.
+ *
+ * @return A struct containing the found cache entry details.
+ *
+ * @see pmdaCacheLookup
+ */
 template <typename Type>
 lookup_result_type<Type> lookup(const pmInDom indom,
                                 const instance_id_type instance_id,
@@ -73,6 +96,24 @@ lookup_result_type<Type> lookup(const pmInDom indom,
     return result;
 }
 
+/**
+ * @brief Lookup a cache entry, by instance name.
+ *
+ * If \a flags includes \a require_active, and an inactive cache entry is found,
+ * a pcp::exception will be thrown instead of the inactive entry returned.
+ *
+ * @tparam Type        Type to cast opaque pointers to.
+ *
+ * @param  indom       Instance domain to lookup.
+ * @param  instance_id Instance ID to lookup.
+ * @param  flags       Optional flags that alter the function's behaviour.
+ *
+ * @throw  pcp::exception  If no cache entry entry found.
+ *
+ * @return A struct containing the found cache entry details.
+ *
+ * @see pmdaCacheLookupName
+ */
 template <typename Type>
 lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
                                 const lookup_flags flags = require_active)
@@ -91,6 +132,24 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
     return result;
 }
 
+/**
+ * @brief Lookup a cache entry, by instance name and key.
+ *
+ * If \a flags includes \a require_active, and an inactive cache entry is found,
+ * a pcp::exception will be thrown instead of the inactive entry returned.
+ *
+ * @tparam Type        Type to cast opaque pointers to.
+ *
+ * @param  indom       Instance domain to lookup.
+ * @param  instance_id Instance ID to lookup.
+ * @param  flags       Optional flags that alter the function's behaviour.
+ *
+ * @throw  pcp::exception  If no cache entry entry found.
+ *
+ * @return A struct containing the found cache entry details.
+ *
+ * @see pmdaCacheLookupKey
+ */
 template <typename Type>
 lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
                                 const std::string &key,
@@ -111,6 +170,19 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
     return result;
 }
 
+/**
+ * @brief Purge cache entries that have not been active for some time.
+ *
+ * @param  indom   Instance domain to purge entries for.
+ * @param  recent  All entries that have not been active within this many
+ *                 seconds will be purged.
+ *
+ * @throw  pcp::exception  On error.
+ *
+ * @return The number of items purged.
+ *
+ * @see pmdaCachePurge
+ */
 size_t purge(const pmInDom indom, const time_t recent)
 {
     const int result = pmdaCachePurge(indom, recent);
@@ -121,12 +193,39 @@ size_t purge(const pmInDom indom, const time_t recent)
 }
 
 #ifndef PCP_CPP_NO_BOOST
+/**
+ * @brief Purge cache entries that have not been active for some time.
+ *
+ * @param  indom   Instance domain to purge entries for.
+ * @param  recent  All entries that have not been active within this interval
+ *                 will be purged.
+ *
+ * @throw  pcp::exception  On error.
+ *
+ * @return The number of items purged.
+ *
+ * @see pmdaCachePurge
+ */
 size_t purge(const pmInDom indom, const boost::posix_time::time_duration &recent)
 {
     return purge(indom, recent.seconds());
 }
 #endif
 
+/**
+ * @brief Add a item to the cache.
+ *
+ * @param  indom   Instance domain to add an entry for.
+ * @param  name    Instance name to add to the cache.
+ * @param  flags   Optional flags to be passed to pmdaCacheStore.
+ * @param  opqaue  Optional opaque pointer to be include in the cache entry.
+ *
+ * @throw  pcp::exception  On error.
+ *
+ * @return The instance ID of the stored cache entry.
+ *
+ * @see pmdaCacheStore
+ */
 instance_id_type store(const pmInDom indom, const std::string &name,
                        const int flags = PMDA_CACHE_ADD,
                        void * const opaque = NULL)
@@ -138,6 +237,20 @@ instance_id_type store(const pmInDom indom, const std::string &name,
     return result;
 }
 
+/**
+ * @brief Add a item to the cache.
+ *
+ * @param  indom   Instance domain to add an entry for.
+ * @param  name    Instance name to add to the cache.
+ * @param  opqaue  Optional opaque pointer to be include in the cache entry.
+ * @param  flags   Optional flags to be passed to pmdaCacheStore.
+ *
+ * @throw  pcp::exception  On error.
+ *
+ * @return The instance ID of the stored cache entry.
+ *
+ * @see pmdaCacheStore
+ */
 instance_id_type store(const pmInDom indom, const std::string &name,
                        void * const opaque, const int flags = PMDA_CACHE_ADD)
 {
@@ -148,6 +261,22 @@ instance_id_type store(const pmInDom indom, const std::string &name,
     return result;
 }
 
+/**
+ * @brief Add a item to the cache.
+ *
+ * @param  indom   Instance domain to add an entry for.
+ * @param  key     Hint to pass to pmdaCacheStoreKey.  See pmdaCacheStoreKey for
+ *                 details.
+ * @param  name    Instance name to add to the cache.
+ * @param  flags   Optional flags to be passed to pmdaCacheStore.
+ * @param  opaque  Optional opaque pointer to be include in the cache entry.
+ *
+ * @throw  pcp::exception  On error.
+ *
+ * @return The instance ID of the stored cache entry.
+ *
+ * @see pmdaCacheStoreKey
+ */
 instance_id_type store(const pmInDom indom, const std::string &name,
                        const std::string &key, const int flags = 0,
                        void * const opaque = NULL)
@@ -160,6 +289,22 @@ instance_id_type store(const pmInDom indom, const std::string &name,
     return result;
 }
 
+/**
+ * @brief Add a item to the cache.
+ *
+ * @param  indom   Instance domain to add an entry for.
+ * @param  key     Hint to pass to pmdaCacheStoreKey.  See pmdaCacheStoreKey for
+ *                 details.
+ * @param  name    Instance name to add to the cache.
+ * @param  opaque  Optional opaque pointer to be include in the cache entry.
+ * @param  flags   Optional flags to be passed to pmdaCacheStore.
+ *
+ * @throw  pcp::exception  On error.
+ *
+ * @return The instance ID of the stored cache entry.
+ *
+ * @see pmdaCacheStoreKey
+ */
 instance_id_type store(const pmInDom indom, const std::string &name,
                        const std::string &key, void * const opaque,
                        const int flags = 0)
@@ -172,6 +317,21 @@ instance_id_type store(const pmInDom indom, const std::string &name,
     return result;
 }
 
+/**
+ * @brief Perform additional operations on the cache.
+ *
+ * This is a very simple wrapper for PCP's pmdaCacheOp function.
+ *
+ * @param  indom      Instance domain to operate on.
+ * @param  operation  Operation to perform.  Should be one of the PMDA_CACHE_*
+ *                    constants.
+ *
+ * @throw  pcp::exception  On errors.
+ *
+ * @return The result of the pmdaCacheOp function.  See pmdaCacheOp for details.
+ *
+ * @see pmdaCacheOp
+ */
 int perform(const pmInDom indom, const int operation)
 {
     const int result = pmdaCacheOp(indom, operation);
