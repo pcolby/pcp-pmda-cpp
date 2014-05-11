@@ -12,6 +12,7 @@
 #define __PCP_CPP_CACHE_HPP__
 
 #include "config.hpp"
+#include "exception.hpp"
 #include "types.hpp"
 
 PCP_CPP_BEGIN_NAMESPACE
@@ -19,41 +20,71 @@ PCP_CPP_BEGIN_NAMESPACE
 namespace pcp {
 namespace cache {
 
-struct result {
-    std::string name;
-    int flags;
-    void * opaque;
+template <typename Type>
+struct lookup_result_type {
+    char * name;
+    instance_id_type instance_id;
+    Type opaque;
+    int status;
 };
 
-// Note, due to a limitation in the PMDA API, this cannot return strings with
-// NULL bytes.
-std::string lookup(const pmInDom indom, const instance_id_type instance_id,
-                   void ** opaque = NULL)
+/// @todo flag type instead of requireActive bool?
+
+template <typename Type>
+lookup_result_type<Type> lookup(const pmInDom indom,
+                                const instance_id_type instance_id,
+                                const bool requireActive=true)
 {
-    char * name;
-    /// @todo  Error handling, of course.
-    pmdaCacheLookup(indom, instance_id, &name, opaque);
-    return name;
+    lookup_result_type<Type> result;
+    void * opaque;
+    result.status = pmdaCacheLookup(indom, instance_id, &result.name, &opaque);
+    if (result.status < 0) {
+        throw pcp::exception(result.status);
+    }
+    if ((requireActive) && (result.status != PMDA_CACHE_ACTIVE)) {
+        throw pcp::exception(result.status, "not active"); ///< @todo Better message.
+    }
+    result.instance_id = instance_id;
+    result.opaque = static_cast<Type>(opaque);
+    return result;
 }
 
-instance_id_type lookup(const pmInDom indom, const std::string &instance_name,
-                        void ** opaque = NULL)
+template <typename Type>
+lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
+                                const bool requireActive=true)
 {
-    /// @todo  Error handling, of course.
-    int instance_id;
-    pmdaCacheLookupName(indom, instance_name.c_str(), &instance_id, opaque);
-    return instance_id;
+    lookup_result_type<Type> result;
+    void * opaque;
+    result.status = pmdaCacheLookupName(indom, name.c_str(), &result.instance_id, &opaque);
+    if (result.status < 0) {
+        throw pcp::exception(result.status);
+    }
+    if ((requireActive) && (result.status != PMDA_CACHE_ACTIVE)) {
+        throw pcp::exception(result.status, "not active"); ///< @todo Better message.
+    }
+    result.name = NULL;
+    result.opaque = static_cast<Type>(opaque);
+    return result;
 }
 
-instance_id_type lookup(const pmInDom indom, const std::string &instance_name,
-                        const std::string &key, char ** oname = NULL,
-                        void ** opaque = NULL)
+template <typename Type>
+lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
+                                const std::string &key,
+                                const bool requireActive=true)
 {
-    /// @todo  Error handling, of course.
-    int instance_id;
-    pmdaCacheLookupKey(indom, instance_name.c_str(), key.size(), key.c_str(),
-                       oname, &instance_id, opaque);
-    return instance_id;
+    lookup_result_type<Type> result;
+    void * opaque;
+    result.status = pmdaCacheLookupKey(indom, name.c_str(), key.size(),
+                                       key.c_str(), &result.name,
+                                       &result.instance_id, &opaque);
+    if (result.status < 0) {
+        throw pcp::exception(result.status);
+    }
+    if ((requireActive) && (result.status != PMDA_CACHE_ACTIVE)) {
+        throw pcp::exception(result.status, "not active"); ///< @todo Better message.
+    }
+    result.opaque = static_cast<Type>(opaque);
+    return result;
 }
 
 size_t purge(const pmInDom indom, const time_t recent)

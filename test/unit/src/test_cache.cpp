@@ -6,3 +6,7 @@
 #include "pcp-cpp/cache.hpp"
 
 #include "gtest/gtest.h"
+
+TEST(cache, something) {
+    //pcp::cache::lookup<int *>(1, 2);
+}

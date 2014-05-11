@@ -14,6 +14,7 @@
  */
 
 #include <pcp-cpp/atom.hpp>
+#include <pcp-cpp/cache.hpp>
 #include <pcp-cpp/pmda.hpp>
 #include <pcp-cpp/units.hpp>
 
@@ -103,15 +104,9 @@ protected:
 
         // simple.now         SIMPLE:2:4
         if (metric.cluster == 2) {
-            /// @todo Issue #4: pmdaCache encapsulation.
-            void * tsp;
-            int sts;
-            if ((sts = pmdaCacheLookup(now_domain, metric.instance, NULL, &tsp)) != PMDA_CACHE_ACTIVE) {
-                if (sts < 0)
-                    __pmNotifyErr(LOG_ERR, "pmdaCacheLookup failed: inst=%d: %s", metric.instance, pmErrStr(sts));
-                throw pcp::exception(PM_ERR_INST);
-            }
-            return pcp::atom(metric.type, static_cast<timeslice *>(tsp)->tm_field);
+            const timeslice * const tsp =
+                pcp::cache::lookup<timeslice *>(now_domain, metric.instance).opaque;
+            return pcp::atom(metric.type, tsp->tm_field);
         }
 
         // simple.numfetch    SIMPLE:0:0
