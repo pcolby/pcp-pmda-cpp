@@ -20,6 +20,32 @@ PCP_CPP_BEGIN_NAMESPACE
 namespace pcp {
 namespace cache {
 
+/**
+ * @brief Flags that may be applied to cache lookups.
+ */
+enum lookup_flags {
+    require_active = 0x1 ///< Throw if the found cache entry is not active.
+};
+
+/**
+ * @brief Pipe operator for combining lookup_flags values.
+ *
+ * This function performs a logical OR of two lookup_flags sets. This is a
+ * convenience function, allowing lookup_flags enum values to be used both
+ * standalone, and in combination.
+ *
+ * @param a First set of flags.
+ * @param b Second set of flags.
+ *
+ * @return Combined set of both \a a and \a b flags.
+ */
+inline lookup_flags operator|(lookup_flags a, lookup_flags b)
+{
+    return static_cast<lookup_flags>(
+        static_cast<int>(a) | static_cast<int>(b)
+    );
+}
+
 template <typename Type>
 struct lookup_result_type {
     char * name;
@@ -33,7 +59,7 @@ struct lookup_result_type {
 template <typename Type>
 lookup_result_type<Type> lookup(const pmInDom indom,
                                 const instance_id_type instance_id,
-                                const bool requireActive=true)
+                                const lookup_flags flags = require_active)
 {
     lookup_result_type<Type> result;
     void * opaque;
@@ -41,7 +67,7 @@ lookup_result_type<Type> lookup(const pmInDom indom,
     if (result.status < 0) {
         throw pcp::exception(result.status);
     }
-    if ((requireActive) && (result.status != PMDA_CACHE_ACTIVE)) {
+    if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
         throw pcp::exception(result.status, "not active"); ///< @todo Better message.
     }
     result.instance_id = instance_id;
@@ -51,7 +77,7 @@ lookup_result_type<Type> lookup(const pmInDom indom,
 
 template <typename Type>
 lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
-                                const bool requireActive=true)
+                                const lookup_flags flags = require_active)
 {
     lookup_result_type<Type> result;
     void * opaque;
@@ -59,7 +85,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
     if (result.status < 0) {
         throw pcp::exception(result.status);
     }
-    if ((requireActive) && (result.status != PMDA_CACHE_ACTIVE)) {
+    if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
         throw pcp::exception(result.status, "not active"); ///< @todo Better message.
     }
     result.name = NULL;
@@ -70,7 +96,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
 template <typename Type>
 lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
                                 const std::string &key,
-                                const bool requireActive=true)
+                                const lookup_flags flags = require_active)
 {
     lookup_result_type<Type> result;
     void * opaque;
@@ -80,7 +106,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
     if (result.status < 0) {
         throw pcp::exception(result.status);
     }
-    if ((requireActive) && (result.status != PMDA_CACHE_ACTIVE)) {
+    if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
         throw pcp::exception(result.status, "not active"); ///< @todo Better message.
     }
     result.opaque = static_cast<Type>(opaque);

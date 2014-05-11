@@ -28,7 +28,7 @@ class instance_domain;
  * @brief Flags that may be applied to metric descriptions.
  */
 enum metric_flags {
-    storable_metric = 0x1 //< Metric supports pmstore operations.
+    storable_metric = 0x1 ///< Metric supports pmstore operations.
 };
 
 /**
