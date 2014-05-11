@@ -15,6 +15,8 @@
 #include "exception.hpp"
 #include "types.hpp"
 
+#include <sstream>
+
 PCP_CPP_BEGIN_NAMESPACE
 
 namespace pcp {
@@ -89,7 +91,10 @@ lookup_result_type<Type> lookup(const pmInDom indom,
         throw pcp::exception(result.status);
     }
     if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
-        throw pcp::exception(result.status, "not active"); ///< @todo Better message.
+        std::ostringstream message;
+        message << "Cache entry " << indom << ':' << instance_id
+                << " (\"" << result.name << "\") inactive";
+        throw pcp::exception(result.status, message.str());
     }
     result.instance_id = instance_id;
     result.opaque = static_cast<Type>(opaque);
@@ -125,7 +130,10 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
         throw pcp::exception(result.status);
     }
     if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
-        throw pcp::exception(result.status, "not active"); ///< @todo Better message.
+        std::ostringstream message;
+        message << "Cache entry " << indom << ':' << result.instance_id
+                << " (\"" << name << "\") inactive";
+        throw pcp::exception(result.status, message.str());
     }
     result.name = NULL;
     result.opaque = static_cast<Type>(opaque);
@@ -164,7 +172,10 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
         throw pcp::exception(result.status);
     }
     if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
-        throw pcp::exception(result.status, "not active"); ///< @todo Better message.
+        std::ostringstream message;
+        message << "Cache entry " << indom << ':' << result.instance_id
+                << " (\"" << name << "\":\"" << key << "\") inactive";
+        throw pcp::exception(result.status, message.str());
     }
     result.opaque = static_cast<Type>(opaque);
     return result;
