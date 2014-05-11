@@ -127,42 +127,47 @@ size_t purge(const pmInDom indom, const boost::posix_time::time_duration &recent
 }
 #endif
 
-/// @todo  flags type
-instance_id_type store(const pmInDom indom, const std::string &name, int flags = 0,
+instance_id_type store(const pmInDom indom, const std::string &name,
+                       const int flags = 0, void ** opaque = NULL)
+{
+    const int result = pmdaCacheStore(indom, flags, name.c_str(), opaque);
+    if (result < 0) {
+        throw pcp::exception(result);
+    }
+    return result;
+}
+
+instance_id_type store(const pmInDom indom, const std::string &name,
+                       void ** opaque, const int flags = 0)
+{
+    const int result = pmdaCacheStore(indom, flags, name.c_str(), opaque);
+    if (result < 0) {
+        throw pcp::exception(result);
+    }
+    return result;
+}
+
+instance_id_type store(const pmInDom indom, const std::string &name,
+                       const std::string &key, const int flags = 0,
                        void ** opaque = NULL)
 {
-    /// @todo  Error handling, of course.
-    const int result = pmdaCacheStore(indom, flags, name.c_str(), opaque);
-    return result;
-}
-
-/// @todo  flags type
-instance_id_type store(const pmInDom indom, const std::string &name,
-                       void ** opaque, int flags = 0)
-{
-    /// @todo  Error handling, of course.
-    const int result = pmdaCacheStore(indom, flags, name.c_str(), opaque);
-    return result;
-}
-
-/// @todo  flags type
-instance_id_type store(const pmInDom indom, const std::string &name,
-                       const std::string &key, int flags = 0,
-                       void ** opaque = NULL)
-{
-    /// @todo  Error handling, of course.
     const int result = pmdaCacheStoreKey(indom, flags, name.c_str(), key.size(),
                                          key.c_str(), opaque);
+    if (result < 0) {
+        throw pcp::exception(result);
+    }
     return result;
 }
 
-/// @todo  flags type
 instance_id_type store(const pmInDom indom, const std::string &name,
-                       const std::string &key, void ** opaque, int flags = 0)
+                       const std::string &key, void ** opaque,
+                       const int flags = 0)
 {
-    /// @todo  Error handling, of course.
     const int result = pmdaCacheStoreKey(indom, flags, name.c_str(), key.size(),
                                          key.c_str(), opaque);
+    if (result < 0) {
+        throw pcp::exception(result);
+    }
     return result;
 }
 
