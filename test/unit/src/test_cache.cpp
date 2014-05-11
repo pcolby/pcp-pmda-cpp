@@ -7,6 +7,18 @@
 
 #include "gtest/gtest.h"
 
-TEST(cache, something) {
-    //pcp::cache::lookup<int *>(1, 2);
+TEST(cache, lookup) {
+
+}
+
+TEST(cache, perform) {
+
+}
+
+TEST(cache, purge) {
+
+}
+
+TEST(cache, store) {
+
 }
