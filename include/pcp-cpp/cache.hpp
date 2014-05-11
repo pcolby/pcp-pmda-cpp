@@ -182,6 +182,30 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
 }
 
 /**
+ * @brief Perform additional operations on the cache.
+ *
+ * This is a very simple wrapper for PCP's pmdaCacheOp function.
+ *
+ * @param  indom      Instance domain to operate on.
+ * @param  operation  Operation to perform.  Should be one of the PMDA_CACHE_*
+ *                    constants.
+ *
+ * @throw  pcp::exception  On errors.
+ *
+ * @return The result of the pmdaCacheOp function.  See pmdaCacheOp for details.
+ *
+ * @see pmdaCacheOp
+ */
+int perform(const pmInDom indom, const int operation)
+{
+    const int result = pmdaCacheOp(indom, operation);
+    if (result < 0) {
+        throw pcp::exception(result);
+    }
+    return result;
+}
+
+/**
  * @brief Purge cache entries that have not been active for some time.
  *
  * @param  indom   Instance domain to purge entries for.
@@ -322,30 +346,6 @@ instance_id_type store(const pmInDom indom, const std::string &name,
 {
     const int result = pmdaCacheStoreKey(indom, flags, name.c_str(), key.size(),
                                          key.c_str(), opaque);
-    if (result < 0) {
-        throw pcp::exception(result);
-    }
-    return result;
-}
-
-/**
- * @brief Perform additional operations on the cache.
- *
- * This is a very simple wrapper for PCP's pmdaCacheOp function.
- *
- * @param  indom      Instance domain to operate on.
- * @param  operation  Operation to perform.  Should be one of the PMDA_CACHE_*
- *                    constants.
- *
- * @throw  pcp::exception  On errors.
- *
- * @return The result of the pmdaCacheOp function.  See pmdaCacheOp for details.
- *
- * @see pmdaCacheOp
- */
-int perform(const pmInDom indom, const int operation)
-{
-    const int result = pmdaCacheOp(indom, operation);
     if (result < 0) {
         throw pcp::exception(result);
     }
