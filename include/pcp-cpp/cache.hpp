@@ -113,8 +113,10 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
 
 size_t purge(const pmInDom indom, const time_t recent)
 {
-    /// @todo  Error handling, of course.
     const int result = pmdaCachePurge(indom, recent);
+    if (result < 0) {
+        throw pcp::exception(result);
+    }
     return result;
 }
 
