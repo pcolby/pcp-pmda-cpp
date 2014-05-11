@@ -175,11 +175,7 @@ private:
 
     void timenow_clear()
     {
-        const int sts = pmdaCacheOp(now_domain, PMDA_CACHE_INACTIVE);
-        if (sts < 0) {
-            __pmNotifyErr(LOG_ERR, "pmdaCacheOp(INACTIVE) failed: indom=%s: %s",
-                          pmInDomStr(now_domain), pmErrStr(sts));
-        }
+        pcp::cache::perform(now_domain, PMDA_CACHE_INACTIVE);
 #ifdef DESPERATE
         __pmdaCacheDump(stderr, now_domain, 1);
 #endif
@@ -214,13 +210,9 @@ private:
                 size_t index;
                 for (index = 0; index < num_timeslices; ++index) {
                     if (name == timeslices[index].tm_name) {
-                        const int sts = pmdaCacheStore(now_domain, PMDA_CACHE_ADD,
-                                                       name.c_str() , &timeslices[index]);
-                        if (sts < 0) {
-                            __pmNotifyErr(LOG_ERR, "pmdaCacheStore failed: %s", pmErrStr(sts));
-                            return;
-                        }
-                        now_domain(sts, name);
+                        const pcp::instance_id_type instance_id =
+                            pcp::cache::store(now_domain, name, &timeslices[index]);
+                        now_domain(instance_id, name);
                         break;
                     }
                 }
@@ -233,7 +225,7 @@ private:
 #ifdef DESPERATE
         __pmdaCacheDump(stderr, now_domain, 1);
 #endif
-        if (pmdaCacheOp(now_domain, PMDA_CACHE_SIZE_ACTIVE) < 1) {
+        if (pcp::cache::perform(now_domain, PMDA_CACHE_SIZE_ACTIVE) < 1) {
             __pmNotifyErr(LOG_WARNING, "\"timenow\" instance domain is empty");
         }
     }
