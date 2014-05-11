@@ -166,11 +166,12 @@ instance_id_type store(const pmInDom indom, const std::string &name,
     return result;
 }
 
-/// @todo  Sensible name for this function.
-int op(const pmInDom indom, int op)
+int perform(const pmInDom indom, const int operation)
 {
-    /// @todo  Error handling, of course.
-    const int result = pmdaCacheOp(indom, op);
+    const int result = pmdaCacheOp(indom, operation);
+    if (result < 0) {
+        throw pcp::exception(result);
+    }
     return result;
 }
 
