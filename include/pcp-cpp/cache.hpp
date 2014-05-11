@@ -54,8 +54,6 @@ struct lookup_result_type {
     int status;
 };
 
-/// @todo flag type instead of requireActive bool?
-
 template <typename Type>
 lookup_result_type<Type> lookup(const pmInDom indom,
                                 const instance_id_type instance_id,
