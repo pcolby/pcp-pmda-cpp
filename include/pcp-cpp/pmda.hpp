@@ -59,12 +59,8 @@ public:
     static void init_dso(pmdaInterface * const interface)
     {
         try {
-            Agent * agent = new Agent;
-            set_instance(agent); //< @todo verify this returns NULL.
-            pmdaDSO(interface, PCP_CPP_PMDA_INTERFACE_VERSION,
-                    const_cast<char *>(agent->get_pmda_name().c_str()),
-                    const_cast<char *>(agent->get_help_text_pathname().c_str()));
-            agent->initialize_pmda(*interface);
+            set_instance(new Agent);
+            get_instance()->initialize_dso(*interface);
         } catch (const std::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
         }
@@ -790,6 +786,21 @@ protected:
     virtual std::string get_usage(const std::string &program_name) const
     {
         return program_name + " [options]";
+    }
+
+    /**
+     * @brief Initialise a DSO interface with this PMDA.
+     *
+     * @param interface PMDA interface to initialise.
+     *
+     * @throws pcp::exception on error.
+     */
+    virtual void initialize_dso(pmdaInterface &interface) {
+        // Contrary to the man pages, pmdaDSO returns void, not int.
+        pmdaDSO(&interface, PCP_CPP_PMDA_INTERFACE_VERSION,
+                const_cast<char *>(get_pmda_name().c_str()),
+                const_cast<char *>(get_help_text_pathname().c_str()));
+        initialize_pmda(interface);
     }
 
     /**

@@ -37,6 +37,12 @@ int pmdaDesc(pmID /*pmid*/, pmDesc */*desc*/, pmdaExt */*pmda*/)
     return PM_ERR_NYI;
 }
 
+// Contrary to the man pages, pmdaDSO returns void, not int.
+void pmdaDSO(pmdaInterface *, int , char *, char *)
+{
+
+}
+
 int pmdaFetch(int /*numpmid*/, pmID */*pmidlist*/, pmResult **/*resp*/,
               pmdaExt */*pmda*/)
 {
