@@ -99,8 +99,8 @@ TEST(cache, purge) {
 
     // Verify that the pcp::cache::purge wrapper passes the recent argument
     // (456 in this case) to pmdaCachePurge verbatim.
-    EXPECT_EQ(456, pcp::cache::purge(123, 456));
-    EXPECT_EQ(300, pcp::cache::purge(123, 300));
+    EXPECT_EQ((size_t)456, pcp::cache::purge(123, 456));
+    EXPECT_EQ((size_t)300, pcp::cache::purge(123, 300));
 }
 
 TEST(cache, purge_boost) {
@@ -111,8 +111,8 @@ TEST(cache, purge_boost) {
     EXPECT_NO_THROW(pcp::cache::purge(123, boost::posix_time::seconds(123)));
 
     // Verify that the pcp::cache::purge boost overload converts to seconds.
-    EXPECT_EQ(456, pcp::cache::purge(123, boost::posix_time::seconds(456)));
-    EXPECT_EQ(300, pcp::cache::purge(123, boost::posix_time::minutes(5)));
+    EXPECT_EQ((size_t)456, pcp::cache::purge(123, boost::posix_time::seconds(456)));
+    EXPECT_EQ((size_t)300, pcp::cache::purge(123, boost::posix_time::minutes(5)));
 }
 
 TEST(cache, store_by_name) {
