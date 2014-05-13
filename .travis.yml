@@ -22,7 +22,7 @@ before_script:
 
 script:
   - pushd build
-  - cmake .. && make check
+  - cmake .. && make && make check
   - if [ "$CXX" = "g++" ]; then make coverage; fi
   - popd
 
