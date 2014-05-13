@@ -4,5 +4,6 @@ if [ $? -ne 0 ]; then exit; fi
 dbpmda -e -n "$TEMP_DIR/root" <<EOF
 open pipe pmdatrivial
 text trivial.time
+close
 EOF
 rm -rf "$TEMP_DIR"

@@ -5,5 +5,6 @@ dbpmda -e -n "$TEMP_DIR/root" <<EOF
 open pipe pmdasimplecpu
 text simplecpu.ticks.total
 text simplecpu.ticks.cpu0
+close
 EOF
 rm -rf "$TEMP_DIR"
