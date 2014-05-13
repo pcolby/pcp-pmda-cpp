@@ -8,14 +8,10 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
-if (TARGET pmdasimple)
-    add_dependencies(check-functional pmdasimple)
-endif()
-
-if (TARGET pmdasimplecpu)
-    add_dependencies(check-functional pmdasimplecpu)
-endif()
-
-if (TARGET pmdatrivial)
-    add_dependencies(check-functional pmdatrivial)
-endif()
+# Functional tests require a whole lot of other targets.
+add_dependencies(
+    check-functional
+    pmdasimple    pmdasimple-boost    libpmda_simple
+    pmdasimplecpu pmdasimplecpu-boost libpmda_simplecpu
+    pmdatrivial   pmdatrivial-boost   libpmda_trivialx
+)
