@@ -125,7 +125,8 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
 {
     lookup_result_type<Type> result;
     void * opaque;
-    result.status = pmdaCacheLookupName(indom, name.c_str(), &result.instance_id, &opaque);
+    int instance_id;
+    result.status = pmdaCacheLookupName(indom, name.c_str(), &instance_id, &opaque);
     if (result.status < 0) {
         throw pcp::exception(result.status);
     }
@@ -136,6 +137,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
         throw pcp::exception(result.status, message.str());
     }
     result.name = NULL;
+    result.instance_id = instance_id;
     result.opaque = static_cast<Type>(opaque);
     return result;
 }
@@ -165,9 +167,10 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
 {
     lookup_result_type<Type> result;
     void * opaque;
+    int instance_id;
     result.status = pmdaCacheLookupKey(indom, name.c_str(), key.size(),
                                        key.c_str(), &result.name,
-                                       &result.instance_id, &opaque);
+                                       &instance_id, &opaque);
     if (result.status < 0) {
         throw pcp::exception(result.status);
     }
@@ -177,6 +180,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
                 << " (\"" << name << "\":\"" << key << "\") inactive";
         throw pcp::exception(result.status, message.str());
     }
+    result.instance_id = instance_id;
     result.opaque = static_cast<Type>(opaque);
     return result;
 }
@@ -243,7 +247,7 @@ size_t purge(const pmInDom indom, const time_t recent)
  */
 size_t purge(const pmInDom indom, const boost::posix_time::time_duration &recent)
 {
-    return purge(indom, recent.seconds());
+    return purge(indom, recent.total_seconds());
 }
 #endif
 

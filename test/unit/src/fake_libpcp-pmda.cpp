@@ -15,39 +15,39 @@ int pmdaAttribute(int /*context*/, int /*key*/, const char */*value*/, int /*len
     return PM_ERR_NYI;
 }
 
-int pmdaCacheLookup(pmInDom, int, char **, void **)
+int pmdaCacheLookup(pmInDom indom, int, char **, void **)
 {
-    return PM_ERR_NYI;
+    return indom;
 }
 
-int pmdaCacheLookupName(pmInDom, const char *, int *, void **)
+int pmdaCacheLookupName(pmInDom indom, const char *, int *, void **)
 {
-    return PM_ERR_NYI;
+    return indom;
 }
 
-int pmdaCacheLookupKey(pmInDom, const char *, int, const void *, char **, int *, void **)
+int pmdaCacheLookupKey(pmInDom indom, const char *, int, const void *, char **, int *, void **)
 {
-    return PM_ERR_NYI;
+    return indom;
 }
 
-int pmdaCacheOp(pmInDom, int)
+int pmdaCacheOp(pmInDom indom, int op)
 {
-    return PM_ERR_NYI;
+    return ((int)indom < 0) ? indom : op;
 }
 
-int pmdaCachePurge(pmInDom, time_t)
+int pmdaCachePurge(pmInDom indom, time_t recent)
 {
-    return PM_ERR_NYI;
+    return ((int)indom < 0) ? indom : recent;
 }
 
-int pmdaCacheStore(pmInDom, int, const char *, void *)
+int pmdaCacheStore(pmInDom indom, int, const char *, void *)
 {
-    return PM_ERR_NYI;
+    return indom;
 }
 
-int pmdaCacheStoreKey(pmInDom, int, const char *, int, const void *, void *)
+int pmdaCacheStoreKey(pmInDom indom, int, const char *, int, const void *, void *)
 {
-    return PM_ERR_NYI;
+    return indom;
 }
 
 int pmdaChildren(const char */*name*/, int /*traverse*/, char ***/*offspring*/,
