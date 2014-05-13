@@ -803,6 +803,19 @@ protected:
                 const_cast<char *>(get_pmda_name().c_str()),
                 (help_text_pathname.empty()) ? NULL : const_cast<char *>(help_text_pathname.c_str()));
 
+        // Handle pmdaDSO errors (the man page is really lacking here).
+        if (interface.comm.pmda_interface < PCP_CPP_PMDA_INTERFACE_VERSION) {
+            std::ostringstream message;
+            message << "This DSO uses protocol " << PCP_CPP_PMDA_INTERFACE_VERSION
+                    << " but the caller only understands " << interface.comm.pmda_interface
+                    << " or less";
+            throw pcp::exception(PM_ERR_GENERIC, message.str());
+        }
+        if (interface.status < 0) {
+            throw pcp::exception(interface.status, "Failed to initialize DSO via pmdaDSO");
+        }
+
+        // Initialise the rest of the PMDA.
         initialize_pmda(interface);
     }
 
