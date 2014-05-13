@@ -20,6 +20,7 @@
 #include <fstream>
 #include <iostream>
 #include <set>
+#include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <stdint.h>
@@ -60,7 +61,7 @@ public:
     {
         try {
             set_instance(new Agent);
-            get_instance()->initialize_pmda(*interface);
+            get_instance()->initialize_dso(*interface);
         } catch (const std::exception &ex) {
             __pmNotifyErr(LOG_ERR, "%s", ex.what());
         }
@@ -308,7 +309,7 @@ protected:
             const_cast<char *>(program_name.c_str()),
             get_default_pmda_domain_number(),
             const_cast<char *>(log_file_pathname.c_str()),
-            const_cast<char *>(help_text_pathname.c_str())
+            (help_text_pathname.empty()) ? NULL : const_cast<char *>(help_text_pathname.c_str())
         );
 
         // Parse the command line options.
@@ -786,6 +787,37 @@ protected:
     virtual std::string get_usage(const std::string &program_name) const
     {
         return program_name + " [options]";
+    }
+
+    /**
+     * @brief Initialise a DSO interface with this PMDA.
+     *
+     * @param interface PMDA interface to initialise.
+     *
+     * @throws pcp::exception on error.
+     */
+    virtual void initialize_dso(pmdaInterface &interface) {
+        const std::string help_text_pathname = get_help_text_pathname();
+
+        // Contrary to the man pages, pmdaDSO returns void, not int.
+        pmdaDSO(&interface, PCP_CPP_PMDA_INTERFACE_VERSION,
+                const_cast<char *>(get_pmda_name().c_str()),
+                (help_text_pathname.empty()) ? NULL : const_cast<char *>(help_text_pathname.c_str()));
+
+        // Handle pmdaDSO errors (the man page is really lacking here).
+        if (interface.comm.pmda_interface < PCP_CPP_PMDA_INTERFACE_VERSION) {
+            std::ostringstream message;
+            message << "This DSO uses protocol " << PCP_CPP_PMDA_INTERFACE_VERSION
+                    << " but the caller only understands " << interface.comm.pmda_interface
+                    << " or less";
+            throw pcp::exception(PM_ERR_GENERIC, message.str());
+        }
+        if (interface.status < 0) {
+            throw pcp::exception(interface.status, "Failed to initialize DSO via pmdaDSO");
+        }
+
+        // Initialise the rest of the PMDA.
+        initialize_pmda(interface);
     }
 
     /**

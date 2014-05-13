@@ -1,5 +1,4 @@
-open pipe pmdasimplecpu
-Start pmdasimplecpu PMDA: ./pmdasimplecpu
+open dso libpmda_simplecpu.so simplecpu_init
 text simplecpu.ticks.total
 PMID: 129.0.0
 [The amount of time spent in various states]
