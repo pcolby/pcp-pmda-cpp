@@ -17,6 +17,8 @@ while IFS= read -d '' -r COMMAND; do
             echo "$DIFF_OUTPUT"
             exit $RC
         fi
+    else
+        echo -n '(no expectations) '
     fi
     echo "OK"
 done < <(find "$TEST_DIR" -name 'test_*.command' -type f -print0)

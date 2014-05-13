@@ -1,0 +1,2 @@
+open dso libpmda_simple.so simple_init
+close

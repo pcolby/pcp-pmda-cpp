@@ -1,0 +1,6 @@
+open dso libpmda_trivial.so trivial_init
+text trivial.time
+PMID: 250.0.0
+[The time in seconds since 1 Jan 1970]
+The time in seconds since the 1st of January, 1970.
+close
