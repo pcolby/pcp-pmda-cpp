@@ -308,7 +308,7 @@ protected:
             const_cast<char *>(program_name.c_str()),
             get_default_pmda_domain_number(),
             const_cast<char *>(log_file_pathname.c_str()),
-            const_cast<char *>(help_text_pathname.c_str())
+            (help_text_pathname.empty()) ? NULL : const_cast<char *>(help_text_pathname.c_str())
         );
 
         // Parse the command line options.
@@ -796,10 +796,13 @@ protected:
      * @throws pcp::exception on error.
      */
     virtual void initialize_dso(pmdaInterface &interface) {
+        const std::string help_text_pathname = get_help_text_pathname();
+
         // Contrary to the man pages, pmdaDSO returns void, not int.
         pmdaDSO(&interface, PCP_CPP_PMDA_INTERFACE_VERSION,
                 const_cast<char *>(get_pmda_name().c_str()),
-                const_cast<char *>(get_help_text_pathname().c_str()));
+                (help_text_pathname.empty()) ? NULL : const_cast<char *>(help_text_pathname.c_str()));
+
         initialize_pmda(interface);
     }
 
