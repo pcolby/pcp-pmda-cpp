@@ -2,7 +2,7 @@
 
 ### 0.4.0 (_unreleased_)
 Features:
-- `pcp::cache::*` wrappers for `pmdaCache*`
+- `pcp::cache::*` wrappers for `pmdaCache*` routines.
 - DSO build examples, with functional tests ([#24](../../issues/24))
 
 Bug fixes:
