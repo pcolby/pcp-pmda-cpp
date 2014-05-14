@@ -1,6 +1,13 @@
 ## PMDA++ Changelog
 
 ### 0.4.0 (_unreleased_)
+Features:
+- `pcp::cache::*` wrappers for `pmdaCache*`
+- DSO build examples, with functional tests ([#24](../../issues/24))
+
+Bug fixes:
+- DSO entry points work now ([54fbd03](
+  ../../commit/54fbd032a5d60fbe8445b3ed55a680034fc5d496))
 
 ### 0.3.4 (2014-05-10)
 Features:
