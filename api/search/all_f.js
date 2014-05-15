@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['verbose_5fdescription',['verbose_description',['../structpcp_1_1instance__info.html#add3efcb431cc747cf1645b91ddfc7681',1,'pcp::instance_info::verbose_description()'],['../structpcp_1_1metric__description.html#aff96a72a0fe9691120f2200c7d0f1bf6',1,'pcp::metric_description::verbose_description()']]]
+  ['type',['type',['../structpcp_1_1metric__description.html#acc239bb050fc28c3481e0029d12dedeb',1,'pcp::metric_description::type()'],['../structpcp_1_1pmda_1_1metric__id.html#aeaa4bd3dabc427ba9d071583d900771d',1,'pcp::pmda::metric_id::type()']]],
+  ['types_2ehpp',['types.hpp',['../types_8hpp.html',1,'']]]
 ];

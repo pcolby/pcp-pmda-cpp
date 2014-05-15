@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">PMDA++
-   &#160;<span id="projectnumber">0.3.4</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Header-only C++ library for writing PCP PMDAs</div>
   </td>
@@ -197,6 +197,9 @@ boost::program_options::positional_options_description&#160;</td><td class="memI
 <tr class="memitem:aa00d92ab3655cb71b4d08275ab30e21f"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpcp_1_1pmda.html#aa00d92ab3655cb71b4d08275ab30e21f">get_usage</a> (const std::string &amp;program_name) const </td></tr>
 <tr class="memdesc:aa00d92ab3655cb71b4d08275ab30e21f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a usage syntax string.  <a href="#aa00d92ab3655cb71b4d08275ab30e21f">More...</a><br/></td></tr>
 <tr class="separator:aa00d92ab3655cb71b4d08275ab30e21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcdb8fed45bf4fe1e41c93afdab2d04e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpcp_1_1pmda.html#adcdb8fed45bf4fe1e41c93afdab2d04e">initialize_dso</a> (pmdaInterface &amp;interface)</td></tr>
+<tr class="memdesc:adcdb8fed45bf4fe1e41c93afdab2d04e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a DSO interface with this PMDA.  <a href="#adcdb8fed45bf4fe1e41c93afdab2d04e">More...</a><br/></td></tr>
+<tr class="separator:adcdb8fed45bf4fe1e41c93afdab2d04e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac28d6517fb17f54541a144617ae59522"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpcp_1_1pmda.html#ac28d6517fb17f54541a144617ae59522">initialize_pmda</a> (pmdaInterface &amp;interface)</td></tr>
 <tr class="memdesc:ac28d6517fb17f54541a144617ae59522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise this PMDA.  <a href="#ac28d6517fb17f54541a144617ae59522">More...</a><br/></td></tr>
 <tr class="separator:ac28d6517fb17f54541a144617ae59522"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -267,7 +270,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class for implementing PCP PMDAs. </p>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00036">36</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00037">37</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="afa54736ece455af36d8ccbf9a376dd36"></a>
 <div class="memitem">
@@ -294,9 +297,9 @@ Protected Attributes</h2></td></tr>
 <p>Derived classes may override this function to perform any actions they wish to perform at the start of each batch of fetch of metric values.</p>
 <p>This base implementation performs no actions. </p>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00880">880</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00912">912</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00990">on_fetch()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l01022">on_fetch()</a>.</p>
 
 </div>
 </div>
@@ -355,9 +358,9 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00712">712</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00713">713</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00467">parse_command_line()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00468">parse_command_line()</a>.</p>
 
 </div>
 </div>
@@ -393,11 +396,11 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00733">733</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00734">734</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="pmda_8hpp_source.html#l00637">get_supported_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00786">get_usage()</a>.</p>
+<p>References <a class="el" href="pmda_8hpp_source.html#l00638">get_supported_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00787">get_usage()</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00467">parse_command_line()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00468">parse_command_line()</a>.</p>
 
 </div>
 </div>
@@ -427,11 +430,11 @@ Protected Attributes</h2></td></tr>
 <p>Derived classes may override this function to customise the version text output.</p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classpcp_1_1pmda.html#ad4aba722b75386b9a1005c96a209122d" title="Get this PMDA&#39;s version string. ">get_pmda_version</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00752">752</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00753">753</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>, <a class="el" href="pmda_8hpp_source.html#l00275">get_pmda_version()</a>, and <a class="el" href="config_8hpp_source.html#l00055">PCP_CPP_PMDA_INTERFACE_VERSION</a>.</p>
+<p>References <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>, <a class="el" href="pmda_8hpp_source.html#l00276">get_pmda_version()</a>, and <a class="el" href="config_8hpp_source.html#l00056">PCP_CPP_PMDA_INTERFACE_VERSION</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00467">parse_command_line()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00468">parse_command_line()</a>.</p>
 
 </div>
 </div>
@@ -476,7 +479,7 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The value of the requested metric. </dd></dl>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l01003">on_fetch_callback()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l01035">on_fetch_callback()</a>.</p>
 
 </div>
 </div>
@@ -506,11 +509,11 @@ Protected Attributes</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>This function is only available if Boost support is enabled.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The path to this PMDA's optional configuration file. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00201">201</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00202">202</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
 <p>References <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00637">get_supported_options()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00638">get_supported_options()</a>.</p>
 
 </div>
 </div>
@@ -542,7 +545,7 @@ Protected Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>This PMDA's default domain number.</dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a href="http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmns/stdpmid.pcp">http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmns/stdpmid.pcp</a> </dd></dl>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00597">pcp_builtin_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00292">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00598">pcp_builtin_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00293">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -571,11 +574,11 @@ Protected Attributes</h2></td></tr>
 <p>Derived classes may override this function to provide a custom path. The default is equivalent to $PCP_PMDAS_DIR/$PMDA_NAME/help.</p>
 <dl class="section return"><dt>Returns</dt><dd>The path to this PMDA's optional help texts file. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00216">216</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00217">217</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
 <p>References <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00597">pcp_builtin_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00292">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00799">initialize_dso()</a>, <a class="el" href="pmda_8hpp_source.html#l00598">pcp_builtin_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00293">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -604,9 +607,9 @@ Protected Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the single PMDA instance, if set, otherwise <code>NULL</code>.</dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classpcp_1_1pmda.html#a236f338e8222c3bc3bf90ead89ac031f" title="Set the single PMDA instance. ">set_instance</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00165">165</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00166">166</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00059">init_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00090">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00060">init_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00091">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -635,11 +638,11 @@ Protected Attributes</h2></td></tr>
 <p>Derived classes may override this function to provide a custom path. The default is equivalent to $PCP_PMCD_DIR/$PMDA_NAME.log.</p>
 <dl class="section return"><dt>Returns</dt><dd>The path to this PMDA's log file. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00230">230</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00231">231</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
 <p>References <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00597">pcp_builtin_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00292">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00598">pcp_builtin_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00293">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -668,7 +671,7 @@ Protected Attributes</h2></td></tr>
 <p>Derived classes must override this function to return the name of the PMDA.</p>
 <dl class="section return"><dt>Returns</dt><dd>This PMDA's name. </dd></dl>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00752">display_version()</a>, <a class="el" href="pmda_8hpp_source.html#l00201">get_config_file_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00216">get_help_text_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00230">get_log_file_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00467">parse_command_line()</a>, and <a class="el" href="pmda_8hpp_source.html#l00292">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00753">display_version()</a>, <a class="el" href="pmda_8hpp_source.html#l00202">get_config_file_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00217">get_help_text_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00231">get_log_file_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00799">initialize_dso()</a>, <a class="el" href="pmda_8hpp_source.html#l00468">parse_command_line()</a>, and <a class="el" href="pmda_8hpp_source.html#l00293">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -698,9 +701,9 @@ Protected Attributes</h2></td></tr>
 <p>This base implementation returns an empty string.</p>
 <dl class="section return"><dt>Returns</dt><dd>This PMDA's version string. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00275">275</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00276">276</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00752">display_version()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00753">display_version()</a>.</p>
 
 </div>
 </div>
@@ -732,9 +735,9 @@ Protected Attributes</h2></td></tr>
 <p>This base implementation returns an empty list.</p>
 <dl class="section return"><dt>Returns</dt><dd>A list of command line options to support, but not advertise. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00680">680</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00681">681</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00467">parse_command_line()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00468">parse_command_line()</a>.</p>
 
 </div>
 </div>
@@ -763,7 +766,7 @@ Protected Attributes</h2></td></tr>
 <p>Dervied classes must implement this function to define the metrics supported by this PMDA.</p>
 <dl class="section return"><dt>Returns</dt><dd>Descriptions of all of the metrics supported by this PMDA. </dd></dl>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00796">initialize_pmda()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00828">initialize_pmda()</a>.</p>
 
 </div>
 </div>
@@ -793,11 +796,11 @@ Protected Attributes</h2></td></tr>
 <p>Derived classes may override this function to add to, or even replace, the set of options supported by the derived PMDA.</p>
 <dl class="section return"><dt>Returns</dt><dd>A list of command line options supported by this PMDA. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00637">637</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00638">638</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="pmda_8hpp_source.html#l00201">get_config_file_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00597">pcp_builtin_options()</a>, <a class="el" href="config_8hpp_source.html#l00039">PCP_CPP_BOOST_PO_IMPLICIT_VALUE</a>, and <a class="el" href="config_8hpp_source.html#l00045">PCP_CPP_BOOST_PO_VALUE_NAME</a>.</p>
+<p>References <a class="el" href="pmda_8hpp_source.html#l00202">get_config_file_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00598">pcp_builtin_options()</a>, <a class="el" href="config_8hpp_source.html#l00040">PCP_CPP_BOOST_PO_IMPLICIT_VALUE</a>, and <a class="el" href="config_8hpp_source.html#l00046">PCP_CPP_BOOST_PO_VALUE_NAME</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00733">display_help()</a>, and <a class="el" href="pmda_8hpp_source.html#l00467">parse_command_line()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00734">display_help()</a>, and <a class="el" href="pmda_8hpp_source.html#l00468">parse_command_line()</a>.</p>
 
 </div>
 </div>
@@ -827,9 +830,9 @@ Protected Attributes</h2></td></tr>
 <p>This base implementation returns an empty list.</p>
 <dl class="section return"><dt>Returns</dt><dd>A list of supported positional options. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00694">694</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00695">695</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00467">parse_command_line()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00468">parse_command_line()</a>.</p>
 
 </div>
 </div>
@@ -867,9 +870,9 @@ Protected Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A usage syntax line.</dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classpcp_1_1pmda.html#a8112f04790a3c7e878a4bdc483702799" title="Display a help message. ">display_help</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00786">786</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00787">787</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00733">display_help()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00734">display_help()</a>.</p>
 
 </div>
 </div>
@@ -914,9 +917,53 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00059">59</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00060">60</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="pmda_8hpp_source.html#l00165">get_instance()</a>, <a class="el" href="pmda_8hpp_source.html#l00796">initialize_pmda()</a>, and <a class="el" href="pmda_8hpp_source.html#l00184">set_instance()</a>.</p>
+<p>References <a class="el" href="pmda_8hpp_source.html#l00166">get_instance()</a>, <a class="el" href="pmda_8hpp_source.html#l00799">initialize_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00185">set_instance()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adcdb8fed45bf4fe1e41c93afdab2d04e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void pcp::pmda::initialize_dso </td>
+          <td>(</td>
+          <td class="paramtype">pmdaInterface &amp;&#160;</td>
+          <td class="paramname"><em>interface</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialise a DSO interface with this PMDA. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">interface</td><td>PMDA interface to initialise.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classpcp_1_1exception.html" title="Base class for all PMDA++ exceptions. ">pcp::exception</a></td><td>on error. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00799">799</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+
+<p>References <a class="el" href="pmda_8hpp_source.html#l00217">get_help_text_pathname()</a>, <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>, <a class="el" href="pmda_8hpp_source.html#l00828">initialize_pmda()</a>, and <a class="el" href="config_8hpp_source.html#l00056">PCP_CPP_PMDA_INTERFACE_VERSION</a>.</p>
+
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00060">init_dso()</a>.</p>
 
 </div>
 </div>
@@ -950,11 +997,11 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00796">796</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00828">828</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="metric__description_8hpp_source.html#l00061">pcp::metric_description::domain</a>, <a class="el" href="metric__description_8hpp_source.html#l00149">pcp::metric_cluster::get_cluster_id()</a>, <a class="el" href="instance__domain_8hpp_source.html#l00046">pcp::instance_domain::get_domain_id()</a>, <a class="el" href="instance__domain_8hpp_source.html#l00066">pcp::instance_domain::get_pm_instance_domain()</a>, <a class="el" href="classpcp_1_1pmda.html#a35e516666f35484d9fdec02c5040c111">get_supported_metrics()</a>, <a class="el" href="metric__description_8hpp_source.html#l00064">pcp::metric_description::opaque</a>, <a class="el" href="pmda_8hpp_source.html#l01198">set_callbacks()</a>, <a class="el" href="instance__domain_8hpp_source.html#l00089">pcp::instance_domain::set_pm_instance_domain()</a>, and <a class="el" href="pmda_8hpp_source.html#l00108">supported_metrics</a>.</p>
+<p>References <a class="el" href="metric__description_8hpp_source.html#l00061">pcp::metric_description::domain</a>, <a class="el" href="metric__description_8hpp_source.html#l00149">pcp::metric_cluster::get_cluster_id()</a>, <a class="el" href="instance__domain_8hpp_source.html#l00046">pcp::instance_domain::get_domain_id()</a>, <a class="el" href="instance__domain_8hpp_source.html#l00066">pcp::instance_domain::get_pm_instance_domain()</a>, <a class="el" href="classpcp_1_1pmda.html#a35e516666f35484d9fdec02c5040c111">get_supported_metrics()</a>, <a class="el" href="metric__description_8hpp_source.html#l00064">pcp::metric_description::opaque</a>, <a class="el" href="pmda_8hpp_source.html#l01230">set_callbacks()</a>, <a class="el" href="instance__domain_8hpp_source.html#l00089">pcp::instance_domain::set_pm_instance_domain()</a>, and <a class="el" href="pmda_8hpp_source.html#l00109">supported_metrics</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00059">init_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00292">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00799">initialize_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00293">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -1015,9 +1062,9 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00444">444</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00445">445</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00292">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00293">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -1084,9 +1131,9 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00467">467</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00468">468</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="pmda_8hpp_source.html#l00712">check_conflicting_options()</a>, <a class="el" href="pmda_8hpp_source.html#l00733">display_help()</a>, <a class="el" href="pmda_8hpp_source.html#l00752">display_version()</a>, <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>, <a class="el" href="pmda_8hpp_source.html#l00680">get_supported_hidden_options()</a>, <a class="el" href="pmda_8hpp_source.html#l00637">get_supported_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00694">get_supported_positional_options()</a>.</p>
+<p>References <a class="el" href="pmda_8hpp_source.html#l00713">check_conflicting_options()</a>, <a class="el" href="pmda_8hpp_source.html#l00734">display_help()</a>, <a class="el" href="pmda_8hpp_source.html#l00753">display_version()</a>, <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>, <a class="el" href="pmda_8hpp_source.html#l00681">get_supported_hidden_options()</a>, <a class="el" href="pmda_8hpp_source.html#l00638">get_supported_options()</a>, and <a class="el" href="pmda_8hpp_source.html#l00695">get_supported_positional_options()</a>.</p>
 
 </div>
 </div>
@@ -1114,11 +1161,11 @@ template&lt;class Agent &gt; </div>
 <p>Get a list of command line options built into the PCP libraries. </p>
 <dl class="section return"><dt>Returns</dt><dd>A list of command line options built into the PCP libraries. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00597">597</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00598">598</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="classpcp_1_1pmda.html#ad2eed477fc08682273837c62a39fa6e0">get_default_pmda_domain_number()</a>, <a class="el" href="pmda_8hpp_source.html#l00216">get_help_text_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00230">get_log_file_pathname()</a>, <a class="el" href="config_8hpp_source.html#l00039">PCP_CPP_BOOST_PO_IMPLICIT_VALUE</a>, and <a class="el" href="config_8hpp_source.html#l00045">PCP_CPP_BOOST_PO_VALUE_NAME</a>.</p>
+<p>References <a class="el" href="classpcp_1_1pmda.html#ad2eed477fc08682273837c62a39fa6e0">get_default_pmda_domain_number()</a>, <a class="el" href="pmda_8hpp_source.html#l00217">get_help_text_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00231">get_log_file_pathname()</a>, <a class="el" href="config_8hpp_source.html#l00040">PCP_CPP_BOOST_PO_IMPLICIT_VALUE</a>, and <a class="el" href="config_8hpp_source.html#l00046">PCP_CPP_BOOST_PO_VALUE_NAME</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00637">get_supported_options()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00638">get_supported_options()</a>.</p>
 
 </div>
 </div>
@@ -1175,11 +1222,11 @@ template&lt;class Agent &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>EXIT_SUCCESS on success, EXIT_FAILURE on error. </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00090">90</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00091">91</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="pmda_8hpp_source.html#l00165">get_instance()</a>, <a class="el" href="pmda_8hpp_source.html#l00090">run_daemon()</a>, and <a class="el" href="pmda_8hpp_source.html#l00184">set_instance()</a>.</p>
+<p>References <a class="el" href="pmda_8hpp_source.html#l00166">get_instance()</a>, <a class="el" href="pmda_8hpp_source.html#l00091">run_daemon()</a>, and <a class="el" href="pmda_8hpp_source.html#l00185">set_instance()</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00090">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00091">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -1231,9 +1278,9 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00292">292</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00293">293</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>References <a class="el" href="classpcp_1_1pmda.html#ad2eed477fc08682273837c62a39fa6e0">get_default_pmda_domain_number()</a>, <a class="el" href="pmda_8hpp_source.html#l00216">get_help_text_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00230">get_log_file_pathname()</a>, <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>, <a class="el" href="pmda_8hpp_source.html#l00796">initialize_pmda()</a>, <a class="el" href="pmda_8hpp_source.html#l00444">parse_command_line()</a>, and <a class="el" href="config_8hpp_source.html#l00055">PCP_CPP_PMDA_INTERFACE_VERSION</a>.</p>
+<p>References <a class="el" href="classpcp_1_1pmda.html#ad2eed477fc08682273837c62a39fa6e0">get_default_pmda_domain_number()</a>, <a class="el" href="pmda_8hpp_source.html#l00217">get_help_text_pathname()</a>, <a class="el" href="pmda_8hpp_source.html#l00231">get_log_file_pathname()</a>, <a class="el" href="classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee">get_pmda_name()</a>, <a class="el" href="pmda_8hpp_source.html#l00828">initialize_pmda()</a>, <a class="el" href="pmda_8hpp_source.html#l00445">parse_command_line()</a>, and <a class="el" href="config_8hpp_source.html#l00056">PCP_CPP_PMDA_INTERFACE_VERSION</a>.</p>
 
 </div>
 </div>
@@ -1268,9 +1315,9 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l01198">1198</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l01230">1230</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00796">initialize_pmda()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00828">initialize_pmda()</a>.</p>
 
 </div>
 </div>
@@ -1307,9 +1354,9 @@ template&lt;class Agent &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the previous instance, if there was one, otherwise <code>NULL</code>.</dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795" title="Get the single PMDA instance. ">get_instance</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00184">184</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00185">185</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00059">init_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00090">run_daemon()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00060">init_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00091">run_daemon()</a>.</p>
 
 </div>
 </div>
@@ -1363,9 +1410,9 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00926">926</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00958">958</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l01080">on_store()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l01112">on_store()</a>.</p>
 
 </div>
 </div>
@@ -1419,7 +1466,7 @@ template&lt;class Agent &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00948">948</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00980">980</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
 </div>
 </div>
@@ -1443,9 +1490,9 @@ template&lt;class Agent &gt; </div>
 </div><div class="memdoc">
 <p>Description of all metrics supported by this PMDA. This is really just a cache of the value returned by get_supported_metrics during startup. </p>
 
-<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00108">108</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
+<p>Definition at line <a class="el" href="pmda_8hpp_source.html#l00109">109</a> of file <a class="el" href="pmda_8hpp_source.html">pmda.hpp</a>.</p>
 
-<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00796">initialize_pmda()</a>, <a class="el" href="pmda_8hpp_source.html#l01003">on_fetch_callback()</a>, <a class="el" href="pmda_8hpp_source.html#l01080">on_store()</a>, and <a class="el" href="pmda_8hpp_source.html#l01135">on_text()</a>.</p>
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00828">initialize_pmda()</a>, <a class="el" href="pmda_8hpp_source.html#l01035">on_fetch_callback()</a>, <a class="el" href="pmda_8hpp_source.html#l01112">on_store()</a>, and <a class="el" href="pmda_8hpp_source.html#l01167">on_text()</a>.</p>
 
 </div>
 </div>
@@ -1455,7 +1502,7 @@ template&lt;class Agent &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 11 2014 13:12:38 for PMDA++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 15 2014 20:07:13 for PMDA++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['type',['type',['../structpcp_1_1metric__description.html#acc239bb050fc28c3481e0029d12dedeb',1,'pcp::metric_description::type()'],['../structpcp_1_1pmda_1_1metric__id.html#aeaa4bd3dabc427ba9d071583d900771d',1,'pcp::pmda::metric_id::type()']]],
-  ['types_2ehpp',['types.hpp',['../types_8hpp.html',1,'']]]
+  ['run_5fdaemon',['run_daemon',['../classpcp_1_1pmda.html#a35dc0ea870baae07e05529998a3b5b02',1,'pcp::pmda::run_daemon(const int argc, char *const argv[])'],['../classpcp_1_1pmda.html#a338212f59ca5de548e6dff05d536ebd9',1,'pcp::pmda::run_daemon(const int argc, char *const argv[])']]]
 ];

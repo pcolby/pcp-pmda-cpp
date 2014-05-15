@@ -1,5 +1,5 @@
 <map id="metric_description.hpp" name="metric_description.hpp">
-<area shape="rect" id="node3" href="$config_8hpp.html" title="Sets up common PMDA++ library macros. " alt="" coords="269,171,352,205"/>
-<area shape="rect" id="node13" href="$exception_8hpp.html" title="Defines the pcp::exception class. " alt="" coords="337,89,439,122"/>
-<area shape="rect" id="node18" href="$types_8hpp.html" title="Declares various types used throughout the PMDA++ library. " alt="" coords="185,89,263,122"/>
+<area shape="rect" id="node3" href="$config_8hpp.html" title="Sets up common PMDA++ library macros. " alt="" coords="435,171,517,205"/>
+<area shape="rect" id="node15" href="$exception_8hpp.html" title="Defines the pcp::exception class. " alt="" coords="503,89,604,122"/>
+<area shape="rect" id="node20" href="$types_8hpp.html" title="Declares various types used throughout the PMDA++ library. " alt="" coords="351,89,428,122"/>
 </map>

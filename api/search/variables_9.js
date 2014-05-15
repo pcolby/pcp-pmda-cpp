@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['type',['type',['../structpcp_1_1metric__description.html#acc239bb050fc28c3481e0029d12dedeb',1,'pcp::metric_description::type()'],['../structpcp_1_1pmda_1_1metric__id.html#aeaa4bd3dabc427ba9d071583d900771d',1,'pcp::pmda::metric_id::type()']]]
+  ['semantic',['semantic',['../structpcp_1_1metric__description.html#a4771d2cb68b9de902410507ac7e5b577',1,'pcp::metric_description']]],
+  ['short_5fdescription',['short_description',['../structpcp_1_1instance__info.html#a9d5e50805f5ef82a7428bd59d66ffa24',1,'pcp::instance_info::short_description()'],['../structpcp_1_1metric__description.html#a3fe6fc395bede2ae6708ecb0668ed38f',1,'pcp::metric_description::short_description()']]],
+  ['status',['status',['../structpcp_1_1cache_1_1lookup__result__type.html#a5064d23fc1dda118510a072b2aeedddb',1,'pcp::cache::lookup_result_type']]],
+  ['supported_5fmetrics',['supported_metrics',['../classpcp_1_1pmda.html#ab84327e91e1284ab4fd3f6f9a4478130',1,'pcp::pmda']]]
 ];

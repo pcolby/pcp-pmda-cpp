@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['what',['what',['../classpcp_1_1exception.html#a907922e205eb98a1d545efac0bf04509',1,'pcp::exception']]]
+  ['units',['units',['../structpcp_1_1metric__description.html#a3eaf274fed6679e68eac6c34286fb857',1,'pcp::metric_description']]],
+  ['units_2ehpp',['units.hpp',['../units_8hpp.html',1,'']]]
 ];
