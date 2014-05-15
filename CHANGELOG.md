@@ -1,6 +1,6 @@
 ## PMDA++ Changelog
 
-### 0.4.0 (_unreleased_)
+### 0.4.0 (2014-05-15)
 Features:
 - `pcp::cache::*` wrappers for `pmdaCache*` routines.
 - DSO build examples, with functional tests ([#24](../../issues/24))

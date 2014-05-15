@@ -4,7 +4,7 @@
 
 Summary: PMDA++ Library
 Name: pcp-pmda-cpp
-Version: 0.3.4
+Version: 0.4.0
 Release: 1%{?dist}
 License: Boost Software License
 Group: Development/Libraries
@@ -72,6 +72,9 @@ Examples from the PMDA++ project.
 %{_datadir}/doc/pcp-cpp/examples/
 
 %changelog
+* Thu May 15 2014 Paul Colby <git@colby.id.au> - 0.4.0-1
+- updated to %{name} 0.4.0.
+
 * Sat May 10 2014 Paul Colby <git@colby.id.au> - 0.3.4-1
 - updated to %{name} 0.3.4.
 
