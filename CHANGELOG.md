@@ -1,5 +1,9 @@
 ## PMDA++ Changelog
 
+### 0.4.1 (_unreleased_)
+Bug fixes:
+- correct funcional test dependencies ([#26](../../issues/26))
+
 ### 0.4.0 (2014-05-15)
 Features:
 - `pcp::cache::*` wrappers for `pmdaCache*` routines.
