@@ -194,7 +194,7 @@ TEST(atom, pm_type_aggregate_static) {
     EXPECT_THROW(pcp::atom(PM_TYPE_AGGREGATE_STATIC, const_cast<char *>("not an aggregate")), pcp::exception);
 }
 
-TEST(atom, pm_type_aggregate_event) {
+TEST(atom, pm_type_event) {
     // PM_TYPE_EVENT simply stores pmValueBlock pointers verbatim.
     pmValueBlock stack_value, * const null_pointer = NULL;
     EXPECT_EQ(&stack_value, pcp::atom(PM_TYPE_EVENT, &stack_value).vbp);
@@ -211,5 +211,25 @@ TEST(atom, pm_type_aggregate_event) {
     EXPECT_THROW(pcp::atom(PM_TYPE_EVENT, static_cast<uint64_t>(0)), pcp::exception);
     EXPECT_THROW(pcp::atom(PM_TYPE_EVENT, static_cast< float>(0.0)), pcp::exception);
     EXPECT_THROW(pcp::atom(PM_TYPE_EVENT, static_cast<double>(0.0)), pcp::exception);
-    EXPECT_THROW(pcp::atom(PM_TYPE_EVENT, const_cast<char *>("not an aggregate")), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_EVENT, const_cast<char *>("not an event")), pcp::exception);
+}
+
+TEST(atom, pm_type_highres_event) {
+    // PM_TYPE_HIGHRES_EVENT simply stores pmValueBlock pointers verbatim.
+    pmValueBlock stack_value, * const null_pointer = NULL;
+    EXPECT_EQ(&stack_value, pcp::atom(PM_TYPE_HIGHRES_EVENT, &stack_value).vbp);
+    EXPECT_EQ(null_pointer, pcp::atom(PM_TYPE_HIGHRES_EVENT, null_pointer).vbp);
+
+    // PM_TYPE_HIGHRES_EVENT does not support number, string, and unknown types.
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast<  int8_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast< int16_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast< int32_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast< int64_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast< uint8_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast<uint16_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast<uint32_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast<uint64_t>(0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast< float>(0.0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast<double>(0.0)), pcp::exception);
+    EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, const_cast<char *>("not an event")), pcp::exception);
 }

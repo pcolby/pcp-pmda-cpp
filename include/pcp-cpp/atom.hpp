@@ -46,6 +46,7 @@ pmAtomValue atom(const atom_type_type type, ValueType value)
       //case PM_TYPE_AGGREGATE:        atom.vbp = value; break;
       //case PM_TYPE_AGGREGATE_STATIC: atom.vbp = value; break;
       //case PM_TYPE_EVENT:            atom.vbp = value; break;
+      //case PM_TYPE_HIGHRES_EVENT:    atom.vbp = value; break;
         default:
             throw pcp::exception(PM_ERR_TYPE);
     }
@@ -83,6 +84,7 @@ pmAtomValue atom<char *>(const atom_type_type type, char * value)
       //case PM_TYPE_AGGREGATE:        atom.vbp = value; break;
       //case PM_TYPE_AGGREGATE_STATIC: atom.vbp = value; break;
       //case PM_TYPE_EVENT:            atom.vbp = value; break;
+      //case PM_TYPE_HIGHRES_EVENT:    atom.vbp = value; break;
         default:
             throw pcp::exception(PM_ERR_TYPE);
     }
@@ -114,6 +116,7 @@ pmAtomValue atom<pmValueBlock *>(const atom_type_type type, pmValueBlock * value
         case PM_TYPE_AGGREGATE:        atom.vbp = value; break;
         case PM_TYPE_AGGREGATE_STATIC: atom.vbp = value; break;
         case PM_TYPE_EVENT:            atom.vbp = value; break;
+        case PM_TYPE_HIGHRES_EVENT:    atom.vbp = value; break;
         default:
             throw pcp::exception(PM_ERR_TYPE);
     }
