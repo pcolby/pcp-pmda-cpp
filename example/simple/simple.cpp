@@ -10,7 +10,7 @@
  *
  * Implements a C++ equivalent of PCP's Simple PMDA example.
  *
- * @see http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/simple/simple.c
+ * @see http://git.pcp.io/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/simple/simple.c
  */
 
 #include <pcp-cpp/atom.hpp>

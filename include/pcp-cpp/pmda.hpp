@@ -258,7 +258,7 @@ protected:
      *
      * @return This PMDA's default domain number.
      *
-     * @see http://oss.sgi.com/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmns/stdpmid.pcp
+     * @see http://git.pcp.io/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmns/stdpmid.pcp
      */
     virtual int get_default_pmda_domain_number() const = 0;
 
