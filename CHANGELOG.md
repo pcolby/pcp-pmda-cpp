@@ -1,6 +1,9 @@
 ## PMDA++ Changelog
 
 ### 0.4.1 (_unreleased_)
+Features:
+- high resolution event support (requires PCP 3.9.10+)
+
 Bug fixes:
 - correct funcional test dependencies ([#26](../../issues/26))
 
