@@ -214,6 +214,7 @@ TEST(atom, pm_type_event) {
     EXPECT_THROW(pcp::atom(PM_TYPE_EVENT, const_cast<char *>("not an event")), pcp::exception);
 }
 
+#ifdef PM_TYPE_HIGHRES_EVENT // PM_TYPE_HIGHRES_EVENT added in PCP 3.9.10.
 TEST(atom, pm_type_highres_event) {
     // PM_TYPE_HIGHRES_EVENT simply stores pmValueBlock pointers verbatim.
     pmValueBlock stack_value, * const null_pointer = NULL;
@@ -233,3 +234,4 @@ TEST(atom, pm_type_highres_event) {
     EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, static_cast<double>(0.0)), pcp::exception);
     EXPECT_THROW(pcp::atom(PM_TYPE_HIGHRES_EVENT, const_cast<char *>("not an event")), pcp::exception);
 }
+#endif
