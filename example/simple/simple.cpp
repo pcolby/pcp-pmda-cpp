@@ -69,7 +69,7 @@ protected:
         (0)
             (0, "numfetch", pcp::type<uint32_t>(), PM_SEM_INSTANT,
              pcp::units(0,0,0, 0,0,0), pcp::storable_metric)
-            (1, "color",pcp::type<int32_t>(), PM_SEM_INSTANT,
+            (1, "color", pcp::type<int32_t>(), PM_SEM_INSTANT,
              pcp::units(0,0,0, 0,0,0), &color_domain, pcp::storable_metric)
         (1, "time")
             (2, "user", pcp::type<double>(), PM_SEM_COUNTER,

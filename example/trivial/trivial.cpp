@@ -45,7 +45,7 @@ protected:
 
     virtual fetch_value_result fetch_value(const metric_id &metric)
     {
-        return pcp::atom(metric.type,time(NULL));
+        return pcp::atom(metric.type, time(NULL));
     }
 
 };

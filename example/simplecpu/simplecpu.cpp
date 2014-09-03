@@ -80,7 +80,7 @@ protected:
     {
 
         return pcp::atom<uint64_t>(
-            metric.type,cpu_info.at(metric.item).ticks.at(metric.instance));
+            metric.type, cpu_info.at(metric.item).ticks.at(metric.instance));
     }
 
     void load_cpu_ticks()

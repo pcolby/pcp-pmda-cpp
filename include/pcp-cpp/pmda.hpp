@@ -602,7 +602,7 @@ protected:
         options.add_options()
             ("debug,D", value<string_vector>()
                 PCP_CPP_BOOST_PO_IMPLICIT_VALUE(string_vector(1, "-1"), "-1")
-                PCP_CPP_BOOST_PO_VALUE_NAME("spec"),"set debug specification")
+                PCP_CPP_BOOST_PO_VALUE_NAME("spec"), "set debug specification")
             ("domain,d", value<int>()->default_value(get_default_pmda_domain_number())
                 PCP_CPP_BOOST_PO_VALUE_NAME("n"), "domain number to use")
             ("help-file,h",
@@ -1523,7 +1523,7 @@ private:
      */
 
 #if PCP_CPP_PMDA_INTERFACE_VERSION >= 6
-    static int callback_attribute(int ctx, int attr, const char *value,int length, pmdaExt *pmda)
+    static int callback_attribute(int ctx, int attr, const char *value, int length, pmdaExt *pmda)
     {
         return get_instance()->on_attribute(ctx, attr, value, length, pmda);
     }
