@@ -22,4 +22,4 @@ popd
 * cmake 2.8+
 * Boost 1.32+
 * PCP development headers (actual libraries not required)
-* Network access to checkout [Google C++ Test Framework](http://googletest.googlecode.com/svn/trunk/)
+* Network access to checkout [Google C++ Test Framework](https://googletest.googlecode.com/svn/trunk/)
