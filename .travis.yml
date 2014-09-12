@@ -10,6 +10,7 @@ before_install:
 install:
   - >
     sudo apt-get install -qq
+    cppcheck
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
     pcp
@@ -21,6 +22,7 @@ before_script:
   - mkdir -p build
 
 script:
+  - cppcheck --error-exitcode=1 --quiet .
   - pushd build
   - cmake .. && make check
   - if [ "$CXX" = "g++" ]; then make coverage; fi
