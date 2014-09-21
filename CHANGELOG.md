@@ -2,7 +2,7 @@
 
 ### 0.4.1 (2014-09-06)
 Features:
-- high resolution event support (requires PCP 3.9.10+)
+- high resolution event timestamp support (requires PCP 3.9.10+)
 
 Bug fixes:
 - correct functional test dependencies ([#26](../../issues/26))
