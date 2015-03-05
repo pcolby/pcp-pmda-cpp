@@ -72,7 +72,7 @@ Examples from the PMDA++ project.
 %{_datadir}/doc/pcp-cpp/examples/
 
 %changelog
-* Sun Sep 06 2014 Paul Colby <git@colby.id.au> - 0.4.1-1
+* Sat Sep 06 2014 Paul Colby <git@colby.id.au> - 0.4.1-1
 - updated to %{name} 0.4.1.
 
 * Thu May 15 2014 Paul Colby <git@colby.id.au> - 0.4.0-1
