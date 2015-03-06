@@ -1,5 +1,7 @@
 ## PMDA++ Changelog
 
+### 0.4.2 (_unreleased_)
+
 ### 0.4.1 (2014-09-06)
 Features:
 - high resolution event timestamp support (requires PCP 3.9.10+)
