@@ -6,10 +6,10 @@ Summary: PMDA++ Library
 Name: pcp-pmda-cpp
 Version: 0.4.1
 Release: 1%{?dist}
-License: Boost Software License
+License: Boost
 Group: Development/Libraries
 Source: https://github.com/pcolby/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-URL: https://github.com/pcolby/${name}
+URL: https://github.com/pcolby/%{name}
 
 BuildRequires: boost >= 1.32
 BuildRequires: cmake >= 2.6
