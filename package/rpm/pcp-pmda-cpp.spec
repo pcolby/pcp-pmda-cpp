@@ -8,8 +8,8 @@ Version: 0.4.1
 Release: 1%{?dist}
 License: Boost Software License
 Group: Development/Libraries
-Source: pcp-pmda-cpp-%{version}.tar.gz
-URL: https://github.com/pcolby/pcp-pmda-cpp
+Source: https://github.com/pcolby/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+URL: https://github.com/pcolby/${name}
 
 BuildRequires: boost >= 1.32
 BuildRequires: cmake >= 2.6
@@ -73,19 +73,19 @@ Examples from the PMDA++ project.
 
 %changelog
 * Sat Sep 06 2014 Paul Colby <git@colby.id.au> - 0.4.1-1
-- updated to %{name} 0.4.1.
+- updated to pcp-pmda-cpp 0.4.1.
 
 * Thu May 15 2014 Paul Colby <git@colby.id.au> - 0.4.0-1
-- updated to %{name} 0.4.0.
+- updated to pcp-pmda-cpp 0.4.0.
 
 * Sat May 10 2014 Paul Colby <git@colby.id.au> - 0.3.4-1
-- updated to %{name} 0.3.4.
+- updated to pcp-pmda-cpp 0.3.4.
 
 * Tue Feb 18 2014 Paul Colby <git@colby.id.au> - 0.3.3-1
-- updated to %{name} 0.3.3.
+- updated to pcp-pmda-cpp 0.3.3.
 
 * Sun Feb 16 2014 Paul Colby <git@colby.id.au> - 0.3.2-1
-- updated to %{name} 0.3.2.
+- updated to pcp-pmda-cpp 0.3.2.
 
 * Fri Feb 14 2014 Paul Colby <git@colby.id.au> - 0.3.1-1
-- initial %{name} spec file.
+- initial pcp-pmda-cpp spec file.
