@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Some tests depend on PCP's PMDA debugger (dbpmda).
+which dbpmda > /dev/null || { echo 'dbpmda command not found; is PCP installed?' >&2 ; exit 1; }
+
 DIFF=`which diff`
 
 TEST_DIR=`dirname "$0"`
