@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 project(unit-tests CXX)
 
-# Set the build type if it isn't already
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif()
-
 # Add PMDA++ headers to the include path.
 include_directories(${PROJECT_SOURCE_DIR}/../../include)
 
@@ -77,8 +72,8 @@ if (NOT GTEST_FOUND)
     add_dependencies(${PROJECT_NAME} googletest)
     # Mimic the FindGTest module's library variables.
     ExternalProject_Get_Property(googletest binary_dir)
-    set(GTEST_LIBRARY        ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX})
-    set(GTEST_MAIN_LIBRARY   ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(GTEST_LIBRARY        ${binary_dir}/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(GTEST_MAIN_LIBRARY   ${binary_dir}/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
     set(GTEST_BOTH_LIBRARIES ${GTEST_LIBRARY} ${GTEST_MAIN_LIBRARY})
 endif()
 
