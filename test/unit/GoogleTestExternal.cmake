@@ -30,22 +30,3 @@ include_directories(${source_dir}/include)
 if(MSVC_VERSION EQUAL 1700)
     add_definitions(-D_VARIADIC_MAX=10)
 endif()
-
-# Create dependency of test on googletest
-#add_dependencies(${PROJECT_NAME} googletest)
-
-# Specify test's link libraries
-#ExternalProject_Get_Property(googletest binary_dir)
-#if(NOT MSVC)
-#    set(pthread "-pthread")
-#endif()
-#find_package(Boost COMPONENTS program_options REQUIRED)
-#target_link_libraries(
-#    ${PROJECT_NAME}
-#    ${Boost_PROGRAM_OPTIONS_LIBRARY}
-#    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
-#    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
-#    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
-#    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
-#    ${pthread}
-#)
