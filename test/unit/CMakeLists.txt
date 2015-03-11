@@ -24,15 +24,28 @@ if (HAVE_WEXTRA)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 endif()
 
-# Enabled test coverage reporting.
+# Enable test coverage reporting.
 check_cxx_compiler_flag(-ftest-coverage HAVE_TEST_COVERAGE)
 if (HAVE_TEST_COVERAGE)
-    # Remove any optimisation flags for most accurate coverage reporting.
-    string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS         ${CMAKE_CXX_FLAGS})
-    string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS_DEBUG   ${CMAKE_CXX_FLAGS_DEBUG})
-    string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+    # Remove optimisation flags for accurate coverage reporting, but not
+    # if source fortification is enabled, since: "_FORTIFY_SOURCE requires
+    # compiling with optimization (-O)" (see /usr/include/features.h).
+    if (NOT ${CMAKE_CXX_FLAGS} MATCHES "-D_FORTIFY_SOURCE=[^0]")
+        string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+    endif()
+    if (NOT ${CMAKE_CXX_FLAGS_DEBUG} MATCHES "-D_FORTIFY_SOURCE=[^0]")
+        string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+    endif()
+    if (NOT ${CMAKE_CXX_FLAGS_RELEASE} MATCHES "-D_FORTIFY_SOURCE=[^0]")
+        string(REGEX REPLACE "(^| )-O[^ ]*( *|$)" "\\1" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O0")
+    endif()
     # Enable gcov code instrumentation for code coverage reporting.
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -O0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fprofile-arcs -ftest-coverage")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fprofile-arcs -ftest-coverage")
 endif()
 
 # Add test executable target
