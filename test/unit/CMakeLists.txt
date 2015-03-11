@@ -6,15 +6,6 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# Try the FindGTest module first.
-find_package(GTest)
-if (GTEST_FOUND)
-    message(STATUS "@todo GTest found")
-else()
-    message(STATUS "Resorting to external GTest project")
-    include(GoogleTestExternal.cmake)
-endif()
-
 # Add PMDA++ headers to the include path.
 include_directories(${PROJECT_SOURCE_DIR}/../../include)
 
@@ -64,11 +55,23 @@ add_executable(
     ${PROJECT_SOURCE_DIR}/src/test_units.cpp
 )
 
-# Create dependency of test on googletest
-add_dependencies(${PROJECT_NAME} googletest)
+# Try the FindGTest module first.
+find_package(GTest)
+if (GTEST_FOUND)
+    message(STATUS "@todo GTest found")
+else()
+    message(STATUS "Resorting to external GTest project")
+    # Include the external Google Test project, and mark as a dependency.
+    include(GoogleTestExternal.cmake)
+    add_dependencies(${PROJECT_NAME} googletest)
+    # Mimic the FindGTest module's library variables.
+    ExternalProject_Get_Property(googletest binary_dir)
+    set(GTEST_LIBRARY        ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(GTEST_MAIN_LIBRARY   ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(GTEST_BOTH_LIBRARIES ${GTEST_LIBRARY} ${GTEST_MAIN_LIBRARY})
+endif()
 
-# Specify test's link libraries
-ExternalProject_Get_Property(googletest binary_dir)
+# Specify the project's link libraries
 if(NOT MSVC)
     set(pthread "-pthread")
 endif()
@@ -76,10 +79,7 @@ find_package(Boost COMPONENTS program_options REQUIRED)
 target_link_libraries(
     ${PROJECT_NAME}
     ${Boost_PROGRAM_OPTIONS_LIBRARY}
-    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
-    debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
-    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
-    optimized ${binary_dir}/release/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
+    ${GTEST_BOTH_LIBRARIES}
     ${pthread}
 )
 
