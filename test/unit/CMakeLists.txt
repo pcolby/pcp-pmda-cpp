@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(Test CXX)
+project(unit-tests CXX)
 
 # Enable ExternalProject CMake module
 include(ExternalProject)

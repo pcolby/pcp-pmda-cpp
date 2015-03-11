@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(Functional)
+project(functional-tests)
 
 # Add a custom "check-functional" target.
 add_custom_target(
