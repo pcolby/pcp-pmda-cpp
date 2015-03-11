@@ -13,6 +13,7 @@ URL: https://github.com/pcolby/%{name}
 
 BuildRequires: boost-devel >= 1.32
 BuildRequires: cmake >= 2.6
+BuildRequires: gtest-devel
 BuildRequires: pcp-libs-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
