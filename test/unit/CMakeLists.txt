@@ -15,6 +15,9 @@ else()
     include(GoogleTestExternal.cmake)
 endif()
 
+# Add PMDA++ headers to the include path.
+include_directories(${PROJECT_SOURCE_DIR}/../../include)
+
 # Enable (and stop on) compiler warnings.
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag(-Wall   HAVE_WALL)

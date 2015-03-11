@@ -22,12 +22,9 @@ ExternalProject_Add(
     LOG_BUILD ON
 )
 
-# Specify include dir
+# Add googletest headers to the include path.
 ExternalProject_Get_Property(googletest source_dir)
-include_directories(
-    ${source_dir}/include
-    ${PROJECT_SOURCE_DIR}/../../include
-)
+include_directories(${source_dir}/include)
 
 # Add compiler flag for MSVC 2012
 if(MSVC_VERSION EQUAL 1700)
