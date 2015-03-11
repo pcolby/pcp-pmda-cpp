@@ -57,9 +57,7 @@ add_executable(
 
 # Try the FindGTest module first.
 find_package(GTest)
-if (GTEST_FOUND)
-    message(STATUS "@todo GTest found")
-else()
+if (NOT GTEST_FOUND)
     message(STATUS "Resorting to external GTest project")
     # Include the external Google Test project, and mark as a dependency.
     include(GoogleTestExternal.cmake)
