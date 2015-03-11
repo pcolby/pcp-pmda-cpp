@@ -11,7 +11,7 @@ Group: Development/Libraries
 Source: https://github.com/pcolby/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 URL: https://github.com/pcolby/%{name}
 
-BuildRequires: boost >= 1.32
+BuildRequires: boost-devel >= 1.32
 BuildRequires: cmake >= 2.6
 BuildRequires: pcp-libs-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
