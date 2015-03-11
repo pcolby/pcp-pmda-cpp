@@ -3,7 +3,7 @@ add_subdirectory(functional)
 add_subdirectory(unit)
 
 # Add a custom "check" target a la GNU's Standard Targets for Users.
-add_custom_target(check COMMAND test DEPENDS check-functional check-unit)
+add_custom_target(check DEPENDS check-functional check-unit)
 
 # Add a custom "coverage" target, if supported.
 find_program(LCOV lcov)

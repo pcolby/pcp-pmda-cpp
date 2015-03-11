@@ -68,7 +68,8 @@ endif()
 
 # Add test executable target
 aux_source_directory(${PROJECT_SOURCE_DIR}/../../include pcp_pmda_cpp_sources)
-add_executable(test
+add_executable(
+    ${PROJECT_NAME}
     ${pcp_pmda_cpp_sources}
     ${PROJECT_SOURCE_DIR}/src/fake_libpcp.cpp
     ${PROJECT_SOURCE_DIR}/src/fake_libpcp-pmda.cpp
@@ -86,7 +87,7 @@ add_executable(test
 )
 
 # Create dependency of test on googletest
-add_dependencies(test googletest)
+add_dependencies(${PROJECT_NAME} googletest)
 
 # Specify test's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
@@ -95,7 +96,7 @@ if(NOT MSVC)
 endif()
 find_package(Boost COMPONENTS program_options REQUIRED)
 target_link_libraries(
-    test
+    ${PROJECT_NAME}
     ${Boost_PROGRAM_OPTIONS_LIBRARY}
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX}
     debug ${binary_dir}/debug/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -105,9 +106,9 @@ target_link_libraries(
 )
 
 # Add a custom "check-unit" target.
-add_custom_target(check-unit COMMAND test DEPENDS test)
+add_custom_target(check-unit COMMAND ${PROJECT_NAME} DEPENDS ${PROECT_NAME})
 
 install(
-    TARGETS test
+    TARGETS ${PROECT_NAME}
     DESTINATION bin/pcp-pmda-cpp
 )
