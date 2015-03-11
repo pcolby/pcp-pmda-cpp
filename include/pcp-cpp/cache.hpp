@@ -86,14 +86,20 @@ lookup_result_type<Type> lookup(const pmInDom indom,
 {
     lookup_result_type<Type> result;
     void * opaque;
+    result.name = NULL;
     result.status = pmdaCacheLookup(indom, instance_id, &result.name, &opaque);
     if (result.status < 0) {
         throw pcp::exception(result.status);
     }
     if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
         std::ostringstream message;
-        message << "Cache entry " << indom << ':' << instance_id
-                << " (\"" << result.name << "\") inactive";
+        message << "Cache entry " << indom << ':' << instance_id << " (";
+        if (result.name == NULL) {
+            message << "NULL";
+        } else {
+            message << '"' << result.name << '"';
+        }
+        message << ") inactive";
         throw pcp::exception(result.status, message.str());
     }
     result.instance_id = instance_id;
