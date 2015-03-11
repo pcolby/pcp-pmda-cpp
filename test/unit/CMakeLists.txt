@@ -6,7 +6,14 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-include(GoogleTestExternal.cmake)
+# Try the FindGTest module first.
+find_package(GTest)
+if (GTEST_FOUND)
+    message(STATUS "@todo GTest found")
+else()
+    message(STATUS "Resorting to external GTest project")
+    include(GoogleTestExternal.cmake)
+endif()
 
 # Enable (and stop on) compiler warnings.
 include(CheckCXXCompilerFlag)
