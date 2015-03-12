@@ -47,9 +47,6 @@ Summary: Development headers for the PMDA++ library
 Group: Development/Libraries
 Provides: %{name}-static = %{version}-%{release}
 Requires: pcp-libs-devel
-%if 0%{?rhel} >= 6
-BuildArch: noarch
-%endif
 
 %description devel
 PMDA++ is a header-only library that allows developers to write Performance
