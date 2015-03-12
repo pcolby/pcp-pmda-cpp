@@ -43,8 +43,8 @@ popd
 %{__make} install DESTDIR=%{buildroot} -C build/devel
 %{__make} install DESTDIR=%{buildroot} -C build/examples
 
-%clean
 %if 0%{?rhel} < 6
+%clean
 %{__rm} -rf %{buildroot}
 %endif
 
