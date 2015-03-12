@@ -19,14 +19,21 @@ set_property(
    PROPERTY COMPILE_DEFINITIONS PCP_CPP_NO_BOOST
 )
 
+# GNUInstallDirs was added in CMake 2.8.5.
+include(GNUInstallDirs OPTIONAL RESULT_VARIABLE HAVE_GNUINSTALLDIRS)
+if (NOT HAVE_GNUINSTALLDIRS)
+    # Set CMAKE_INSTALL_LOCALSTATEDIR the way GNUInstallDirs would have.
+    set(CMAKE_INSTALL_LOCALSTATEDIR var CACHE STRING "modifiable single-machine data (var)")
+endif()
+
 install(
     TARGETS "pmda${PROJECT_NAME}" "pmda${PROJECT_NAME}-noboost"
-    RUNTIME DESTINATION bin
+    RUNTIME DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/lib/pcp/pmdas/pcp-pmda-cpp-examples
 )
 
 install(
     FILES "${PROJECT_NAME}.cpp"
-    DESTINATION share/doc/pcp-cpp/examples
+    DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/lib/pcp/pmdas/pcp-pmda-cpp-examples
 )
 
 # Enable (and stop on) compiler warnings.
