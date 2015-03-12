@@ -14,7 +14,7 @@ URL: https://github.com/pcolby/%{name}
 BuildRequires: boost-devel >= 1.32
 BuildRequires: cmake >= 2.6
 BuildRequires: gtest-devel
-BuildRequires: pcp-libs-devel
+BuildRequires: pcp pcp-libs-devel
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -35,9 +35,7 @@ Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 %{__make} install DESTDIR=%{buildroot}
 
 %check
-# Only running unit tests for now, because functional tests have an unpleasent
-# dependency on pmcd running for dbpmda to function correctly.
-%{__make} check-unit
+%{__make} check
 
 %if 0%{?rhel} < 6
 %clean
