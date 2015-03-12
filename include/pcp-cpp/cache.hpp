@@ -116,7 +116,7 @@ lookup_result_type<Type> lookup(const pmInDom indom,
  * @tparam Type        Type to cast opaque pointers to.
  *
  * @param  indom       Instance domain to lookup.
- * @param  instance_id Instance ID to lookup.
+ * @param  name        Instance name to lookup.
  * @param  flags       Optional flags that alter the function's behaviour.
  *
  * @throw  pcp::exception  If no cache entry entry found.
@@ -157,7 +157,8 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
  * @tparam Type        Type to cast opaque pointers to.
  *
  * @param  indom       Instance domain to lookup.
- * @param  instance_id Instance ID to lookup.
+ * @param  name        Instance name to lookup.
+ * @param  key         Instance key to lookup.
  * @param  flags       Optional flags that alter the function's behaviour.
  *
  * @throw  pcp::exception  If no cache entry entry found.
