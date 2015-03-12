@@ -264,7 +264,7 @@ size_t purge(const pmInDom indom, const boost::posix_time::time_duration &recent
  * @param  indom   Instance domain to add an entry for.
  * @param  name    Instance name to add to the cache.
  * @param  flags   Optional flags to be passed to pmdaCacheStore.
- * @param  opqaue  Optional opaque pointer to be include in the cache entry.
+ * @param  opaque  Optional opaque pointer to be include in the cache entry.
  *
  * @throw  pcp::exception  On error.
  *
@@ -288,7 +288,7 @@ instance_id_type store(const pmInDom indom, const std::string &name,
  *
  * @param  indom   Instance domain to add an entry for.
  * @param  name    Instance name to add to the cache.
- * @param  opqaue  Optional opaque pointer to be include in the cache entry.
+ * @param  opaque  Optional opaque pointer to be include in the cache entry.
  * @param  flags   Optional flags to be passed to pmdaCacheStore.
  *
  * @throw  pcp::exception  On error.
