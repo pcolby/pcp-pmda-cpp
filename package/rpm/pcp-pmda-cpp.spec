@@ -25,23 +25,19 @@ Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 %setup -c -q
 
 %build
-%{__mkdir_p} build/devel
-pushd build/devel
-%cmake ../../pcp-pmda-cpp-%{version}/include
+%cmake pcp-pmda-cpp-%{version}
 %{__make} %{?_smp_mflags}
-popd
-%{__mkdir_p} build/examples
-pushd build/examples
-%cmake ../../pcp-pmda-cpp-%{version}/example
-%{__make} %{?_smp_mflags}
-popd
 
 %install
 %if 0%{?rhel} < 6
 %{__rm} -rf %{buildroot}
 %endif
-%{__make} install DESTDIR=%{buildroot} -C build/devel
-%{__make} install DESTDIR=%{buildroot} -C build/examples
+%{__make} install DESTDIR=%{buildroot}
+
+%check
+# Only running unit tests for now, because functional tests have an unpleasent
+# dependency on pmcd running for dbpmda to function correctly.
+%{__make} check-unit
 
 %if 0%{?rhel} < 6
 %clean
