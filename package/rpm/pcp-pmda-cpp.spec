@@ -25,7 +25,6 @@ Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 %setup -c -q
 
 %build
-%{__rm} -rf %{buildroot}
 %{__mkdir_p} build/devel
 pushd build/devel
 %cmake ../../pcp-pmda-cpp-%{version}/include
@@ -38,11 +37,16 @@ pushd build/examples
 popd
 
 %install
+%if 0%{?rhel} < 6
+%{__rm} -rf %{buildroot}
+%endif
 %{__make} install DESTDIR=%{buildroot} -C build/devel
 %{__make} install DESTDIR=%{buildroot} -C build/examples
 
 %clean
+%if 0%{?rhel} < 6
 %{__rm} -rf %{buildroot}
+%endif
 
 %package devel
 Summary: Development headers for the PMDA++ library
