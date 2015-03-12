@@ -63,6 +63,7 @@ Examples from the PMDA++ project.
 
 %files devel
 %{_includedir}/pcp-cpp
+%{license} pcp-pmda-cpp-%{version}/LICENSE.md
 
 %files examples
 %{_bindir}/pmda*
