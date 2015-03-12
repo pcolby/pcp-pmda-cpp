@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.6)
+# Both FindGTest and ExternalProject were added in CMake 2.8.0.
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(unit-tests CXX)
 
 # Add PMDA++ headers to the include path.
