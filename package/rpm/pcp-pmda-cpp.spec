@@ -45,7 +45,7 @@ popd
 %{__rm} -rf %{buildroot}
 
 %package devel
-Summary: Development headers for the PMDA++ library.
+Summary: Development headers for the PMDA++ library
 Group: Development/Libraries
 Requires: pcp-libs-devel
 %if 0%{?rhel} >= 6
@@ -57,7 +57,7 @@ PMDA++ is a header-only library that allows developers to write Performance
 Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 
 %package examples
-Summary: Examples for the PMDA++ library.
+Summary: Examples for the PMDA++ library
 Group: Development/Libraries
 
 %description examples
