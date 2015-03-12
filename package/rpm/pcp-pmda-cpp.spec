@@ -7,7 +7,7 @@ Name: pcp-pmda-cpp
 Version: 0.4.2
 Release: 1%{?dist}
 License: Boost
-Group: Development/Libraries
+Group: System Environment/Libraries
 Source: https://github.com/pcolby/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 URL: https://github.com/pcolby/%{name}
 
