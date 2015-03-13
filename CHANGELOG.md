@@ -3,7 +3,7 @@
 ### 0.4.2 (_unreleased_)
 Features:
 - numerous build and CI improvements.
-- Fedora Packaging Guidelines conformance ([1199693](
+- Fedora packaging conformance ([1199693](
   https://bugzilla.redhat.com/show_bug.cgi?id=1199693))
 
 Bug fixes:
