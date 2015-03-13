@@ -26,14 +26,20 @@ if (NOT HAVE_GNUINSTALLDIRS)
     set(CMAKE_INSTALL_LOCALSTATEDIR var CACHE STRING "modifiable single-machine data (var)")
 endif()
 
+set(DEFAULT_PMDAS_INSTALL_DIR ${CMAKE_INSTALL_LOCALSTATEDIR}/lib/pcp/pmdas)
+set(
+    PMDAS_INSTALL_DIR ${DEFAULT_PMDAS_INSTALL_DIR}
+    CACHE STRING "directory for PCP PMDAs (${DEFAULT_PMDAS_INSTALL_DIR})"
+)
+
 install(
     TARGETS "pmda${PROJECT_NAME}" "pmda${PROJECT_NAME}-noboost"
-    RUNTIME DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/lib/pcp/pmdas/pcp-pmda-cpp-examples
+    RUNTIME DESTINATION ${PMDAS_INSTALL_DIR}/pcp-pmda-cpp-examples
 )
 
 install(
     FILES "${PROJECT_NAME}.cpp"
-    DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/lib/pcp/pmdas/pcp-pmda-cpp-examples
+    DESTINATION %{PMDAS_INSTALL_DIR}/pcp-pmda-cpp-examples
 )
 
 # Enable (and stop on) compiler warnings.

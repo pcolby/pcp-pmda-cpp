@@ -2,6 +2,10 @@
 # RPM Spec file for the PMDA++ project.
 #
 
+# Note, the following _pmdasdir definition should (does) match the one defined
+# in the PCP project's build/rpm/fedora.spec file.
+%define _pmdasdir %{_localstatedir}/lib/pcp/pmdas
+
 Summary: PMDA++ Library
 Name: pcp-pmda-cpp
 Version: 0.4.2
@@ -25,7 +29,7 @@ Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 %setup -c -q
 
 %build
-%cmake pcp-pmda-cpp-%{version}
+%{cmake} -DPMDAS_INSTALL_DIR=%{_pmdasdir} pcp-pmda-cpp-%{version}
 %{__make} %{?_smp_mflags}
 
 %install
@@ -64,8 +68,7 @@ Examples from the PMDA++ project.
 %{license} pcp-pmda-cpp-%{version}/LICENSE.md
 
 %files examples
-%{_bindir}/pmda*
-%{_datadir}/doc/pcp-cpp/examples/
+%{_pmdasdir}/%{name}-examples
 
 %changelog
 * Sat Mar 07 2015 Paul Colby <git@colby.id.au> - 0.4.2-1
