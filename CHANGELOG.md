@@ -1,6 +1,15 @@
 ## PMDA++ Changelog
 
 ### 0.4.2 (_unreleased_)
+Features:
+- numerous build and CI improvements
+- Fedora Packaging Guidelines conformance ([1199693](
+  (https://bugzilla.redhat.com/show_bug.cgi?id=1199693))
+
+Bug fixes:
+- potential segfault in `pcp::pmda::cache::lookup` ([33e02b5](
+  ../../commit/33e02b53cc7ddd55dcfedb334bc650ad9c7b3c9a))
+- Doxygen documentation corrections
 
 ### 0.4.1 (2014-09-06)
 Features:
