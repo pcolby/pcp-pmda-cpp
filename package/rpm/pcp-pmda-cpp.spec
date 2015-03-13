@@ -29,7 +29,7 @@ Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 %setup -c -q
 
 %build
-%{cmake} -DPMDAS_INSTALL_DIR=%{_pmdasdir} pcp-pmda-cpp-%{version}
+%{cmake} -DPMDAS_INSTALL_DIR=%{_pmdasdir} %{name}-%{version}
 %{__make} %{?_smp_mflags}
 
 %install
@@ -65,7 +65,7 @@ Examples from the PMDA++ project.
 
 %files devel
 %{_includedir}/pcp-cpp
-%{license} pcp-pmda-cpp-%{version}/LICENSE.md
+%{license} %{name}-%{version}/LICENSE.md
 
 %files examples
 %{_pmdasdir}/%{name}-examples
