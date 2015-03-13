@@ -4,7 +4,7 @@
 
 # Note, the following _pmdasdir definition should (does) match the one defined
 # in the PCP project's build/rpm/fedora.spec file.
-%define _pmdasdir %{_localstatedir}/lib/pcp/pmdas
+%global _pmdasdir %{_localstatedir}/lib/pcp/pmdas
 
 Summary: PMDA++ Library
 Name: pcp-pmda-cpp
