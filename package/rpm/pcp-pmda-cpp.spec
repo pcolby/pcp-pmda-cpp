@@ -64,6 +64,8 @@ Group: Development/Libraries
 Examples from the PMDA++ project.
 
 %files devel
+%doc %{name}-%{version}/CHANGELOG.md
+%doc %{name}-%{version}/README.md
 %{_includedir}/pcp-cpp
 %{license} %{name}-%{version}/LICENSE.md
 
@@ -71,7 +73,7 @@ Examples from the PMDA++ project.
 %{_pmdasdir}/%{name}-examples
 
 %changelog
-* Sat Mar 07 2015 Paul Colby <git@colby.id.au> - 0.4.2-1
+* Sat Mar 14 2015 Paul Colby <git@colby.id.au> - 0.4.2-1
 - updated to pcp-pmda-cpp 0.4.2.
 
 * Sat Sep 06 2014 Paul Colby <git@colby.id.au> - 0.4.1-1
