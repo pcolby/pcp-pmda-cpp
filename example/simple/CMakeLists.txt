@@ -19,28 +19,84 @@ set_property(
    PROPERTY COMPILE_DEFINITIONS PCP_CPP_NO_BOOST
 )
 
-# GNUInstallDirs was added in CMake 2.8.5.
-include(GNUInstallDirs OPTIONAL RESULT_VARIABLE HAVE_GNUINSTALLDIRS)
-if (NOT HAVE_GNUINSTALLDIRS)
-    # Set CMAKE_INSTALL_LOCALSTATEDIR the way GNUInstallDirs would have.
-    set(CMAKE_INSTALL_LOCALSTATEDIR var CACHE STRING "modifiable single-machine data (var)")
+# Detect the PCP environment.
+find_program(
+    PCP_PMCONFIG_EXECUTABLE
+    NAMES pmconfig
+    PATHS /usr/lib/pcp/bin /usr/libexec/pcp/bin
+)
+if (PCP_PMCONFIG_EXECUTABLE)
+    message(STATUS "Found pmconfig: ${PCP_PMCONFIG_EXECUTABLE}")
+    execute_process(
+        COMMAND ${PCP_PMCONFIG_EXECUTABLE} PCP_BINADM_DIR PCP_PMDAS_DIR
+        OUTPUT_VARIABLE PCP_PMCONFIG_OUTPUT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    STRING(REPLACE "\n" ";" PCP_PMCONFIG_OUTPUT ${PCP_PMCONFIG_OUTPUT})
+    foreach (PCP_PMCONFIG_LINE ${PCP_PMCONFIG_OUTPUT})
+        string(REGEX REPLACE "=.*$" "" PCP_PMCONFIG_NAME  ${PCP_PMCONFIG_LINE})
+        string(REGEX REPLACE "^[A-Z_]+=" "" PCP_PMCONFIG_VALUE ${PCP_PMCONFIG_LINE})
+        set(${PCP_PMCONFIG_NAME} ${PCP_PMCONFIG_VALUE})
+        message(STATUS "  ${PCP_PMCONFIG_NAME}: ${${PCP_PMCONFIG_NAME}}")
+    endforeach ()
+endif ()
+find_program(PCP_NEWHELP_EXECUTABLE NAMES newhelp HINTS ${PCP_BINADM_DIR})
+if (PCP_NEWHELP_EXECUTABLE)
+    message(STATUS "Found newhelp: ${PCP_NEWHELP_EXECUTABLE}")
+endif ()
+
+# Setup the default installation directory.
+if (PCP_PMDAS_DIR)
+    set(DEFAULT_PMDA_INSTALL_DIR ${PCP_PMDAS_DIR}/pcp-pmda-cpp-examples/pmdas/${PROJECT_NAME})
+    set(
+        PMDA_INSTALL_DIR ${DEFAULT_PMDA_INSTALL_DIR}
+        CACHE PATH "directory to install PMDA to (${DEFAULT_PMDA_INSTALL_DIR})"
+    )
 endif()
 
-set(DEFAULT_PMDAS_INSTALL_DIR ${CMAKE_INSTALL_LOCALSTATEDIR}/lib/pcp/pmdas)
-set(
-    PMDAS_INSTALL_DIR ${DEFAULT_PMDAS_INSTALL_DIR}
-    CACHE STRING "directory for PCP PMDAs (${DEFAULT_PMDAS_INSTALL_DIR})"
-)
-
-install(
-    TARGETS "pmda${PROJECT_NAME}" "pmda${PROJECT_NAME}-noboost"
-    RUNTIME DESTINATION ${PMDAS_INSTALL_DIR}/pcp-pmda-cpp-examples
-)
-
-install(
-    FILES "${PROJECT_NAME}.cpp"
-    DESTINATION ${PMDAS_INSTALL_DIR}/pcp-pmda-cpp-examples
-)
+# Create an install target, but only if the PMDA_INSTALL_DIR directory was set.
+if (PMDA_INSTALL_DIR)
+    # Install the PMDA binaries.
+    install(
+        TARGETS "pmda${PROJECT_NAME}" "pmda${PROJECT_NAME}-noboost"
+        RUNTIME DESTINATION ${PMDA_INSTALL_DIR}
+    )
+    # Export the PMDA's support files (domain, help, pmns, etc).
+    install(
+        CODE "
+            message(\"-- Exporting:  \$ENV{DESTDIR}${PMDA_INSTALL_DIR}/{domain.h,help,pmns,root}\")
+            execute_process(
+                COMMAND \$ENV{DESTDIR}${PMDA_INSTALL_DIR}/pmda${PROJECT_NAME} --export-all
+                WORKING_DIRECTORY \$ENV{DESTDIR}${PMDA_INSTALL_DIR}
+                RESULT_VARIABLE export_result
+            )
+            if (NOT \${export_result} EQUAL 0)
+                message(FATAL_ERROR \"Failed to export PMDA support files: \${export_result}\")
+            endif ()
+            if (EXISTS ${PCP_NEWHELP_EXECUTABLE})
+                message(\"-- Generating: \$ENV{DESTDIR}${PMDA_INSTALL_DIR}/help.{dir,pag}\")
+                execute_process(
+                    COMMAND ${PCP_NEWHELP_EXECUTABLE} -n root help
+                    WORKING_DIRECTORY \$ENV{DESTDIR}${PMDA_INSTALL_DIR}
+                    RESULT_VARIABLE export_result
+                )
+                if (NOT \${export_result} EQUAL 0)
+                    message(FATAL_ERROR \"Failed to generate help database: \${export_result}\")
+                endif ()
+            endif ()
+        "
+    )
+    # Install the PMDA source and registration scripts.
+    configure_file(Install.in ${CMAKE_CURRENT_SOURCE_DIR}/Install)
+    configure_file(Remove.in  ${CMAKE_CURRENT_SOURCE_DIR}/Remove)
+    install(
+        FILES ${PROJECT_NAME}.cpp Install Remove DESTINATION ${PMDA_INSTALL_DIR}
+        PERMISSIONS
+            OWNER_READ OWNER_WRITE OWNER_EXECUTE
+            GROUP_READ GROUP_EXECUTE
+            WORLD_READ WORLD_EXECUTE
+    )
+endif()
 
 # Enable (and stop on) compiler warnings.
 include(CheckCXXCompilerFlag)
