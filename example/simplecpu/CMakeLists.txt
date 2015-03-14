@@ -39,7 +39,7 @@ install(
 
 install(
     FILES "${PROJECT_NAME}.cpp"
-    DESTINATION %{PMDAS_INSTALL_DIR}/pcp-pmda-cpp-examples
+    DESTINATION ${PMDAS_INSTALL_DIR}/pcp-pmda-cpp-examples
 )
 
 # Enable (and stop on) compiler warnings.
