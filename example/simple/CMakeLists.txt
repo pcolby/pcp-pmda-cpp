@@ -90,13 +90,8 @@ if (PMDAS_INSTALL_DIR)
     # Install the PMDA source and registration scripts.
     configure_file(Install.in ${CMAKE_CURRENT_SOURCE_DIR}/Install)
     configure_file(Remove.in  ${CMAKE_CURRENT_SOURCE_DIR}/Remove)
-    install(
-        FILES ${PROJECT_NAME}.cpp Install Remove DESTINATION ${PMDA_INSTALL_DIR}
-        PERMISSIONS
-            OWNER_READ OWNER_WRITE OWNER_EXECUTE
-            GROUP_READ GROUP_EXECUTE
-            WORLD_READ WORLD_EXECUTE
-    )
+    install(PROGRAMS Install Remove DESTINATION ${PMDA_INSTALL_DIR})
+    install(FILES ${PROJECT_NAME}.cpp DESTINATION ${PMDA_INSTALL_DIR})
 endif()
 
 # Enable (and stop on) compiler warnings.
