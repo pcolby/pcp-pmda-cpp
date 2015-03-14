@@ -47,15 +47,16 @@ endif ()
 
 # Setup the default installation directory.
 if (PCP_PMDAS_DIR)
-    set(DEFAULT_PMDA_INSTALL_DIR ${PCP_PMDAS_DIR}/pcp-pmda-cpp-examples/pmdas/${PROJECT_NAME})
+    set(DEFAULT_PMDAS_INSTALL_DIR ${PCP_PMDAS_DIR}/pcp-pmda-cpp-examples/pmdas)
     set(
-        PMDA_INSTALL_DIR ${DEFAULT_PMDA_INSTALL_DIR}
-        CACHE PATH "directory to install PMDA to (${DEFAULT_PMDA_INSTALL_DIR})"
+        PMDAS_INSTALL_DIR ${DEFAULT_PMDAS_INSTALL_DIR}
+        CACHE PATH "directory to install PMDAs to (${DEFAULT_PMDAS_INSTALL_DIR})"
     )
 endif()
 
-# Create an install target, but only if the PMDA_INSTALL_DIR directory was set.
-if (PMDA_INSTALL_DIR)
+# Create an install target, but only if the PMDAS_INSTALL_DIR directory was set.
+if (PMDAS_INSTALL_DIR)
+    SET(PMDA_INSTALL_DIR ${PMDAS_INSTALL_DIR}/${PROJECT_NAME})
     # Install the PMDA binaries.
     install(
         TARGETS "pmda${PROJECT_NAME}" "pmda${PROJECT_NAME}-noboost"
