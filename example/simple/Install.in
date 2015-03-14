@@ -1,4 +1,12 @@
-# Install the ${PROJECT_NAME} PMDA
+#!/bin/sh
+#
+#            Copyright Paul Colby 2013 - 2015
+# Distributed under the Boost Software License, Version 1.0.
+#       (See accompanying file LICENSE.md or copy at
+#          http://www.boost.org/LICENSE_1_0.txt)
+#
+# Install the ${PROJECT_NAME} PMDA and/or PMNS.
+#
 
 . $PCP_DIR/etc/pcp.env
 . $PCP_SHARE_DIR/lib/pmdaproc.sh
