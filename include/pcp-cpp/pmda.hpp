@@ -1449,7 +1449,6 @@ private:
         std::ostream &stream = (filename == "-") ? std::cout : file_stream;
         stream
             << std::endl
-            << "#include <stdpmid>" << std::endl << std::endl
             << "root { " << get_pmda_name() << " }" << std::endl << std::endl
             << "#include \"pmns\"" << std::endl << std::endl;
     }
