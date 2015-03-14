@@ -1,8 +1,7 @@
-#               Copyright Paul Colby 2015.
+#            Copyright Paul Colby 2013 - 2015.
 # Distributed under the Boost Software License, Version 1.0.
 #       (See accompanying file LICENSE.md or copy at
 #          http://www.boost.org/LICENSE_1_0.txt)
-
 #
 # Basic utility script for creating source RPMs from Github.
 #
