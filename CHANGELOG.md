@@ -3,12 +3,16 @@
 ### 0.4.2 (_unreleased_)
 Features:
 - numerous build and CI improvements.
+- PMDA/PMNS [de]registration scripts ([9120efc](
+  ../../commit/9120efcf0989b2001be3b4e08629ade47815565b))
 - Fedora packaging conformance ([1199693](
   https://bugzilla.redhat.com/show_bug.cgi?id=1199693))
 
 Bug fixes:
 - potential segfault in `pcp::pmda::cache::lookup` ([33e02b5](
   ../../commit/33e02b53cc7ddd55dcfedb334bc650ad9c7b3c9a))
+- unnecessary `stdpmid` includes ([fe22161](
+  ../../commit/fe221616fcc9269fc39859177b36339157f4ec07))
 - Doxygen documentation corrections.
 
 ### 0.4.1 (2014-09-06)
