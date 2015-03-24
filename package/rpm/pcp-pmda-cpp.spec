@@ -59,6 +59,7 @@ Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 %package examples
 Summary: Examples for the PMDA++ library
 Group: Development/Libraries
+Requires: pcp
 
 %description examples
 Examples from the PMDA++ project.
