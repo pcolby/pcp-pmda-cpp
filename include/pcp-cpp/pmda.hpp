@@ -1132,7 +1132,7 @@ protected:
 
                     validate_instance(description, id.instance);
 
-                    if (!description.flags & pcp::storable_metric) {
+                    if (!(description.flags & pcp::storable_metric)) {
                         // Metric does not support storing values.
                         throw pcp::exception(PM_ERR_PERMISSION);
                     }
