@@ -50,7 +50,7 @@ Metrics Domain Agents (PMDAs) for Performance Co-Pilot (PCP) in C++.
 Summary: Development headers for the PMDA++ library
 Group: Development/Libraries
 Provides: %{name}-static = %{version}-%{release}
-Requires: pcp-libs-devel
+Requires: pcp-libs-devel%{?_isa}
 
 %description devel
 PMDA++ is a header-only library that allows developers to write Performance
