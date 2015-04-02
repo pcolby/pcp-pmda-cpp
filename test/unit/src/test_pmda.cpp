@@ -11,6 +11,11 @@
 
 #include "gtest/gtest.h"
 
+// PM_ERR_FAULT ("QA fault injected") was not added until PCP 3.6.0.
+#ifndef PM_ERR_FAULT
+#define PM_ERR_FAULT PM_ERR_GENERIC
+#endif
+
 /// @brief  Implements a bare-minimum concrete PMDA implementation.
 class stub_pmda : public pcp::pmda {
 
