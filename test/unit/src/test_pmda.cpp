@@ -59,6 +59,33 @@ public:
     }
 };
 
+/// @brief Overrides virtual pcp::pmda methods to test their exception handling.
+class exceptional_pmda : public stub_pmda {
+protected:
+    virtual void run_daemon(const int, char * const []) {
+        throw pcp::exception(PM_ERR_FAULT);
+    }
+
+    virtual void initialize_dso(pmdaInterface &) {
+        throw pcp::exception(PM_ERR_FAULT);
+    }
+};
+
+/// @brief Makes some virtual pcp::pmda methods public for testing.
+class publicized_pmda : public stub_pmda {
+public:
+    typedef stub_pmda::metric_id metric_id;
+
+    virtual void store_value(const metric_id &metric, const int &value) {
+        stub_pmda::store_value(metric, value);
+    }
+
+    virtual void store_value(const metric_id &metric,
+                             const pmValueBlock * const value) {
+        stub_pmda::store_value(metric, value);
+    }
+};
+
 TEST(pmda, get_instance) {
     // Instance should be NULL, since we haven't initialised any DSO or daemon
     // interfaces yet.
@@ -113,6 +140,14 @@ TEST(pmda, get_pmda_version) {
     EXPECT_EQ(pmda2.get_pmda_version(), static_cast<pcp::pmda &>(pmda2).get_pmda_version());
 }
 
+TEST(pmda, init_dso_handles_exceptions) {
+    EXPECT_NO_THROW(pcp::pmda::init_dso<exceptional_pmda>(NULL));
+}
+
+TEST(pmda, run_daemon_handles_exceptions) {
+    EXPECT_EQ(EXIT_FAILURE, pcp::pmda::run_daemon<exceptional_pmda>(0, NULL));
+}
+
 TEST(pmda, initialize_pmda) {
     stub_pmda pmda;
     pmda.supported_metrics(123, "cluster 123")(456, "cluster 456");
@@ -155,4 +190,14 @@ TEST(pmda, initialize_pmda) {
     EXPECT_EQ(11u, interface.version.two.ext->e_metrics[1].m_desc.units.scaleTime);
     EXPECT_EQ(-6, interface.version.two.ext->e_metrics[1].m_desc.units.scaleCount);
     EXPECT_EQ(&opaque, interface.version.two.ext->e_metrics[1].m_user);
+}
+
+TEST(pmda, store_value_throws_by_default) {
+    publicized_pmda pmda;
+    publicized_pmda::metric_id metric_id;
+
+    EXPECT_THROW(pmda.store_value(metric_id, 0), pcp::exception);
+
+    const pmValueBlock * const value = NULL;
+    EXPECT_THROW(pmda.store_value(metric_id, value), pcp::exception);
 }
