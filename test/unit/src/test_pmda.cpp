@@ -219,8 +219,9 @@ TEST(pmda, parse_command_line_default_debug_option) {
     pmdaInterface interface;
     interface.version.two.ext = new pmdaExt;
     boost::program_options::variables_map options;
+    pmDebug = 0;
     EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
-    /// @todo Check pmDebug.
+    EXPECT_EQ(std::numeric_limits<int>::max(), pmDebug);
     delete interface.version.two.ext;
 }
 
