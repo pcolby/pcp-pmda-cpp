@@ -76,6 +76,12 @@ class publicized_pmda : public stub_pmda {
 public:
     typedef stub_pmda::metric_id metric_id;
 
+    virtual bool parse_command_line(const int argc, const char * const argv[],
+                                    pmdaInterface& interface,
+                                    boost::program_options::variables_map &options) {
+        return stub_pmda::parse_command_line(argc, argv, interface, options);
+    }
+
     virtual void store_value(const metric_id &metric, const int &value) {
         stub_pmda::store_value(metric, value);
     }
@@ -190,6 +196,37 @@ TEST(pmda, initialize_pmda) {
     EXPECT_EQ(11u, interface.version.two.ext->e_metrics[1].m_desc.units.scaleTime);
     EXPECT_EQ(-6, interface.version.two.ext->e_metrics[1].m_desc.units.scaleCount);
     EXPECT_EQ(&opaque, interface.version.two.ext->e_metrics[1].m_user);
+}
+
+TEST(pmda, parse_command_line_throws_on_invalid_config_option) {
+    publicized_pmda pmda;
+    const char * argv[] = { "pmda_name", "--config=/dev/null/invalid" };
+    pmdaInterface interface;
+    interface.version.two.ext = new pmdaExt;
+    boost::program_options::variables_map options;
+    EXPECT_THROW(pmda.parse_command_line(2, argv, interface, options), pcp::exception);
+    delete interface.version.two.ext;
+}
+
+TEST(pmda, parse_command_line_default_debug_option) {
+    publicized_pmda pmda;
+    const char * argv[] = { "pmda_name", "--debug" };
+    pmdaInterface interface;
+    interface.version.two.ext = new pmdaExt;
+    boost::program_options::variables_map options;
+    EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
+    /// @todo Check pmDebug.
+    delete interface.version.two.ext;
+}
+
+TEST(pmda, parse_command_line_throws_on_invalid_debug_options) {
+    publicized_pmda pmda;
+    const char * argv[] = { "pmda_name", "--debug=invalid" };
+    pmdaInterface interface;
+    interface.version.two.ext = new pmdaExt;
+    boost::program_options::variables_map options;
+    EXPECT_THROW(pmda.parse_command_line(2, argv, interface, options), pcp::exception);
+    delete interface.version.two.ext;
 }
 
 TEST(pmda, store_value_throws_by_default) {
