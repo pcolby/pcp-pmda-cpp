@@ -9,6 +9,8 @@
 
 #include "pcp-cpp/units.hpp"
 
+#include "fake_libpcp.h"
+
 #include "gtest/gtest.h"
 
 // PM_ERR_FAULT ("QA fault injected") was not added until PCP 3.6.0.
@@ -232,6 +234,67 @@ TEST(pmda, parse_command_line_throws_on_invalid_debug_options) {
     interface.version.two.ext = new pmdaExt;
     boost::program_options::variables_map options;
     EXPECT_THROW(pmda.parse_command_line(2, argv, interface, options), pcp::exception);
+    delete interface.version.two.ext;
+}
+
+TEST(pmda, parse_command_line_pipe_option) {
+    publicized_pmda pmda;
+    const char * argv[] = { "pmda_name", "--pipe" };
+    pmdaInterface interface;
+    interface.version.two.ext = new pmdaExt;
+    boost::program_options::variables_map options;
+    EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
+    EXPECT_EQ(pmdaPipe, interface.version.two.ext->e_io);
+    delete interface.version.two.ext;
+}
+
+TEST(pmda, parse_command_line_unix_option) {
+    publicized_pmda pmda;
+    const char * argv[] = { "pmda_name", "--unix=/dev/null" };
+    pmdaInterface interface;
+    interface.version.two.ext = new pmdaExt;
+    boost::program_options::variables_map options;
+    EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
+    EXPECT_EQ(pmdaUnix, interface.version.two.ext->e_io);
+    EXPECT_STREQ("/dev/null", interface.version.two.ext->e_sockname);
+    delete interface.version.two.ext;
+}
+
+TEST(pmda, parse_command_line_inet6_option) {
+    publicized_pmda pmda;
+    const char * argv[] = { "pmda_name", "--inet6=1234" };
+    pmdaInterface interface;
+    interface.version.two.ext = new pmdaExt;
+    boost::program_options::variables_map options;
+
+    // --inet6 not supported before PCP 3.8.1.
+    fake_pm_config.clear();
+    fake_pm_config["PCP_VERSION"] = const_cast<char *>("3.8.0");
+    EXPECT_EQ(0x30800, pcp::get_pcp_runtime_version<int32_t>());
+    EXPECT_THROW(pmda.parse_command_line(2, argv, interface, options),
+                 boost::program_options::unknown_option);
+
+    // --inet6 supported from PCP 3.8.1 on.
+    fake_pm_config.clear();
+    fake_pm_config["PCP_VERSION"] = const_cast<char *>("3.8.1");
+    EXPECT_EQ(0x30801, pcp::get_pcp_runtime_version<int32_t>());
+    EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
+    EXPECT_EQ(static_cast<pmdaIoType>(4), interface.version.two.ext->e_io);
+    EXPECT_EQ(1234, interface.version.two.ext->e_port);
+
+    fake_pm_config.clear();
+    delete interface.version.two.ext;
+}
+
+TEST(pmda, parse_command_line_inet) {
+    publicized_pmda pmda;
+    const char * argv[] = { "pmda_name", "--inet=1234" };
+    pmdaInterface interface;
+    interface.version.two.ext = new pmdaExt;
+    boost::program_options::variables_map options;
+    EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
+    EXPECT_EQ(pmdaInet, interface.version.two.ext->e_io);
+    EXPECT_EQ(1234, interface.version.two.ext->e_port);
     delete interface.version.two.ext;
 }
 
