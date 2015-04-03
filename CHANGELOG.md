@@ -9,6 +9,8 @@ Features:
   https://bugzilla.redhat.com/show_bug.cgi?id=1199693))
 
 Bug fixes:
+- broken `--unix` command line option ([f7c20c5](
+  ../../commit/f7c20c5984a7a78c0255984357f55fcce9ae980e))
 - potential segfault in `pcp::pmda::cache::lookup` ([33e02b5](
   ../../commit/33e02b53cc7ddd55dcfedb334bc650ad9c7b3c9a))
 - unnecessary `stdpmid` includes ([fe22161](
