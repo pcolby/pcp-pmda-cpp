@@ -1,8 +1,8 @@
 build
-pmda-cpp.config
-pmda-cpp.creator
-pmda-cpp.creator.user
-pmda-cpp.files
-pmda-cpp.includes
+*.config
+*.creator
+*.creator.user
+*.files
+*.includes
 Install
 Remove
