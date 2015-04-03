@@ -11,6 +11,11 @@
 #include <boost/lexical_cast.hpp>
 #include <pcp/pmapi.h>
 
+// PM_ERR_FAULT ("QA fault injected") was not added until PCP 3.6.0.
+#ifndef PM_ERR_FAULT
+#define PM_ERR_FAULT PM_ERR_GENERIC
+#endif
+
 #include <stdexcept>
 #include <string>
 
