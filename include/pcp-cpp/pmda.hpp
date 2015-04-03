@@ -441,6 +441,7 @@ protected:
      *         \c false.
      *
      * @throw pcp::exception On error.
+     * @throw boost::program_options::error On parse error.
      */
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface)
@@ -464,6 +465,7 @@ protected:
      *         \c false.
      *
      * @throw pcp::exception On error.
+     * @throw boost::program_options::error On parse error.
      */
     virtual bool parse_command_line(const int argc, const char * const argv[],
                                     pmdaInterface& interface,
@@ -575,7 +577,7 @@ protected:
         if (options.count("unix") > 0) {
             interface.version.two.ext->e_io = pmdaUnix;
             free_on_destruction.push(interface.version.two.ext->e_sockname =
-                strdup(options.at("pipe").as<std::string>().c_str()));
+                strdup(options.at("unix").as<std::string>().c_str()));
         }
         if (options.count("inet6") > 0) {
             // The pmdaIPv6 value was added to PCP in version 3.8.1. There is
