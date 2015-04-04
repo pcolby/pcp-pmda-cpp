@@ -17,7 +17,7 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: git@colby.id.au
     build_command_prepend:
-      - make -p $TRAVIS_BUILD_DIR-scan
+      - mkdir -p $TRAVIS_BUILD_DIR-scan
       - pushd $TRAVIS_BUILD_DIR-scan
       - cmake $TRAVIS_BUILD_DIR
     build_command: make
