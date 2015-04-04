@@ -38,7 +38,7 @@ before_script:
   - mkdir -p build
 
 script:
-  - cppcheck --error-exitcode=1 --quiet .
+  - cppcheck --error-exitcode=1 -i extern --quiet .
   - pushd build
   - cmake .. && make check
   - if [ "$CXX" = "g++" ]; then make coverage; fi
