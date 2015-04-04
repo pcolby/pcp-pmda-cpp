@@ -16,8 +16,11 @@ addons:
       name: "pcolby/pcp-pmda-cpp"
       description: "Build submitted via Travis CI"
     notification_email: git@colby.id.au
-    build_command_prepend: "cmake ."
-    build_command:   "make"
+    build_command_prepend:
+      - make -p $TRAVIS_BUILD_DIR-scan
+      - pushd $TRAVIS_BUILD_DIR-scan
+      - cmake $TRAVIS_BUILD_DIR
+    build_command: make
     branch_pattern: coverity_scan
 
 before_install:
@@ -35,12 +38,12 @@ install:
   - gem install lcoveralls
 
 before_script:
-  - mkdir -p build
+  - mkdir -p $TRAVIS_BUILD_DIR-build
 
 script:
-  - cppcheck --error-exitcode=1 -i extern --quiet .
-  - pushd build
-  - cmake .. && make check
+  - cppcheck --error-exitcode=1 --quiet .
+  - pushd $TRAVIS_BUILD_DIR-build
+  - cmake $TRAVIS_BUILD_DIR && make check
   - if [ "$CXX" = "g++" ]; then make coverage; fi
   - popd
 
