@@ -24,10 +24,12 @@ addons:
 
 before_install:
   - sudo apt-get update -qq
+  - apt list --installed
 
 install:
   - >
     sudo apt-get install -qq
+    clang
     cppcheck
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
