@@ -24,7 +24,7 @@ addons:
 
 before_install:
   - sudo apt-get update -qq
-  - apt list --installed
+  - dpkg -l
 
 install:
   - >
