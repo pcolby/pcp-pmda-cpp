@@ -132,6 +132,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
     lookup_result_type<Type> result;
     void * opaque;
     int instance_id;
+    result.instance_id = PM_ID_NULL;
     result.status = pmdaCacheLookupName(indom, name.c_str(), &instance_id, &opaque);
     if (result.status < 0) {
         throw pcp::exception(result.status);
