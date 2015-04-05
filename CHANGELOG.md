@@ -2,7 +2,12 @@
 
 ### 0.4.3 (_unreleased_)
 Features:
-- Coverity Scan automation with Travis CI
+- Coverity Scan automation with Travis CI ([2973](
+  https://scan.coverity.com/projects/2973))
+
+Bug fixes:
+- potential use of an uninitialized value ([248de96](
+  ../../commit/248de96013cbe70896820dc80e0bbdaa5fd49784))
 
 ### 0.4.2 (_unreleased_)
 Features:
