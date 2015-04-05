@@ -31,6 +31,7 @@ install:
     cppcheck
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
+    mlocate
     pcp
     rubygems
   - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov; fi
