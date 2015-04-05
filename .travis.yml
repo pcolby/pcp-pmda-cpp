@@ -35,6 +35,8 @@ install:
     rubygems
   - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov; fi
   - gem install lcoveralls
+  - sudo updatedb
+  - locate scan-build
 
 before_script:
   - mkdir -p $TRAVIS_BUILD_DIR-build
