@@ -19,7 +19,7 @@ addons:
     build_command_prepend: >
       cp -a $TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR-scan &&
       pushd $TRAVIS_BUILD_DIR-scan && cmake .
-    build_command: make
+    build_command: make -j2
     branch_pattern: cov-scan
 
 before_install:
@@ -45,10 +45,10 @@ script:
   - cppcheck --error-exitcode=1 --quiet .
   - pushd $TRAVIS_BUILD_DIR-clang-scan
   - scan-build --status-bugs cmake -DCMAKE_BUILD_TYPE=DEBUG $TRAVIS_BUILD_DIR
-  - scan-build --status-bugs make
+  - scan-build --status-bugs make -j2
   - popd
   - pushd $TRAVIS_BUILD_DIR-build
-  - cmake $TRAVIS_BUILD_DIR && make check
+  - cmake $TRAVIS_BUILD_DIR && make -j2 check
   - if [ "$CXX" = "g++" ]; then make coverage; fi
   - popd
 
