@@ -38,9 +38,14 @@ install:
 
 before_script:
   - mkdir -p $TRAVIS_BUILD_DIR-build
+  - mkdir -p $TRAVIS_BUILD_DIR-clang-scan
 
 script:
   - cppcheck --error-exitcode=1 --quiet .
+  - pushd $TRAVIS_BUILD_DIR-clang-scan
+  - scan-build --status-bugs cmake -DCMAKE_BUILD_TYPE=DEBUG $TRAVIS_BUILD_DIR
+  - scan-build --status-bugs make
+  - popd
   - pushd $TRAVIS_BUILD_DIR-build
   - cmake $TRAVIS_BUILD_DIR && make check
   - if [ "$CXX" = "g++" ]; then make coverage; fi
