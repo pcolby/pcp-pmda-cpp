@@ -20,7 +20,7 @@ addons:
       cp -a $TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR-scan &&
       pushd $TRAVIS_BUILD_DIR-scan && cmake .
     build_command: make
-    branch_pattern: coverity_scan
+    branch_pattern: cov-scan
 
 before_install:
   - sudo apt-get update -qq

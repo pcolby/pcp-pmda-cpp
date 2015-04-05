@@ -1,5 +1,9 @@
 ## PMDA++ Changelog
 
+### 0.4.3 (_unreleased_)
+Features:
+- Coverity Scan automation with Travis CI
+
 ### 0.4.2 (_unreleased_)
 Features:
 - numerous build and CI improvements.
