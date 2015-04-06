@@ -57,7 +57,7 @@ char *pmGetConfig(const char *variable)
 {
     const std::map<std::string, char *>::const_iterator iter =
         fake_pm_config.find(variable);
-    return (iter == fake_pm_config.end()) ? strdup(variable) : iter->second;
+    return (iter == fake_pm_config.end()) ? const_cast<char *>(variable) : iter->second;
 }
 
 void __pmNotifyErr(int /*priority*/, const char */*message*/, ...)
