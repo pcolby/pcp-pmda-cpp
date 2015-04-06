@@ -132,14 +132,13 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
     lookup_result_type<Type> result;
     void * opaque;
     int instance_id;
-    result.instance_id = PM_ID_NULL;
     result.status = pmdaCacheLookupName(indom, name.c_str(), &instance_id, &opaque);
     if (result.status < 0) {
         throw pcp::exception(result.status);
     }
     if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
         std::ostringstream message;
-        message << "Cache entry " << indom << ':' << result.instance_id
+        message << "Cache entry " << indom << ':' << instance_id
                 << " (\"" << name << "\") inactive";
         throw pcp::exception(result.status, message.str());
     }
@@ -184,7 +183,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
     }
     if ((flags & require_active) && (result.status != PMDA_CACHE_ACTIVE)) {
         std::ostringstream message;
-        message << "Cache entry " << indom << ':' << result.instance_id
+        message << "Cache entry " << indom << ':' << instance_id
                 << " (\"" << name << "\":\"" << key << "\") inactive";
         throw pcp::exception(result.status, message.str());
     }
