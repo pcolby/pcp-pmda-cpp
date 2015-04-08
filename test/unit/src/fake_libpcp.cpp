@@ -67,8 +67,10 @@ void __pmNotifyErr(int /*priority*/, const char */*message*/, ...)
 
 int __pmParseDebug(const char *spec)
 {
-    // The first this the real __pmParseDebug does is dereference spec.
-    assert(spec != NULL);
+    // The first thing the real __pmParseDebug does is dereference spec.
+    if (spec == NULL) {
+        throw "spec must not be NULL";
+    }
 
     // Allow our unit tests to invoke an error response.
     if (strcmp(spec, "invalid") == 0) {
