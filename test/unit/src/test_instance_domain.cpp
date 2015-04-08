@@ -7,8 +7,25 @@
 
 #include "gtest/gtest.h"
 
+TEST(instance_domain, constructor) {
+    {
+        pcp::instance_domain indom;
+        EXPECT_EQ(PM_INDOM_NULL, indom.get_domain_id());
+        EXPECT_EQ(PM_INDOM_NULL, indom.get_pm_instance_domain());
+    } {
+        pcp::instance_domain indom(std::numeric_limits<pcp::domain_id_type>::min());
+        EXPECT_EQ(std::numeric_limits<pcp::domain_id_type>::min(), indom.get_domain_id());
+        EXPECT_EQ(PM_INDOM_NULL, indom.get_pm_instance_domain());
+    } {
+        pcp::instance_domain indom(std::numeric_limits<pcp::domain_id_type>::max());
+        EXPECT_EQ(std::numeric_limits<pcp::domain_id_type>::max(), indom.get_domain_id());
+        EXPECT_EQ(PM_INDOM_NULL, indom.get_pm_instance_domain());
+    }
+}
+
 TEST(instance_domain, domain_id) {
     pcp::instance_domain indom;
+    EXPECT_EQ(PM_INDOM_NULL, indom.get_domain_id());
 
     indom.set_domain_id(std::numeric_limits<pcp::domain_id_type>::min());
     EXPECT_EQ(std::numeric_limits<pcp::domain_id_type>::min(), indom.get_domain_id());
@@ -19,12 +36,13 @@ TEST(instance_domain, domain_id) {
 
 TEST(instance_domain, pm_instance_domain) {
     pcp::instance_domain indom;
+    EXPECT_EQ(PM_INDOM_NULL, indom.get_pm_instance_domain());
 
     indom.set_pm_instance_domain(std::numeric_limits<pmInDom>::min());
     EXPECT_EQ(std::numeric_limits<pmInDom>::min(), indom.get_pm_instance_domain());
 
-    indom.set_pm_instance_domain(std::numeric_limits<pmInDom>::min());
-    EXPECT_EQ(std::numeric_limits<pmInDom>::min(), indom.get_pm_instance_domain());
+    indom.set_pm_instance_domain(std::numeric_limits<pmInDom>::max());
+    EXPECT_EQ(std::numeric_limits<pmInDom>::max(), indom.get_pm_instance_domain());
 }
 
 TEST(instance_domain, cast_to_pmInDom) {

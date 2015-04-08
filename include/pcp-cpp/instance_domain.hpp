@@ -37,6 +37,20 @@ class instance_domain : public std::map<instance_id_type, const instance_info> {
 public:
 
     /**
+     * @brief [Default] Constructor
+     *
+     * @param domain_id User-defined ID for this instance domain.
+     *
+     * @see set_domain_id
+     */
+    instance_domain(domain_id_type domain_id = PM_INDOM_NULL)
+        : domain_id(domain_id),
+          pm_instance_domain(PM_INDOM_NULL)
+    {
+
+    }
+
+    /**
      * @brief  Get this instance domain's user-defined ID.
      *
      * @return This instance domain's user-defined ID.
@@ -58,7 +72,7 @@ public:
      * This can be necessary for passing this instance domain's ID to some other
      * PCP built-in functions.
      *
-     * @return This instance domain's PCP-modifed ID.
+     * @return This instance domain's PCP-modified ID.
      *
      * @see set_pm_instance_domain
      * @see pmdaInit
@@ -81,8 +95,8 @@ public:
     /**
      * @brief Set this instance domain's PCP-modified ID.
      *
-     * This normally used by the pcp::pmda class to update the domain ID after
-     * invoking pmdaInit.
+     * This function is normally used by the pcp::pmda class to update the
+     * domain ID after invoking pmdaInit.
      *
      * @param domain The domiain ID to set.
      */
