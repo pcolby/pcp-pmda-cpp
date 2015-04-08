@@ -24,6 +24,10 @@ class stub_pmda : public pcp::pmda {
 public:
     pcp::metrics_description supported_metrics;
 
+    // Since we use a const stub_pmda in at least one test, C++ requires us to
+    // provide a user-declared constructor.
+    stub_pmda() { }
+
     virtual std::string get_pmda_name() const {
         return "stub";
     }
