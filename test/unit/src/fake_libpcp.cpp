@@ -67,6 +67,9 @@ void __pmNotifyErr(int /*priority*/, const char */*message*/, ...)
 
 int __pmParseDebug(const char *spec)
 {
+    // The first this the real __pmParseDebug does is dereference spec.
+    assert(spec != NULL);
+
     // Allow our unit tests to invoke an error response.
     if (strcmp(spec, "invalid") == 0) {
         return PM_ERR_FAULT; // "QA fault injected"
@@ -74,7 +77,7 @@ int __pmParseDebug(const char *spec)
 
     // Lazily convert the spec to an int. Note, this is *not* the same logic as
     // the real __pmParseDebug function.
-    const int result = (spec == NULL) ? 0 : atoi(spec);
+    const int result = atoi(spec);
 
     // The real __pmParseDebug does support "-1" as a synonym for "all".
     return (result == -1) ? std::numeric_limits<int>::max() : result;
