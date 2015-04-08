@@ -307,3 +307,14 @@ TEST(pmda, store_value_throws_by_default) {
     const pmValueBlock * const value = NULL;
     EXPECT_THROW(pmda.store_value(metric_id, value), pcp::exception);
 }
+
+TEST(pmda, display_functions_do_not_leave_cout_flags_modified) {
+    const std::ostream::fmtflags flags(std::cout.flags());
+    const stub_pmda pmda;
+
+    pmda.display_help(pmda.get_pmda_name());
+    EXPECT_EQ(flags, std::cout.flags());
+
+    pmda.display_version();
+    EXPECT_EQ(flags, std::cout.flags());
+}

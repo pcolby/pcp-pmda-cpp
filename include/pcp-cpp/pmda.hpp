@@ -754,6 +754,8 @@ protected:
      */
     virtual void display_version() const
     {
+        const std::ostream::fmtflags cout_format_flags(std::cout.flags());
+
         std::cout << std::endl << get_pmda_name() << " PMDA";
         const std::string pmda_version = get_pmda_version();
         if (!pmda_version.empty()) {
@@ -765,6 +767,8 @@ protected:
                   << get_pcp_runtime_version<char *>() << " ("
                   << std::hex << get_pcp_runtime_version<uint_fast32_t>()
                   << ')' << std::endl << std::endl;
+
+        std::cout.flags(cout_format_flags); // Restore cout to its entry state.
     }
 
     /**
