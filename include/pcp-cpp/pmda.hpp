@@ -1114,7 +1114,7 @@ protected:
         return pmdaProfile(prof, pmda);
     }
 
-    /// @brief Store a value into a metric. This is a no-op.
+    /// @brief Store a value into a metric.
     virtual int on_store(pmResult *result, pmdaExt *pmda)
     {
         __pmNotifyErr(LOG_INFO, "on store");
@@ -1148,9 +1148,9 @@ protected:
                     } else {
                         store_value(id, value_set->vlist[instance_index].value.pval);
                     }
-                    return 0; // >= 0 implies success.
                 }
             }
+            return 0; // >= 0 implies success.
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PMDA_FETCH_NOVALUES) {
                 __pmNotifyErr(LOG_ERR, "%s", ex.what());
