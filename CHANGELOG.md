@@ -8,6 +8,8 @@ Features:
 Bug fixes:
 - potential use of an uninitialized value ([248de96](
   ../../commit/248de96013cbe70896820dc80e0bbdaa5fd49784))
+- premature return in `pcp::pmda::on_store` ([a3334c4](
+  ../../commit/a3334c42b27f88d7ef4410003b297e95d8da5675))
 
 ### 0.4.2 (_unreleased_)
 Features:
