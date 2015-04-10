@@ -1119,6 +1119,7 @@ protected:
     {
         __pmNotifyErr(LOG_INFO, "on store");
         try {
+            bool any_stored = false;
             for (int value_set_index = 0; value_set_index < result->numpmid; ++value_set_index) {
                 pmValueSet * const value_set = result->vset[value_set_index];
 
@@ -1148,9 +1149,12 @@ protected:
                     } else {
                         store_value(id, value_set->vlist[instance_index].value.pval);
                     }
+                    any_stored = true;
                 }
             }
-            return 0; // >= 0 implies success.
+            if (any_stored) {
+                return 0; // >= 0 implies success
+            }
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PMDA_FETCH_NOVALUES) {
                 __pmNotifyErr(LOG_ERR, "%s", ex.what());
