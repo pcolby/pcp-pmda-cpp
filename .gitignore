@@ -1,4 +1,4 @@
-build
+build*
 *.config
 *.creator
 *.creator.user
