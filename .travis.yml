@@ -53,7 +53,11 @@ script:
   - popd
 
 after_success:
-  - if [ "$CXX" = "g++" ]; then lcoveralls --retry-count 5 $TRAVIS_BUILD_DIR-build/test/coverage.info; fi
+  # Report code coverage to coveralls.io
+  - lcoveralls --retry-count 5 $TRAVIS_BUILD_DIR-build/test/coverage.info
+  # Report code coverage to codecov.io
+  - curl https://codecov.io/bash > /tmp/codecov.sh
+  - bash /tmp/codecov.sh -f $TRAVIS_BUILD_DIR-build/test/coverage.info
 
 notifications:
   webhooks:
