@@ -517,11 +517,11 @@ protected:
         // Check if any of the export flags were given.
         bool exported = false;
         #define PCP_CPP_EXPORT(type, func) \
-        if (options.count("export-"type) > 0) { \
+        if (options.count("export-" type) > 0) { \
             if (supported_metrics.empty()) { \
                 supported_metrics = get_supported_metrics(); \
             } \
-            const string_vector &filenames = options.at("export-"type).as<string_vector>(); \
+            const string_vector &filenames = options.at("export-" type).as<string_vector>(); \
             for (string_vector::const_iterator iter = filenames.begin(); iter != filenames.end(); ++iter) { \
                 func(*iter); \
             } \
