@@ -73,8 +73,8 @@ if (NOT GTEST_FOUND)
     add_dependencies(${PROJECT_NAME} googletest)
     # Mimic the FindGTest module's library variables.
     ExternalProject_Get_Property(googletest binary_dir)
-    set(GTEST_LIBRARY        ${binary_dir}/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX})
-    set(GTEST_MAIN_LIBRARY   ${binary_dir}/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(GTEST_LIBRARY        ${binary_dir}/googlemock/gtest/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(GTEST_MAIN_LIBRARY   ${binary_dir}/googlemock/gtest/${CMAKE_FIND_LIBRARY_PREFIXES}gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
     set(GTEST_BOTH_LIBRARIES ${GTEST_LIBRARY} ${GTEST_MAIN_LIBRARY})
 endif()
 
