@@ -9,7 +9,7 @@ set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/extern)
 # Add gtest
 ExternalProject_Add(
     googletest
-    SVN_REPOSITORY https://googletest.googlecode.com/svn/trunk/
+    GIT_REPOSITORY https://github.com/google/googletest.git
     UPDATE_COMMAND "" # Don't update the svn checkout every time we build.
     TIMEOUT 10
     CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -22,7 +22,7 @@ ExternalProject_Add(
 
 # Add googletest headers to the include path.
 ExternalProject_Get_Property(googletest source_dir)
-include_directories(${source_dir}/include)
+include_directories(${source_dir}/googletest/include)
 
 # Add compiler flag for MSVC 2012
 if(MSVC_VERSION EQUAL 1700)
