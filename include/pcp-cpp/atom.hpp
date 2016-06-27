@@ -70,7 +70,7 @@ pmAtomValue atom(const atom_type_type type, ValueType value)
  * @return A `pmAtomValue` containing \c value of type \c type.
  */
 template <>
-pmAtomValue atom<char *>(const atom_type_type type, char * value)
+inline pmAtomValue atom<char *>(const atom_type_type type, char * value)
 {
     pmAtomValue atom;
     switch (type) {
@@ -102,7 +102,7 @@ pmAtomValue atom<char *>(const atom_type_type type, char * value)
  * @return A `pmAtomValue` containing \c value of type \c type.
  */
 template <>
-pmAtomValue atom<pmValueBlock *>(const atom_type_type type, pmValueBlock * value)
+inline pmAtomValue atom<pmValueBlock *>(const atom_type_type type, pmValueBlock * value)
 {
     pmAtomValue atom;
     switch (type) {
