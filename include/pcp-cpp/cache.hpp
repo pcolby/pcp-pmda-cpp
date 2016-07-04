@@ -207,7 +207,7 @@ lookup_result_type<Type> lookup(const pmInDom indom, const std::string &name,
  *
  * @see pmdaCacheOp
  */
-int perform(const pmInDom indom, const int operation)
+inline int perform(const pmInDom indom, const int operation)
 {
     const int result = pmdaCacheOp(indom, operation);
     if (result < 0) {
@@ -229,7 +229,7 @@ int perform(const pmInDom indom, const int operation)
  *
  * @see pmdaCachePurge
  */
-size_t purge(const pmInDom indom, const time_t recent)
+inline size_t purge(const pmInDom indom, const time_t recent)
 {
     const int result = pmdaCachePurge(indom, recent);
     if (result < 0) {
@@ -252,7 +252,7 @@ size_t purge(const pmInDom indom, const time_t recent)
  *
  * @see pmdaCachePurge
  */
-size_t purge(const pmInDom indom, const boost::posix_time::time_duration &recent)
+inline size_t purge(const pmInDom indom, const boost::posix_time::time_duration &recent)
 {
     return purge(indom, recent.total_seconds());
 }
@@ -272,9 +272,9 @@ size_t purge(const pmInDom indom, const boost::posix_time::time_duration &recent
  *
  * @see pmdaCacheStore
  */
-instance_id_type store(const pmInDom indom, const std::string &name,
-                       const int flags = PMDA_CACHE_ADD,
-                       void * const opaque = NULL)
+inline instance_id_type store(const pmInDom indom, const std::string &name,
+                              const int flags = PMDA_CACHE_ADD,
+                              void * const opaque = NULL)
 {
     const int result = pmdaCacheStore(indom, flags, name.c_str(), opaque);
     if (result < 0) {
@@ -297,8 +297,8 @@ instance_id_type store(const pmInDom indom, const std::string &name,
  *
  * @see pmdaCacheStore
  */
-instance_id_type store(const pmInDom indom, const std::string &name,
-                       void * const opaque, const int flags = PMDA_CACHE_ADD)
+inline instance_id_type store(const pmInDom indom, const std::string &name,
+                              void * const opaque, const int flags = PMDA_CACHE_ADD)
 {
     const int result = pmdaCacheStore(indom, flags, name.c_str(), opaque);
     if (result < 0) {
@@ -323,9 +323,9 @@ instance_id_type store(const pmInDom indom, const std::string &name,
  *
  * @see pmdaCacheStoreKey
  */
-instance_id_type store(const pmInDom indom, const std::string &name,
-                       const std::string &key, const int flags = 0,
-                       void * const opaque = NULL)
+inline instance_id_type store(const pmInDom indom, const std::string &name,
+                              const std::string &key, const int flags = 0,
+                              void * const opaque = NULL)
 {
     const int result = pmdaCacheStoreKey(indom, flags, name.c_str(), key.size(),
                                          key.c_str(), opaque);
@@ -351,9 +351,9 @@ instance_id_type store(const pmInDom indom, const std::string &name,
  *
  * @see pmdaCacheStoreKey
  */
-instance_id_type store(const pmInDom indom, const std::string &name,
-                       const std::string &key, void * const opaque,
-                       const int flags = 0)
+inline instance_id_type store(const pmInDom indom, const std::string &name,
+                              const std::string &key, void * const opaque,
+                              const int flags = 0)
 {
     const int result = pmdaCacheStoreKey(indom, flags, name.c_str(), key.size(),
                                          key.c_str(), opaque);
