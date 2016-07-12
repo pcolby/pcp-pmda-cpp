@@ -2,16 +2,30 @@
 
 ### 0.4.3 (_unreleased_)
 Features:
+- C++11 support ([817e66f](
+  ../../commit/817e66f0ba5bf94cb2234216b33ebf86fba86bc0))
 - Coverity Scan automation with Travis CI ([2973](
   https://scan.coverity.com/projects/2973))
+- Clang `scan-build` automation with Travis CI ([83032bc](
+  ../../commit/83032bcb11fa571de145054c4a97f3df3e342e42))
+- numerous build and CI improvements.
+- additional unit tests.
 
 Bug fixes:
-- potential use of an uninitialized value ([248de96](
-  ../../commit/248de96013cbe70896820dc80e0bbdaa5fd49784))
-- premature return in `pcp::pmda::on_store` ([a3334c4](
+- broken `--unix` command line option ([f7c20c5](
+  ../../commit/f7c20c5984a7a78c0255984357f55fcce9ae980e))
+- incorrect instance ID reported in two exception messages ([1d5e544](
+  ../../commit/1d5e544be3a8525dc2df333813304269135a69f5))
+- `cout` format flags left modified ([af388d9](
+  ../../commit/af388d9c8d878e2322d4fd0ce378e3d34fa84379))
+- `pcp::on_store` may return prematurely ([a3334c4](
   ../../commit/a3334c42b27f88d7ef4410003b297e95d8da5675))
+- template functions not fully specialized ([1ad276f](
+  ../../commit/1ad276f889c5dd08f268c632c5d64b6dbfc9ffae))
 
-### 0.4.2 (_unreleased_)
+Special thanks to @badone and @bchoi for contributing to this release.
+
+### 0.4.2 (2015-03-24)
 Features:
 - numerous build and CI improvements.
 - PMDA/PMNS [de]registration scripts ([9120efc](
@@ -20,8 +34,6 @@ Features:
   https://bugzilla.redhat.com/show_bug.cgi?id=1199693))
 
 Bug fixes:
-- broken `--unix` command line option ([f7c20c5](
-  ../../commit/f7c20c5984a7a78c0255984357f55fcce9ae980e))
 - potential segfault in `pcp::pmda::cache::lookup` ([33e02b5](
   ../../commit/33e02b53cc7ddd55dcfedb334bc650ad9c7b3c9a))
 - unnecessary `stdpmid` includes ([fe22161](
