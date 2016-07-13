@@ -1,7 +1,0 @@
-build/extern/src/googletest/googletest/include/gtest
-build/extern/src/googletest/googletest/include/gtest/internal
-build/extern/src/googletest/googletest/samples
-build/extern/src/googletest/googletest/src
-build/extern/src/googletest/googletest/test
-build/extern/src/googletest/googletest/xcode/Samples/FrameworkSample
-test/unit/src
