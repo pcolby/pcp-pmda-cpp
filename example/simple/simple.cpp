@@ -233,10 +233,11 @@ private:
     void timenow_refresh()
     {
         const time_t t = time(NULL);
-        struct tm * const tptr = localtime(&t);
-        timeslices[0].tm_field = tptr->tm_sec;
-        timeslices[1].tm_field = tptr->tm_min;
-        timeslices[2].tm_field = tptr->tm_hour;
+        struct tm ts;
+        localtime_r(&t, &ts);
+        timeslices[0].tm_field = ts.tm_sec;
+        timeslices[1].tm_field = ts.tm_min;
+        timeslices[2].tm_field = ts.tm_hour;
     }
 
 };

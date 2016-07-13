@@ -43,7 +43,7 @@ public:
      *
      * @see set_domain_id
      */
-    instance_domain(domain_id_type domain_id = PM_INDOM_NULL)
+    explicit instance_domain(domain_id_type domain_id = PM_INDOM_NULL)
         : domain_id(domain_id),
           pm_instance_domain(PM_INDOM_NULL)
     {

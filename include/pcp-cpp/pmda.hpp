@@ -1339,7 +1339,7 @@ private:
             stream << std::endl;
         }
         for (std::map<domain_id_type, const instance_domain *>::const_iterator indom = instances.begin();
-             indom != instances.end(); indom++)
+             indom != instances.end(); ++indom)
         {
             for (instance_domain::const_iterator instance = indom->second->begin();
                  instance != indom->second->end(); ++instance)
