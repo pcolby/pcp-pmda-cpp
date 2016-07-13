@@ -1,6 +1,6 @@
 ## PMDA++ Changelog
 
-### 0.4.3 (_unreleased_)
+### 0.4.3 (2016-07-13)
 Features:
 - C++11 support ([817e66f](
   ../../commit/817e66f0ba5bf94cb2234216b33ebf86fba86bc0))
