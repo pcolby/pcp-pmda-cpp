@@ -1,5 +1,7 @@
 ## PMDA++ Changelog
 
+### 0.4.4 (_unreleased_)
+
 ### 0.4.3 (2016-07-13)
 Features:
 - C++11 support ([817e66f](
