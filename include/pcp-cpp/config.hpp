@@ -98,4 +98,11 @@ inline char * get_pcp_runtime_version()
 
 PCP_CPP_END_NAMESPACE
 
+/**
+ * @brief Let the compiler know that a parameter is unsed.
+ *
+ * @param name The name of the unused parameter.
+ */
+#define PCP_CPP_UNUSED(name) (void)name;
+
 #endif

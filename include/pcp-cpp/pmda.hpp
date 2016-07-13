@@ -956,13 +956,15 @@ protected:
      *       function will not be called for any metric that did not include
      *       the `storable_metric` flag in the get_supported_metrics result.
      *
-     * @param metric_id The metric to store.
-     * @param value     The value to store.
+     * @param metric The metric to store.
+     * @param value  The value to store.
      *
      * @throw pcp::exception on error.
      */
-    virtual void store_value(const metric_id &/*metric*/, const int &/*value*/)
+    virtual void store_value(const metric_id &metric, const int &value)
     {
+        PCP_CPP_UNUSED(metric)
+        PCP_CPP_UNUSED(value)
         throw pcp::exception(PM_ERR_PERMISSION);
     }
 
@@ -978,14 +980,16 @@ protected:
      *       function will not be called for any metric that did not include
      *       the `storable_metric` flag in the get_supported_metrics result.
      *
-     * @param metric_id The metric to store.
-     * @param value     The value to store.
+     * @param metric The metric to store.
+     * @param value  The value to store.
      *
      * @throw pcp::exception on error.
      */
-    virtual void store_value(const metric_id &/*metric*/,
-                             const pmValueBlock * const /*value*/)
+    virtual void store_value(const metric_id &metric,
+                             const pmValueBlock * const value)
     {
+        PCP_CPP_UNUSED(metric)
+        PCP_CPP_UNUSED(value)
         throw pcp::exception(PM_ERR_PERMISSION);
     }
 
