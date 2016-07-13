@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">PMDA++
-   &#160;<span id="projectnumber">0.4.3</span>
+   &#160;<span id="projectnumber">0.4.4-prerelease</span>
    </div>
    <div id="projectbrief">Header-only C++ library for writing PCP PMDAs</div>
   </td>
@@ -81,6 +81,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c11bfbd1cf575cef549ce497532c0893.html">pcp-pmda-cpp</a></li><li class="navelem"><a class="el" href="dir_fe7e7219ccd3c73f61b6e1cde014fe45.html">include</a></li><li class="navelem"><a class="el" href="dir_fa9bc63d2480bc8a25afd67c6250e9ed.html">pcp-cpp</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
@@ -140,6 +144,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a1c2658b79604fdd0ab6168593c35d6cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8hpp.html#a1c2658b79604fdd0ab6168593c35d6cb">PCP_CPP_PMDA_INTERFACE_VERSION</a>&#160;&#160;&#160;PMDA_INTERFACE_LATEST</td></tr>
 <tr class="memdesc:a1c2658b79604fdd0ab6168593c35d6cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">PMDA interface version to use; defaults to "latest".  <a href="#a1c2658b79604fdd0ab6168593c35d6cb">More...</a><br /></td></tr>
 <tr class="separator:a1c2658b79604fdd0ab6168593c35d6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2de12a7477a947b80c0f8ed3b07a76ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config_8hpp.html#a2de12a7477a947b80c0f8ed3b07a76ec">PCP_CPP_UNUSED</a>(name)&#160;&#160;&#160;(void)name;</td></tr>
+<tr class="memdesc:a2de12a7477a947b80c0f8ed3b07a76ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Let the compiler know that a parameter is unsed.  <a href="#a2de12a7477a947b80c0f8ed3b07a76ec">More...</a><br /></td></tr>
+<tr class="separator:a2de12a7477a947b80c0f8ed3b07a76ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -222,6 +229,34 @@ Functions</h2></td></tr>
 <p>Definition at line <a class="el" href="config_8hpp_source.html#l00056">56</a> of file <a class="el" href="config_8hpp_source.html">config.hpp</a>.</p>
 
 <p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00755">pcp::pmda::display_version()</a>, <a class="el" href="pmda_8hpp_source.html#l00805">pcp::pmda::initialize_dso()</a>, and <a class="el" href="pmda_8hpp_source.html#l00293">pcp::pmda::run_daemon()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2de12a7477a947b80c0f8ed3b07a76ec"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PCP_CPP_UNUSED</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name</td><td>)</td>
+          <td>&#160;&#160;&#160;(void)name;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Let the compiler know that a parameter is unsed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the unused parameter. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="config_8hpp_source.html#l00106">106</a> of file <a class="el" href="config_8hpp_source.html">config.hpp</a>.</p>
+
+<p>Referenced by <a class="el" href="pmda_8hpp_source.html#l00964">pcp::pmda::store_value()</a>.</p>
 
 </div>
 </div>
