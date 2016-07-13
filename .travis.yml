@@ -43,10 +43,9 @@ before_script:
 
 script:
   - >
-    cppcheck --enable=all --error-exitcode=1 -quiet
-      -I include --include=/usr/include/pcp/pmapi.h
-      --suppress=noExplicitConstructor:include/pcp-cpp/exception.hpp
-      .
+    cppcheck --enable=all --error-exitcode=1 --quiet .
+    -I include --include=/usr/include/pcp/pmapi.h
+    --suppress=noExplicitConstructor:include/pcp-cpp/exception.hpp
   - pushd $TRAVIS_BUILD_DIR-clang-scan
   - scan-build --status-bugs cmake -DCMAKE_BUILD_TYPE=DEBUG $TRAVIS_BUILD_DIR
   - scan-build --status-bugs make -j2
