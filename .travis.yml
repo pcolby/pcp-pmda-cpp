@@ -42,9 +42,9 @@ before_script:
   - mkdir -p $TRAVIS_BUILD_DIR-clang-scan
 
 script:
+  # When cppcheck 1.56+ is available, add: --std=c++03
+  # When cppcheck 1.58+ is available, add: --include=/usr/include/pcp/pmapi.h
   - >
-    # When cppcheck 1.56+ is available, add: --std=c++03
-    # When cppcheck 1.58+ is available, add: --include=/usr/include/pcp/pmapi.h
     cppcheck --enable=all --error-exitcode=1 -I include --quiet .
     --std=posix --std=c++11 .
     --suppress=noExplicitConstructor:include/pcp-cpp/exception.hpp
