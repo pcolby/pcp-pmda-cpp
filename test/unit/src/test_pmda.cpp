@@ -22,7 +22,7 @@
 class stub_pmda : public pcp::pmda {
 
 public:
-    pcp::metrics_description supported_metrics;
+    pcp::metrics_description stub_supported_metrics;
 
     // Since we use a const stub_pmda in at least one test, C++ requires us to
     // provide a user-declared constructor.
@@ -37,7 +37,7 @@ public:
     }
 
     virtual pcp::metrics_description get_supported_metrics() {
-        return supported_metrics;
+        return stub_supported_metrics;
     }
 
     virtual fetch_value_result fetch_value(const metric_id &/*metric*/)
@@ -167,10 +167,10 @@ TEST(pmda, run_daemon_handles_exceptions) {
 
 TEST(pmda, initialize_pmda) {
     stub_pmda pmda;
-    pmda.supported_metrics(123, "cluster 123")(456, "cluster 456");
+    pmda.stub_supported_metrics(123, "cluster 123")(456, "cluster 456");
     pcp::instance_domain domain;
     int opaque = 123;
-    pmda.supported_metrics
+    pmda.stub_supported_metrics
         (1, "one", PM_TYPE_U64, PM_SEM_INSTANT, pcp::units(1,2,3, 4,5,6), NULL,
          "short description", "verbose description", NULL, pcp::storable_metric)
         (2, "two", PM_TYPE_STRING, PM_SEM_COUNTER, pcp::units(-1,-2,-3, 10,11,-6),
