@@ -42,7 +42,7 @@ before_script:
   - mkdir -p $TRAVIS_BUILD_DIR-clang-scan
 
 script:
-  - cppcheck --error-exitcode=1 --quiet .
+  - cppcheck --enable=all --error-exitcode=1 -I include --include=/usr/include/pcp/pmapi.h --quiet .
   - pushd $TRAVIS_BUILD_DIR-clang-scan
   - scan-build --status-bugs cmake -DCMAKE_BUILD_TYPE=DEBUG $TRAVIS_BUILD_DIR
   - scan-build --status-bugs make -j2
