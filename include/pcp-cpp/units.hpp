@@ -27,7 +27,7 @@ class instance_domain;
  *
  * @param a The first argument to pass to the PMDA_PMUNITS macro.
  * @param b The second argument to pass to the PMDA_PMUNITS macro.
- * @param d The third argument to pass to the PMDA_PMUNITS macro.
+ * @param c The third argument to pass to the PMDA_PMUNITS macro.
  * @param d The fourth argument to pass to the PMDA_PMUNITS macro.
  * @param e The fifth argument to pass to the PMDA_PMUNITS macro.
  * @param f The sixth argument to pass to the PMDA_PMUNITS macro.
