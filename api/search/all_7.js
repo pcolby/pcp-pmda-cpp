@@ -7,7 +7,9 @@ var searchData=
   ['instance_5fdomain',['instance_domain',['../classpcp_1_1instance__domain.html',1,'pcp']]],
   ['instance_5fdomain_2ehpp',['instance_domain.hpp',['../instance__domain_8hpp.html',1,'']]],
   ['instance_5fid',['instance_id',['../structpcp_1_1cache_1_1lookup__result__type.html#af1b399f182dda28eee1764cc6b0952f0',1,'pcp::cache::lookup_result_type']]],
+  ['instance_5fid_5ftype',['instance_id_type',['../namespacepcp.html#a7bf524ba67ddca277b19e81222576ff9',1,'pcp']]],
   ['instance_5finfo',['instance_info',['../structpcp_1_1instance__info.html',1,'pcp']]],
   ['instance_5fname',['instance_name',['../structpcp_1_1instance__info.html#a4a61498f27679d7cb8a5e6c3cc980cd6',1,'pcp::instance_info']]],
-  ['item',['item',['../structpcp_1_1pmda_1_1metric__id.html#ae166a4342162f42f6077e10f125f8a8c',1,'pcp::pmda::metric_id']]]
+  ['item',['item',['../structpcp_1_1pmda_1_1metric__id.html#ae166a4342162f42f6077e10f125f8a8c',1,'pcp::pmda::metric_id']]],
+  ['item_5fid_5ftype',['item_id_type',['../namespacepcp.html#a20b68c434bdbd1bbdd2bc6294a385f6a',1,'pcp']]]
 ];

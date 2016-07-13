@@ -8,6 +8,7 @@ var searchData=
   ['get_5fhelp_5ftext_5fpathname',['get_help_text_pathname',['../classpcp_1_1pmda.html#a43aebe4de556e74283bae8309b3795b0',1,'pcp::pmda']]],
   ['get_5finstance',['get_instance',['../classpcp_1_1pmda.html#a90a74d7a459829a7a00a28688b314795',1,'pcp::pmda']]],
   ['get_5flog_5ffile_5fpathname',['get_log_file_pathname',['../classpcp_1_1pmda.html#a77a8ec70a26dfc9a7e4d35da32ec9359',1,'pcp::pmda']]],
+  ['get_5fpcp_5fruntime_5fversion',['get_pcp_runtime_version',['../namespacepcp.html#a94a55aceee5914e1ec2210fe24c56245',1,'pcp::get_pcp_runtime_version()'],['../namespacepcp.html#a203e71c6235c9fae6920414a7b229bb2',1,'pcp::get_pcp_runtime_version()']]],
   ['get_5fpm_5finstance_5fdomain',['get_pm_instance_domain',['../classpcp_1_1instance__domain.html#a340e6f10cf80aace54c3e43186a03d64',1,'pcp::instance_domain']]],
   ['get_5fpmda_5fname',['get_pmda_name',['../classpcp_1_1pmda.html#ad77912ffc2b113d0390d348105c15cee',1,'pcp::pmda']]],
   ['get_5fpmda_5fversion',['get_pmda_version',['../classpcp_1_1pmda.html#ad4aba722b75386b9a1005c96a209122d',1,'pcp::pmda']]],

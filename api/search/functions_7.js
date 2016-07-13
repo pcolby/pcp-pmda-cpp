@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['metric_5fcluster',['metric_cluster',['../classpcp_1_1metric__cluster.html#a6409dedddb8558695ce409b0e2ebf8d0',1,'pcp::metric_cluster']]],
-  ['metric_5fdescription',['metric_description',['../structpcp_1_1metric__description.html#abca0e91864fca2bb22a77ffb53b681b4',1,'pcp::metric_description']]],
-  ['metrics_5fdescription',['metrics_description',['../classpcp_1_1metrics__description.html#a3204b99e51ce2064873bb10a838a02ae',1,'pcp::metrics_description']]]
+  ['init_5fdso',['init_dso',['../classpcp_1_1pmda.html#ad05e29f10ff89b7c101aebc1d66875a7',1,'pcp::pmda']]],
+  ['initialize_5fdso',['initialize_dso',['../classpcp_1_1pmda.html#adcdb8fed45bf4fe1e41c93afdab2d04e',1,'pcp::pmda']]],
+  ['initialize_5fpmda',['initialize_pmda',['../classpcp_1_1pmda.html#ac28d6517fb17f54541a144617ae59522',1,'pcp::pmda']]]
 ];

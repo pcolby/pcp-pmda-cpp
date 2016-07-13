@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['display_5fhelp',['display_help',['../classpcp_1_1pmda.html#a8112f04790a3c7e878a4bdc483702799',1,'pcp::pmda']]],
-  ['display_5fversion',['display_version',['../classpcp_1_1pmda.html#a0f73fa5647082f8e30781768263d3c44',1,'pcp::pmda']]]
+  ['check_5fconflicting_5foptions',['check_conflicting_options',['../classpcp_1_1pmda.html#abfd2312a1e466eaef68b0a3a8f84b15e',1,'pcp::pmda']]],
+  ['cmake_5fminimum_5frequired',['cmake_minimum_required',['../CMakeLists_8txt.html#a91705edb40e5bef0d05c670be6d29cea',1,'CMakeLists.txt']]]
 ];

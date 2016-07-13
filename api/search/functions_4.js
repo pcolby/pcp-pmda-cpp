@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['fetch_5fvalue',['fetch_value',['../classpcp_1_1pmda.html#a96bc87f88467fc41835bce45473d7958',1,'pcp::pmda']]],
-  ['fetch_5fvalue_5fresult',['fetch_value_result',['../structpcp_1_1pmda_1_1fetch__value__result.html#a019e42ff962fa4bd656a092466b0a697',1,'pcp::pmda::fetch_value_result']]]
+  ['error_5fcode',['error_code',['../classpcp_1_1exception.html#af7044cc68406737c73eddc0036603eaf',1,'pcp::exception']]],
+  ['exception',['exception',['../classpcp_1_1exception.html#a519c6760fea7f3b1137a4afa728f662c',1,'pcp::exception::exception(const int pm_error_code, const std::string &amp;message=std::string())'],['../classpcp_1_1exception.html#a32913d712c478f377e3075740e5fdcce',1,'pcp::exception::exception(const pcp::exception &amp;other)']]]
 ];

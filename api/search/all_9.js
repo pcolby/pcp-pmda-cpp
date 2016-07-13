@@ -6,8 +6,9 @@ var searchData=
   ['metric_5fdescription',['metric_description',['../structpcp_1_1metric__description.html',1,'pcp']]],
   ['metric_5fdescription',['metric_description',['../structpcp_1_1metric__description.html#abca0e91864fca2bb22a77ffb53b681b4',1,'pcp::metric_description']]],
   ['metric_5fdescription_2ehpp',['metric_description.hpp',['../metric__description_8hpp.html',1,'']]],
+  ['metric_5fflags',['metric_flags',['../namespacepcp.html#a84d200753e3d8adff1323663450b921e',1,'pcp']]],
   ['metric_5fid',['metric_id',['../structpcp_1_1pmda_1_1metric__id.html',1,'pcp::pmda']]],
   ['metric_5fname',['metric_name',['../structpcp_1_1metric__description.html#a1a0b759316b19f1ab4b211644b4b9142',1,'pcp::metric_description']]],
-  ['metrics_5fdescription',['metrics_description',['../classpcp_1_1metrics__description.html#a3204b99e51ce2064873bb10a838a02ae',1,'pcp::metrics_description']]],
-  ['metrics_5fdescription',['metrics_description',['../classpcp_1_1metrics__description.html',1,'pcp']]]
+  ['metrics_5fdescription',['metrics_description',['../classpcp_1_1metrics__description.html',1,'pcp']]],
+  ['metrics_5fdescription',['metrics_description',['../classpcp_1_1metrics__description.html#a3204b99e51ce2064873bb10a838a02ae',1,'pcp::metrics_description']]]
 ];

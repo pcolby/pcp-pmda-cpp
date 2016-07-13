@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['_7eexception',['~exception',['../classpcp_1_1exception.html#aa8d1526da52e01b2ca0c3ef231856556',1,'pcp::exception']]],
-  ['_7epmda',['~pmda',['../classpcp_1_1pmda.html#a419725180c7481ad9c3f611d52ad7772',1,'pcp::pmda']]]
+  ['set_5fcallbacks',['set_callbacks',['../classpcp_1_1pmda.html#ae570f1e502c09010efab5d49e659deeb',1,'pcp::pmda']]],
+  ['set_5fdomain_5fid',['set_domain_id',['../classpcp_1_1instance__domain.html#a84862d102f302940eb4bb4222f62695a',1,'pcp::instance_domain']]],
+  ['set_5finstance',['set_instance',['../classpcp_1_1pmda.html#a236f338e8222c3bc3bf90ead89ac031f',1,'pcp::pmda']]],
+  ['set_5fpm_5finstance_5fdomain',['set_pm_instance_domain',['../classpcp_1_1instance__domain.html#a09e95b5bc6487fc08c16947501899983',1,'pcp::instance_domain']]],
+  ['store',['store',['../namespacepcp_1_1cache.html#a046bcb2e8b3165ba5a088931d5a3d168',1,'pcp::cache::store(const pmInDom indom, const std::string &amp;name, const int flags=PMDA_CACHE_ADD, void *const opaque=NULL)'],['../namespacepcp_1_1cache.html#a39953c2c0076d730796c7e099f15af41',1,'pcp::cache::store(const pmInDom indom, const std::string &amp;name, void *const opaque, const int flags=PMDA_CACHE_ADD)'],['../namespacepcp_1_1cache.html#a594239d1a3051e9875c70f2e1c94273d',1,'pcp::cache::store(const pmInDom indom, const std::string &amp;name, const std::string &amp;key, const int flags=0, void *const opaque=NULL)'],['../namespacepcp_1_1cache.html#a6cf903a7e8dc4e1b7243a7b7005049ee',1,'pcp::cache::store(const pmInDom indom, const std::string &amp;name, const std::string &amp;key, void *const opaque, const int flags=0)']]],
+  ['store_5fvalue',['store_value',['../classpcp_1_1pmda.html#ac7011192f8ecc55556a0906f049ba864',1,'pcp::pmda::store_value(const metric_id &amp;, const int &amp;)'],['../classpcp_1_1pmda.html#a4b6557eef8d1d8e7fe01f5728cfac611',1,'pcp::pmda::store_value(const metric_id &amp;, const pmValueBlock *const )']]]
 ];
