@@ -87,7 +87,7 @@ public:
     /**
      * @brief Get this exception's error message.
      *
-     * @return This excetion's error message.
+     * @return This exception's error message.
      */
     virtual const char * what() const throw()
     {
