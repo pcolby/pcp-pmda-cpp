@@ -1,4 +1,6 @@
 # [![PMDA++](https://f.cloud.github.com/assets/5195222/1797017/fcae7e82-6a9f-11e3-90e0-191374ae939b.png)](#) PMDA++ 
+
+[![Join the chat at https://gitter.im/pcolby/pcp-pmda-cpp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/pcolby/pcp-pmda-cpp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](http://img.shields.io/travis/pcolby/pcp-pmda-cpp/master.svg)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
 [![Coverage Status](http://img.shields.io/coveralls/pcolby/pcp-pmda-cpp.svg)](https://coveralls.io/r/pcolby/pcp-pmda-cpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/2973/badge.svg)](https://scan.coverity.com/projects/2973)
