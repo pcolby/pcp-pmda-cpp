@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/376fd7faf5ff44e8848d5f712019c4da)](https://www.codacy.com/app/pcolby/pcp-pmda-cpp?utm_source=github.com&utm_medium=referral&utm_content=pcolby/pcp-pmda-cpp&utm_campaign=badger)
 # [![PMDA++](https://f.cloud.github.com/assets/5195222/1797017/fcae7e82-6a9f-11e3-90e0-191374ae939b.png)](#) PMDA++ 
 [![Build Status](http://img.shields.io/travis/pcolby/pcp-pmda-cpp/master.svg)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
 [![Coverage Status](http://img.shields.io/coveralls/pcolby/pcp-pmda-cpp.svg)](https://coveralls.io/r/pcolby/pcp-pmda-cpp)
