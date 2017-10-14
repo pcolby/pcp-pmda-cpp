@@ -513,7 +513,9 @@ protected:
 
         // Check if the --help (or -h) flag was given.
         if (options.count("help") > 0) {
-            display_help(((argc > 0) && (argv[0] != '\0')) ? std::string(argv[0]) : get_pmda_name());
+            display_help(
+                ((argc > 0) && (argv[0] != NULL) && (argv[0][0] != '\0'))
+                ? std::string(argv[0]) : get_pmda_name());
             return false;
         }
 
