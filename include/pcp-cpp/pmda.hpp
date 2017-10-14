@@ -305,12 +305,21 @@ protected:
 
         // Initialize the PMDA to run as a daemon.
         pmdaInterface interface;
+        // PCP 3.11.5 updated the pmdaDaemon signature to use const char pointers.
+        // So for earlier versions only, we need to cast away some constness.
+        // Note, the PM_VERSION* macros themselves weren't added until PCP 3.10.5.
+        #if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT < 0x30B05 // 3.11.5
+        #define PCP_CPP_PMDA_CONST_CHAR(str) const_cast<char *>(str)
+        #else
+        #define PCP_CPP_PMDA_CONST_CHAR(str) str // Do nothing.
+        #endif
         pmdaDaemon(&interface, PCP_CPP_PMDA_INTERFACE_VERSION,
-            const_cast<char *>(program_name.c_str()),
+            PCP_CPP_PMDA_CONST_CHAR(program_name.c_str()),
             get_default_pmda_domain_number(),
-            const_cast<char *>(log_file_pathname.c_str()),
-            (help_text_pathname.empty()) ? NULL : const_cast<char *>(help_text_pathname.c_str())
+            PCP_CPP_PMDA_CONST_CHAR(log_file_pathname.c_str()),
+            (help_text_pathname.empty()) ? NULL : PCP_CPP_PMDA_CONST_CHAR(help_text_pathname.c_str())
         );
+        #undef PCP_CPP_PMDA_CONST_CHAR
 
         // Parse the command line options.
         if (!parse_command_line(argc, argv, interface)) {
@@ -560,16 +569,18 @@ protected:
             interface.domain = options.at("domain").as<int>();
         }
         if (options.count("help-file") > 0) {
-            free_on_destruction.push(interface.version.two.ext->e_helptext =
-                strdup(options.at("help-file").as<std::string>().c_str()));
+            char * const help_file = strdup(options.at("help-file").as<std::string>().c_str());
+            interface.version.two.ext->e_helptext = help_file;
+                free_on_destruction.push(help_file);
         }
         if (options.count("inet") > 0) {
             interface.version.two.ext->e_io = pmdaInet;
             interface.version.two.ext->e_port = options.at("inet").as<int>();
         }
         if (options.count("log-file") > 0) {
-            free_on_destruction.push(interface.version.two.ext->e_logfile =
-                strdup(options.at("log-file").as<std::string>().c_str()));
+            char * const log_file = strdup(options.at("log-file").as<std::string>().c_str());
+            interface.version.two.ext->e_logfile = log_file;
+            free_on_destruction.push(log_file);
         }
         if (options.count("pipe") > 0) {
             interface.version.two.ext->e_io = pmdaPipe;
