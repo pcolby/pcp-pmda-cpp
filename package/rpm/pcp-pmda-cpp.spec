@@ -74,7 +74,7 @@ Examples from the PMDA++ project.
 %{_pmdasdir}/%{name}-examples
 
 %changelog
-* Wed Jul 13 2016 Paul Colby <git@colby.id.au> - 0.4.4-1
+* Sat Oct 14 2016 Paul Colby <git@colby.id.au> - 0.4.4-1
 - updated to pcp-pmda-cpp 0.4.4.
 
 * Tue Jul 12 2016 Paul Colby <git@colby.id.au> - 0.4.3-1

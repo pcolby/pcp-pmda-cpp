@@ -1,6 +1,15 @@
 ## PMDA++ Changelog
 
-### 0.4.4 (_unreleased_)
+### 0.4.4 (2017-10-14)
+Features:
+- support for PCP 3.11.5+ ([41dd3e2](
+  ../../commit/41dd3e29c4cab6bfa3b2e3d7a0a681f6f2f27899))
+- minor performance tweaks ([898ee68](
+  ../../commit/898ee6816fc3e77a319ed0f61973a482e222eacc))
+
+Bug fixes:
+- Explicit types for `pcp::unit` ([f495c3a](
+  ../../commit/f495c3a5febe9b569f42f5a9b74cd073e0c38c7a))
 
 ### 0.4.3 (2016-07-13)
 Features:
