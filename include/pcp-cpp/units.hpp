@@ -25,17 +25,16 @@ class instance_domain;
  * This allows C++11-style initialisation lists, while avoiding C++ "extended
  * initializer lists" warnings.
  *
- * @param a The first argument to pass to the PMDA_PMUNITS macro.
- * @param b The second argument to pass to the PMDA_PMUNITS macro.
- * @param c The third argument to pass to the PMDA_PMUNITS macro.
- * @param d The fourth argument to pass to the PMDA_PMUNITS macro.
- * @param e The fifth argument to pass to the PMDA_PMUNITS macro.
- * @param f The sixth argument to pass to the PMDA_PMUNITS macro.
+ * @param a The first argument to pass to the PMDA_PMUNITS macro (dimTime).
+ * @param b The second argument to pass to the PMDA_PMUNITS macro (dimSpace).
+ * @param c The third argument to pass to the PMDA_PMUNITS macro (dimCount).
+ * @param d The fourth argument to pass to the PMDA_PMUNITS macro (scaleSpace).
+ * @param e The fifth argument to pass to the PMDA_PMUNITS macro (scaleTime).
+ * @param f The sixth argument to pass to the PMDA_PMUNITS macro (scaleCount).
  *
  * @return A pmUnits value constructed from the supplied arguments.
  */
-template<typename Type>
-inline pmUnits units(Type a, Type b, Type c, Type d, Type e, Type f)
+inline pmUnits units(int a, int b, int c, unsigned d, unsigned e, int f)
 {
     const pmUnits units = PMDA_PMUNITS(a,b,c,d,e,f);
     return units;
