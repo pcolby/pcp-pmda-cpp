@@ -1,5 +1,7 @@
 ## PMDA++ Changelog
 
+### 0.4.5 (_unreleased_)
+
 ### 0.4.4 (2017-10-14)
 Features:
 - support for PCP 3.11.5+ ([41dd3e2](
