@@ -1,7 +1,7 @@
 var searchData=
 [
   ['type',['type',['../structpcp_1_1metric__description.html#acc239bb050fc28c3481e0029d12dedeb',1,'pcp::metric_description::type()'],['../structpcp_1_1pmda_1_1metric__id.html#aeaa4bd3dabc427ba9d071583d900771d',1,'pcp::pmda::metric_id::type()'],['../namespacepcp.html#ad674f4264a19c0daedded9eef4fcad25',1,'pcp::type()']]],
-  ['type_3c_20char_20_2a_20_3e',['type&lt; char * &gt;',['../namespacepcp.html#a29c382491bfedccf44876572d513f650',1,'pcp']]],
+  ['type_3c_20char_20_2a_20_3e',['type&lt; char * &gt;',['../namespacepcp.html#afba5985ac76ab33b6b90789260429531',1,'pcp']]],
   ['type_3c_20double_20_3e',['type&lt; double &gt;',['../namespacepcp.html#a042e152f67fa3e22d0f408bda8b0492c',1,'pcp']]],
   ['type_3c_20float_20_3e',['type&lt; float &gt;',['../namespacepcp.html#a56362ee8f7489313cd67e0fd7e878a0f',1,'pcp']]],
   ['type_3c_20int16_5ft_20_3e',['type&lt; int16_t &gt;',['../namespacepcp.html#a454b2c4ba0b5c66695989f38085c2d53',1,'pcp']]],
