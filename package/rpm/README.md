@@ -13,15 +13,15 @@ To build the `pcp-pmda-cpp` RPMS:
 
 3. Download the source archive:
   ```bash
-  wget --content-disposition --directory-prefix=~/rpmbuild/SOURCES \
+  wget --content-disposition --directory-prefix=$HOME/rpmbuild/SOURCES \
+      https://github.com/pcolby/pcp-pmda-cpp/archive/v<VERSION>.tar.gz
       https://github.com/pcolby/pcp-pmda-cpp/releases/tag/v<VERSION>
   ```
 
 4. Download the spec file:
   ```bash
-  wget --directory-prefix=~/rpmbuild/SPECS \
-      https://raw2.github.com/pcolby/pcp-pmda-cpp/master/package/rpm/pcp-pmda-cpp.spec
-      
+  wget --directory-prefix=$HOME/rpmbuild/SPECS \
+      https://raw.githubusercontent.com/pcolby/pcp-pmda-cpp/master/package/rpm/pcp-pmda-cpp.spec
   ```
 
 5. Build the RPMs:
