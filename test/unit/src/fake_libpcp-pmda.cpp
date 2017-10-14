@@ -63,7 +63,7 @@ void pmdaConnect(pmdaInterface */*dispatch*/)
 
 // PCP 3.11.5 updated the pmdaDaemon signature to use const char pointers.
 // Note, the PM_VERSION* macros themselves weren't added until PCP 3.10.5.
-#if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT < 0x30B05 // 3.11.5
+#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < 0x30B05 // 3.11.5
 void pmdaDaemon(pmdaInterface */*dispatch*/, int /*interface*/, char */*name*/,
                 int /*domain*/, char */*logfile*/, char */*helptext*/)
 #else
