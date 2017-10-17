@@ -11,22 +11,23 @@
 #
 
 # Command aliases
-RPM=`which rpm`
-RPMBUILD=`which rpmbuild`
-RPMLINT=`which rpmlint`
-WGET="`which wget` --quiet"
+BASENAME=`which basename` || { echo 'Required command not found: basename' >&2; exit 1; }
+RPM=`which rpm`           || { echo 'Required command not found: rpm'      >&2; exit 1; }
+RPMBUILD=`which rpmbuild` || { echo 'Required command not found: rpmbuild' >&2; exit 1; }
+RPMLINT=`which rpmlint`   || { echo 'Required command not found: rpmlint'  >&2; exit 1; }
+WGET=`which wget`         || { echo 'Required command not found: wget'     >&2; exit 1; }
 
 # RPM environment
-SOURCEDIR=`${RPM} --eval %{_sourcedir}`
-SPECDIR=`${RPM} --eval %{_specdir}`
-SRCRPMDIR=`${RPM} --eval %{_srcrpmdir}`
+SOURCEDIR=`${RPM} --eval %{_sourcedir}` || { echo 'Failed to eval %{_sourcedir}' >&2; exit 2; }
+SPECDIR=`${RPM} --eval %{_specdir}`     || { echo 'Failed to eval %{_sourcedir}' >&2; exit 2; }
+SRCRPMDIR=`${RPM} --eval %{_srcrpmdir}` || { echo 'Failed to eval %{_sourcedir}' >&2; exit 2; }
 
 # Project information
 USER=pcolby
 PROJECT=pcp-pmda-cpp
 BRANCH=master
 
-if [ $# -gt 1 ]; then echo "Usage: `basename $0` [branch|commit|tag]" >&2; exit; fi
+if [ $# -gt 1 ]; then echo "Usage: `$BASENAME $0` [branch|commit|tag]" >&2; exit 3; fi
 if [ $# -eq 1 ]; then BRANCH=$1; shift; fi
 
 echo 'Setting umask 0133'
@@ -35,7 +36,7 @@ umask 0133 || exit
 URL=https://raw.githubusercontent.com/${USER}/${PROJECT}/$BRANCH/package/rpm/${PROJECT}.spec
 SPECFILE=${SPECDIR}/${PROJECT}.spec
 echo "Fetching: ${URL}"
-${WGET} -O ${SPECFILE} ${URL} || exit
+${WGET} -qO ${SPECFILE} ${URL} || exit
 VERSION=`rpmspec --query --srpm --queryformat '%{version}' ${SPECFILE}`
 RELEASE=`rpmspec --query --srpm --queryformat '%{release}' ${SPECFILE} --undefine dist`
 echo "Wrote: ${SPECFILE} [${VERSION}-${RELEASE}]"
@@ -45,7 +46,7 @@ ${RPMLINT} ${SPECFILE} || exit
 URL=https://github.com/${USER}/${PROJECT}/archive/${BRANCH}.tar.gz
 SOURCE=${SOURCEDIR}/${PROJECT}-${VERSION}.tar.gz
 echo "Fetching: ${URL}"
-${WGET} -O ${SOURCE} ${URL} || exit
+${WGET} -qO ${SOURCE} ${URL} || exit
 echo "Wrote: ${SOURCE}"
 
 SRCRPM=${PROJECT}-${VERSION}-${RELEASE}.src.rpm
