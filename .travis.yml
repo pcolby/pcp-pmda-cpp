@@ -23,7 +23,6 @@ addons:
     branch_pattern: cov-scan
 
 before_install:
-  - ls -l ~
   - sudo apt-get update -qq
   - dpkg -l
 
@@ -36,7 +35,7 @@ install:
     pcp rpm
   # Currently, there is no rpmlint on Travis CI, so fake it for now.
   # This will simply circumvent a check in make-src-rpm.sh below.
-  - ln -s /bin/true ~/bin/rpmlintC
+  - ln -s /bin/true ~/bin/rpmlint
   - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov; fi
   - gem install lcoveralls
 
