@@ -29,6 +29,9 @@ BRANCH=master
 if [ $# -gt 1 ]; then echo "Usage: `basename $0` [branch|commit|tag]" >&2; exit; fi
 if [ $# -eq 1 ]; then BRANCH=$1; shift; fi
 
+echo 'Setting umask 0133'
+umask 0133 || exit
+
 URL=https://raw.githubusercontent.com/${USER}/${PROJECT}/$BRANCH/package/rpm/${PROJECT}.spec
 SPECFILE=${SPECDIR}/${PROJECT}.spec
 echo "Fetching: ${URL}"
