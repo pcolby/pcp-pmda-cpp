@@ -32,7 +32,7 @@ install:
     clang cppcheck
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
-    pcp
+    pcp rpm rpmbuild rpmlint
   - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov; fi
   - gem install lcoveralls
 
@@ -55,6 +55,8 @@ script:
   - cmake $TRAVIS_BUILD_DIR && make -j2 check
   - if [ "$CXX" = "g++" ]; then make coverage; fi
   - popd
+  # Build the src rpm
+  - $TRAVIS_BUILD_DIR/package/rpm/make-src-rpm.sh
 
 after_success:
   - >
