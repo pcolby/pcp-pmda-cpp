@@ -41,7 +41,7 @@ before_script:
   - mkdir -p $TRAVIS_BUILD_DIR-clang-scan
 
 script:
-  - ./.cppcheck.sh -j2
+  - ./.cppcheck.sh -j2 --quiet
   - scan-build --status-bugs cmake -B$TRAVIS_BUILD_DIR-clang-scan -DCMAKE_BUILD_TYPE=DEBUG -H$TRAVIS_BUILD_DIR
   - scan-build --status-bugs make -C $TRAVIS_BUILD_DIR-clang-scan -j2
   - cmake -B$TRAVIS_BUILD_DIR-build -H$TRAVIS_BUILD_DIR && make -C$TRAVIS_BUILD_DIR-build -j2 check
