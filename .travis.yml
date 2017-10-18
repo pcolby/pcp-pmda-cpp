@@ -41,13 +41,7 @@ before_script:
   - mkdir -p $TRAVIS_BUILD_DIR-clang-scan
 
 script:
-  # When cppcheck 1.56+ is available, add: --std=c++03
-  # When cppcheck 1.58+ is available, add: --include=/usr/include/pcp/pmapi.h
-  - ./.cppcheck.sh -j2 --showtime=summary
-  - >
-    cppcheck --enable=all --error-exitcode=1 -I include --quiet .
-    --std=posix --std=c++11 .
-    --suppress=noExplicitConstructor:include/pcp-cpp/exception.hpp
+  - ./.cppcheck.sh -j2
   - scan-build --status-bugs cmake -B$TRAVIS_BUILD_DIR-clang-scan -DCMAKE_BUILD_TYPE=DEBUG -H$TRAVIS_BUILD_DIR
   - scan-build --status-bugs make -C $TRAVIS_BUILD_DIR-clang-scan -j2
   - cmake -B$TRAVIS_BUILD_DIR-build -H$TRAVIS_BUILD_DIR && make -C$TRAVIS_BUILD_DIR-build -j2 check
