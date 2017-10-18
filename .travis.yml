@@ -69,14 +69,14 @@ after_success:
       bash /tmp/codecov.sh -f $TRAVIS_BUILD_DIR-build/test/coverage.info
     fi
 
-defore_deploy:
+before_deploy:
   - $TRAVIS_BUILD_DIR/package/rpm/make-src-rpm.sh "$TRAVIS_BRANCH"
 
 deploy:
   provider: releases
   api_key: $RELEASES_API_KEY
   file_glob: true
-  file: `rpm -E %{_srcrpmdir}`/pcp-pmda-cpp-*
+  file: "`rpm -E %{_srcrpmdir}`/pcp-pmda-cpp-*"
   skip_cleanup: true
   on:
     tags: true
