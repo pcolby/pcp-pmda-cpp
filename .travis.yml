@@ -33,9 +33,6 @@ install:
     libboost-program-options-dev
     libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
     pcp rpm
-  # Currently, there is no rpmlint on Travis CI, so fake it for now.
-  # This will simply circumvent a check in make-src-rpm.sh below.
-  - ln -s /bin/true ~/bin/rpmlint
   - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov; fi
   - gem install lcoveralls
 
@@ -51,12 +48,12 @@ script:
     --std=posix --std=c++11 .
     --suppress=noExplicitConstructor:include/pcp-cpp/exception.hpp
   - pushd $TRAVIS_BUILD_DIR-clang-scan
-  #- scan-build --status-bugs cmake -DCMAKE_BUILD_TYPE=DEBUG $TRAVIS_BUILD_DIR
-  #- scan-build --status-bugs make -j2
+  - scan-build --status-bugs cmake -DCMAKE_BUILD_TYPE=DEBUG $TRAVIS_BUILD_DIR
+  - scan-build --status-bugs make -j2
   - popd
   - pushd $TRAVIS_BUILD_DIR-build
-  #- cmake $TRAVIS_BUILD_DIR && make -j2 check
-  #- if [ "$CXX" = "g++" ]; then make coverage; fi
+  - cmake $TRAVIS_BUILD_DIR && make -j2 check
+  - if [ "$CXX" = "g++" ]; then make coverage; fi
   - popd
 
 after_success:
@@ -68,6 +65,11 @@ after_success:
       curl https://codecov.io/bash > /tmp/codecov.sh; fi
       bash /tmp/codecov.sh -f $TRAVIS_BUILD_DIR-build/test/coverage.info
     fi
+
+before_deploy:
+  # Currently, there is no rpmlint on Travis CI, so fake it for now.
+  # This will simply circumvent a check in the make-src-rpm.sh script.
+  - ln -s /bin/true ~/bin/rpmlint
   - mkdir -p `rpm -E %{_topdir}`/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
   - $TRAVIS_BUILD_DIR/package/rpm/make-src-rpm.sh "$TRAVIS_BRANCH"
   - sha256sum `rpm -E %{_srcrpmdir}`/pcp-pmda-cpp-*
