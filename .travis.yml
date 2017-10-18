@@ -13,13 +13,13 @@ env:
 addons:
   coverity_scan:
     project:
-      name: "pcolby/pcp-pmda-cpp"
+      name: $TRAVIS_REPO_SLUG
       description: "Build submitted via Travis CI"
     notification_email: git@colby.id.au
     build_command_prepend: >
-      cp -a $TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR-scan &&
-      pushd $TRAVIS_BUILD_DIR-scan && cmake .
-    build_command: make -j2
+      mkdir -p $TRAVIS_BUILD_DIR-scan &&
+      cmake -B$TRAVIS_BUILD_DIR-scan -H$TRAVIS_BUILD_DIR
+    build_command: make -C $TRAVIS_BUILD_DIR-scan -j2
     branch_pattern: cov-scan
 
 before_install:
@@ -47,14 +47,10 @@ script:
     cppcheck --enable=all --error-exitcode=1 -I include --quiet .
     --std=posix --std=c++11 .
     --suppress=noExplicitConstructor:include/pcp-cpp/exception.hpp
-  - pushd $TRAVIS_BUILD_DIR-clang-scan
-  - scan-build --status-bugs cmake -DCMAKE_BUILD_TYPE=DEBUG $TRAVIS_BUILD_DIR
-  - scan-build --status-bugs make -j2
-  - popd
-  - pushd $TRAVIS_BUILD_DIR-build
-  - cmake $TRAVIS_BUILD_DIR && make -j2 check
-  - if [ "$CXX" = "g++" ]; then make coverage; fi
-  - popd
+  - scan-build --status-bugs cmake -B$TRAVIS_BUILD_DIR-clang-scan -DCMAKE_BUILD_TYPE=DEBUG -H$TRAVIS_BUILD_DIR
+  - scan-build --status-bugs make -C $TRAVIS_BUILD_DIR-clang-scan -j2
+  - cmake -B$TRAVIS_BUILD_DIR-build -H$TRAVIS_BUILD_DIR && make -C$TRAVIS_BUILD_DIR-build -j2 check
+  - if [ "$CXX" = "g++" ]; then make -C $TRAVIS_BUILD_DIR-build coverage; fi
 
 after_success:
   - >
