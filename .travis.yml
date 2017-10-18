@@ -43,7 +43,7 @@ before_script:
 script:
   # When cppcheck 1.56+ is available, add: --std=c++03
   # When cppcheck 1.58+ is available, add: --include=/usr/include/pcp/pmapi.h
-  - ./.cppcheck.sh -j2
+  - ./.cppcheck.sh -j2 --showtime=summary
   - >
     cppcheck --enable=all --error-exitcode=1 -I include --quiet .
     --std=posix --std=c++11 .
