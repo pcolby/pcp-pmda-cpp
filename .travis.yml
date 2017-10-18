@@ -73,7 +73,8 @@ after_success:
 
 deploy:
   provider: releases
-  api_key: $RELEASES_API_KEY
+  api_key:
+    secure: UK6KkwxhVxP1yHvUo2gHbjhjpl1Y0A8YlplEVRn/1hlK1OveZ2tduq/7nDgC8tB7vG3dZYxl2fRxxlrk98t5Au/ZDXoj+mKFOjqJV/Pcn1hBxsP2fzDdXTl/R8ussMFAJPjPGi+Eb2Qbw+SkRNn1OI9A4Dcg6trPeSAsZcKYRCE=
   file_glob: true
   file: "`rpm -E %{_srcrpmdir}`/pcp-pmda-cpp-*"
   skip_cleanup: true
