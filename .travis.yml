@@ -70,7 +70,7 @@ after_success:
     fi
   - mkdir -p `rpm -E %{_topdir}`/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
   - $TRAVIS_BUILD_DIR/package/rpm/make-src-rpm.sh "$TRAVIS_BRANCH"
-  - sha256sum "`rpm -E %{_srcrpmdir}`/pcp-pmda-cpp-*"
+  - sha256sum `rpm -E %{_srcrpmdir}`/pcp-pmda-cpp-*
 
 deploy:
   provider: releases
