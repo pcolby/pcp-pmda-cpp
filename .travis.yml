@@ -68,8 +68,6 @@ after_success:
       curl https://codecov.io/bash > /tmp/codecov.sh; fi
       bash /tmp/codecov.sh -f $TRAVIS_BUILD_DIR-build/test/coverage.info
     fi
-
-before_deploy:
   - $TRAVIS_BUILD_DIR/package/rpm/make-src-rpm.sh "$TRAVIS_BRANCH"
 
 deploy:
