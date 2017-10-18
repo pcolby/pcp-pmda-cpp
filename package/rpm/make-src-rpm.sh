@@ -19,8 +19,8 @@ WGET=`which wget`         || { echo 'Required command not found: wget'     >&2; 
 
 # RPM environment
 SOURCEDIR=`${RPM} --eval %{_sourcedir}` || { echo 'Failed to eval %{_sourcedir}' >&2; exit 2; }
-SPECDIR=`${RPM} --eval %{_specdir}`     || { echo 'Failed to eval %{_sourcedir}' >&2; exit 2; }
-SRCRPMDIR=`${RPM} --eval %{_srcrpmdir}` || { echo 'Failed to eval %{_sourcedir}' >&2; exit 2; }
+SPECDIR=`${RPM} --eval %{_specdir}`     || { echo 'Failed to eval %{_specdir}'   >&2; exit 2; }
+SRCRPMDIR=`${RPM} --eval %{_srcrpmdir}` || { echo 'Failed to eval %{_srcrpmdir}' >&2; exit 2; }
 
 # Project information
 USER=pcolby
