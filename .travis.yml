@@ -70,15 +70,7 @@ after_success:
     fi
 
 defore_deploy:
-  - >
-    SPEC_FILE=$TRAVIS_BUILD_DIR/package/rpm/pcp-pmda-cpp.spec;
-    SPEC_NAME=`rpmspec -q --srpm --qf '%{name}' $SPEC_FILE`;
-    SPEC_VERSION=`rpmspec -q --srpm --qf '%{version}' $SPEC_FILE`;
-    SOURCE_FILE=`rpmspec -q --srpm --qf '%{source}' $SPEC_FILE`;
-    mkdir -p $TRAVIS_BUILD_DIR-srpm &&
-    cp -av $TRAVIS_BUILD_DIR $TRAVIS_BUILD_DIR-srpm/$SPEC_NAME-$SPEC_VERSION;
-    tar cvzf "`rpm -E %{_sourcedir}`/$SOURCE_FILE" -C $TRAVIS_BUILD_DIR-srpm $SPEC_NAME-$SPEC_VERSION
-  - rpmbuild -bs --undefine dist $TRAVIS_BUILD_DIR/package/rpm/pcp-pmda-cpp.spec
+  - $TRAVIS_BUILD_DIR/package/rpm/make-src-rpm.sh "$TRAVIS_BRANCH"
 
 deploy:
   provider: releases
