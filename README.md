@@ -83,11 +83,11 @@ Compare that to PCP's official [trivial.c](https://github.com/performancecopilot
 
 See the doxygen-generated [API documentation](
 http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html). Some additional
-information is available on the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
+information is available on the [wiki].
 
 ## Benchmarks
 
-Some basic [benchmarks](https://github.com/pcolby/pcp-pmda-cpp/wiki/Benchmarks) are availble on the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
+Some basic [benchmarks](https://github.com/pcolby/pcp-pmda-cpp/wiki/Benchmarks) are availble on the [wiki].
 
 [![simple numfetch](https://f.cloud.github.com/assets/5195222/1700167/56531708-5ff7-11e3-8baf-80d1f3c72234.png)](https://github.com/pcolby/pcp-pmda-cpp/wiki/Benchmarks)
 
@@ -108,7 +108,7 @@ bugs, portability issues, and the like.
 future-proofing.
 * identifying violations of the project's desired [conventions](https://github.com/pcolby/pcp-pmda-cpp/wiki/conventions).
 * writing your own PMDA using PMDA++ to test it in real world applications.
-* improving the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki) documentation.
+* improving the [wiki] documentation.
 
 Issues / suggestions can be reported via GitHub's [issue
 tracker](https://github.com/pcolby/pcp-pmda-cpp/issues). Pull requests are very
@@ -125,3 +125,5 @@ PMDA++ code is available under the [OSI-approved](http://opensource.org/licenses
 
 PMDA++ relies on [PCP](http://pcp.io/) libraries (`libpcp` and `libpcp_pmda`),
 which are [available under LGPL v2.1](http://pcp.io/faq.html#Q1b).
+
+[wiki]: https://github.com/pcolby/pcp-pmda-cpp/wiki "PMDA++ Wiki"
