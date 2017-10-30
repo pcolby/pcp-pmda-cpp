@@ -1,9 +1,9 @@
 # [![PMDA++](https://f.cloud.github.com/assets/5195222/1797017/fcae7e82-6a9f-11e3-90e0-191374ae939b.png)](#) PMDA++
-[![Build Status](http://img.shields.io/travis/pcolby/pcp-pmda-cpp/master.svg)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
-[![Coverage Status](http://img.shields.io/coveralls/pcolby/pcp-pmda-cpp.svg)](https://coveralls.io/r/pcolby/pcp-pmda-cpp)
+[![Build Status](https://img.shields.io/travis/pcolby/pcp-pmda-cpp/master.svg)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
+[![Coverage Status](https://img.shields.io/coveralls/pcolby/pcp-pmda-cpp.svg)](https://coveralls.io/r/pcolby/pcp-pmda-cpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/2973/badge.svg)](https://scan.coverity.com/projects/2973)
-[![Github Release](http://img.shields.io/github/release/pcolby/pcp-pmda-cpp.svg)](https://github.com/pcolby/pcp-pmda-cpp/releases/latest)
-[![Boost License](http://img.shields.io/badge/license-boost-blue.svg)](http://www.boost.org/users/license.html)
+[![Github Release](https://img.shields.io/github/release/pcolby/pcp-pmda-cpp.svg)](https://github.com/pcolby/pcp-pmda-cpp/releases/latest)
+[![Boost License](https://img.shields.io/badge/license-boost-blue.svg)](https://www.boost.org/users/license.html)
 
 PMDA++ is a header-only library that allows developers to write Performance
 Metrics Domain Agents (PMDAs) for [Performance Co-Pilot
@@ -24,7 +24,7 @@ fetch performance metrics for specific domains, such as database servers,
 hardware, custom applications, etc.
 
 For more information, see the [Performance Co-Pilot Programmer's
-Guide](http://www.pcp.io/doc/pcp-programmers-guide.pdf).
+Guide](http://pcp.io/doc/pcp-programmers-guide.pdf).
 
 ### What is PMDA++?
 
@@ -82,7 +82,7 @@ Compare that to PCP's official [trivial.c](https://github.com/performancecopilot
 ### API Documentation
 
 See the doxygen-generated [API documentation](
-http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html). Some additional
+https://pcolby.github.io/pcp-pmda-cpp/api/annotated.html). Some additional
 information is available on the [wiki].
 
 ## Benchmarks
@@ -114,14 +114,14 @@ Issues / suggestions can be reported via GitHub's [issue
 tracker](https://github.com/pcolby/pcp-pmda-cpp/issues). Pull requests are very
 welcome.
 
-The [PMDA++ Google Group](http://groups.google.com/group/pcp-pmda-cpp/)
+The [PMDA++ Google Group](https://groups.google.com/group/pcp-pmda-cpp/)
 is used for general discussion, questions, comments, suggestions, announcements
 etc.  Email pcp-pmda-cpp+subscribe@googlegroups.com to subscribe.
 
 ## License
 
-PMDA++ code is available under the [OSI-approved](http://opensource.org/licenses/BSL-1.0)
-[Boost Software License](http://www.boost.org/users/license.html).
+PMDA++ code is available under the [OSI-approved](https://opensource.org/licenses/BSL-1.0)
+[Boost Software License](https://www.boost.org/users/license.html).
 
 PMDA++ relies on [PCP](http://pcp.io/) libraries (`libpcp` and `libpcp_pmda`),
 which are [available under LGPL v2.1](http://pcp.io/faq.html#Q1b).
