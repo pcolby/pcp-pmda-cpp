@@ -1,4 +1,4 @@
-# [![PMDA++](https://f.cloud.github.com/assets/5195222/1797017/fcae7e82-6a9f-11e3-90e0-191374ae939b.png)](#) PMDA++ 
+# [![PMDA++](https://f.cloud.github.com/assets/5195222/1797017/fcae7e82-6a9f-11e3-90e0-191374ae939b.png)](#) PMDA++
 [![Build Status](http://img.shields.io/travis/pcolby/pcp-pmda-cpp/master.svg)](https://travis-ci.org/pcolby/pcp-pmda-cpp)
 [![Coverage Status](http://img.shields.io/coveralls/pcolby/pcp-pmda-cpp.svg)](https://coveralls.io/r/pcolby/pcp-pmda-cpp)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/2973/badge.svg)](https://scan.coverity.com/projects/2973)
@@ -7,11 +7,11 @@
 
 PMDA++ is a header-only library that allows developers to write Performance
 Metrics Domain Agents (PMDAs) for [Performance Co-Pilot
-(PCP)](http://www.pcp.io/) in C++.
+(PCP)](http://pcp.io/) in C++.
 
 ### What is PCP?
 
-> [Performance Co-Pilot (PCP)](http://www.pcp.io/) is an open source
+> [Performance Co-Pilot (PCP)](http://pcp.io/) is an open source
 infrastructure for monitoring, visualizing, recording, responding to,
 and controlling the status, activity, and performance of networks, computers,
 applications, and servers.
@@ -77,19 +77,19 @@ int main(int argc, char *argv[])
 }
 ```
 
-Compare that to PCP's official [trivial.c](http://git.pcp.io/cgi-bin/gitweb.cgi?p=pcp/pcp.git;a=blob;f=src/pmdas/trivial/trivial.c) example.
+Compare that to PCP's official [trivial.c](https://github.com/performancecopilot/pcp/blob/master/src/pmdas/trivial/trivial.c) example.
 
 ### API Documentation
 
 See the doxygen-generated [API documentation](
 http://pcolby.github.io/pcp-pmda-cpp/api/annotated.html). Some additional
-information is available on the [wiki](../../wiki/).
+information is available on the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
 
 ## Benchmarks
 
-Some basic [benchmarks](../../wiki/Benchmarks) are availble on the [wiki](../../wiki/).
+Some basic [benchmarks](https://github.com/pcolby/pcp-pmda-cpp/wiki/Benchmarks) are availble on the [wiki](https://github.com/pcolby/pcp-pmda-cpp/wiki).
 
-[![simple numfetch](https://f.cloud.github.com/assets/5195222/1700167/56531708-5ff7-11e3-8baf-80d1f3c72234.png)](../../wiki/Benchmarks)
+[![simple numfetch](https://f.cloud.github.com/assets/5195222/1700167/56531708-5ff7-11e3-8baf-80d1f3c72234.png)](https://github.com/pcolby/pcp-pmda-cpp/wiki/Benchmarks)
 
 ## Requirements
 
@@ -123,5 +123,5 @@ etc.  Email pcp-pmda-cpp+subscribe@googlegroups.com to subscribe.
 PMDA++ code is available under the [OSI-approved](http://opensource.org/licenses/BSL-1.0)
 [Boost Software License](http://www.boost.org/users/license.html).
 
-PMDA++ relies on [PCP](http://www.pcp.io/) libraries (`libpcp` and `libpcp_pmda`),
-which are [available under LGPL v2.1](http://www.pcp.io/faq.html#Q1b).
+PMDA++ relies on [PCP](http://pcp.io/) libraries (`libpcp` and `libpcp_pmda`),
+which are [available under LGPL v2.1](http://pcp.io/faq.html#Q1b).
