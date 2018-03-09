@@ -1,4 +1,5 @@
 //            Copyright Paul Colby 2013 - 2015.
+//            Copyright Red Hat 2018.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -50,6 +51,19 @@
 #include <pcp/pmapi.h> // Note, the order in which these are included matters
 #include <pcp/impl.h>  // more for older versions of PCP, so don't reorder them
 #include <pcp/pmda.h>  // without testing against older versions of PCP.
+
+#ifndef PM_TEXT_PMID
+#define PM_TEXT_PMID	4
+#define PM_TEXT_INDOM	8
+#define PM_TEXT_DIRECT	16
+#endif
+
+#if PM_VERSION_CURRENT < PM_VERSION(4,0,0)
+#define pmID_cluster(pmid) pmid_cluster(pmid)
+#define pmID_item(pmid) pmid_item(pmid)
+#define pmPathSeparator __pmPathSeparator
+#define pmNotifyErr __pmNotifyErr
+#endif
 
 /// PMDA interface version to use; defaults to "latest".
 #ifndef PCP_CPP_PMDA_INTERFACE_VERSION

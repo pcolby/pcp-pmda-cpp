@@ -1,4 +1,5 @@
 //            Copyright Paul Colby 2013 - 2015.
+//            Copyright Red Hat 2018
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -63,7 +64,7 @@ public:
             set_instance(new Agent);
             get_instance()->initialize_dso(*interface);
         } catch (const std::exception &ex) {
-            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            pmNotifyErr(LOG_ERR, "%s", ex.what());
         }
     }
 
@@ -94,7 +95,7 @@ public:
             set_instance(new Agent);
             get_instance()->run_daemon(argc, argv);
         } catch (const std::exception &ex) {
-            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            pmNotifyErr(LOG_ERR, "%s", ex.what());
             delete set_instance(NULL);
             return EXIT_FAILURE;
         }
@@ -201,7 +202,7 @@ protected:
      */
     virtual std::string get_config_file_pathname() const
     {
-        const std::string sep(1, __pmPathSeparator());
+        const std::string sep(1, pmPathSeparator());
         return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "config";
     }
 #endif
@@ -216,7 +217,7 @@ protected:
      */
     virtual std::string get_help_text_pathname() const
     {
-        const std::string sep(1, __pmPathSeparator());
+        const std::string sep(1, pmPathSeparator());
         return pmGetConfig("PCP_PMDAS_DIR") + sep + get_pmda_name() + sep + "help";
     }
 
@@ -301,7 +302,7 @@ protected:
         const std::string log_file_pathname = get_log_file_pathname();
 
         // Set the program name.
-        __pmSetProgname(program_name.c_str());
+        pmSetProgname(program_name.c_str());
 
         // Initialize the PMDA to run as a daemon.
         pmdaInterface interface;
@@ -559,12 +560,11 @@ protected:
         if (options.count("debug") > 0) {
             const string_vector &values = options.at("debug").as<string_vector>();
             for (string_vector::const_iterator iter = values.begin(); iter != values.end(); ++iter) {
-                const int result = __pmParseDebug(iter->c_str());
+                const int result = pmSetDebug(iter->c_str());
                 if (result < 0) {
                     throw pcp::exception(result,
                         "unrecognized debug flag specification '" + *iter + "'");
                 }
-                pmDebug |= result;
             }
         }
         if (options.count("domain") > 0) {
@@ -1048,7 +1048,7 @@ protected:
         try {
             begin_fetch_values();
         } catch (const pcp::exception &ex) {
-            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            pmNotifyErr(LOG_ERR, "%s", ex.what());
             return ex.error_code();
         }
         return pmdaFetch(numpmid, pmidlist, resp, pmda);
@@ -1061,9 +1061,9 @@ protected:
         try {
             // Setup the metric ID.
             metric_id id;
-            id.cluster = pmid_cluster(mdesc->m_desc.pmid);
+            id.cluster = pmID_cluster(mdesc->m_desc.pmid);
             id.instance = inst;
-            id.item = pmid_item(mdesc->m_desc.pmid);
+            id.item = pmID_item(mdesc->m_desc.pmid);
             id.opaque = mdesc->m_user;
 
 #ifdef PCP_CPP_NO_ID_VALIDITY_CHECKS
@@ -1087,24 +1087,24 @@ protected:
 #endif
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PMDA_FETCH_NOVALUES) {
-                __pmNotifyErr(LOG_ERR, "%s", ex.what());
+                pmNotifyErr(LOG_ERR, "%s", ex.what());
             }
             return ex.error_code();
         } catch (const std::out_of_range &ex) {
-            __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
+            pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
             return PM_ERR_PMID; // Unknown or illegal metric identifier.
         } catch (const std::exception &ex) {
-            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            pmNotifyErr(LOG_ERR, "%s", ex.what());
             return PM_ERR_GENERIC;
         } catch (...) {
-            __pmNotifyErr(LOG_ERR, "unknown exception in on_fetch_callback");
+            pmNotifyErr(LOG_ERR, "unknown exception in on_fetch_callback");
             return PM_ERR_GENERIC;
         }
     }
 
     /// @brief Return description of instances and instance domains.
     virtual int on_instance(pmInDom indom, int inst, char *name,
-                            __pmInResult **result, pmdaExt *pmda)
+                            pmInResult **result, pmdaExt *pmda)
     {
         return pmdaInstance(indom, inst, name, result, pmda);
     }
@@ -1126,7 +1126,7 @@ protected:
 #endif
 
     /// @brief Store the instance profile away for the next fetch.
-    virtual int on_profile(__pmProfile *prof, pmdaExt *pmda)
+    virtual int on_profile(pmProfile *prof, pmdaExt *pmda)
     {
         return pmdaProfile(prof, pmda);
     }
@@ -1134,7 +1134,7 @@ protected:
     /// @brief Store a value into a metric.
     virtual int on_store(pmResult *result, pmdaExt *pmda)
     {
-        __pmNotifyErr(LOG_INFO, "on store");
+        pmNotifyErr(LOG_INFO, "on store");
         try {
             bool any_stored = false;
             for (int value_set_index = 0; value_set_index < result->numpmid; ++value_set_index) {
@@ -1142,8 +1142,8 @@ protected:
 
                 // Setup the metric ID.
                 metric_id id;
-                id.cluster = pmid_cluster(value_set->pmid);
-                id.item = pmid_item(value_set->pmid);
+                id.cluster = pmID_cluster(value_set->pmid);
+                id.item = pmID_item(value_set->pmid);
                 id.opaque = NULL;
                 id.type = PM_TYPE_UNKNOWN;
 
@@ -1174,17 +1174,17 @@ protected:
             }
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PMDA_FETCH_NOVALUES) {
-                __pmNotifyErr(LOG_ERR, "%s", ex.what());
+                pmNotifyErr(LOG_ERR, "%s", ex.what());
             }
             return ex.error_code();
         } catch (const std::out_of_range &ex) {
-            __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
+            pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
             return PM_ERR_PMID; // Unknown or illegal metric identifier.
         } catch (const std::exception &ex) {
-            __pmNotifyErr(LOG_ERR, "%s", ex.what());
+            pmNotifyErr(LOG_ERR, "%s", ex.what());
             return PM_ERR_GENERIC;
         } catch (...) {
-            __pmNotifyErr(LOG_ERR, "unknown exception in on_fetch_callback");
+            pmNotifyErr(LOG_ERR, "unknown exception in on_fetch_callback");
             return PM_ERR_GENERIC;
         }
         return pmdaStore(result, pmda); // Just returns PM_ERR_PERMISSION.
@@ -1197,7 +1197,7 @@ protected:
             const bool get_one_line = ((type & PM_TEXT_ONELINE) == PM_TEXT_ONELINE);
             if ((type & PM_TEXT_PMID) == PM_TEXT_PMID) {
                 const metric_description &description =
-                    supported_metrics.at(pmid_cluster(ident)).at(pmid_item(ident));
+                    supported_metrics.at(pmID_cluster(ident)).at(pmID_item(ident));
                 const std::string &text = get_one_line
                     ? description.short_description.empty()
                         ? description.verbose_description
@@ -1226,20 +1226,20 @@ protected:
                 *buffer = strdup(text.c_str());
                 return 0; // >= 0 implies success.
             } else {
-                __pmNotifyErr(LOG_NOTICE, "unknown text type 0x%x", type);
+                pmNotifyErr(LOG_NOTICE, "unknown text type 0x%x", type);
             }
         } catch (const pcp::exception &ex) {
             if (ex.error_code() != PM_ERR_TEXT) {
-                __pmNotifyErr(LOG_NOTICE, "%s", ex.what());
+                pmNotifyErr(LOG_NOTICE, "%s", ex.what());
             } else {
-                __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
+                pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
             }
         } catch (const std::out_of_range &ex) {
-            __pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
+            pmNotifyErr(LOG_DEBUG, "%s:%d:%s %s", __FILE__, __LINE__, __FUNCTION__, ex.what());
         } catch (const std::exception &ex) {
-            __pmNotifyErr(LOG_NOTICE, "%s", ex.what());
+            pmNotifyErr(LOG_NOTICE, "%s", ex.what());
         } catch (...) {
-            __pmNotifyErr(LOG_ERR, "unknown exception in on_text");
+            pmNotifyErr(LOG_ERR, "unknown exception in on_text");
             return PM_ERR_GENERIC;
         }
         return pmdaText(ident, type, buffer, pmda);
@@ -1482,7 +1482,7 @@ private:
 
     void export_support_files(const std::string &directory_name) const
     {
-        const std::string sep(1, __pmPathSeparator());
+        const std::string sep(1, pmPathSeparator());
         export_domain_header(directory_name + sep + "domain.h");
         export_help_text(directory_name + sep + "help");
         export_pmns_data(directory_name + sep + "pmns");
@@ -1577,7 +1577,7 @@ private:
         return get_instance()->on_fetch_callback(mdesc, inst, avp);
     }
 
-    static int callback_instance(pmInDom indom, int inst, char *name, __pmInResult **result, pmdaExt *pmda)
+    static int callback_instance(pmInDom indom, int inst, char *name, pmInResult **result, pmdaExt *pmda)
     {
         return get_instance()->on_instance(indom, inst, name, result, pmda);
     }
@@ -1594,7 +1594,7 @@ private:
     }
 #endif
 
-    static int callback_profile(__pmProfile *prof, pmdaExt *pmda)
+    static int callback_profile(pmProfile *prof, pmdaExt *pmda)
     {
         return get_instance()->on_profile(prof, pmda);
     }
