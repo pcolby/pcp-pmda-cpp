@@ -1,4 +1,5 @@
 //            Copyright Paul Colby 2013 - 2015.
+//            Copyright Red Hat 2018
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -19,6 +20,14 @@
 #include <pcp-cpp/units.hpp>
 
 #include <sys/stat.h>
+
+/*
+ * internal routine from libpcp, defined in libpcp.h but not the
+ * public headers
+ */
+extern "C" {
+  int __pmProcessRunTimes(double *, double *);
+}
 
 static struct timeslice {
     int tm_field;
@@ -140,7 +149,7 @@ protected:
 private:
     void timenow_check()
     {
-        static const std::string sep(1, __pmPathSeparator());
+        static const std::string sep(1, pmPathSeparator());
         static const std::string config_filename =
             pmGetConfig("PCP_PMDAS_DIR") + sep + "simple" + sep + "simple.conf";
         static int last_error = 0;
@@ -150,7 +159,7 @@ private:
         if (stat(config_filename.c_str(), &statbuf) == -1) {
             if (oserror() != last_error) {
                 last_error = oserror();
-                __pmNotifyErr(LOG_ERR, "stat failed on %s: %s\n",
+                pmNotifyErr(LOG_ERR, "stat failed on %s: %s\n",
                               config_filename.c_str(), pmErrStr(-last_error));
             }
             timenow_clear();
@@ -183,19 +192,19 @@ private:
 
     void timenow_init()
     {
-        static const std::string sep(1, __pmPathSeparator());
+        static const std::string sep(1, pmPathSeparator());
         static const std::string config_filename =
             pmGetConfig("PCP_PMDAS_DIR") + sep + "simple" + sep + "simple.conf";
 
         std::ifstream file(config_filename.c_str());
         if (!file.is_open()) {
-            __pmNotifyErr(LOG_ERR, "failed to open %s", config_filename.c_str());
+            pmNotifyErr(LOG_ERR, "failed to open %s", config_filename.c_str());
             return;
         }
 
         std::string line;
         if (!std::getline(file, line)) {
-            __pmNotifyErr(LOG_ERR, "failed to read from %s", config_filename.c_str());
+            pmNotifyErr(LOG_ERR, "failed to read from %s", config_filename.c_str());
             return;
         }
 
@@ -217,7 +226,7 @@ private:
                     }
                 }
                 if (index == num_timeslices) {
-                    __pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s",
+                    pmNotifyErr(LOG_WARNING, "ignoring \"%s\" in %s",
                                   name.c_str(), config_filename.c_str());
                 }
             }
@@ -226,7 +235,7 @@ private:
         __pmdaCacheDump(stderr, now_domain, 1);
 #endif
         if (pcp::cache::perform(now_domain, PMDA_CACHE_SIZE_ACTIVE) < 1) {
-            __pmNotifyErr(LOG_WARNING, "\"timenow\" instance domain is empty");
+            pmNotifyErr(LOG_WARNING, "\"timenow\" instance domain is empty");
         }
     }
 

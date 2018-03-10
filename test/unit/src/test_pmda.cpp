@@ -1,4 +1,5 @@
 //               Copyright Paul Colby 2013.
+//               Copyright Red Hat Inc. 2018.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -225,9 +226,8 @@ TEST(pmda, parse_command_line_default_debug_option) {
     pmdaInterface interface;
     interface.version.two.ext = new pmdaExt;
     boost::program_options::variables_map options;
-    pmDebug = 0;
     EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
-    EXPECT_EQ(std::numeric_limits<int>::max(), pmDebug);
+    EXPECT_EQ(std::numeric_limits<int>::max(), pmSetDebug("all"));
     delete interface.version.two.ext;
 }
 

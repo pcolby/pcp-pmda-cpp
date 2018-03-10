@@ -1,4 +1,5 @@
 //               Copyright Paul Colby 2013.
+//               Copyright Red Hat 2018.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -103,7 +104,7 @@ void pmdaInit(pmdaInterface *dispatch, pmdaIndom *indoms,
 }
 
 int pmdaInstance(pmInDom /*indom*/, int /*inst*/, char */*name*/,
-                 __pmInResult **/*result*/, pmdaExt */*pmda*/)
+                 pmInResult **/*result*/, pmdaExt */*pmda*/)
 {
     return PM_ERR_NYI;
 }
@@ -123,7 +124,7 @@ int pmdaPMID(const char */*name*/, pmID */*pmid*/, pmdaExt */*pmda*/)
     return PM_ERR_NYI;
 }
 
-int pmdaProfile(__pmProfile */*prof*/, pmdaExt */*pmda*/)
+int pmdaProfile(pmProfile */*prof*/, pmdaExt */*pmda*/)
 {
     return PM_ERR_NYI;
 }

@@ -88,6 +88,7 @@ target_link_libraries(
     ${Boost_PROGRAM_OPTIONS_LIBRARY}
     ${GTEST_BOTH_LIBRARIES}
     ${pthread}
+    pcp
 )
 
 # Add a custom "check-unit" target.

@@ -1,4 +1,5 @@
 //               Copyright Paul Colby 2013-2014.
+//               Copyright Red Hat 2018.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
@@ -60,7 +61,7 @@ char *pmGetConfig(const char *variable)
     return (iter == fake_pm_config.end()) ? const_cast<char *>(variable) : iter->second;
 }
 
-void __pmNotifyErr(int /*priority*/, const char */*message*/, ...)
+void pmNotifyErr(int /*priority*/, const char */*message*/, ...)
 {
 
 }
@@ -85,14 +86,29 @@ int __pmParseDebug(const char *spec)
     return (result == -1) ? std::numeric_limits<int>::max() : result;
 }
 
-int __pmPathSeparator()
+int pmPathSeparator()
 {
     return '|';
 }
 
-void __pmSetProgname(const char */*program*/)
+void pmSetProgname(const char */*program*/)
 {
 
 }
 
+int pmSetDebug(const char *spec)
+{
+  if (spec == NULL) {
+        throw "spec must not be NULL";
+    }
+
+  if (strcmp(spec, "invalid") == 0) {
+    return PM_ERR_FAULT; // "QA fault injected"
+  }
+
+  if (strcmp(spec, "all") == 0) {
+      return std::numeric_limits<int>::max();
+  }
+  return 0;
+}
 } // extern "C"
