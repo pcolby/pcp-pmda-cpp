@@ -78,7 +78,7 @@ void pmNotifyErr(int /*priority*/, const char */*message*/, ...)
 
 }
 
-#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT <= PM_VERSION(3,12,2)
+#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(3,12,2)
 int __pmParseDebug(const char *spec)
 #else
 int pmSetDebug(const char *spec)

@@ -561,7 +561,7 @@ protected:
             const string_vector &values = options.at("debug").as<string_vector>();
             for (string_vector::const_iterator iter = values.begin(); iter != values.end(); ++iter) {
                 // PCP 3.12.2 changed the debugging control infrastructure.
-                #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT <= PM_VERSION(3,12,2)
+                #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(3,12,2)
                 const int result = __pmParseDebug(iter->c_str());
                 #else
                 const int result = pmSetDebug(iter->c_str());
@@ -570,7 +570,7 @@ protected:
                     throw pcp::exception(result,
                         "unrecognized debug flag specification '" + *iter + "'");
                 }
-                #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT <= PM_VERSION(3,12,2)
+                #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(3,12,2)
                 pmDebug |= result; // pmSetDebug does this internally; __pmParseDebug does not.
                 #endif
             }
