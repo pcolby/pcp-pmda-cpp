@@ -227,6 +227,7 @@ TEST(pmda, parse_command_line_default_debug_option) {
     boost::program_options::variables_map options;
     pmDebug = 0;
     EXPECT_TRUE(pmda.parse_command_line(2, argv, interface, options));
+    EXPECT_EQ(std::numeric_limits<int>::max(), pmDebug);
     delete interface.version.two.ext;
 }
 
@@ -237,7 +238,6 @@ TEST(pmda, parse_command_line_throws_on_invalid_debug_options) {
     interface.version.two.ext = new pmdaExt;
     boost::program_options::variables_map options;
     EXPECT_THROW(pmda.parse_command_line(2, argv, interface, options), pcp::exception);
-    EXPECT_EQ(std::numeric_limits<int>::max(), pmDebug);
     delete interface.version.two.ext;
 }
 
