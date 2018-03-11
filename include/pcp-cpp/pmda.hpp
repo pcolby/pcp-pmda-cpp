@@ -1,4 +1,4 @@
-//            Copyright Paul Colby 2013 - 2015.
+//            Copyright Paul Colby 2013 - 2018.
 //            Copyright Red Hat 2018
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
@@ -560,11 +560,19 @@ protected:
         if (options.count("debug") > 0) {
             const string_vector &values = options.at("debug").as<string_vector>();
             for (string_vector::const_iterator iter = values.begin(); iter != values.end(); ++iter) {
+                // PCP 3.12.2 changed the debugging control infrastructure.
+                #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT <= PM_VERSION(3,12,2)
+                const int result = __pmParseDebug(iter->c_str());
+                #else
                 const int result = pmSetDebug(iter->c_str());
+                #endif
                 if (result < 0) {
                     throw pcp::exception(result,
                         "unrecognized debug flag specification '" + *iter + "'");
                 }
+                #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT <= PM_VERSION(3,12,2)
+                pmDebug |= result; // pmSetDebug does this internally; __pmParseDebug does not.
+                #endif
             }
         }
         if (options.count("domain") > 0) {

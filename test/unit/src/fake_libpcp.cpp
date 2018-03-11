@@ -1,4 +1,4 @@
-//               Copyright Paul Colby 2013-2014.
+//               Copyright Paul Colby 2013 - 2018.
 //               Copyright Red Hat 2018.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
@@ -15,6 +15,18 @@
 // PM_ERR_FAULT ("QA fault injected") was not added until PCP 3.6.0.
 #ifndef PM_ERR_FAULT
 #define PM_ERR_FAULT PM_ERR_GENERIC
+#endif
+
+// PM_VERSION macro was not added until PCP 3.10.5.
+#ifndef PM_VERSION
+#define PM_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
+#endif
+
+// PCP 4.0.0 cleaned and promoted some functions, renaming them in the process.
+#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(4,0,0)
+#define pmNotifyErr __pmNotifyErr
+#define pmPathSeparator __pmPathSeparator
+#define pmSetProgname(program) __pmSetProgname(program)
 #endif
 
 #include <stdexcept>
@@ -66,7 +78,11 @@ void pmNotifyErr(int /*priority*/, const char */*message*/, ...)
 
 }
 
+#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT <= PM_VERSION(3,12,2)
 int __pmParseDebug(const char *spec)
+#else
+int pmSetDebug(const char *spec)
+#endif
 {
     // The first thing the real __pmParseDebug does is dereference spec.
     if (spec == NULL) {
@@ -82,8 +98,21 @@ int __pmParseDebug(const char *spec)
     // the real __pmParseDebug function.
     const int result = atoi(spec);
 
-    // The real __pmParseDebug does support "-1" as a synonym for "all".
-    return (result == -1) ? std::numeric_limits<int>::max() : result;
+    // The real __pmParseDebug and pmSetDebug allow "-1" as a synonym for "all".
+    if (result == -1) {
+        return std::numeric_limits<int>::max();
+    }
+
+    // PCP 3.12.2 added support for string "all" too.
+    #if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT >= PM_VERSION(3,12,2)
+    if (strcmp(spec, "all") == 0) {
+        return std::numeric_limits<int>::max();
+    }
+    #endif
+
+    // PCP 3.12.2 also sets the pmDebug global (ie pmSetDebug vs __pmParseDebug)
+    pmDebug |= result;
+    return result;
 }
 
 int pmPathSeparator()
@@ -96,19 +125,4 @@ void pmSetProgname(const char */*program*/)
 
 }
 
-int pmSetDebug(const char *spec)
-{
-  if (spec == NULL) {
-        throw "spec must not be NULL";
-    }
-
-  if (strcmp(spec, "invalid") == 0) {
-    return PM_ERR_FAULT; // "QA fault injected"
-  }
-
-  if (strcmp(spec, "all") == 0) {
-      return std::numeric_limits<int>::max();
-  }
-  return 0;
-}
 } // extern "C"

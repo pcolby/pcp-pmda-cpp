@@ -1,4 +1,4 @@
-//               Copyright Paul Colby 2013.
+//               Copyright Paul Colby 2013 - 2018.
 //               Copyright Red Hat 2018.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
@@ -7,6 +7,17 @@
 #include <pcp/pmapi.h> // Note, the order in which these are included matters
 #include <pcp/impl.h>  // more for older versions of PCP, so don't reorder them
 #include <pcp/pmda.h>  // without testing against older versions of PCP.
+
+// PM_VERSION macro was not added until PCP 3.10.5.
+#ifndef PM_VERSION
+#define PM_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
+#endif
+
+// PCP 4.0.0 clean and promoted some functions, renaming them in the process.
+#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(4,0,0)
+#define pmInResult __pmInResult
+#define pmProfile __pmProfile
+#endif
 
 extern "C" {
 

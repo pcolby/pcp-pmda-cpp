@@ -1,4 +1,4 @@
-//            Copyright Paul Colby 2013 - 2015.
+//            Copyright Paul Colby 2013 - 2018.
 //            Copyright Red Hat 2018.
 // Distributed under the Boost Software License, Version 1.0.
 //       (See accompanying file LICENSE.md or copy at
@@ -58,11 +58,20 @@
 #define PM_TEXT_DIRECT	16
 #endif
 
-#if PM_VERSION_CURRENT < PM_VERSION(4,0,0)
+// PM_VERSION macro was not added until PCP 3.10.5.
+#ifndef PM_VERSION
+#define PM_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
+#endif
+
+// PCP 4.0.0 cleaned and promoted some functions, renaming them in the process.
+#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(4,0,0)
 #define pmID_cluster(pmid) pmid_cluster(pmid)
 #define pmID_item(pmid) pmid_item(pmid)
-#define pmPathSeparator __pmPathSeparator
+#define pmInResult __pmInResult
 #define pmNotifyErr __pmNotifyErr
+#define pmPathSeparator __pmPathSeparator
+#define pmProfile __pmProfile
+#define pmSetProgname(program) __pmSetProgname(program)
 #endif
 
 /// PMDA interface version to use; defaults to "latest".
