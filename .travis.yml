@@ -9,6 +9,34 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "P9gHn+wkHWzjRqcwlcCoSGmz8pw1aG3CwuPP0rsMpqsa+jh0lr3SDfdA01Xll68Rb7xY7yVTtXaFOXrEk6ceb3fvGs4JxYXNXRgkG8uF808Lm19bbADAQBb5kXECiClaLKk20es/Y4mlI6G/8Qmr4OmOc0Z2gL/sVqLnh6QLTtI="
+  matrix:
+    # Tip: curl -s https://dl.bintray.com/pcp/trusty/ | sed -nre 's/.*libpcp3_([-0-9.]+)_.*/    - PCP: \1/p' | sort -u
+    - PCP:
+    - PCP: 3.10.5
+    - PCP: 3.10.6
+    - PCP: 3.10.7
+    - PCP: 3.10.8
+    - PCP: 3.10.9
+    - PCP: 3.11.0
+    - PCP: 3.11.1
+    - PCP: 3.11.2
+    - PCP: 3.11.3
+    - PCP: 3.11.4
+    - PCP: 3.11.5
+    - PCP: 3.11.6
+    - PCP: 3.11.7
+    - PCP: 3.11.8
+    - PCP: 3.11.9
+    - PCP: 3.11.10
+    - PCP: 3.12.0
+    - PCP: 3.12.1
+    - PCP: 3.12.2
+    - PCP: 4.0.0-1
+
+matrix:
+  allow_failures:
+    - env: PCP: 3.12.2
+    - env: PCP: 4.0.0-1
 
 addons:
   coverity_scan:
@@ -23,16 +51,19 @@ addons:
     branch_pattern: cov-scan
 
 before_install:
-  - sudo apt-get update -qq
-  - dpkg -l
+  - '[ -z "$PCP" ] || export PCP_VERSION=`echo "$PCP" | cut -d- -f1 | awk ''BEGIN{FS="."}{printf "%d%02d%02d\n",$1,$2,$2}''`'
+  - '[ -z "$PCP" ] || curl "https://bintray.com/user/downloadSubjectPublicKey?username=pcp" | sudo apt-key add -'
+  - '[ -z "$PCP" ] || echo "deb https://dl.bintray.com/pcp/trusty trusty main" | sudo tee -a /etc/apt/sources.list'
+  - sudo apt-get update -y
 
 install:
-  - >
-    sudo apt-get install -qq
-    clang cppcheck
-    libboost-program-options-dev
-    libpcp3 libpcp3-dev libpcp-pmda3 libpcp-pmda3-dev
-    pcp rpm
+  - export PCP_PKGS=libpcp3-dev,libpcp-pmda3-dev,pcp
+  - '[ -z "$PCP" ] || export PCP_PKGS=$PCP_PKGS,libpcp3,libpcp-pmda3,libpcp-pmda-perl,pcp-conf,python-pcp'
+  - '[[ -z "$PCP" || $PCP_VERSION -lt 31104 ]] || export PCP_PKGS="$PCP_PKGS,libpcp-gui2,libpcp-import1,libpcp-mmv1"'
+  - '[ -z "$PCP" ] || export EQ_PCP="=$PCP"'
+  - export PCP_PKGS=`eval echo "{$PCP_PKGS}$EQ_PCP"`
+  - echo "$PCP_PKGS"
+  - sudo apt-get install -y clang cppcheck libboost-program-options-dev $PCP_PKGS rpm
   - if [ "$CXX" = "g++" ]; then sudo apt-get install lcov; fi
   - gem install lcoveralls
 
