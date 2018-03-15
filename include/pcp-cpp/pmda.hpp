@@ -309,7 +309,7 @@ protected:
         // PCP 3.11.5 updated the pmdaDaemon signature to use const char pointers.
         // So for earlier versions only, we need to cast away some constness.
         // Note, the PM_VERSION* macros themselves weren't added until PCP 3.10.5.
-        #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < 0x30B05 // 3.11.5
+        #if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(3,11,5)
         #define PCP_CPP_PMDA_CONST_CHAR(str) const_cast<char *>(str)
         #else
         #define PCP_CPP_PMDA_CONST_CHAR(str) str // Do nothing.
