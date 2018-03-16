@@ -27,6 +27,34 @@
 #define pmNotifyErr __pmNotifyErr
 #define pmPathSeparator __pmPathSeparator
 #define pmSetProgname(program) __pmSetProgname(program)
+#else
+// __pmID_int and __pmInDom_int were defined in pcp/impl.h prior to PCP 4.0.0,
+// then moved to the not-exported libpcp.h instead.
+typedef struct {
+#ifdef HAVE_BITFIELDS_LTOR
+        unsigned int	flag : 1;
+        unsigned int	domain : 9;
+        unsigned int	cluster : 12;
+        unsigned int	item : 10;
+#else
+        unsigned int	item : 10;
+        unsigned int	cluster : 12;
+        unsigned int	domain : 9;
+        unsigned int	flag : 1;
+#endif
+} __pmID_int;
+
+typedef struct {
+#ifdef HAVE_BITFIELDS_LTOR
+        int		flag : 1;
+        unsigned int	domain : 9;
+        unsigned int	serial : 22;
+#else
+        unsigned int	serial : 22;
+        unsigned int	domain : 9;
+        int		flag : 1;
+#endif
+} __pmInDom_int;
 #endif
 
 #include <stdexcept>
@@ -78,11 +106,39 @@ void pmNotifyErr(int /*priority*/, const char */*message*/, ...)
 
 }
 
-#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(3,12,2)
-int __pmParseDebug(const char *spec)
-#else
-int pmSetDebug(const char *spec)
+// Prior to PCP 4.0.0, pmID_item was an inline function in impl.h
+#if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT >= PM_VERSION(4,0,0)
+unsigned int pmID_item(pmID pmid)
+{
+    return reinterpret_cast<__pmID_int *>(&pmid)->item;
+}
 #endif
+
+// Prior to PCP 4.0.0, pmID_cluster was an inline function in impl.h
+#if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT >= PM_VERSION(4,0,0)
+unsigned int pmID_cluster(pmID pmid)
+{
+    return reinterpret_cast<__pmID_int *>(&pmid)->cluster;
+}
+#endif
+
+// Prior to PCP 4.0.0, pmInDom_domain was an inline function in impl.h
+#if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT >= PM_VERSION(4,0,0)
+unsigned int pmInDom_domain(pmInDom indom)
+{
+    return reinterpret_cast<__pmInDom_int *>(&indom)->domain;
+}
+#endif
+
+// Prior to PCP 4.0.0, pmInDom_serial was an inline function in impl.h
+#if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT >= PM_VERSION(4,0,0)
+unsigned int pmInDom_serial(pmInDom indom)
+{
+    return reinterpret_cast<__pmInDom_int *>(&indom)->serial;
+}
+#endif
+
+int __pmParseDebug(const char *spec)
 {
     // The first thing the real __pmParseDebug does is dereference spec.
     if (spec == NULL) {
@@ -110,10 +166,19 @@ int pmSetDebug(const char *spec)
     }
     #endif
 
-    // PCP 3.12.2 also sets the pmDebug global (ie pmSetDebug vs __pmParseDebug)
-    pmDebug |= result;
     return result;
 }
+
+#if defined PM_VERSION_CURRENT && PM_VERSION_CURRENT >= PM_VERSION(3,12,2)
+int pmSetDebug(const char *spec)
+{
+    const int result = __pmParseDebug(spec);
+    if (result > 0) {
+        pmDebug |= result;
+    }
+    return (result < 0) ? PM_ERR_CONV : 0; // 0 indicates success.
+}
+#endif
 
 int pmPathSeparator()
 {

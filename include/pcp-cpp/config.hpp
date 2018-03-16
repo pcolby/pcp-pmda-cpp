@@ -48,19 +48,27 @@
 #  endif
 #endif
 
-#include <pcp/pmapi.h> // Note, the order in which these are included matters
-#include <pcp/impl.h>  // more for older versions of PCP, so don't reorder them
-#include <pcp/pmda.h>  // without testing against older versions of PCP.
+// Note, the order in which the PCP headers are included matters for older PCP
+// versions; don't reorder them without testing against older versions of PCP.
+
+#include <pcp/pmapi.h>
+
+// PM_VERSION macro was not added until PCP 3.10.5.
+#ifndef PM_VERSION
+#define PM_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
+#endif
+
+// After PCP 4.0.0, we no longer need impl.h (indeed, its empty now anyway).
+#if !defined PM_VERSION_CURRENT || PM_VERSION_CURRENT < PM_VERSION(4,0,0)
+#include <pcp/impl.h>
+#endif
+
+#include <pcp/pmda.h>
 
 #ifndef PM_TEXT_PMID
 #define PM_TEXT_PMID	4
 #define PM_TEXT_INDOM	8
 #define PM_TEXT_DIRECT	16
-#endif
-
-// PM_VERSION macro was not added until PCP 3.10.5.
-#ifndef PM_VERSION
-#define PM_VERSION(a,b,c) (((a)<<16)|((b)<<8)|(c))
 #endif
 
 // PCP 4.0.0 cleaned and promoted some functions, renaming them in the process.

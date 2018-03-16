@@ -33,11 +33,6 @@ env:
     - PCP: 3.12.2
     - PCP: 4.0.0-1
 
-matrix:
-  allow_failures:
-    - env: PCP=3.12.2
-    - env: PCP=4.0.0-1
-
 addons:
   coverity_scan:
     project:

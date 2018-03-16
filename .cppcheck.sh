@@ -15,6 +15,7 @@ for platform in unix{32,64} win{32{A,W},64}; do
   cppcheck $EXTRA_ARGS --enable=all --error-exitcode=1 \
            -Iinclude --platform=$platform --std={c++03,c++11,posix} \
            --suppress={*:/usr/include/*,missingIncludeSystem} \
+           --suppress=unusedStructMember:test/unit/src/fake_libpcp.cpp \
            "$@" ./include/pcp-cpp/*.hpp .
   RC=$((RC+$?))
 done
