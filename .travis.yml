@@ -53,7 +53,7 @@ before_install:
 
 install:
   - export PCP_PKGS=libpcp3-dev,libpcp-pmda3-dev,pcp
-  - '[ -z "$PCP" ] || export PCP_PKGS=$PCP_PKGS,libpcp3,libpcp-pmda3,libpcp-pmda-perl,pcp-conf,python-pcp'
+  - '[ -z "$PCP" ] || export PCP_PKGS=$PCP_PKGS,libpcp3,libpcp-pmda3,libpcp-pmda-perl,pcp-conf,python3-pcp'
   - '[[ -z "$PCP" || $PCP_VERSION -lt 31104 ]] || export PCP_PKGS="$PCP_PKGS,libpcp-gui2,libpcp-import1,libpcp-mmv1"'
   - '[ -z "$PCP" ] || export EQ_PCP="=$PCP"'
   - export PCP_PKGS=`eval echo "{$PCP_PKGS}$EQ_PCP"`
