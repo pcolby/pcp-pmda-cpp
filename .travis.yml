@@ -1,3 +1,5 @@
+dist: xenial
+
 language: cpp
 
 compiler:
@@ -10,15 +12,8 @@ env:
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "P9gHn+wkHWzjRqcwlcCoSGmz8pw1aG3CwuPP0rsMpqsa+jh0lr3SDfdA01Xll68Rb7xY7yVTtXaFOXrEk6ceb3fvGs4JxYXNXRgkG8uF808Lm19bbADAQBb5kXECiClaLKk20es/Y4mlI6G/8Qmr4OmOc0Z2gL/sVqLnh6QLTtI="
   matrix:
-    # Tip: curl -s https://dl.bintray.com/pcp/trusty/ | sed -nre 's/.*libpcp3_([-0-9.]+)_.*/    - PCP: \1/p' | sort -u
+    # Tip: curl -s https://dl.bintray.com/pcp/xenial/ | sed -nre 's/.*libpcp3_([-0-9.]+)_.*/    - PCP: \1/p' | sort -u
     - PCP:
-    - PCP: 3.10.5
-    - PCP: 3.10.6
-    - PCP: 3.10.7
-    - PCP: 3.10.8
-    - PCP: 3.10.9
-    - PCP: 3.11.0
-    - PCP: 3.11.1
     - PCP: 3.11.2
     - PCP: 3.11.3
     - PCP: 3.11.4
@@ -32,6 +27,13 @@ env:
     - PCP: 3.12.1
     - PCP: 3.12.2
     - PCP: 4.0.0-1
+    - PCP: 4.0.1-1
+    - PCP: 4.0.2-1
+    - PCP: 4.1.0-1
+    - PCP: 4.1.1-1
+    - PCP: 4.1.3-1
+    - PCP: 4.2.0-1
+    - PCP: 4.3.0-1
 
 addons:
   coverity_scan:
