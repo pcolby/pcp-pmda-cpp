@@ -10,6 +10,7 @@ set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/extern)
 ExternalProject_Add(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.8.1
     UPDATE_COMMAND "" # Don't update the svn checkout every time we build.
     TIMEOUT 10
     CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
