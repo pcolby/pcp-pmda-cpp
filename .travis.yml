@@ -32,6 +32,13 @@ env:
     - PCP: 3.12.1
     - PCP: 3.12.2
     - PCP: 4.0.0-1
+    - PCP: 4.0.1-1
+    - PCP: 4.0.2-1
+    - PCP: 4.1.0-1
+    - PCP: 4.1.1-1
+    - PCP: 4.1.3-1
+    - PCP: 4.2.0-1
+    - PCP: 4.3.0-1
 
 addons:
   coverity_scan:
