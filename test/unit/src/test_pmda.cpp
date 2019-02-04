@@ -158,7 +158,8 @@ TEST(pmda, get_pmda_version) {
 }
 
 TEST(pmda, init_dso_handles_exceptions) {
-    EXPECT_NO_THROW(pcp::pmda::init_dso<exceptional_pmda>(NULL));
+    pmdaInterface interface;
+    EXPECT_NO_THROW(pcp::pmda::init_dso<exceptional_pmda>(&interface));
 }
 
 TEST(pmda, run_daemon_handles_exceptions) {
