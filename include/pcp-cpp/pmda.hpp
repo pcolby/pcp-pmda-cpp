@@ -60,6 +60,7 @@ public:
     template <class Agent>
     static void init_dso(pmdaInterface * const interface)
     {
+        assert(interface != NULL);
         try {
             set_instance(new Agent);
             get_instance()->initialize_dso(*interface);
