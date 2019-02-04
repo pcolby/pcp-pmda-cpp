@@ -916,6 +916,16 @@ protected:
             this->instance_domains.insert(std::make_pair(domain->get_domain_id(), domain));
             this->instance_domains.insert(std::make_pair(domain->get_pm_instance_domain(), domain));
         }
+
+        // Suppress a scan-build (Clang status analyzer) 'potential leak of memory' warning. This
+        // warning occurs because tracking of the two pointers in question are tracked via the
+        // `interface` variable, as assigned inside PCP's `pmdaInit` call above. Thus we are able
+        // to safely, and correctly, delete these pointers later, in `run_daemon()`.
+        #ifdef __clang_analyzer__
+        delete[] indom_table;
+        delete[] metric_table;
+        exit(255); // Unreachable.
+        #endif
     }
 
     /**
