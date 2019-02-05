@@ -1,4 +1,6 @@
-dist: xenial
+dist:
+  - trusty
+  - xenial
 
 language: cpp
 
@@ -14,6 +16,13 @@ env:
   matrix:
     # Tip: curl -s https://dl.bintray.com/pcp/xenial/ | sed -nre 's/.*libpcp3_([-0-9.]+)_.*/    - PCP: \1/p' | sort -u
     - PCP:
+    - PCP: 3.10.5
+    - PCP: 3.10.6
+    - PCP: 3.10.7
+    - PCP: 3.10.8
+    - PCP: 3.10.9
+    - PCP: 3.11.0
+    - PCP: 3.11.1
     - PCP: 3.11.2
     - PCP: 3.11.3
     - PCP: 3.11.4
@@ -34,6 +43,17 @@ env:
     - PCP: 4.1.3-1
     - PCP: 4.2.0-1
     - PCP: 4.3.0-1
+
+matrix:
+  exclude:
+    # Earlier PCP versions not available for Xenial.
+    - { dist: xenial, env: PCP: 3.10.5 }
+    - { dist: xenial, env: PCP: 3.10.6 }
+    - { dist: xenial, env: PCP: 3.10.7 }
+    - { dist: xenial, env: PCP: 3.10.8 }
+    - { dist: xenial, env: PCP: 3.10.9 }
+    - { dist: xenial, env: PCP: 3.11.0 }
+    - { dist: xenial, env: PCP: 3.11.1 }
 
 addons:
   coverity_scan:
