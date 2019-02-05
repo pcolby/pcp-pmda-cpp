@@ -76,6 +76,7 @@ addons:
     branch_pattern: cov-scan
 
 before_install:
+  - env
   - '[ -z "$PCP" ] || export PCP_VERSION=`echo "$PCP" | cut -d- -f1 | awk ''BEGIN{FS="."}{printf "%d%02d%02d\n",$1,$2,$3}''`'
   - '[ -z "$PCP" ] || curl "https://bintray.com/user/downloadSubjectPublicKey?username=pcp" | sudo apt-key add -'
   - '[ -z "$PCP" ] || echo "deb https://dl.bintray.com/pcp/xenial xenial main" | sudo tee -a /etc/apt/sources.list'
