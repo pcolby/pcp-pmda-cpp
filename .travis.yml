@@ -21,7 +21,6 @@ matrix:
     - { dist: trusty, env: PCP=3.10.9 }
     - { dist: trusty, env: PCP=3.11.0 }
     - { dist: trusty, env: PCP=3.11.1 }
-    - { dist: trusty, env: PCP=3.11.10 }
     - { dist: trusty, env: PCP=3.11.2 }
     - { dist: trusty, env: PCP=3.11.3 }
     - { dist: trusty, env: PCP=3.11.4 }
@@ -30,6 +29,7 @@ matrix:
     - { dist: trusty, env: PCP=3.11.7 }
     - { dist: trusty, env: PCP=3.11.8 }
     - { dist: trusty, env: PCP=3.11.9 }
+    - { dist: trusty, env: PCP=3.11.10 }
     - { dist: trusty, env: PCP=3.12.0 }
     - { dist: trusty, env: PCP=3.12.1 }
     - { dist: trusty, env: PCP=3.12.2 }
@@ -42,7 +42,6 @@ matrix:
     - { dist: trusty, env: PCP=4.2.0-1 }
     - { dist: trusty, env: PCP=4.3.0-1 }
     - { dist: xenial, env: PCP= }
-    - { dist: xenial, env: PCP=3.11.10 }
     - { dist: xenial, env: PCP=3.11.2 }
     - { dist: xenial, env: PCP=3.11.3 }
     - { dist: xenial, env: PCP=3.11.4 }
@@ -51,6 +50,7 @@ matrix:
     - { dist: xenial, env: PCP=3.11.7 }
     - { dist: xenial, env: PCP=3.11.8 }
     - { dist: xenial, env: PCP=3.11.9 }
+    - { dist: xenial, env: PCP=3.11.10 }
     - { dist: xenial, env: PCP=3.12.0 }
     - { dist: xenial, env: PCP=3.12.1 }
     - { dist: xenial, env: PCP=3.12.2 }
